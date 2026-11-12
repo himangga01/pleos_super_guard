@@ -1,11 +1,12 @@
 # Pleos SDK 개발 문서 및 배포 패키지 리뷰
 
 - 조사일: **2026-11-11 KST, Asia/Seoul**. 앞선 공모전 조사 이후 같은 날 수행한 SDK 심화 리뷰다.
-- 최신 보충: **2026-11-12 안전 기능 조사**. [상세 기능·권한](../sdk/vehicle-safety-capabilities.md), [안전 앱 세 가지](vehicle-safety-app-ideas-2026-11-12.md), [추가 확인 기록](../sdk/evidence/vehicle-safety-inspection-2026-11-12.json). 아래의 2026-11-11 이력과 새 정적 확인을 구분한다.
+- 최신 보충: **2026-11-12 안전 기능 조사**. [상세 기능·권한](../sdk/vehicle-safety-capabilities.md), [통합 전 안전 앱 세 가지(이력)](vehicle-safety-app-ideas-2026-11-12.md), [추가 확인 기록](../sdk/evidence/vehicle-safety-inspection-2026-11-12.json). 아래의 2026-11-11 이력과 새 정적 확인을 구분한다. 세 가지 안전 앱 문서는 통합 앱 기획으로 대체된 이력이다.
+- **2026-11-12 후속 확인**: Vehicle 2.3.2 소스 전체와 다른 SDK·Pleos 가이드를 다시 확인했다. 결과는 [13절](#13-2026-11-12-후속-확인-전수-분석과-정정), [Vehicle API 전체 목록](../sdk/vehicle-api-catalog.md), [Pleos 앱 가이드 기준](pleos-app-guidelines-2026-11-12.md), [LLM 기록](../sdk/llm.md), [후속 확인 기록](../sdk/evidence/sdk-followup-2026-11-12.json)에 있다. 이 확인으로 10절의 경고 표시 권한 판단을 정정했다.
 - 목적: 공모전에 사용할 수 있는 SDK의 공식 문서를 모으고, 구현에 필요한 계약과 예제의 정확성을 점검한다.
 - 문서 입구: [SDK 개발 문서 모음](../sdk/README.md). 원문 링크와 재서술한 개발 노트를 제공한다.
 - 이전 기준: [공모전 조사](hyundai-vehicle-app-contest-2026.md), [기존 출처 기록](hyundai-vehicle-app-contest-2026-sources.md).
-- 로컬 기준: Git 저장소가 아니며 앱 소스·Gradle 프로젝트는 없다. 기존 Markdown 3개를 읽고 시작했다. 기존 주 보고서 SHA-256은 `d621a373affaaf39c353822c2b20846a359ac9b0fe0057c2cfd9f74b0fa97054`였다.
+- 로컬 기준(2026-11-11 조사 시작 시점): Git 저장소가 아니었고 앱 소스·Gradle 프로젝트는 없었다. 기존 Markdown 3개를 읽고 시작했다. 2026-11-12 현재 작업 폴더는 Git 저장소이며 앱 소스는 여전히 없다. 기존 주 보고서 SHA-256은 `d621a373affaaf39c353822c2b20846a359ac9b0fe0057c2cfd9f74b0fa97054`였다.
 - 검증 방식: 공식 안내·개발 가이드·실제 Chrome 화면, 공개 Maven POM·AAR, 공식 샘플의 고정 커밋을 대조했다. **Android 빌드·에뮬레이터·실차 시험은 하지 않았다.**
 
 ## 1. 결론과 앞선 조사에서 달라진 판단
@@ -25,6 +26,8 @@
 버전은 [SDK 릴리즈](https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note)와 각 모듈의 실제 배포 패키지를 대조했다. 공개 패키지를 받았다는 사실은 음성 서버 인증이나 특정 차량 기능의 사용 성공을 의미하지 않는다.
 
 현재도 **Pleos LLM SDK·공개되지 않은 SDK는 제공 대상이 아니며, Gleo Interface 승인 신청과 차량 마이크의 외부 음성 인식 전송은 허용되지 않는다.** 이 제한과 다섯 공개 SDK의 허용을 구분해야 한다.
+
+**2026-11-12 갱신 결론.** 다섯 SDK 허용은 그대로다. 다만 허용된 SDK 안에서도 일반 앱이 받을 수 없는 권한이 있다. 경고등 API 4개는 모두 `PRIVATE_CAR_SAFETY`(signature|privileged)를 요구하므로 플레오스 가드는 차량 경고등 상태를 읽지 않고 향후 계획으로 둔다. 차속은 Vehicle SDK에 없고 Pleos FAQ가 안내하는 AAOS 경로로 받는다. LLM SDK 2.1.3.2 파일은 Maven에 있지만 공모전 기간에는 제공되지 않는다. Pleos Platform SDK·SDV OS 참조 문서는 공개되지 않았고, Fleet API는 계약이 필요하며 Vehicle Data API는 유럽 전용이라 쓸 수 없다. 자세한 근거는 13절에 있다.
 
 ## 2. 수집한 문서와 읽을 순서
 
@@ -150,6 +153,7 @@ Kotlin에는 `setDoorPosition$default`가 있으므로 기본 인자를 쓰는 K
 - FusedLocation의 위험 권한 요청과 차량 개인정보 보호 설정을 실제 앱에서 어떻게 안내할지는 구현·시험이 필요하다.
 - 문서의 예제 불일치가 언제 수정되는지, 현재 게시물의 정확한 수정일은 확인하지 못했다.
 - 공모전용 공개 API와 정식 마켓 배포의 승인·권한·차종·지역 조건은 서로 구분해야 한다.
+- 2026-11-12 후속 확인에서 남은 질문(AAOS 경로 허용 범위, Virtual Console 주입 결과, 긴급 음성의 오디오 용도 등)은 13.5절에 있다.
 
 ## 8. 우선순위와 실제 검증 범위
 
@@ -174,6 +178,8 @@ Kotlin에는 `setDoorPosition$default`가 있으므로 기본 인자를 쓰는 K
 | 2026-11-11 | SDK 심화 조사. 다섯 SDK의 공모전 허용을 확정하고, 개발 문서·공개 배포·샘플을 대조하여 F1~F7 기록 |
 | 2026-11-12 | 안전 앱 구체화를 위해 Vehicle 2.3.2와 STT 3.3.1을 새로 받아 속도·브레이크·에어백·권한·마이크·센서·카메라 범위를 추가 확인. 실제 호출·녹화·자동 제동 시험은 미실행 |
 | 2026-11-12 후속 | 사용자가 정한 Pleos 중심 통합 앱의 블랙박스·긴급 음성/애니메이션·휴대폰 백업 조건을 공식 원문으로 추가 확인. 배포 파일 재검사와 실행 시험은 하지 않음 |
+| 2026-11-12 PRD 보충 | 12절 추가. 진동·수동 선택·보호자 통지 계약의 원문 근거를 보충. 새 바이너리 판독·실행은 하지 않음(이 행은 2026-11-12 후속 확인 때 빠진 기록을 채운 것) |
+| 2026-11-12 후속 확인 | 13절 추가. Vehicle 2.3.2 소스·바이트코드 전수 판독, 다른 SDK 계약·Pleos 가이드 재확인. 경고등 권한·보호 수준·조향각 명칭·위치 정확도·STT 이벤트 의미 등을 정정. 실행 시험은 하지 않음 |
 
 후속 리뷰는 이 문서와 SDK 노트를 먼저 읽고 공지·릴리즈·AAR 해시·샘플 커밋을 갱신한다. 실행 결과가 추가되면 정적 검토와 실행 검증을 구분해 기록한다.
 
@@ -186,7 +192,7 @@ Kotlin에는 `setDoorPosition$default`가 있으므로 기본 인자를 쓰는 K
 | 실제 속도 | Pleos FAQ가 AAOS `CarPropertyManager`의 `PERF_VEHICLE_SPEED` 조회·구독을 안내 | 권한·차량 지원 미실행. 크루즈 목표값·GPS 속도와 구분 |
 | 브레이크 | `getCurrentBrakePedalStatus`·구독에 `CAR_DRIVE` 선언 | 밟음 여부. 제동력·압력·가속 페달 상태가 아님 |
 | 에어백 | 전개 조회·구독에 `CAR_SAFETY` 선언 | 지원 영역·새 사건·초기 상태 구분. 모든 사고 감지 보장 없음 |
-| 경고 표시 | 조회는 `CAR_SAFETY`, 지원 확인·구독은 `PRIVATE_CAR_SAFETY` 선언 | 단발 조회와 상시 구독을 같은 권한으로 가정하지 않음 |
+| 경고 표시 | 조회는 `CAR_SAFETY`, 지원 확인·구독은 `PRIVATE_CAR_SAFETY` 선언 | 단발 조회와 상시 구독을 같은 권한으로 가정하지 않음. **2026-11-12 정정:** 구현의 실행 검사는 조회를 포함한 4개 모두 `PRIVATE_CAR_SAFETY`(signature\|privileged)다. 왼쪽 "조회는 `CAR_SAFETY`"는 인터페이스의 린트용 표시만 읽은 결과다. 일반 앱은 경고등 상태를 읽을 수 없다(13절) |
 | 가속·브레이크 비율 | 현재 Android 공식 차량 API에 읽기 전용 항목 존재 | Pleos 대상 버전·차량·허용은 미확인. 특수 속성 검토 조건 적용 |
 | 음성 | 차량 마이크 인식과 중간·최종 글 전달 확인 | 원본 녹음 출력·외부 마이크 선택·감정 판단·무기한 인식은 확인되지 않음 |
 | 기울기·가속도·회전 | Android 센서 후보는 존재 | Pleos 장치 제공·권한·차량 고정 방향·품질 미확인 |
@@ -204,4 +210,80 @@ Kotlin에는 `setDoorPosition$default`가 있으므로 기본 인자를 쓰는 K
 
 ## 12. PRD v2 기술 계약의 추가 확인
 
-진동·떨림, 결측 시 수동 선택, 카카오/문자 통지, 가로형 UI의 현재 상세 기준은 [통합 PRD v2](integrated-vehicle-care-2026-11-12.md)와 [계약 파일](../specs/vehicle-care/README.md)에 있습니다. 센서 지원·실험 임계값·실행 검증을 구분합니다. 엔진 RPM·휠 tick·전륜 각도 및 발송사·디자인 원문 추가 근거는 [안전 SDK 보충](../sdk/vehicle-safety-capabilities.md#10-prd-v2의-진동수동-선택보호자-통지-보충)에 기록했습니다. 새 바이너리 판독·앱 빌드·실차·실제 메시지 발송은 하지 않았습니다.
+진동·떨림, 결측 시 수동 선택, 카카오/문자 통지, 가로형 UI의 현재 상세 기준은 [현재 통합 PRD](integrated-vehicle-care-2026-11-12.md)와 [계약 파일](../specs/vehicle-care/README.md)에 있습니다. (2026-11-12 정정: 이 절을 쓸 때는 같은 경로의 문서를 "PRD v2"라고 불렀습니다. 같은 경로의 문서는 지금 v3이며 1차 비판 반영으로 v4로 고칠 예정입니다. v2 원문은 [PRD v2 이력](integrated-vehicle-care-2026-11-12-prd-v2.md)에 있습니다. 진동 분석은 2026-11-12 1차 비판 반영 결정에서 향후 계획으로 옮겼습니다.) 센서 지원·실험 임계값·실행 검증을 구분합니다. 엔진 RPM·휠 tick·전륜 각도 및 발송사·디자인 원문 추가 근거는 [안전 SDK 보충](../sdk/vehicle-safety-capabilities.md#10-prd-v2의-진동수동-선택보호자-통지-보충)에 기록했습니다. 새 바이너리 판독·앱 빌드·실차·실제 메시지 발송은 하지 않았습니다.
+
+## 13. 2026-11-12 후속 확인: 전수 분석과 정정
+
+### 13.1 확인 방법과 범위
+
+- 공개 Maven 저장소에서 받은 다섯 SDK AAR의 SHA-256은 2026-11-11 기록과 같습니다. 이번에는 Vehicle·NaviHelper·FusedLocation의 소스 묶음(`-sources.jar`)과 문서 묶음(`-javadoc.jar`), `navi-data:3.0.4`, `LLM:2.1.3.2`도 함께 읽었습니다.
+- Vehicle은 소스 파일 181개(Kotlin 180개, BuildConfig.java 1개)를 열고 인터페이스 20개와 구현 20개를 모두 대조했습니다. 권한 표시는 바이트코드에서 실행 검사용(`RequiresCustomPermission`)과 개발 도구용(`RequiresPermission`)을 나눠 다시 확인했습니다. TTS·STT·LLM은 소스 묶음이 없어 공개 서명과 바이트코드를 읽었습니다.
+- Pleos 기획·개발·디자인·심사·시험 가이드와 릴리즈 노트를 텍스트로 끝까지 읽었습니다. 화면·주행 제한·음성·성능·개인정보 기준은 [Pleos 앱 가이드 기준](pleos-app-guidelines-2026-11-12.md)에 원문 인용과 함께 정리했습니다.
+- 확인 방법은 소스·바이트코드 정적 분석입니다. 앱 빌드, 에뮬레이터, Virtual Console 값 주입, 실차 호출, 서버 인증은 **하지 않았습니다.** 해시·출처·결론은 [후속 확인 기록](../sdk/evidence/sdk-followup-2026-11-12.json)에 있습니다. 기존 확인 기록 두 개는 고치지 않고, 새 기록에서 정정 관계를 밝혔습니다.
+
+### 13.2 정정한 판단
+
+이전 문장은 지우지 않고 해당 위치에 "2026-11-12 정정"을 붙였습니다.
+
+| 이전 판단(위치) | 정정 | 근거 |
+| --- | --- | --- |
+| `getTelltalesInfo`는 `CAR_SAFETY`로 조회 가능(조건부)하고 지원 확인·구독만 `PRIVATE_CAR_SAFETY`(10절 표, [안전 보충](../sdk/vehicle-safety-capabilities.md) 2.1·6절, 안전 확인 기록) | 경고등 API 4개 모두 실행 검사에서 `PRIVATE_CAR_SAFETY`(signature\|privileged)를 요구합니다. 일반 앱은 경고등 상태를 읽을 수 없고, 경고등 상태 읽기는 향후 계획입니다 | 소스 묶음 `api/implement/SafetyImpl.kt` 194·335·542·553행, `api/Safety.kt` KDoc, 바이트코드. 이전 확인은 개발 도구용 표시만 읽었습니다 |
+| 권한 보호 수준이 기록되어 있지 않음 | 메서드 KDoc에 적혀 있습니다. "normal" 456곳, "signature\|privileged" 9곳(`PRIVATE_CAR_SAFETY` 8, `setSmartGlassState` 1). `CAR_*`·`CONTROL_CAR_*` 대부분은 normal입니다 | 소스 묶음 KDoc, Sample App 가이드 |
+| "핸들 각도"(안전 보충 2.1절) | **조향각(SteeringWheel)**입니다. 앞바퀴 조향각이며 단위는 도, 왼쪽이 음수입니다. 핸들 회전각이 아닙니다 | `api/SteeringWheel.kt` KDoc, 구현이 `PERF_STEERING_ANGLE` 사용 |
+| 안전벨트 메서드 미확인 | `Seat.getCurrentSeatBeltBuckledState`(`CAR_SEATS`)와 `Safety.hasSeatBeltNotBuckledWarning`(`CAR_SAFETY`)이 있고 둘 다 normal입니다 | `api/Seat.kt`, `api/Safety.kt` |
+| Brake에 주차 브레이크, CarInfo에 차량 기본 정보, Display에 단위 조회·설정이 있음([Vehicle 노트](../sdk/vehicle.md) 2절, 공식 소개 문서) | Brake는 페달 밟음 여부만, CarInfo는 VIN(과 구형 CRN)만, Display는 온도 단위 조회·구독만 있습니다 | 소스 묶음 `api/Brake.kt`, `api/CarInfo.kt`, `api/Display.kt` |
+| 권한 오류를 `VehicleException` 코드·`ErrorType.PERMISSION_DENIED`·`onError`로 처리(각 SDK 노트) | 권한이 없으면 SDK가 먼저 `SecurityException`을 만듭니다. Vehicle은 읽기·쓰기·확인에서 `onFailed`로 주고 일반 구독·해제에서는 즉시 던집니다. NaviHelper·FusedLocation·TTS·STT는 공개 메서드 호출 때 즉시 던집니다 | Vehicle `utils/PermissionUtil.kt`, `service/VehicleServiceManager.kt`, 다른 SDK의 권한 검사 코드 |
+| 위치에 정확도(반경)를 보관(안전 보충 6절) | `LocationData`에는 미터 단위 정확도가 없습니다. 뜻과 단위가 공개되지 않은 `confidence`와 `timestampMillis`만 있습니다 | FusedLocation 소스 `model/LocationData.kt` |
+| 일반 휴대폰에서 같은 서비스를 보장하지 않음([FusedLocation 노트](../sdk/fused-location.md) 1절) | AAR 매니페스트가 `android.hardware.type.automotive`를 필수로 선언하므로 같은 APK는 휴대폰에 설치할 수 없습니다. 휴대폰 보조 앱은 Pleos SDK가 없는 별도 APK입니다 | FusedLocation AAR 매니페스트 |
+| `onEndedRecognition`은 인식 세션 종료([STT 노트](../sdk/speech-to-text.md) 4절) | 발화 끝을 감지한 이벤트(EPD_OFF)입니다. `onStartedRecognition`은 발화 시작 감지(EPD_ON)입니다 | STT 3.3.1 바이트코드 |
+| NaviHelper 오류 4종, 경유지 포함 Java 예제는 인자 수 점검 대상(F1) | 오류는 `CAUSE_SEARCH_TRIP`을 더해 5종입니다. 경유지 포함 Java 예제는 `RouteInfo` 8개·`RequestWaypointInfo` 7개 인자로, 실제 11개·8개와 달라 그대로는 컴파일되지 않습니다 | NaviHelper·navi-data 소스 |
+| "통합 PRD v2"라는 링크 이름(12절, 안전 보충 10절) | 같은 경로는 현재 통합 PRD입니다(2026-11-12 v3, 1차 비판 반영으로 v4 예정). v2 원문은 [PRD v2 이력](integrated-vehicle-care-2026-11-12-prd-v2.md)입니다 | 저장소 문서 머리말 |
+| PRD의 64dp 터치(안전 보충 10절) | 주요 버튼 80dp는 자체 설계값이며 Pleos 공식 수치가 아닙니다. Pleos 원문 텍스트에는 버튼 dp 수치가 없습니다 | [Pleos 앱 가이드 기준](pleos-app-guidelines-2026-11-12.md) 6절 |
+
+### 13.3 새로 확인한 사실
+
+- **차속**: Vehicle 2.3.2에는 차속 API가 없습니다(`VehicleSpeedListener` 삭제). Pleos FAQ는 AAOS `CarPropertyManager`의 `PERF_VEHICLE_SPEED`(m/s, 권한 `android.car.permission.CAR_SPEED`)를 안내합니다. 다섯 SDK 목록 밖의 경로이므로 공모전 허용 범위는 기술 문의 대상입니다. Virtual Console 사용 가이드에도 차속 카드가 없으므로 시연은 앱 안 시험 입력 재생기로 합니다.
+- **Vehicle 서비스 연결**: 연결 중에 부른 호출은 대기열에 쌓였다가 연결 뒤 실행되며 대기 시간 제한이 없습니다. 앱이 직접 시간 제한을 둡니다. 연결은 500ms 간격으로 최대 30번 다시 시도합니다.
+- **콜백 스레드**: Vehicle 결과·이벤트는 Binder 스레드에서 불립니다. 화면을 바꾸기 전에 메인 스레드로 넘깁니다. 값에는 측정 시각이 없으므로 앱이 받은 시각을 기록합니다.
+- **Vehicle 공개 범위**: 인터페이스 메서드 517개, 숨김 이름 18개와 `Vehicle.getGear()`가 있습니다. 숨김을 뺀 고유 이름 458개는 공식 API 참조 이름과 같습니다. 기어·주행 가능 거리·EV 에너지·타이어 현재 공기압은 숨김입니다. 비상등·가속 페달·주차 브레이크·시동 상태·충격 API는 없습니다. 전체 표는 [Vehicle API 전체 목록](../sdk/vehicle-api-catalog.md)에 있습니다.
+- **FusedLocation**: `isSupported()`는 위치 서비스 패키지가 있는지만 봅니다. `initialize()`에는 결과 콜백이 없습니다. 구독 경로는 빈 위치(null)를 전달하지 않습니다. 근접 알림 2개도 `FUSED_LOCATION`이 필요합니다. `showLocationAccessBlockedPopup()`은 Activity Context로 만든 객체에서 불러야 합니다.
+- **TextToSpeech**: 기본 오디오 속성은 `CONTENT_TYPE_SPEECH`와 `USAGE_MEDIA`입니다. Pleos 오디오 포커스 표에서 MEDIA 용도는 MUSIC 컨텍스트입니다. `setAudioAttributes`로 바꿀 수 있지만 이 메서드는 가이드 본문 없이 API 참조 제목만 있습니다. 재생 우선순위 인자는 없고, SDK 안에는 오디오 포커스 코드가 없습니다.
+- **SpeechToText**: 결과는 `onUpdated(stt: String, completed: Boolean)`의 글 하나와 완료 여부뿐입니다. 신뢰도·후보 목록·언어 코드는 없습니다. `sendAudio`는 ON_DEVICE가 아니면 오류 없이 무시됩니다. `getCallApi`, `getAmbientAi`는 특권 앱 전용입니다.
+- **NaviHelper**: `requestTrip`으로 후보의 거리·도착 예상 시간을 받을 수 있습니다. `requestNavigationScreen`은 장소 검색 화면을 포함한 13종 화면을 엽니다. 권한 보호 수준은 KDoc에 Normal로 적혀 있습니다. 초기화 전 호출은 앱에 알리지 않고 버려집니다.
+- **LLM SDK**: `ai.pleos.playground:LLM:2.1.3.2` 파일은 Maven에 있지만 공모전 기간에는 제공되지 않습니다(공지 8). 에뮬레이터 2.1.0에서 제공이 종료됐습니다. [LLM 기록](../sdk/llm.md)
+- **공개되지 않은 문서**: Pleos Platform SDK(사이트맵 경로 약 9,500개)와 SDV OS(약 2,200개) 참조 문서는 경로만 있고, 요청하면 HTTP 302로 넘어가 본문을 받을 수 없었습니다(404 페이지). 공개 범위가 아니므로 쓰지 않습니다.
+- **서버 API**: Fleet API는 「Pleos Fleet 사용 계약 후」 엔드포인트를 받습니다. Vehicle Data API는 「현재(2026.8월) 유럽 지역에서만 사용 가능합니다」. 둘 다 차량 앱 SDK가 아니며 공모전에 쓸 수 없습니다. [Fleet API 시작하기](https://document.pleos.ai/api-reference/fleet-api/getting-started), [Vehicle Data API 소개](https://document.pleos.ai/api-reference/vehicle-data-api/intro)
+- **에뮬레이터**: Pleos Connect Emulator v2.1.0(2026-10-19)에 Virtual Console과 폼 팩터 시험 기능이 들어갔습니다. 4절의 "2.1.0" 표기는 릴리즈 노트로 확인했습니다. quick boot로 만든 AVD는 VHAL을 쓸 수 없으므로 cold boot로 실행합니다. [에뮬레이터 릴리즈 노트](https://document.pleos.ai/docs/pleos-only/release-note/emulator-release-note)
+- **Vehicle Service 버전**: Vehicle 소개 문서는 2.3.21, Sample App 가이드는 2.3.22, AAR 매니페스트의 최소 버전은 2.3.13입니다. 서로 다른 값이므로 실제 AVD의 서비스 버전을 기록해야 합니다.
+
+### 13.4 플레오스 가드에 적용하는 현재 결론
+
+등급은 2026-11-12 1차 비판 반영 결정을 따릅니다. [시연]은 공개 SDK와 Pleos 문서 경로로 지금 만들어 에뮬레이터에서 보여 줄 수 있는 기능, [향후]는 공개 문서에 없는 API·권한·장치가 필요해 기획서에 향후 계획으로만 적는 기능입니다.
+
+| 신호 | API와 권한(보호 수준) | Virtual Console | 등급 |
+| --- | --- | --- | --- |
+| 차속 | AAOS `CarPropertyManager` `PERF_VEHICLE_SPEED`(`android.car.permission.CAR_SPEED`), Pleos FAQ 안내 경로 | 카드 없음 | [시연: 시험 입력] |
+| 브레이크 밟음 | `Brake.getCurrentBrakePedalStatus`·`registerBrakePedalStatus`(`CAR_DRIVE`, normal) | Brake Pedal | [시연: VC] |
+| 조향각 | `SteeringWheel.getCurrentSteeringWheelAngle`(`CAR_DRIVE`, normal) | Steering Angle | [시연: VC] |
+| 주행거리 | `Odometer.getCurrentDistanceDriven`(`CAR_DRIVE`, normal) | Odometer | [시연: VC] |
+| 방향지시등 | `TurnSignal.registerTurnSignalState`(`CAR_LIGHTS`, normal) | Turn Signal State | [시연: VC] |
+| 도어 | `Door.getCurrentDoorPosition` 등(`CAR_DOORS`, normal) | Door Position, Trunk / Frunk Position | [시연: VC] |
+| 좌석 점유 | `Seat.getCurrentSeatOccupancy`(`CAR_SEATS`, normal) | Seat Occupancy | [시연: VC] |
+| 안전벨트 | `Seat.getCurrentSeatBeltBuckledState`(`CAR_SEATS`), `Safety.hasSeatBeltNotBuckledWarning`(`CAR_SAFETY`), normal | 카드 없음 | [시연: 시험 입력] |
+| 에어백 전개 | `Safety.hasSeatAirbagBeenDeployed`(`CAR_SAFETY`, normal) | 카드 없음 | [시연: 시험 입력] |
+| 엔진오일·브레이크액·워셔액·출력 저하 | `Safety.getEngineOilLevelState`, `getBrakeFluidLevelState`, `hasLowWasherFluidWarning`, `hasPowerDownWarningIndicator`(`CAR_SAFETY`, normal) | 카드 없음 | [시연: 시험 입력] |
+| 연료·배터리 % | `Fuel.getFuelPercent`, `EvBattery.getEvBatteryStateOfCharge`(`CAR_ENERGY`, normal) | Battery SOC만 있음 | [시연] |
+| 위치 | FusedLocation(`pleos.car.permission.FUSED_LOCATION`, dangerous), `confidence`만 있음 | 해당 없음 | [시연] |
+| 음성 출력·입력 | TextToSpeech·SpeechToText 3.3.1(`TTS_SERVICE`·`STT_SERVICE`, 보호 수준 미기재) | 마이크는 에뮬레이터 설정 | [시연] |
+| 경로·경유지 | NaviHelper 3.0.5 `requestRoute`, `requestRouteWithWaypoints`, `addWaypoint`, `requestTrip`(`NAVI_ROUTE`·`NAVI_ROUTE_SEARCH`, Normal) | 해당 없음 | [시연] |
+| 경고등 상태 | `Safety.getTelltalesInfo` 등(`PRIVATE_CAR_SAFETY`, signature\|privileged) | Telltales 카드는 있으나 읽을 수 없음 | [향후] |
+| 원본 녹음·카메라·블랙박스·가속도·충격·가속 페달·기어·주차 브레이크·타이어 현재 공기압·시동 상태·비상등·전원 차단 뒤 차량 신호 | 공개 경로 없음 또는 숨김 API | – | [향후] |
+
+### 13.5 남은 확인
+
+1. Pleos 문서가 안내하는 AAOS 경로(`PERF_VEHICLE_SPEED`, `CarUxRestrictions`)가 공모전의 공개 SDK·API 범위에 드는지.
+2. Virtual Console 카드 값이 Vehicle SDK 리스너로 실제 들어오는지, 카드가 없는 신호를 AVD에서 읽을 수 있는지.
+3. `hasSeatAirbagEnabled`가 true일 때의 뜻(KDoc은 "문제가 있음"), 좌석 점유 값 변환의 뜻.
+4. TTS 서비스가 `setAudioAttributes` 값으로 오디오 포커스를 요청하는지, 일반 앱이 긴급 안내에 쓸 수 있는 오디오 용도.
+5. `TTS_SERVICE`·`STT_SERVICE`의 보호 수준, 에뮬레이터의 ON_DEVICE 한국어 엔진 유무.
+6. `LocationData.confidence`와 `timestampMillis`의 뜻.

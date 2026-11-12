@@ -1,0 +1,63 @@
+{
+  "date_kst":"2026-11-12",
+  "scope":"Document/contract/static structure and synthetic numerical checks only",
+  "synthetic_numeric_checks":{
+    "status":"PASS",
+    "normal_2hz_0_02g_band_rms_g":0.014142012980169778,
+    "sustained_2hz_0_2g_band_rms_g":0.14142012980169777,
+    "single_2g_200ms_pulse_original_max_votes_in5":3,
+    "single_2g_200ms_pulse_after_exclusion_max_votes_in5":0,
+    "physical_sensor_data":false
+  },
+  "contrast_ratios":{
+    "text_primary/background":19.781,
+    "text_secondary/card":10.451,
+    "accent/card":4.727,
+    "warning/card":10.433,
+    "critical/card":5.386,
+    "positive/card":11.045,
+    "outline/card":6.089,
+    "on_accent/accent":5.505,
+    "on_warning/warning":12.15,
+    "on_critical/critical":6.272
+  },
+  "layout_math":[
+    {"viewport_dp":[1280,720],"body_height_dp":472,"rows":3,"columns":3,"pages":1},
+    {"viewport_dp":[960,600],"body_height_dp":352,"rows":2,"columns":2,"pages":3},
+    {"viewport_dp":[720,600],"body_height_dp":384,"rows":3,"columns":2,"pages":2},
+    {"viewport_dp":[1280,600],"body_height_dp":352,"rows":2,"columns":3,"pages":2}
+  ],
+  "document_contract_checks":{
+    "status":"PASS",
+    "main_sections":6,
+    "main_report_lines":971,
+    "main_report_sha256":"9c861c8daeea822873ccaaaf312413592b6b1ad21b585004be58e9230a6b3283",
+    "json_files_checked":5,
+    "main_json_examples_parsed":7,
+    "openapi_paths":21,
+    "openapi_operations":23,
+    "resolved_local_openapi_refs":114,
+    "supported_schema_subset_positive_negative_checks":9,
+    "planned_acceptance_cases_not_app_tests":56,
+    "sql_tables_static":23,
+    "sql_foreign_references_static":33,
+    "markdown_files_checked":6,
+    "local_links_and_anchors_checked":59,
+    "markdown_tables_checked":52,
+    "errors":0,
+    "historical_plan_exact_copy_confirmed":true,
+    "full_external_openapi_or_jsonschema_validator_used":false,
+    "postgresql_executed":false,
+    "validator_scope":"Local $ref/parameter/operation checks and the used schema keyword subset; not a full standards implementation or generated-client build.",
+    "validator_note":"Initial Markdown checker treated fenced ASCII wireframes as tables; code-fence handling corrected and full check rerun."
+  },
+  "not_executed":[
+    "Android build or app run",
+    "physical display/glyph measurement or rendered UI QA",
+    "actual IMU/VHAL/Pleos capture",
+    "PostgreSQL DDL execution",
+    "external standards validator/code generation for OpenAPI",
+    "Kakao/SMS dispatch or geocoding API call",
+    "real crash, fault-diagnosis effectiveness or emergency-guide safety validation"
+  ]
+}

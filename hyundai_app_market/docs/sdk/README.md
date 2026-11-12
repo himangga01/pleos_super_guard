@@ -4,7 +4,9 @@
 
 [종합 리뷰](../analysis/pleos-sdk-review.md) · [공모전 조사](../analysis/hyundai-vehicle-app-contest-2026.md) · [검증 메타데이터](evidence/sdk-inspection-2026-11-11.json)
 
-2026-11-12 안전 기능 추가 조사: [마이크·속도·페달·기울기·카메라의 제공 범위](vehicle-safety-capabilities.md), [세 가지 앱 기획](../analysis/vehicle-safety-app-ideas-2026-11-12.md), [새 배포 파일과 권한 확인 기록](evidence/vehicle-safety-inspection-2026-11-12.json). 공식 경로·파일 확인과 실제 차량 실행은 구분한다.
+2026-11-12 안전 기능 추가 조사: [마이크·속도·페달·기울기·카메라의 제공 범위](vehicle-safety-capabilities.md), [통합 전 세 가지 앱 기획(이력)](../analysis/vehicle-safety-app-ideas-2026-11-12.md), [새 배포 파일과 권한 확인 기록](evidence/vehicle-safety-inspection-2026-11-12.json). 공식 경로·파일 확인과 실제 차량 실행은 구분한다. 세 가지 앱 기획은 통합 앱 기획으로 대체된 이력이다.
+
+2026-11-12 후속 확인: [Vehicle API 전체 목록](vehicle-api-catalog.md), [LLM SDK 기록(공모전 미제공)](llm.md), [Pleos 앱 가이드 기준](../analysis/pleos-app-guidelines-2026-11-12.md), [후속 확인 기록](evidence/sdk-followup-2026-11-12.json). 소스·바이트코드 정적 분석이며 실행하지 않았다. 이 확인으로 경고등 API 4개가 모두 `PRIVATE_CAR_SAFETY`(signature|privileged)를 요구한다는 점을 확인해, `getTelltalesInfo`를 `CAR_SAFETY`로 조회할 수 있다는 앞선 판단을 정정했다. 자세한 정정 목록은 [종합 리뷰 13절](../analysis/pleos-sdk-review.md#13-2026-11-12-후속-확인-전수-분석과-정정)에 있다.
 
 ## 1. SDK별 개발 노트
 
@@ -15,6 +17,10 @@
 | TextToSpeech | 3.3.1 | [개발 노트](text-to-speech.md) | 가능 |
 | SpeechToText | 3.3.1 | [개발 노트](speech-to-text.md) | 가능 |
 | FusedLocation | 1.1.3 | [개발 노트](fused-location.md) | 가능 |
+| Vehicle 전체 API | 2.3.2 | [API 전체 목록](vehicle-api-catalog.md) | 가능. 단 `PRIVATE_*` 권한 API와 숨김 API는 일반 앱 불가 |
+| LLM | 2.1.3.2(Maven에만 있음) | [기록 노트](llm.md) | **불가**. 공모전 기간 미제공(공지 8) |
+
+2026-11-12 기준 각 SDK의 권한 보호 수준은 다음과 같다. Vehicle은 메서드 KDoc에 normal 또는 signature|privileged가 적혀 있다. NaviHelper는 KDoc에 Normal, FusedLocation은 가이드와 KDoc에 dangerous로 적혀 있다. TTS·STT는 문서와 바이너리 어디에도 적혀 있지 않다. 다섯 SDK 모두 권한이 없으면 `SecurityException`이 난다.
 
 ## 2. 공통 원문
 
@@ -29,6 +35,34 @@
 | Pleos Connect Virtual Console 셋업 가이드 | [열기](https://document.pleos.ai/docs/connect/guide/getting-started/application-development/use-vehicle-emulator) |
 | Vehicle SDK Sample App 사용 가이드 | [열기](https://document.pleos.ai/docs/pleos-only/tutorial/vehicle-sdk-sample-app) |
 | 공모전 개발 범위 및 기술 문의 안내 | [열기](https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008) |
+
+### 2026-11-12에 추가로 읽은 공통 원문
+
+안전 기능 결론과 화면·음성 기준의 근거 문서다. 인용과 설계 대응은 [Pleos 앱 가이드 기준](../analysis/pleos-app-guidelines-2026-11-12.md)에 있다.
+
+| 문서 | 원문 |
+| --- | --- |
+| 차량 앱 FAQ(차속 `PERF_VEHICLE_SPEED`) | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/vehicle-app-faq) |
+| SDK API 정책(표준 데이터는 AAOS Car API) | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/pleos-connect-sdk-api) |
+| 차종별 API 호환성 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/api-compatibility-availability) |
+| 하드웨어 접근 정책 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/platform-api-architecture) |
+| 앱 구조 및 동작 모델(세로 기본 실행) | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/app-structure-screen-model) |
+| 주행 안전을 고려한 설계 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/driver-distraction-guideline) |
+| 지역별 주행 규제 정책 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/driving-restiction-policy) |
+| 주행 규제 개발 가이드 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/driving-restriction-development-guide) |
+| 성능 및 리소스 효율 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/performance-resource-mgmt) |
+| 보안·개인정보 설계 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/security-privacy) |
+| 오디오 포커스 개발 가이드 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/audio-focus-development-guide/audio-focus-development) |
+| Suspend 모드 오디오 포커스 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/audio-focus-development-guide/suspend-mode-audio-focus) |
+| TTS·음성 안내 선행 묵음 | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/voice-guidance-preroll-silence-guide) |
+| adb 명령(주행 규제 on/off) | [열기](https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/adb-command-reference-guide) |
+| Virtual Console 사용 가이드(카드 목록) | [열기](https://document.pleos.ai/docs/pleos-only/app-test-guide/virtual-console-guide) |
+| 폼 팩터 테스트 가이드 | [열기](https://document.pleos.ai/docs/pleos-only/app-test-guide/form-factor-test-guide) |
+| UI Design Guide 원칙 | [열기](https://document.pleos.ai/docs/connect/guide/docs-design/Introduction/intro) |
+| Display Layout | [열기](https://document.pleos.ai/docs/connect/guide/docs-design/getting-started/layout) |
+| Vehicle Brake API 시작점 | [열기](https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/brake/entry) |
+| Vehicle Safety API 시작점 | [열기](https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/safety/entry) |
+| Pleos Playground 릴리즈 노트(LLM SDK 종료) | [열기](https://document.pleos.ai/docs/pleos-only/release-note/playground-release-note) |
 
 ## 3. 모듈별 공식 가이드 49개
 
@@ -155,9 +189,12 @@
 
 POM은 의존성 명세, AAR는 실제 Android 라이브러리다. 모두 공개 접근으로 확인했다. 바이너리는 내부 임시 폴더에서 정적 분석했고, 이 문서 모음에는 링크와 식별 정보만 보존했다.
 
+2026-11-12 후속 확인에서 다시 받은 다섯 AAR의 SHA-256은 위 표와 같았다. 이번에는 같은 Maven 경로의 소스 묶음(`-sources.jar`: Vehicle·NaviHelper·FusedLocation·navi-data)과 문서 묶음(`-javadoc.jar`: Vehicle·NaviHelper·FusedLocation), 그리고 공모전에 쓰지 않는 `LLM:2.1.3.2` AAR(94,274바이트)도 기록했다. 해시는 [후속 확인 기록](evidence/sdk-followup-2026-11-12.json)에 있다. 서비스 최소 버전은 AAR 매니페스트 기준으로 Vehicle 2.3.13, NaviHelper 2.0.1, TTS·STT 4.1.29(음성 서비스), FusedLocation 0.5.0이다.
+
 ## 7. 검증과 다음 갱신
 
 - 공식 사용 허용, 주 SDK POM 5개·AAR 5개, Pleos 전이 POM 7개를 확인했다.
 - 선택한 공개 JVM 메서드와 모델 생성자를 대조해 예제 불일치를 기록했다.
 - Gradle 전체 의존성 해석·Android 컴파일·설치·실제 호출·서버 인증은 미실행이다.
 - 다음 갱신은 종합 리뷰를 먼저 읽고 문서 변경·AAR 해시·샘플 커밋을 다시 확인한다.
+- 2026-11-12 후속: Vehicle 소스 파일 181개와 바이트코드의 권한 표시를 전수 대조하고, 다른 SDK의 공개 서명·바이트코드와 Pleos 가이드를 다시 읽었다. Pleos Platform SDK·SDV OS 참조 문서는 사이트맵에 경로만 있고 본문을 받을 수 없어(302 후 404) 공개 범위로 보지 않는다. Fleet API(계약 필요)와 Vehicle Data API(유럽 전용)는 공모전에 쓸 수 없다. 에뮬레이터·Virtual Console·앱 실행은 여전히 미실행이다.

@@ -1,0 +1,624 @@
+{
+ "schema_version": "1.0",
+ "record_id": "sdk-followup-2026-11-12",
+ "analysis_date_kst": "2026-11-12",
+ "timezone": "Asia/Seoul",
+ "scope": "Vehicle SDK 2.3.2 full public API, permissions, protection levels, telltales and Virtual Console coverage; NaviHelper 3.0.5, navi-data 3.0.4, FusedLocation 1.1.3, TextToSpeech 3.3.1, SpeechToText 3.3.1 and LLM 2.1.3.2 contracts; Pleos planning, developer, design, review and emulator guides relevant to Pleos Guard.",
+ "canonical_sdk_review": "docs/analysis/pleos-sdk-review.md",
+ "reports_updated": [
+  "docs/analysis/pleos-sdk-review.md",
+  "docs/sdk/README.md",
+  "docs/sdk/vehicle.md",
+  "docs/sdk/vehicle-api-catalog.md",
+  "docs/sdk/fused-location.md",
+  "docs/sdk/navihelper.md",
+  "docs/sdk/speech-to-text.md",
+  "docs/sdk/text-to-speech.md",
+  "docs/sdk/vehicle-safety-capabilities.md",
+  "docs/sdk/llm.md",
+  "docs/analysis/pleos-app-guidelines-2026-11-12.md",
+  "AGENTS.md (one SDK sentence)"
+ ],
+ "relationships": {
+  "earlier_records_left_unchanged": [
+   "docs/sdk/evidence/sdk-inspection-2026-11-11.json",
+   "docs/sdk/evidence/vehicle-safety-inspection-2026-11-12.json"
+  ],
+  "extends": [
+   {
+    "record": "docs/sdk/evidence/sdk-inspection-2026-11-11.json",
+    "how": "Same five AAR hashes; adds sources/javadoc jars, full Vehicle API inventory, permission protection levels and runtime permission checks."
+   },
+   {
+    "record": "docs/sdk/evidence/vehicle-safety-inspection-2026-11-12.json",
+    "how": "Adds runtime-check reading and Virtual Console coverage for the safety signals."
+   }
+  ],
+  "supersedes_or_corrects": [
+   {
+    "id": "X01",
+    "corrects": "docs/sdk/evidence/vehicle-safety-inspection-2026-11-12.json selected_binary_contracts entry for Safety.getTelltalesInfo (requires_permission pleos.car.permission.CAR_SAFETY)",
+    "also_in": [
+     "docs/sdk/vehicle-safety-capabilities.md section 2.1 and 6",
+     "docs/analysis/pleos-sdk-review.md section 10 table",
+     "AGENTS.md SDK baseline sentence"
+    ],
+    "previous": "getTelltalesInfo는 CAR_SAFETY로 조회 가능(조건부)하고 지원 확인·구독만 PRIVATE_CAR_SAFETY",
+    "corrected": "4개 API 모두 실행 검사에서 PRIVATE_CAR_SAFETY(signature|privileged). 일반 앱 불가",
+    "reason": "이전 확인은 RuntimeInvisibleAnnotations(린트용 @RequiresPermission)만 읽었다. 실행 검사는 구현 클래스의 @RequiresCustomPermission이다.",
+    "evidence": "C01"
+   },
+   {
+    "id": "X02",
+    "corrects": "권한 보호 수준이 기록되지 않았다는 이전 판단(저장소 SDK 리뷰 노트)",
+    "previous": "보호 수준 기록 없음",
+    "corrected": "KDoc에 normal/signature|privileged가 명시됨",
+    "evidence": "C02"
+   },
+   {
+    "id": "X03",
+    "corrects": "docs/sdk/vehicle-safety-capabilities.md section 2.1 \"핸들 각도\" row",
+    "previous": "핸들이 돌아간 각도",
+    "corrected": "전륜 조향각(도, 왼쪽 음수). 핸들 회전각이 아님",
+    "evidence": "C04"
+   },
+   {
+    "id": "X04",
+    "corrects": "docs/sdk/vehicle.md section 2 table (Brake·CarInfo·Display 설명)",
+    "previous": "Brake=브레이크·주차 브레이크, CarInfo=차량 기본정보, Display=표시 단위 조회·설정",
+    "corrected": "Brake는 페달 밟음 여부만, CarInfo는 VIN(+구형 CRN)만, Display는 온도 단위 조회·구독만",
+    "evidence": "C03"
+   },
+   {
+    "id": "X05",
+    "corrects": "docs/sdk/vehicle.md section 4 오류 처리, docs/sdk/text-to-speech.md·speech-to-text.md·fused-location.md 오류 처리",
+    "previous": "VehicleException errorCode·ErrorType(PERMISSION_DENIED)·onError로 권한 오류 처리",
+    "corrected": "권한 오류는 SecurityException(Vehicle register와 다른 SDK는 즉시 throw)",
+    "evidence": "C07"
+   },
+   {
+    "id": "X06",
+    "corrects": "docs/sdk/fused-location.md section 1·4, docs/sdk/vehicle-safety-capabilities.md section 6",
+    "previous": "위치에 정확도 보관, 휴대폰에서 같은 서비스 사용을 보장하지 않음",
+    "corrected": "정확도 필드 없음(confidence만). automotive required 선언으로 같은 APK 휴대폰 설치 불가",
+    "evidence": "C09"
+   },
+   {
+    "id": "X07",
+    "corrects": "docs/sdk/speech-to-text.md section 4, docs/sdk/vehicle-safety-capabilities.md section 3",
+    "previous": "onEndedRecognition = 인식 세션 종료",
+    "corrected": "발화 끝 감지(EPD_OFF) 이벤트",
+    "evidence": "C11"
+   },
+   {
+    "id": "X08",
+    "corrects": "docs/analysis/pleos-sdk-review.md section 12, docs/sdk/vehicle-safety-capabilities.md section 10의 \"통합 PRD v2\" 링크 이름",
+    "previous": "integrated-vehicle-care-2026-11-12.md를 PRD v2로 표시",
+    "corrected": "같은 경로는 현재 통합 PRD(2026-11-12 v3, 1차 비판 반영으로 v4 예정). v2 원문은 integrated-vehicle-care-2026-11-12-prd-v2.md",
+    "evidence": "repository file headers"
+   },
+   {
+    "id": "X09",
+    "corrects": "docs/sdk/vehicle-safety-capabilities.md section 10의 \"64dp 터치\"",
+    "previous": "PRD의 1280×720dp·64dp 터치",
+    "corrected": "주요 버튼 80dp(자체 설계값, Pleos 공식 수치 아님), 1280×720dp는 가로 시안 예시",
+    "evidence": "Pleos 원문 텍스트에 버튼 dp 수치 없음(driver-distraction-guideline은 UI Design Guide 기준을 따르라고만 함)"
+   },
+   {
+    "id": "X10",
+    "corrects": "docs/analysis/pleos-sdk-review.md, docs/sdk/README.md, docs/sdk/vehicle-safety-capabilities.md의 \"세 가지 안전 앱\" 링크",
+    "previous": "현재 기획처럼 링크",
+    "corrected": "통합 전 이력 문서로 표시",
+    "evidence": "docs/analysis/vehicle-safety-app-ideas-2026-11-12.md 머리말의 후속 변경 문장"
+   }
+  ]
+ },
+ "method": {
+  "type": "static analysis of source and bytecode; reading of crawled official document text",
+  "steps": [
+   "Read all 181 source files of Vehicle-2.3.2-sources.jar (180 Kotlin, 1 BuildConfig.java); parsed 20 domain interfaces and 20 implementations",
+   "javap -v -p of the 40 Vehicle classes; compared RuntimeVisibleAnnotations (RequiresCustomPermission) with RuntimeInvisibleAnnotations (androidx RequiresPermission)",
+   "Compared unique public method names with the sitemap of the official API reference",
+   "Read NaviHelper, navi-data and FusedLocation sources; read TextToSpeech, SpeechToText and LLM with javap and bytecode",
+   "Read official planning/developer/design/review/test guides and release notes as text; quotations in docs/analysis/pleos-app-guidelines-2026-11-12.md were string-matched to the text"
+  ],
+  "tools": [
+   "javap",
+   "python3 -I (small parsers)"
+  ]
+ },
+ "verification_level": {
+  "official_sources_read": true,
+  "public_artifacts_hashed": true,
+  "source_and_bytecode_inspected": true,
+  "app_implemented": false,
+  "android_build_run": false,
+  "emulator_run": false,
+  "virtual_console_injection_run": false,
+  "vehicle_calls_run": false,
+  "server_authentication_run": false,
+  "runtime_permission_grant_verified": false
+ },
+ "executed": false,
+ "retrieval_note": "Artifacts were downloaded from the public Maven repository on 2026-11-12 before this record was written. HTTP status codes of these downloads were not kept in this record; SHA-256 values were computed from the downloaded files with sha256sum.",
+ "artifacts": [
+  {
+   "coordinate": "ai.pleos.playground:Vehicle:2.3.2",
+   "classifier": null,
+   "file": "Vehicle-2.3.2.aar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/Vehicle/2.3.2/Vehicle-2.3.2.aar",
+   "bytes": 983759,
+   "sha256": "e11fdfe498cad3ecc0d5a2a6992b0c4a4d135195f1455018127bc069fd5ef937",
+   "same_hash_as_earlier_repository_record": true,
+   "executed": false,
+   "note": "AAR. Same SHA-256 as docs/sdk/evidence/sdk-inspection-2026-11-11.json and vehicle-safety-inspection-2026-11-12.json."
+  },
+  {
+   "coordinate": "ai.pleos.playground:Vehicle:2.3.2",
+   "classifier": "sources",
+   "file": "Vehicle-2.3.2-sources.jar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/Vehicle/2.3.2/Vehicle-2.3.2-sources.jar",
+   "bytes": 145042,
+   "sha256": "62b5dd2c4c0523fd13c2e64040cd775bc89a14ce54f35a37560d0eb4eb3fab40",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Kotlin sources (181 source files read). First use in repository evidence."
+  },
+  {
+   "coordinate": "ai.pleos.playground:Vehicle:2.3.2",
+   "classifier": "javadoc",
+   "file": "Vehicle-2.3.2-javadoc.jar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/Vehicle/2.3.2/Vehicle-2.3.2-javadoc.jar",
+   "bytes": 1052351,
+   "sha256": "0fd5d6492479988bd7e56236e3f5ea80a0ed6e8be71b62f602eecf309a646b74",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Javadoc HTML (178 pages)."
+  },
+  {
+   "coordinate": "ai.pleos.playground:Vehicle:2.3.2",
+   "classifier": "pom",
+   "file": "Vehicle-2.3.2.pom",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/Vehicle/2.3.2/Vehicle-2.3.2.pom",
+   "bytes": 2117,
+   "sha256": "b3f3be9be3ea18be522ea596a6a7de920884648f7fefed4e67816194aa775323",
+   "same_hash_as_earlier_repository_record": null,
+   "executed": false,
+   "note": "POM."
+  },
+  {
+   "coordinate": "ai.pleos.playground:NaviHelper:3.0.5",
+   "classifier": null,
+   "file": "NaviHelper-3.0.5.aar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/NaviHelper/3.0.5/NaviHelper-3.0.5.aar",
+   "bytes": 65944,
+   "sha256": "15fadd11c7c611b1abdf7ebf9ce91f2a6ce2728e60b4e38b4343e11bb9c12e97",
+   "same_hash_as_earlier_repository_record": true,
+   "executed": false,
+   "note": "AAR. Same SHA-256 as 2026-11-11 record."
+  },
+  {
+   "coordinate": "ai.pleos.playground:NaviHelper:3.0.5",
+   "classifier": "sources",
+   "file": "NaviHelper-3.0.5-sources.jar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/NaviHelper/3.0.5/NaviHelper-3.0.5-sources.jar",
+   "bytes": 18262,
+   "sha256": "915feb7246215e6999f4695ba6b51cf31e4c6a5d8a8c1b36f16a3ba353569201",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Kotlin sources."
+  },
+  {
+   "coordinate": "ai.pleos.playground:NaviHelper:3.0.5",
+   "classifier": "javadoc",
+   "file": "NaviHelper-3.0.5-javadoc.jar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/NaviHelper/3.0.5/NaviHelper-3.0.5-javadoc.jar",
+   "bytes": 683820,
+   "sha256": "7e81afaab2886195dca79d450732c9d89cf215d71db98a3154337bfae5ac0bde",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Javadoc."
+  },
+  {
+   "coordinate": "ai.pleos.playground:navi-data:3.0.4",
+   "classifier": null,
+   "file": "navi-data-3.0.4.aar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/navi-data/3.0.4/navi-data-3.0.4.aar",
+   "bytes": 298474,
+   "sha256": "7ca00e592134b53237a48cc3b7864063ecc5e2885465e3ce9c8c2a29789a2e2b",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Model library AAR used by NaviHelper 3.0.5."
+  },
+  {
+   "coordinate": "ai.pleos.playground:navi-data:3.0.4",
+   "classifier": "sources",
+   "file": "navi-data-3.0.4-sources.jar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/navi-data/3.0.4/navi-data-3.0.4-sources.jar",
+   "bytes": 28579,
+   "sha256": "4da974b6b0050662c4b346d3fca96073c8c1f241ce10c7d667cfef64cbceedaf",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Model sources."
+  },
+  {
+   "coordinate": "ai.pleos.playground:FusedLocation:1.1.3",
+   "classifier": null,
+   "file": "FusedLocation-1.1.3.aar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/FusedLocation/1.1.3/FusedLocation-1.1.3.aar",
+   "bytes": 57604,
+   "sha256": "20ff6dc2efbea53f32d1ce4712d517fc4abac3a9ce4b990f4aca52c35ebef081",
+   "same_hash_as_earlier_repository_record": true,
+   "executed": false,
+   "note": "AAR. Same SHA-256 as 2026-11-11 record."
+  },
+  {
+   "coordinate": "ai.pleos.playground:FusedLocation:1.1.3",
+   "classifier": "sources",
+   "file": "FusedLocation-1.1.3-sources.jar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/FusedLocation/1.1.3/FusedLocation-1.1.3-sources.jar",
+   "bytes": 14965,
+   "sha256": "784a27bc24a19f1f0b493f46587ee1195edc14683ab0e24fd04725812755d627",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Kotlin sources."
+  },
+  {
+   "coordinate": "ai.pleos.playground:FusedLocation:1.1.3",
+   "classifier": "javadoc",
+   "file": "FusedLocation-1.1.3-javadoc.jar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/FusedLocation/1.1.3/FusedLocation-1.1.3-javadoc.jar",
+   "bytes": 450203,
+   "sha256": "e4054766fb639aa588f50a746b70e777557dc84addb7798a57bf3e33cfc80f50",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Javadoc."
+  },
+  {
+   "coordinate": "ai.pleos.playground:TextToSpeech:3.3.1",
+   "classifier": null,
+   "file": "TextToSpeech-3.3.1.aar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/TextToSpeech/3.3.1/TextToSpeech-3.3.1.aar",
+   "bytes": 139133,
+   "sha256": "bfbfb58376c69604afad3389878980461971683f0c51f619d03ab74b5e6a0375",
+   "same_hash_as_earlier_repository_record": true,
+   "executed": false,
+   "note": "AAR. No sources jar; javap and bytecode read."
+  },
+  {
+   "coordinate": "ai.pleos.playground:SpeechToText:3.3.1",
+   "classifier": null,
+   "file": "SpeechToText-3.3.1.aar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/SpeechToText/3.3.1/SpeechToText-3.3.1.aar",
+   "bytes": 188560,
+   "sha256": "35109ad13400a7fa103cca9fabbf9b785e63a6a98b17a0698a1aef51458d37bf",
+   "same_hash_as_earlier_repository_record": true,
+   "executed": false,
+   "note": "AAR. Same SHA-256 as 2026-11-11 and 2026-11-12 safety records. No sources jar; javap and bytecode read."
+  },
+  {
+   "coordinate": "ai.pleos.playground:LLM:2.1.3.2",
+   "classifier": null,
+   "file": "LLM-2.1.3.2.aar",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/LLM/2.1.3.2/LLM-2.1.3.2.aar",
+   "bytes": 94274,
+   "sha256": "a01acc20056ae732c87aec2ed9b3d97ecd794147b750786d00a896d4da8d69dc",
+   "same_hash_as_earlier_repository_record": false,
+   "executed": false,
+   "note": "Recorded only to document that the LLM SDK exists in Maven but is not provided for the contest. Not used."
+  },
+  {
+   "coordinate": null,
+   "classifier": "pom",
+   "file": "NaviHelper-3.0.5.pom",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/NaviHelper/3.0.5/NaviHelper-3.0.5.pom",
+   "bytes": 1747,
+   "sha256": "39e93d10d8da7758e52c83186620a8965b3b0a46438851e1a2c0dab34d292c42",
+   "same_hash_as_earlier_repository_record": null,
+   "executed": false,
+   "note": "POM."
+  },
+  {
+   "coordinate": null,
+   "classifier": "pom",
+   "file": "FusedLocation-1.1.3.pom",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/FusedLocation/1.1.3/FusedLocation-1.1.3.pom",
+   "bytes": 2136,
+   "sha256": "71a596f1fbe4bce6de64c6fb47d62f4404fe995271369d69e0dcdb643f314b49",
+   "same_hash_as_earlier_repository_record": null,
+   "executed": false,
+   "note": "POM."
+  },
+  {
+   "coordinate": null,
+   "classifier": "pom",
+   "file": "TextToSpeech-3.3.1.pom",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/TextToSpeech/3.3.1/TextToSpeech-3.3.1.pom",
+   "bytes": 1098,
+   "sha256": "47cf8afe517daa017d19224a4819e8f09f13c01e3fb27b73eade1e9d927a4bff",
+   "same_hash_as_earlier_repository_record": null,
+   "executed": false,
+   "note": "POM."
+  },
+  {
+   "coordinate": null,
+   "classifier": "pom",
+   "file": "SpeechToText-3.3.1.pom",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/SpeechToText/3.3.1/SpeechToText-3.3.1.pom",
+   "bytes": 1098,
+   "sha256": "009757c48e8139862e5c25383ec79e11ca37b8c9a32ec6fcf810c409b33cec56",
+   "same_hash_as_earlier_repository_record": null,
+   "executed": false,
+   "note": "POM."
+  },
+  {
+   "coordinate": null,
+   "classifier": "pom",
+   "file": "navi-data-3.0.4.pom",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/navi-data/3.0.4/navi-data-3.0.4.pom",
+   "bytes": 778,
+   "sha256": "b35ba80a45baa2b59cbfbb9bb41510eae5081f2c6d38cfe4415055ecf13de397",
+   "same_hash_as_earlier_repository_record": null,
+   "executed": false,
+   "note": "POM."
+  },
+  {
+   "coordinate": null,
+   "classifier": "pom",
+   "file": "LLM-2.1.3.2.pom",
+   "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/LLM/2.1.3.2/LLM-2.1.3.2.pom",
+   "bytes": 1083,
+   "sha256": "7fc48b86ccb131070dd722d68e3b596cf8c6f6ef87bc99d86e1ddf5c2a6e604f",
+   "same_hash_as_earlier_repository_record": null,
+   "executed": false,
+   "note": "POM."
+  }
+ ],
+ "official_sources": [
+  {
+   "id": "contest-scope",
+   "url": "https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008",
+   "used_for": "공지 8: 공개 SDK 5종 사용 가능, 공개되지 않은 SDK와 LLM SDK 미제공, Gleo Interface 승인 신청 불가, 외부 음성 인식 전송 불가"
+  },
+  {
+   "id": "sdk-release-note",
+   "url": "https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note",
+   "used_for": "Vehicle 2.3.2에서 VehicleSpeedListener·onSpeedUpdated 삭제, 다섯 SDK 버전"
+  },
+  {
+   "id": "emulator-release-note",
+   "url": "https://document.pleos.ai/docs/pleos-only/release-note/emulator-release-note",
+   "used_for": "에뮬레이터 v2.1.0(2026-10-19), Virtual Console·폼 팩터 시험 추가, LLM SDK 제공 종료"
+  },
+  {
+   "id": "playground-release-note",
+   "url": "https://document.pleos.ai/docs/pleos-only/release-note/playground-release-note",
+   "used_for": "LLM SDK 제공 종료"
+  },
+  {
+   "id": "vehicle-app-faq",
+   "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/vehicle-app-faq",
+   "used_for": "클러스터와 같은 속도는 CarPropertyManager의 PERF_VEHICLE_SPEED"
+  },
+  {
+   "id": "sdk-api-policy",
+   "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/pleos-connect-sdk-api",
+   "used_for": "속도·기어 등 표준 데이터는 AAOS Car API"
+  },
+  {
+   "id": "vehicle-permission",
+   "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle-permission",
+   "used_for": "도메인 대표 권한표(세부 API와 다를 수 있음)"
+  },
+  {
+   "id": "vehicle-sample-app",
+   "url": "https://document.pleos.ai/docs/pleos-only/tutorial/vehicle-sdk-sample-app",
+   "used_for": "Vehicle 권한은 실행 중 승인 창 방식이 아님, PRIVATE_* 예제 제외, Service 2.3.22"
+  },
+  {
+   "id": "virtual-console-setup",
+   "url": "https://document.pleos.ai/docs/connect/guide/getting-started/application-development/use-vehicle-emulator",
+   "used_for": "Virtual Console 최소 에뮬레이터 v2.1.0, 접속 방법"
+  },
+  {
+   "id": "virtual-console-guide",
+   "url": "https://document.pleos.ai/docs/pleos-only/app-test-guide/virtual-console-guide",
+   "used_for": "도메인별 카드 목록. 차속·에어백 카드 없음"
+  },
+  {
+   "id": "form-factor-test",
+   "url": "https://document.pleos.ai/docs/pleos-only/app-test-guide/form-factor-test-guide",
+   "used_for": "FormFactorConsole로 Portrait/Landscape 창 dp·DPI 확인"
+  },
+  {
+   "id": "adb-guide",
+   "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/adb-command-reference-guide",
+   "used_for": "driving_regulation on/off"
+  },
+  {
+   "id": "audio-focus",
+   "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/audio-focus-development-guide/audio-focus-development",
+   "used_for": "포커스 요청·처리 필수, Gleo 시 즉시 중단, 용도-컨텍스트 매핑"
+  },
+  {
+   "id": "preroll-silence",
+   "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/voice-guidance-preroll-silence-guide",
+   "used_for": "음성 앞 150~200ms 무음 권장"
+  },
+  {
+   "id": "suspend-audio",
+   "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/audio-focus-development-guide/suspend-mode-audio-focus",
+   "used_for": "Suspend 진입 시 포커스 반납"
+  },
+  {
+   "id": "fleet-api",
+   "url": "https://document.pleos.ai/api-reference/fleet-api/getting-started",
+   "used_for": "엔드포인트는 Pleos Fleet 사용 계약 후 제공"
+  },
+  {
+   "id": "vehicle-data-api",
+   "url": "https://document.pleos.ai/api-reference/vehicle-data-api/intro",
+   "used_for": "현재(2026.8월) 유럽 지역에서만 사용 가능"
+  },
+  {
+   "id": "llm-api-reference",
+   "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/LLM/entry",
+   "used_for": "API 참조 제목만 있음"
+  }
+ ],
+ "conclusions": [
+  {
+   "id": "C01",
+   "statement_ko": "경고등 API 4개(checkTelltalesCapabilities, getTelltalesInfo, registerTelltales, unregisterTelltales)는 실행 검사에서 모두 pleos.car.permission.PRIVATE_CAR_SAFETY(KDoc 보호 수준 signature|privileged)를 요구한다. 일반 출품 앱은 차량 경고등 상태를 읽을 수 없다. getTelltalesInfo의 인터페이스 @RequiresPermission(CAR_SAFETY)는 린트용 표시이며 실행 검사와 다르다.",
+   "confirmation_level": "source_and_bytecode_static",
+   "evidence": [
+    "Vehicle-2.3.2-sources.jar: ai/pleos/playground/vehicle/api/implement/SafetyImpl.kt lines 194,335,542,553 (@RequiresCustomPermission PRIVATE_CAR_SAFETY)",
+    "ai/pleos/playground/vehicle/api/Safety.kt KDoc (PRIVATE_CAR_SAFETY, protection level: signature|privileged) and line 376 (@RequiresPermission CAR_SAFETY)",
+    "javap -v of SafetyImpl: RuntimeVisibleAnnotations RequiresCustomPermission PRIVATE_CAR_SAFETY; RuntimeInvisibleAnnotations RequiresPermission CAR_SAFETY",
+    "utils/PermissionUtil.kt reads @RequiresCustomPermission at call time"
+   ]
+  },
+  {
+   "id": "C02",
+   "statement_ko": "권한 보호 수준은 메서드 KDoc에 적혀 있다. CAR_*·CONTROL_CAR_* 대부분은 normal, PRIVATE_CAR_SAFETY 8곳과 CONTROL_CAR_WINDOWS의 setSmartGlassState 1곳은 signature|privileged다.",
+   "confirmation_level": "source_static",
+   "evidence": [
+    "KDoc \"(protection level: normal)\" 456곳, \"(protection level: signature|privileged)\" 9곳",
+    "vehicle-sample-app: Vehicle 권한은 일반 Android 위험 권한처럼 실행 중 승인 창을 띄우지 않음"
+   ]
+  },
+  {
+   "id": "C03",
+   "statement_ko": "Vehicle 인터페이스 메서드는 517개(오버로드·구형·숨김 포함)이며 숨김 이름 18개와 Vehicle.getGear()가 있다. 숨김을 뺀 고유 이름 458개는 공식 API 참조의 메서드 페이지 이름과 같다.",
+   "confirmation_level": "source_static",
+   "evidence": [
+    "api/*.kt, api/implement/*Impl.kt",
+    "docs/sdk/vehicle-api-catalog.md"
+   ]
+  },
+  {
+   "id": "C04",
+   "statement_ko": "SteeringWheel.getCurrentSteeringWheelAngle은 전륜 조향각(도, 왼쪽 음수)이며 핸들 회전각이 아니다. 문서 표기는 \"조향각(SteeringWheel)\"으로 한다.",
+   "confirmation_level": "source_static",
+   "evidence": [
+    "api/SteeringWheel.kt KDoc",
+    "api/implement/SteeringWheelImpl.kt uses PERF_STEERING_ANGLE"
+   ]
+  },
+  {
+   "id": "C05",
+   "statement_ko": "안전벨트 API가 있다: Seat.getCurrentSeatBeltBuckledState·registerSeatBeltBuckledState(CAR_SEATS), Safety.hasSeatBeltNotBuckledWarning(CAR_SAFETY). 둘 다 normal.",
+   "confirmation_level": "source_static",
+   "evidence": [
+    "api/Seat.kt",
+    "api/Safety.kt"
+   ]
+  },
+  {
+   "id": "C06",
+   "statement_ko": "공개 Vehicle SDK 2.3.2에는 차속 API가 없다(VehicleSpeedListener 삭제). Pleos FAQ는 AAOS CarPropertyManager의 PERF_VEHICLE_SPEED(m/s, android.car.permission.CAR_SPEED)를 안내한다. 다섯 SDK 목록 밖의 경로라 허용 범위는 기술 문의 대상이다. Virtual Console 사용 가이드에는 차속 카드가 없다.",
+   "confirmation_level": "official_document",
+   "evidence": [
+    "sdk-release-note",
+    "vehicle-app-faq",
+    "virtual-console-guide"
+   ]
+  },
+  {
+   "id": "C07",
+   "statement_ko": "권한이 없으면 SDK가 SecurityException을 만든다. Vehicle은 get·set·capability에서 onFailed(SecurityException), 일반 register/unregister에서 즉시 throw. NaviHelper·FusedLocation·TTS·STT는 공개 메서드 호출 때 즉시 throw. 이 예외는 ErrorType·VehicleException 코드로 오지 않는다.",
+   "confirmation_level": "source_and_bytecode_static",
+   "evidence": [
+    "Vehicle service/VehicleServiceManager.kt, utils/PermissionUtil.kt",
+    "NaviHelper PermissionUtils.kt",
+    "FusedLocation LocationServiceManager.kt",
+    "TTS/STT ApiChecker bytecode"
+   ]
+  },
+  {
+   "id": "C08",
+   "statement_ko": "Vehicle 서비스 연결 중 호출은 대기열에 쌓이고 대기 시간 제한이 없다. 연결 재시도는 500ms 간격 최대 30회. 결과·이벤트 콜백은 Binder 스레드에서 불리므로 메인 스레드 전환이 필요하다.",
+   "confirmation_level": "source_static",
+   "evidence": [
+    "service/BaseServiceConnector.kt",
+    "service/VehicleServiceManager.kt"
+   ]
+  },
+  {
+   "id": "C09",
+   "statement_ko": "FusedLocation의 LocationData에는 미터 단위 정확도가 없고 confidence(Float, 의미·단위 미공개)와 timestampMillis만 있다. AAR 매니페스트가 android.hardware.type.automotive를 required=true로 선언하므로 같은 APK는 휴대폰에 설치할 수 없다.",
+   "confirmation_level": "source_static",
+   "evidence": [
+    "FusedLocation-1.1.3-sources.jar model/LocationData.kt",
+    "FusedLocation-1.1.3.aar AndroidManifest.xml"
+   ]
+  },
+  {
+   "id": "C10",
+   "statement_ko": "TextToSpeech 3.3.1의 기본 오디오 속성은 CONTENT_TYPE_SPEECH + USAGE_MEDIA(오디오 포커스 MUSIC 컨텍스트)이다. setAudioAttributes로 바꿀 수 있으며, 이 메서드는 가이드 본문에 없고 API 참조 제목만 있다. 우선순위 인자는 없다.",
+   "confirmation_level": "bytecode_static",
+   "evidence": [
+    "TextToSpeech-3.3.1 javap-public.txt setAudioAttributes",
+    "Tts class bytecode default attributes",
+    "audio-focus mapping table"
+   ]
+  },
+  {
+   "id": "C11",
+   "statement_ko": "SpeechToText 결과는 onUpdated(stt: String, completed: Boolean)뿐이며 신뢰도·후보 목록·언어 코드가 없다. onStartedRecognition/onEndedRecognition은 발화 시작·끝 감지(EPD_ON/EPD_OFF) 이벤트다. sendAudio는 ON_DEVICE가 아니면 오류 없이 무시된다.",
+   "confirmation_level": "bytecode_static",
+   "evidence": [
+    "SpeechToText-3.3.1 javap-public.txt ResultListener",
+    "SttCallback bytecode",
+    "SpeechToText.sendAudio bytecode"
+   ]
+  },
+  {
+   "id": "C12",
+   "statement_ko": "LLM SDK 2.1.3.2 배포 파일은 Maven에 있으나 공모전 기간에는 제공되지 않는다(공지 8). 에뮬레이터 2.1.0에서 LLM SDK 제공이 종료됐다. 플레오스 가드는 쓰지 않는다.",
+   "confirmation_level": "official_document",
+   "evidence": [
+    "contest-scope",
+    "emulator-release-note",
+    "playground-release-note",
+    "LLM-2.1.3.2.aar"
+   ]
+  },
+  {
+   "id": "C13",
+   "statement_ko": "Pleos Platform SDK와 SDV OS API 참조는 사이트맵에 경로만 있고, 요청하면 HTTP 302로 넘어가 본문을 받을 수 없었다(404 페이지로 이동). 공개 문서 범위가 아니므로 쓰지 않는다.",
+   "confirmation_level": "crawl_observation",
+   "evidence": [
+    "api-reference/pleos-platform-sdk 9,483 paths and api-reference/sdvos 2,212 paths returned HTTP 302 during crawl"
+   ]
+  },
+  {
+   "id": "C14",
+   "statement_ko": "Fleet API는 사용 계약 후 엔드포인트를 받는 서버 API이고, Vehicle Data API는 현재(2026.8월) 유럽 지역에서만 쓸 수 있다. 둘 다 공모전에 쓸 수 없다.",
+   "confirmation_level": "official_document",
+   "evidence": [
+    "fleet-api",
+    "vehicle-data-api"
+   ]
+  },
+  {
+   "id": "C15",
+   "statement_ko": "에뮬레이터 2.1.0 Virtual Console로 브레이크 페달·도어·트렁크·좌석 탑승·방향지시등·주행거리·조향각·EV 충전량·크루즈 등을 바꿀 수 있다. 차속·에어백·안전벨트·연료량·오일·워셔액·출력 저하 카드는 없다. 경고등 카드는 있으나 일반 앱은 읽을 수 없다.",
+   "confirmation_level": "official_document",
+   "evidence": [
+    "virtual-console-guide",
+    "virtual-console-setup"
+   ]
+  }
+ ],
+ "unresolved_questions": [
+  "공모전 허용 범위에 Pleos 문서가 안내하는 AAOS 경로(CarPropertyManager PERF_VEHICLE_SPEED, CarUxRestrictions)가 포함되는지",
+  "Vehicle 서비스가 서버 쪽에서 권한을 다시 검사하는지, VEHICLE_BINDING 권한의 보호 수준",
+  "hasSeatAirbagEnabled의 true 뜻(이상 여부), 좌석 점유 값 변환(==1)의 뜻",
+  "첫 register 때 서비스가 현재 값을 바로 보내는지",
+  "Virtual Console 카드 값이 SDK 리스너로 실제 전달되는지, 카드가 없는 신호를 AVD에서 읽을 수 있는지",
+  "TTS 서비스가 setAudioAttributes 값으로 오디오 포커스를 요청하는지, 일반 앱이 쓸 수 있는 긴급 안내용 오디오 용도",
+  "TTS_SERVICE·STT_SERVICE 권한의 보호 수준",
+  "LocationData.confidence와 timestampMillis의 뜻"
+ ]
+}
