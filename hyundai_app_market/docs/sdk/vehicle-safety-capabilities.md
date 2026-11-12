@@ -36,7 +36,7 @@ Vehicle의 `classes.jar`에는 클래스 파일 706개가 있었다. 그중 `veh
 
 ### 2.1 공개 Vehicle 메서드에서 확인한 기능
 
-아래 권한은 배포 파일의 `RequiresPermission` 선언에서 읽었다. 매니페스트에 이름을 적는 것만으로 실제 허용된다고 보지 않는다. 시작·종료 시 서비스 연결과 같은 리스너의 등록·해제도 필요하다.
+아래 권한은 배포 파일의 `RequiresPermission` 선언에서 읽었다. 매니페스트에 이름을 적는 것만으로 실제 허용된다고 보지 않는다. 시작·종료 시 서비스 연결과 같은 리스너의 등록·해제도 필요하다. (2026-11-12 정정: `RequiresPermission`은 개발 도구용 표시다. SDK가 호출 순간 검사하는 값은 구현 클래스의 `RequiresCustomPermission`이다. 이 표에서는 `getTelltalesInfo` 하나가 두 값이 다르다. 전체 비교는 [Vehicle API 전체 목록](vehicle-api-catalog.md)에 있다.)
 
 | 정보 | 확인한 메서드 | 필요한 권한 | 읽을 수 있는 것과 한계 |
 | --- | --- | --- | --- |

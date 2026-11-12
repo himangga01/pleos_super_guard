@@ -34,7 +34,7 @@
 - The user explicitly requested respectful speech after objecting to terse plain endings. Use polite Korean endings such as 합니다/입니다 in replies, progress updates and new user-facing summaries. Keep the simple written style; do not mistake a request for easy language for permission to use casual speech.
 - Update the SDK review, affected SDK notes and `docs/sdk/evidence/sdk-inspection-2026-11-11.json` after new SDK evidence. Refresh changed conclusions in the contest report and preserve dated historical findings.
 - The follow-up review on 2026-11-11 confirmed that all five documented SDKs are permitted for contest emulator development even when Workspace says Coming Soon. Do not keep the earlier permission uncertainty as the current conclusion. Actual runtime calls and cloud authentication remain separately unverified.
-- For substantive analysis, also follow `C:/Users/강지혜/.agents/analysis-policy.md`.
+- For substantive analysis, also follow the user's local analysis policy file (`~/.agents/analysis-policy.md`). Do not write the local user directory or real name into repository files.
 - Before reusing findings, check the report date, official notices, SDK release notes, current repository state and newer evidence. Update affected sections in these canonical reports after new investigation. Preserve dated historical evidence.
 - Keep contest research in Korean. Service analysis, if separately requested, belongs in `docs/service-analysis.md` and must be written in English.
 - Separate official requirements, document inconsistencies, researcher interpretation and behavior actually executed. Public SDK documentation does not establish account-specific permission or successful emulator execution.
