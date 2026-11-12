@@ -108,6 +108,7 @@
 | 합성 그림 | `output/submission/assets/v4/composite/` | 세로 두 장 나란히(별첨용 pair-* 5장, 공식 양식용 form-portrait-1~3) |
 | v4 도표 4장 | `output/submission/assets/v4/diagrams/` | 메뉴 흐름, 시스템 구조, 긴급 안내 상태, 보호자 알림 상태 |
 | 대비 측정 | `output/submission/assets/v4/contrast-check.json` | v4.1 화면 33장, 최저 대비 4.55:1, 최소 글자 22px |
+| 긴급 화면 차량 사진 | `output/submission/assets/avante-rear.jpg` | 디 올 뉴 아반떼 실사 뒷모습. 현대자동차 보도자료(2026.8.5) 공식 사진에서 보도용 번호판을 지운 것. 주행 중 긴급 화면 4장(p-emergency, p-stopping, ui-guidance, ui-stopping)에 씀(사용자 요청). 홈 화면 앞모습은 `avante-cutout.png` |
 | 이전 승인 시안 | `output/submission/assets/final/` | v3 가로 10장. 이력으로 보존 |
 
 - 화면은 설계 시안이며 실제 구동 화면이 아닙니다. 경고등 기호 8개는 단순 선으로 새로 그렸고, 실제 도감은 대상 차량 취급설명서 기호와 대조해 확정해야 합니다.

@@ -18,7 +18,7 @@
 from __future__ import annotations
 import json, math, sys
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 
 R = Path(__file__).resolve().parent
 A = R / 'assets'; I = A / 'icons'
@@ -650,35 +650,26 @@ def cabin_row(s, x0, cy, x1, n=22):
         x = x0 + j * w; s.icon(ic, x, cy - 15, 30, MINT); s.txt_vc(x + 40, cy, t, n, FG, maxw=w - 44)
 
 
+_rear = None
+
+
 def road_scene(w, h, hazard=False):
-    """주행 중 긴급 화면의 정지 그림: 도로와 차 뒷모습만, 손·발 동작 화살표 없음."""
-    Z = 3; W, H = w * Z, h * Z; im = Image.new('RGB', (W, H), '#1A0F15'); d = ImageDraw.Draw(im)
-    hz = int(H * 0.32)
-    for y in range(hz):
-        d.line([(0, y), (W, y)], fill=mix('#120A10', '#2C1620', y / hz))
-    d.rectangle((0, hz, W, H), fill='#180E14'); vx = W / 2
-    d.polygon([(vx - W * .05, hz), (vx + W * .05, hz), (W * 1.02, H), (-W * .02, H)], fill='#2A2C35')
-    for sx, ex in ((vx - W * .045, W * .06), (vx + W * .045, W * .94)):
-        d.line([(sx, hz), (ex, H)], fill='#C9CED8', width=4 * Z)
-    for lane in (-1, 1):
-        for k in range(9):
-            t0 = (k / 9) ** 1.6; t1 = ((k + .5) / 9) ** 1.6
-            p = lambda t: (vx + lane * (W * .016 + t * W * .30), hz + t * (H - hz))
-            d.line([p(t0), p(t1)], fill='#8A8F9C', width=max(2, int((2 + 6 * t1) * Z)))
-    cw, ch = W * .42, H * .30; cx, cy = W * .5, H * .79
-    d.ellipse((cx - cw * .58, cy + ch * .32, cx + cw * .58, cy + ch * .58), fill='#0E080C')
-    d.rounded_rectangle((cx - cw * .46, cy + ch * .25, cx - cw * .30, cy + ch * .50), radius=8 * Z, fill='#101114')
-    d.rounded_rectangle((cx + cw * .30, cy + ch * .25, cx + cw * .46, cy + ch * .50), radius=8 * Z, fill='#101114')
-    d.polygon([(cx - cw * .36, cy - ch * .40), (cx + cw * .36, cy - ch * .40), (cx + cw * .27, cy - ch * .95), (cx - cw * .27, cy - ch * .95)], fill='#6E7884')
-    d.polygon([(cx - cw * .30, cy - ch * .46), (cx + cw * .30, cy - ch * .46), (cx + cw * .23, cy - ch * .88), (cx - cw * .23, cy - ch * .88)], fill='#232B36')
-    d.rounded_rectangle((cx - cw * .5, cy - ch * .46, cx + cw * .5, cy + ch * .34), radius=26 * Z, fill='#97A1AD')
-    d.rounded_rectangle((cx - cw * .47, cy - ch * .26, cx + cw * .47, cy - ch * .17), radius=6 * Z, fill='#FF5B6B')
-    d.rounded_rectangle((cx - cw * .16, cy - ch * .06, cx + cw * .16, cy + ch * .08), radius=4 * Z, fill='#5E6874')
-    d.rounded_rectangle((cx - cw * .44, cy + ch * .16, cx + cw * .44, cy + ch * .32), radius=10 * Z, fill='#3B424C')
-    if hazard:
-        for sx in (-1, 1):
-            x = cx + sx * cw * .43
-            d.rounded_rectangle((x - cw * .06, cy - ch * .31, x + cw * .06, cy - ch * .12), radius=6 * Z, fill='#FFB020')
+    """주행 중 긴급 화면의 정지 그림: 디 올 뉴 아반떼 실사 뒷모습 1장(현대자동차 보도자료 2026.8.5 공식 사진).
+
+    손·발 동작 화살표, 비상등 같은 덧그림은 넣지 않습니다(앱이 차를 제어하는 것처럼 보이지 않게).
+    hazard 인자는 이전 호출과의 호환용이며 그림을 바꾸지 않습니다.
+    """
+    global _rear
+    if _rear is None:
+        _rear = Image.open(A / 'avante-rear.jpg').convert('RGB')
+    src = _rear; cx, cy = 1107, 690                      # 원본 1920×1080에서 차 중심
+    cw = 1150 if w / h > 1.5 else 1050; ch = cw * h / w
+    x0 = cx - cw / 2; y0 = max(0, min(src.height - ch, cy - ch / 2))
+    im = src.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((w * 2, h * 2), LZ)
+    im = ImageEnhance.Brightness(im).enhance(0.74)       # 어두운 긴급 화면에서 눈부시지 않게
+    W, H = im.size; m = Image.new('L', im.size, 0)
+    ImageDraw.Draw(m).ellipse((-W * .15, -H * .25, W * 1.15, H * 1.25), fill=255)
+    im = Image.composite(im, Image.new('RGB', im.size, '#1A0F15'), m.filter(ImageFilter.GaussianBlur(W * .08)))
     return im.resize((w, h), LZ)
 
 
