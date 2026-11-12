@@ -659,7 +659,7 @@ PG_SMOKE = [
     ("B9: 주행 중 카드 PEDAL_PROBLEM(안 멈춰요) 허용", mr_sql(["PEDAL_PROBLEM"], True, "00000000-0000-0000-0000-000000000105"), True),
     ("H1: 주행 중 말로 하기 PULLING 허용", mr_sql(["PULLING"], True, "00000000-0000-0000-0000-000000000106", "STT"), True),
     ("옛 증상 SHAKE 거부", mr_sql(["SHAKE"], False, "00000000-0000-0000-0000-000000000103"), False),
-    ("보호자 6번째 자리 거부", f"INSERT INTO vehicle_guardians(driver_profile_id, vehicle_id, guardian_id, slot) VALUES ('{D1}','{V1}','{G1}',6)", False),
+    ("보호자 4번째 자리 거부(최대 3명)", f"INSERT INTO vehicle_guardians(driver_profile_id, vehicle_id, guardian_id, slot) VALUES ('{D1}','{V1}','{G1}',4)", False),
     ("보호자 1번 자리 허용", f"INSERT INTO vehicle_guardians(driver_profile_id, vehicle_id, guardian_id, slot) VALUES ('{D1}','{V1}','{G1}',1)", True),
     ("guide_id 옛 형식 거부", "INSERT INTO guide_bundles(guide_id, version, vehicle_profile_id, guide_kind, availability, source_manual_ref, title, steps_json, content_sha256) VALUES ('brake-example-v1',1,'AVANTE_TEST','EMERGENCY','DRAFT_DEMO','예시','예시','[{}]',repeat('d',64))", False),
     ("G_DECEL_FAILURE DRAFT_DEMO 허용", "INSERT INTO guide_bundles(guide_id, version, vehicle_profile_id, guide_kind, availability, source_manual_ref, title, steps_json, content_sha256) VALUES ('G_DECEL_FAILURE',1,'AVANTE_TEST','EMERGENCY','DRAFT_DEMO','예시','감속 실패 대처','[{}]',repeat('d',64))", True),

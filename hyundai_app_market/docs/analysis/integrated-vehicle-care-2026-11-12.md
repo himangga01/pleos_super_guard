@@ -1085,7 +1085,7 @@ v3 점수식은 검증 뒤 쓸 후보로 남깁니다. 새 에어백 100, 직접
 
 - 앱 이름은 **플레오스 가드**입니다. 로고는 차량을 감싸는 보호 형태와 확인 표시를 합친 심볼입니다.
 - 진입 화면은 실제 홈을 뒤에, 큰 앱 이름을 가운데에, 디 올 뉴 아반떼를 앞에 둡니다. PLEOS·GUARD 글자는 외곽선만 보입니다([진입 시안](../../output/submission/assets/pleos-guard-launch-outline.png)). 콜드 스타트 때 한 번만 짧게 보여 줍니다(실행 10초 안). 웜 스타트, 긴급 복귀, 주행 제한 중에는 연출 없이 바로 화면을 엽니다.
-- 아반떼 그림은 시각 기준입니다. 대상 차량 프로필이 확정되기 전에는 지원 차량이라는 뜻이 아닙니다. 새 시안에는 차량 번호판이 보이지 않게 합니다.
+- 아반떼 그림은 시각 기준입니다. 대상 차량 프로필이 확정되기 전에는 지원 차량이라는 뜻이 아닙니다. 새 시안에는 차량 번호판이 보이지 않게 합니다. 화면 속 차량 사진(홈의 앞모습, 주행 중 긴급 화면 p-emergency·p-stopping·ui-guidance·ui-stopping의 뒷모습)은 현대자동차 보도자료(2026.8.5)의 공식 사진에서 잘라 썼고 보도용 번호판은 지웠습니다. 긴급 화면의 정지 그림은 이 아반떼 실사 뒷모습 사진 한 장이며, 감속 실패 화면에 비상등 덧그림을 두지 않습니다.
 - 글꼴은 Pretendard 1.3.9(SIL OFL)입니다. 본문 400, 제목 600, 긴급 핵심 문구 700입니다. 아이콘은 Lucide 계열을 쓰고 이모지를 쓰지 않습니다.
 
 ### 4.2 세로 한 창 기본, 가로 확장
@@ -1204,8 +1204,8 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 | `maintenance_note` | 정비 노트 · 재발 확인 | F2 | — | — | 정차 중만 |
 | `symptom_select` | 상황 선택 | F2·F3 | p-manual(주행 중), p-manual-parked(정차) | ui-manual(주행 중), ui-manual-parked(정차) | 긴급 줄 3개 + 증상 2개, 모두 5개(3.3.6절) |
 | `confirm_prompt` | 확인 질문 | F3 | p-confirm | ui-confirm | 한 줄과 버튼 2개, 음성 1회 |
-| `emergency_guidance` | 원치 않는 가속 안내 | F3 | p-emergency | ui-guidance | 정지 그림(최대 1장)과 음성 |
-| `decel_failure` | 감속 실패 대처 | F3 | p-stopping | ui-stopping | 정지 그림(최대 1장)과 음성. 출처 줄 숨김 |
+| `emergency_guidance` | 원치 않는 가속 안내 | F3 | p-emergency | ui-guidance | 정지 그림(최대 1장, 시안은 아반떼 실사 뒷모습 사진)과 음성 |
+| `decel_failure` | 감속 실패 대처 | F3 | p-stopping | ui-stopping | 정지 그림(최대 1장, 시안은 아반떼 실사 뒷모습 사진)과 음성. 출처 줄 숨김 |
 | `stopped_review` | 정차 후 확인(정차 후 할 일 카드 포함). 화면 ID 계약 미반영 | F3·F4 | — | — | 버튼 2개만 |
 | `practice` | 비상 절차 미리 익히기 | F3 | p-practice | ui-practice | 열리지 않음 |
 | `countdown` | 발송 확인(10초) | F4 | p-countdown | ui-countdown | 숫자(고리 없음)와 음성, 주행 중 변형(3.3.5절) |

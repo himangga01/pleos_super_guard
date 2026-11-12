@@ -187,7 +187,7 @@ CREATE TABLE guardian_verifications (
   CHECK (state <> 'VERIFIED' OR verified_at IS NOT NULL)
 );
 
--- 운전자 프로필별 보호자. slot 1~5와 UNIQUE로 프로필당 5명 상한을 DB에서 지킵니다.
+-- 운전자 프로필별 보호자. slot 1~3과 UNIQUE로 프로필당 3명 상한을 DB에서 지킵니다.
 -- 위치 범위 기본값은 false이며, 운전자 LOCATION_SHARE_GUARDIAN 동의가 있을 때만 켭니다.
 CREATE TABLE vehicle_guardians (
   driver_profile_id uuid NOT NULL,
@@ -407,7 +407,7 @@ CREATE TABLE incident_actions (
   result jsonb NOT NULL,
   UNIQUE (incident_id, client_action_id),
   CHECK ((action IN ('SEND_CORRECTION','RESPOND_SAFE')) = (correction_reason IS NOT NULL)),
-  CHECK (action <> 'REQUEST_HELP' OR cardinality(recipients_shown_guardian_ids) BETWEEN 1 AND 5)
+  CHECK (action <> 'REQUEST_HELP' OR cardinality(recipients_shown_guardian_ids) BETWEEN 1 AND 3)
 );
 
 -- 위치(9.2). accuracy_m는 없습니다. location_confidence는 SDK 원값 그대로입니다.
@@ -484,7 +484,7 @@ CREATE TABLE notification_policies (
   CHECK (state NOT IN ('COUNTDOWN','RELEASED','DISPATCHING') OR alert_window_ends_at IS NOT NULL),
   CHECK (alert_window_ends_at IS NULL OR (alert_window_ends_at > created_at AND alert_window_ends_at <= created_at + interval '2 hours')),
   CHECK (alert_window_closed_at IS NULL OR alert_window_ends_at IS NOT NULL),
-  CHECK (cardinality(recipient_guardian_ids) <= 5),
+  CHECK (cardinality(recipient_guardian_ids) <= 3),
   CHECK (state NOT IN ('COUNTDOWN','RELEASED','DISPATCHING') OR release_at IS NOT NULL),
   CHECK ((state = 'SETTLED') = (outcome IS NOT NULL)),
   CHECK (state <> 'SETTLED' OR settled_at IS NOT NULL)
@@ -644,8 +644,8 @@ CREATE TABLE arrival_alert_settings (
   updated_while_parked boolean NOT NULL,
   updated_at timestamptz NOT NULL DEFAULT now(),
   FOREIGN KEY (driver_profile_id, driver_mode) REFERENCES driver_profiles(driver_profile_id, driver_mode) ON DELETE CASCADE,
-  CHECK (NOT enabled OR (driver_mode IN ('OWNER','REGISTERED_DRIVER') AND cardinality(guardian_ids) BETWEEN 1 AND 5 AND updated_while_parked)),
-  CHECK (cardinality(guardian_ids) <= 5)
+  CHECK (NOT enabled OR (driver_mode IN ('OWNER','REGISTERED_DRIVER') AND cardinality(guardian_ids) BETWEEN 1 AND 3 AND updated_while_parked)),
+  CHECK (cardinality(guardian_ids) <= 3)
 );
 
 -- 정비소 도착 체크인(H8). 근접 알림 좌표는 기기 안에서만 쓰고 여기에는 두지 않습니다.

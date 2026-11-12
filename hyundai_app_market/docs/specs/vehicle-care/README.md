@@ -114,7 +114,7 @@ python3 -I validate_contracts.py --write validation-2026-11-12-v3.1.json
 python3 -I validate_contracts.py --pg-host <소켓 폴더 또는 호스트> --pg-port <포트> --write validation-2026-11-12-v3.1.json
 ```
 
-검사 내용은 JSON 파싱(현재 판·이력 v3.0·v2.1), OpenAPI `$ref` 752개 해석, operationId·경로 매개변수·보안 이름, 결정 9장 enum, v3 작업 41개 유지와 2차 작업 18개 존재, OpenAPI enum ↔ SQL CHECK 62쌍과 정규식 3쌍, 스키마 예시 71개(정상 22·위반 49), 2차 결정 반영(시험 입력 규칙, 열린 알림 2시간 창, 익명화 외래키, QR 차 화면 확인, 게스트 이번 trip 동의, 확인 질문 반복 억제, 말로 하기 8초, CAR_SPEED dangerous, 재현 조건 누적 값 제외, 공조·창문·와이퍼 신호), ui-tokens 시안 목록 = `output/submission/assets/v4` 실제 폴더, G 화면 문구표·버튼 자리, rules-lab·ui-tokens·인수 사례 사이 이름과 수치(10초, 알림톡 전달 확인 기한 10,000ms, 3,000ms, 1,000ms, 5분 1회, 8초, 3회, 500km, 24시간, 2시간, 72시간, 고정 음원 150~200ms, CPU 5%·정차 25%·RAM 400MB, 보호자 5명), 인수 사례 ID·참조·승계, 대비 재계산, 배치 계산, 로컬 경로 문자열입니다. PRD와는 대조하지 않습니다(계약 파일끼리만). 이번 결과는 `validation-2026-11-12-v3.1.json`에 있습니다(PostgreSQL 16 임시 DB에서 DDL 실행과 제약 시험 65개 포함, 실행 뒤 DB를 지우고 클러스터를 껐습니다).
+검사 내용은 JSON 파싱(현재 판·이력 v3.0·v2.1), OpenAPI `$ref` 752개 해석, operationId·경로 매개변수·보안 이름, 결정 9장 enum, v3 작업 41개 유지와 2차 작업 18개 존재, OpenAPI enum ↔ SQL CHECK 62쌍과 정규식 3쌍, 스키마 예시 71개(정상 22·위반 49), 2차 결정 반영(시험 입력 규칙, 열린 알림 2시간 창, 익명화 외래키, QR 차 화면 확인, 게스트 이번 trip 동의, 확인 질문 반복 억제, 말로 하기 8초, CAR_SPEED dangerous, 재현 조건 누적 값 제외, 공조·창문·와이퍼 신호), ui-tokens 시안 목록 = `output/submission/assets/v4` 실제 폴더, G 화면 문구표·버튼 자리, rules-lab·ui-tokens·인수 사례 사이 이름과 수치(10초, 알림톡 전달 확인 기한 10,000ms, 3,000ms, 1,000ms, 5분 1회, 8초, 3회, 500km, 24시간, 2시간, 72시간, 고정 음원 150~200ms, CPU 5%·정차 25%·RAM 400MB, 보호자 3명), 인수 사례 ID·참조·승계, 대비 재계산, 배치 계산, 로컬 경로 문자열입니다. PRD와는 대조하지 않습니다(계약 파일끼리만). 이번 결과는 `validation-2026-11-12-v3.1.json`에 있습니다(PostgreSQL 16 임시 DB에서 DDL 실행과 제약 시험 65개 포함, 실행 뒤 DB를 지우고 클러스터를 껐습니다).
 
 검사기 밖에서 한 번 더 확인한 것: 로컬 가상환경의 `openapi-spec-validator`로 `api.openapi.json`이 OpenAPI 3.1 문법상 유효함을, `jsonschema`(2020-12)로 스키마 171개의 형식과 위 스키마 예시 71개의 판정이 검사기와 같음을 확인했습니다. 이 두 도구는 검사기에 들어 있지 않습니다.
 
@@ -135,4 +135,4 @@ python3 -I validate_contracts.py --pg-host <소켓 폴더 또는 호스트> --pg
 
 ## 2026-11-12 추가 정정: 보호자 최대 3명
 
-결정 C4에 맞춰 보호자 수를 최대 5명에서 **3명(모두 무료)**으로 바꿨습니다(`rules-lab.json` `guardian_limit`, OpenAPI `guardian_ids`·`recipients_shown_guardian_ids`·보호자 목록 `maxItems`, `database.sql` `vehicle_guardians.slot`). 바꾼 뒤 정적 검사만 다시 실행했고 결과는 `validation-2026-11-12-v3.1-guardian3-static.json`(PASS)입니다. PostgreSQL 제약 시험이 들어 있는 `validation-2026-11-12-v3.1.json`은 이 정정 전 실행 기록입니다.
+결정 C4에 맞춰 보호자 수를 최대 5명에서 **3명(모두 무료)**으로 바꿨습니다(`rules-lab.json` `guardian_limit`, OpenAPI `guardian_ids`·`recipients_shown_guardian_ids`·보호자 목록 `maxItems`, `database.sql` `vehicle_guardians.slot`). 바꾼 뒤 정적 검사만 다시 실행했고 결과는 `validation-2026-11-12-v3.1-guardian3-static.json`(PASS)입니다. PostgreSQL 제약 시험이 들어 있는 `validation-2026-11-12-v3.1.json`은 이 정정 전 실행 기록입니다. 이어서 남은 DB CHECK 4곳(보호자 목록 길이)도 3명으로 고치고, PostgreSQL 시험의 보호자 자리 사례를 4번째 자리 거부로 바꾼 뒤 PostgreSQL 16 임시 DB까지 포함해 다시 검사했습니다. **현재 판의 최종 결과는 `validation-2026-11-12-v3.1-final.json`(560개 PASS)입니다.**

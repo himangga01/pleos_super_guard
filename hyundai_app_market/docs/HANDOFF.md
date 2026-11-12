@@ -124,7 +124,7 @@
 | 판정 설정 | `rules-lab.json` 2.1.0 | 확인 질문 5분 억제, 알림톡 전달 확인 기한 10,000ms, 보호자 최대 3명. 진동·충격 판정은 `FUTURE`·꺼짐 |
 | UI 토큰 | `ui-tokens.json` 5.1.0 | 세로 17·가로 16 실제 파일 목록, 주행 중 홈 버튼 3개, 버튼 자리 규칙 |
 | 인수 시나리오 | `acceptance-scenarios.json` 3.1.0 | 133개 |
-| 검사 | `validate_contracts.py` → `validation-2026-11-12-v3.1.json`(PostgreSQL 포함 560개 통과), `validation-2026-11-12-v3.1-guardian3-static.json`(보호자 3명 변경 뒤 정적 493개 통과) | 정적 검사이며 앱·서버 실행 증거가 아님. 이전 판 계약은 `history/` |
+| 검사 | `validate_contracts.py` → `validation-2026-11-12-v3.1-final.json`(보호자 3명 반영 뒤 PostgreSQL 16 임시 DB 포함 560개 통과). 중간 기록 `-v3.1.json`, `-v3.1-guardian3-static.json` | 정적 검사이며 앱·서버 실행 증거가 아님. 이전 판 계약은 `history/` |
 
 ## 8. 기술적으로 유지해야 할 조건
 
@@ -173,7 +173,7 @@ python3 build_v4.py --out qa/<새 폴더> [--stage official|annex|all] [--instal
 - 금지 문자열(옛 이름, 로컬 경로, 내부 작업 기록 표현) 0건.
 - 공식 양식 {OFF_PAGES}쪽, 별첨 {ANNEX_PAGES}쪽. 모든 쪽을 렌더해(`output/submission/qa/v4-r2/render/`) 확인했습니다. v4.0 렌더는 `qa/v4-r1/render/`입니다.
 - 공식 양식 13·14쪽(03·04)은 2026-11-12 Word 변환본과 텍스트가 같아 그 쪽을 그대로 썼습니다.
-- 개발 계약 v3.1 검사 560개 통과(SQL 제약 시험은 임시 PostgreSQL 16), 보호자 3명 변경 뒤 정적 검사 493개 통과.
+- 개발 계약 v3.1 검사 560개 통과(보호자 3명 반영 뒤, SQL 제약 시험은 임시 PostgreSQL 16): `validation-2026-11-12-v3.1-final.json`.
 - 화면 시안 33장: 글자 22px 이상, 3줄 이하, 대비 4.5:1 이상을 생성기가 검사했습니다.
 
 ### 검증하지 않은 것
