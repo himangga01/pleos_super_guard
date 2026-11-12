@@ -194,7 +194,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 7.52,
-   "text_items": 35,
+   "text_items": 36,
    "icon_items": 16,
    "buttons": [
     {
@@ -398,7 +398,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 6.07,
-   "text_items": 28,
+   "text_items": 29,
    "icon_items": 17,
    "buttons": [
     {
@@ -850,7 +850,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 6.07,
-   "text_items": 28,
+   "text_items": 29,
    "icon_items": 18,
    "buttons": [
     {
@@ -918,7 +918,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 7.52,
-   "text_items": 37,
+   "text_items": 38,
    "icon_items": 17,
    "buttons": [
     {
@@ -1344,7 +1344,7 @@
    "fg": "#FFC857",
    "bg": "#2B2410",
    "ratio": 10.02,
-   "count": 18,
+   "count": 22,
    "screens": [
     "p-check",
     "p-countdown",
@@ -3588,6 +3588,14 @@
    },
    {
     "kind": "text",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
+   },
+   {
+    "kind": "text",
     "label": "안전벨트",
     "size": 26,
     "fg": "#F7FAFF",
@@ -4432,7 +4440,7 @@
    },
    {
     "kind": "icon",
-    "label": "history",
+    "label": "road",
     "size": null,
     "fg": "#5EEAD4",
     "bg": "#19283D",
@@ -5312,7 +5320,7 @@
    },
    {
     "kind": "icon",
-    "label": "users",
+    "label": "seat",
     "size": null,
     "fg": "#9FA4FF",
     "bg": "#121C2B",
@@ -5341,6 +5349,14 @@
     "fg": "#F7FAFF",
     "bg": "#121C2B",
     "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
    },
    {
     "kind": "icon",
@@ -6062,7 +6078,7 @@
    },
    {
     "kind": "icon",
-    "label": "car-front",
+    "label": "crash",
     "size": null,
     "fg": "#FF5B6B",
     "bg": "#2A1219",
@@ -7888,7 +7904,7 @@
    },
    {
     "kind": "icon",
-    "label": "message-circle",
+    "label": "mic",
     "size": null,
     "fg": "#5EEAD4",
     "bg": "#121C2B",
@@ -8226,7 +8242,7 @@
    },
    {
     "kind": "icon",
-    "label": "history",
+    "label": "road",
     "size": null,
     "fg": "#5EEAD4",
     "bg": "#19283D",
@@ -9090,7 +9106,7 @@
    },
    {
     "kind": "icon",
-    "label": "users",
+    "label": "seat",
     "size": null,
     "fg": "#9FA4FF",
     "bg": "#121C2B",
@@ -9119,6 +9135,14 @@
     "fg": "#F7FAFF",
     "bg": "#121C2B",
     "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
    },
    {
     "kind": "icon",
@@ -9348,7 +9372,7 @@
    },
    {
     "kind": "icon",
-    "label": "car-front",
+    "label": "crash",
     "size": null,
     "fg": "#FF5B6B",
     "bg": "#2A1219",
@@ -9763,6 +9787,14 @@
     "fg": "#5EEAD4",
     "bg": "#19283D",
     "ratio": 10.05
+   },
+   {
+    "kind": "text",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
    },
    {
     "kind": "text",

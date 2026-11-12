@@ -249,6 +249,26 @@ def _up(g):
     g.L([(8, 76), (38, 46), (54, 62), (88, 28)]); g.L([(64, 28), (88, 28), (88, 52)])
 
 
+def _road(g):
+    g.L([(22, 92), (40, 8)]); g.L([(78, 92), (60, 8)])
+    for a, b in ((80, 68), (54, 44), (30, 22)):
+        g.L([(50, a), (50, b)], w=6)
+
+
+def _crash(g):
+    pts = []
+    for i in range(16):
+        r = 44 if i % 2 == 0 else 22; a = math.radians(i * 22.5 - 90)
+        pts.append((50 + r * math.cos(a), 50 + r * math.sin(a)))
+    g.L(pts, close=True, w=6.5)
+
+
+def _seat(g):
+    g.L([(28, 10), (42, 10), (48, 58), (34, 58)], close=True, w=6.5)
+    g.L([(34, 58), (80, 58), (80, 72), (36, 72)], close=True, w=6.5)
+    g.L([(60, 72), (60, 90)]); g.L([(44, 90), (76, 90)])
+
+
 def _next(g):
     g.L([(12, 50), (86, 50)]); g.L([(58, 22), (88, 50), (58, 78)])
 
@@ -260,7 +280,7 @@ def _close(g):
 SYM = dict(engine=_engine, oil=_oil, brake=_brake, battery=_battery, tire=_tire, belt=_belt, airbag=_airbag,
            coolant=_coolant, home=_home, users=_users, lifebuoy=_lifebuoy, rec=_rec, qr=_qr, steering=_steering,
            pedal=_pedal, turn=_turn, search=_search, flag=_flag, lock=_lock, door=_door, washer=_washer,
-           trend=_trend, up=_up, park=_park, steady=_steady, blink=_blink, next=_next, close=_close)
+           trend=_trend, up=_up, road=_road, crash=_crash, seat=_seat, park=_park, steady=_steady, blink=_blink, next=_next, close=_close)
 
 _icache = {}
 
@@ -461,7 +481,7 @@ WARN = [('engine', '엔진 점검'), ('oil', '오일 압력'), ('brake', '브레
 COLORS = [('빨강', '#FF4D4D'), ('주황', '#FFA928'), ('초록', '#3DDC84'), ('파랑', '#4C9BFF')]
 CHECKS = [('oil', '엔진오일', '정상', MINT, True), ('brake', '브레이크액', '정상', MINT, True),
           ('washer', '워셔액', '부족 · 보충 필요', AMBER, True), ('trend', '출력 저하', '표시 없음', MINT, True),
-          ('belt', '안전벨트', '운전석 착용', MINT, False), ('door', '도어', '모두 닫힘', MINT, False)]
+          ('belt', '안전벨트', '운전석 착용', MINT, True), ('door', '도어', '모두 닫힘', MINT, False)]
 SYMPTOMS = [('activity', '떨림'), ('audio-lines', '소음'), ('steering', '쏠림'), ('flame', '냄새'), ('engine', '경고등'), ('circle-help', '기타')]
 
 
@@ -771,7 +791,7 @@ def p_record():
 
 
 COND = [('circle-gauge', '속도', '시속 60~80km'), ('steering', '조향', '핸들을 돌리는 중'),
-        ('pedal', '브레이크', '밟지 않음'), ('history', '주행거리', '32,000km 넘은 뒤부터')]
+        ('pedal', '브레이크', '밟지 않음'), ('road', '주행거리', '32,000km 넘은 뒤부터')]
 
 
 def cond_rows(s, x0, y0, x1, row_h=88, gap=12, band=(300, 520)):
@@ -834,7 +854,7 @@ def p_countdown():
 
 
 GUARD = [('보호자 1', 'check-check', '열람함 · 21:01', MINT), ('보호자 2', 'message-circle', '문자로 다시 보냄 · 21:00:43', AMBER)]
-SNAP = [('users', '탑승: 운전석 · 조수석', False), ('belt', '안전벨트: 2명 착용', False),
+SNAP = [('seat', '탑승: 운전석 · 조수석', False), ('belt', '안전벨트: 2명 착용', True),
         ('airbag', '에어백: 운전석 전개', True), ('door', '도어: 운전석 열림 21:00:14', False)]
 
 
@@ -938,7 +958,7 @@ def p_manual():
     s = p_frame('p-manual', None, '상황 선택', ('circle-check', '2개 선택 · 최대 3개'))
     s.txt(24, 296, '급한 상황은 바로 긴급 안내로 갑니다', 22, MUT)
     w = (792 - 24) / 3
-    for j, (ic, t) in enumerate((('octagon-alert', '안 멈춰요'), ('up', '저절로\n빨라져요'), ('car-front', '사고가\n났어요'))):
+    for j, (ic, t) in enumerate((('octagon-alert', '안 멈춰요'), ('up', '저절로\n빨라져요'), ('crash', '사고가\n났어요'))):
         x = 24 + j * (w + 12); s.box((x, 336, x + w, 476), ECARD, 22, RED, 3)
         s.icon(ic, x + 20, 354, 44, RED); s.txt(x + 20, 406, t, 26, FG, True, maxw=w - 30)
     s.txt(24, 500, '차가 이상해요 · 기록만 하고 알림은 묻습니다', 22, MUT)
@@ -1048,7 +1068,7 @@ def l_record():
     s.box((904, 128, 1256, 584)); s.txt(928, 144, '어떤 증상이었나요', 24, b=True); symptom_chips(s, 920, 188, 1240, cols=2, h=62, gap=10)
     s.box((920, 410, 1240, 474), SURF, 16, LINE); s.icon('lock', 934, 428, 28, DIM); s.txt_vc(970, 442, '원본 녹음 · 영상', 22, DIM, True)
     s.chip(1228, 423, '향후 지원', None, c=DIM, fill=SURF, stroke=DIM, h=38, right=True)
-    s.icon('message-circle', 928, 494, 28, MINT); s.txt(968, 488, '말로 메모', 22, MINT, True)
+    s.icon('mic', 928, 494, 28, MINT); s.txt(968, 488, '말로 메모', 22, MINT, True)
     s.txt(928, 526, '60km 넘으면 핸들이 떨려요', 22, FG, maxw=312)
     s.btn(LB_L, '기록 끝내기', 'circle-check', MINT, BG); s.btn(LB_R, '말로 메모', 'mic', SURF2, FG, stroke=LINE)
     s.save(LA)
@@ -1117,7 +1137,7 @@ def l_guardian():
 def l_manual():
     s = l_frame('ui-manual', '상황 선택', None, ('circle-check', '2개 선택 · 최대 3개'))
     w = (1096 - 48) / 3
-    for j, (ic, t) in enumerate((('octagon-alert', '안 멈춰요'), ('up', '저절로 빨라져요'), ('car-front', '사고가 났어요'))):
+    for j, (ic, t) in enumerate((('octagon-alert', '안 멈춰요'), ('up', '저절로 빨라져요'), ('crash', '사고가 났어요'))):
         x = 160 + j * (w + 24); s.box((x, 128, x + w, 248), ECARD, 22, RED, 3)
         s.icon(ic, x + 24, 160, 56, RED); s.txt_vc(x + 100, 188, t, 28, FG, True, maxw=w - 110)
     items = [('activity', '차체 떨림', True), ('audio-lines', '이상한 소음', False), ('steering', '핸들 쏠림', False),
