@@ -296,10 +296,10 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 #### 3.1.1 색 → 모양 → 켜짐·깜박임 찾기 [시연]
 
-- 첫 화면에서 계통 이름을 묻지 않습니다. ① 색(빨강·노랑/주황·초록·파랑·흰색), ② 모양(실제 경고등 모양 격자), ③ 켜짐 또는 깜박임을 차례로 누르면 후보를 최대 3개 보여 줍니다. 색 분류는 공개 열거형 `TelltaleColor`, 상태는 `TelltaleState`(OFF·ON·BLINK)의 이름을 씁니다.
+- 첫 화면에서 계통 이름을 묻지 않습니다. ① 색 `WarningColor`(`RED`·`AMBER`·`GREEN`·`BLUE`·`WHITE`), ② 모양(실제 경고등 모양 격자), ③ 켜짐·깜박임 `BlinkPattern`(`STEADY`·`BLINKING`·`EITHER`)을 차례로 누르면 후보를 최대 3개 보여 줍니다(rules-lab `warning_lookup`).
 - 모양 격자는 실제 계기판 경고등 모양입니다. 권리를 확인한 설명서 그림이나 국제 표준 기호를 본뜬 자체 그림을 씁니다. 일반 메뉴 아이콘과 섞지 않습니다.
 - 후보는 "계기판과 같은가요?"에 답해야 확정됩니다.
-- 주행 중에는 주행 제한(`LIMIT_CONTENT`·`LIMIT_STRING_LENGTH`)으로 상세 설명이 막힙니다. "안전한 곳에 세운 뒤 보세요" 한 줄과 음성만 냅니다. 색 버튼을 누르면 본 시각·위치·차량 스냅샷을 "본 시각 메모"로 남기고, 정차 뒤 그 메모에서 모양 고르기로 이어 갑니다. 색만으로 운행 가능 여부를 판정하지 않습니다.
+- 주행 중에는 주행 제한(`LIMIT_CONTENT`·`LIMIT_STRING_LENGTH`)으로 상세 설명이 막힙니다. 운행 판단 띠와 짧은 음성, "안전한 곳에 세운 뒤 보세요" 한 줄만 냅니다. 색 버튼을 누르면 본 시각·위치·차량 스냅샷을 "본 시각 메모"로 남기고, 정차 뒤 그 메모에서 모양 고르기로 이어 갑니다. 색만으로 운행 가능 여부를 판정하지 않습니다.
 
 #### 3.1.2 문구·말로 찾기 [시연]
 
@@ -309,9 +309,9 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 #### 3.1.3 경고등 설명 [시연]
 
 - 도감 범위는 지원 차량 설명서의 경고등·표시등·계기판 문구 전체입니다. 전수 대조 결과 `expected_count`, `imported_count`, `reviewed_count`, `coverage_checked_at`을 보관합니다. 검토하지 않은 항목을 "수록 완료"로 표시하지 않습니다.
-- 항목 키는 `vehicle_profile_id + warning_code + state_pattern + guide_id + version`입니다. `warning_code`는 `TelltaleType` 상수 이름이고, 대응 상수가 없는 계기판 문구는 자체 코드 `MSG_…`를 씁니다. 설명 내용은 안내 묶음(`guide_bundles`)에 저장하고 `guide_id`는 `G_WARN_<warning_code>` 형식입니다(예: `G_WARN_TPMS`).
+- 경고등 설명은 `guide_kind = WARNING`인 안내 묶음(`guide_bundles`)입니다. 항목마다 `telltale_type`(공개 열거형 `TelltaleType`의 상수 이름), `warning_color`, `warning_shape_key`, `blink_pattern`, `mobility_action`을 둡니다. 대응 상수가 없는 계기판 문구는 `telltale_type`을 비워 둡니다. `guide_id`는 `G_` 규칙을 따릅니다(예: `G_WARN_TPMS`).
 - 화면 순서: 운행 판단 띠 → 공식 의미 → 지금 할 일 → 관련 증상 → 출처(설명서 절·판·확인일) → [정비소 들르기][이 경고 기록하기].
-- 운행 판단 `mobility_action`은 `STOP_SAFE`(안전하게 정차), `SLOW_CHECK`(천천히 이동해 점검), `CAUTION`(주의), `NORMAL_OPERATION`(정상 작동 표시), `UNKNOWN`(근거 없음)입니다. 공식 근거가 없으면 "계속 운행 가능"으로 채우지 않고 `UNKNOWN`입니다. 방향지시등·전조등 같은 정상 작동 표시등은 `NORMAL_OPERATION`으로 두어 고장처럼 보이지 않게 합니다.
+- 운행 판단 `mobility_action`은 `STOP_SAFE`(안전하게 정차), `SLOW_CHECK`(천천히 이동해 점검), `CAUTION`(주의), `UNKNOWN`(근거 없음)입니다. 공식 근거가 없으면 "계속 운행 가능"으로 채우지 않고 `UNKNOWN`입니다. 방향지시등·전조등 같은 정상 작동 표시등이 고장처럼 보이지 않도록 `NORMAL_OPERATION`(정상 작동 표시) 값을 추가할 것을 제안합니다(계약 반영 필요, 5.12절).
 - 제품에는 `availability = VERIFIED`인 설명만 보입니다. 시연 모드에서는 `DRAFT_DEMO`를 "검토 전 예시" 표시와 함께 보여 줍니다. 이 차의 자료가 없으면 `UNAVAILABLE`입니다.
 - 공식 설명서가 정한 점등 의미와 조건만 씁니다. 경고등 하나로 고장 부품이나 원인을 확정하지 않습니다. 경고등이 켜졌다고 사고나 에어백 전개로 바꾸지 않습니다.
 - 여러 안내가 겹치면 운행 중단이 필요한 검토된 조건을 먼저 보여 줍니다. 서로 반대되는 조작을 차례로 읽지 않습니다.
@@ -319,14 +319,14 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 아래는 자료 구조의 예시입니다. 쏘나타 하이브리드 설명서([DN8HEV/2026 경고등 예시](https://ownersmanual.hyundai.com/full_webhelp/DN8HEV/2026/ko_KR/warning_indicator_lights.html))로 형식을 잡았고, 실제 배포 자료는 대상 차량 설명서로 다시 검토합니다.
 
-| warning_code | 정리할 공식 의미 | 운행 판단 | 주의 |
+| telltale_type | 정리할 공식 의미 | 운행 판단 | 주의 |
 | --- | --- | --- | --- |
 | `ENGINE` | 엔진·배출가스 제어 계통 경고 | 켜짐·깜박임별 설명서 안내 | 깜박임과 출력 저하를 나눕니다. |
 | `TPMS` | 타이어 공기압 낮음 또는 감시 장치 이상 | 설명서 값 | 앱은 현재 공기압을 읽지 못합니다. "타이어 상태"라고 쓰지 않습니다. |
 | `PARKING_BRAKE` | 주차 브레이크·브레이크액 계통 표시 | 정차 중 체결과 주행 중 이상을 나눕니다. | 브레이크액 공개 신호(3.1.4)와 연결합니다. |
 | `ABS` | ABS 단독, 또는 브레이크 표시와 함께 켜짐 | 단독·동반 각각 | |
 | `AIRBAG` | 에어백 계통 경고 | 설명서 값 | 에어백 전개 신호와 다른 항목입니다. |
-| `TURN_SIGNAL_LEFT` | 왼쪽 방향지시등 작동 | `NORMAL_OPERATION` | 정상 작동 표시등입니다. |
+| `TURN_SIGNAL_LEFT` | 왼쪽 방향지시등 작동 | `NORMAL_OPERATION`(제안) | 정상 작동 표시등입니다. |
 
 #### 3.1.4 차가 알려 준 점검 항목(N1) [시연: 도어는 Virtual Console, 나머지는 시험 입력]
 
@@ -339,11 +339,11 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 | 출력 저하 경고 | `POWER_DOWN` | |
 | 엔진오일 수준 낮음 | `ENGINE_OIL_PRESSURE`(관련 후보) | 오일 압력과 양은 다릅니다. |
 | 브레이크액 수준 낮음 | `PARKING_BRAKE`(관련 후보) | 설명서 대조 필요 |
-| 워셔액 부족 | 계기판 문구 `MSG_WASHER_FLUID_LOW` | 대응 상수 없음 |
+| 워셔액 부족 | 계기판 문구 항목 | 대응 상수가 없어 `telltale_type`을 비움 |
 | 연료·배터리 낮음 | `LOW_FUEL`, `LOW_EV_BATTERY` | |
 | 에어백 사용 가능 상태 이상 | `AIRBAG` | 설명서 대조 전에는 후보만 |
 
-- 값이 바뀌면 ① 경고등 찾기를 열 때 해당 후보를 맨 앞에 두고, ② 점검 기록(`L1_RECORD`)을 남깁니다. ③ 주행 중에는 미리 검토한 짧은 음성 한 번만 냅니다. 항목별로 주행 중 음성을 낼지는 설명서 검토 뒤 정합니다. ④ 정차 뒤 설명과 정비소 들르기로 잇습니다.
+- 값이 바뀌면 ① 경고등 찾기를 열 때 해당 후보를 맨 앞에 두고, ② 점검 기록(`incident_trigger = VEHICLE_MAINTENANCE_SIGNAL`, `L1_RECORD`)을 남깁니다. ③ 주행 중에는 미리 검토한 짧은 음성 한 번만 냅니다. 항목별로 주행 중 음성을 낼지는 설명서 검토 뒤 정합니다. ④ 정차 뒤 설명과 정비소 들르기로 잇습니다.
 - 문구는 "경고등이 켜졌습니다"가 아니라 "차가 ○○ 신호를 보냈습니다. 계기판에 같은 표시가 있나요?"로 씁니다.
 - 이 차가 지원하지 않는 신호는 "이 차에서 확인 불가"로 표시합니다.
 
@@ -379,7 +379,7 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 #### 3.2.2 차량 상태 스냅샷 시간표 [시연]
 
-- 앱은 출발 때부터 공개 신호의 변화를 최근 30초만 메모리에 둡니다. 기록을 누르면 앞 30초와 뒤 60초를 기록에 고정합니다(rules-lab `pre_event_seconds`, `post_event_seconds`).
+- 앱은 출발 때부터 공개 신호의 변화를 최근 30초만 메모리에 둡니다. 기록을 누르면 앞 30초와 뒤 60초를 기록에 고정합니다(rules-lab `recording.signal_ring_buffer_before_s`, `signal_ring_buffer_after_s`).
 - 순간 값은 `vehicle_snapshot` 형식(5.3절)으로 남깁니다. 값마다 `quality`와 `received_at`이 있습니다.
 - 정차 뒤 화면은 소리 파형 대신 "신호 띠"(차속, 브레이크, 조향 방향, 방향지시등)를 보여 줍니다. 화면에는 고정한 구간 가운데 기록 시점 앞뒤 일부(시안: 앞 20초·뒤 10초)를 먼저 보여 줍니다. 조향은 부호로 "왼쪽·오른쪽"만 씁니다.
 - 값마다 출처 배지(차량 SDK / 시험 입력 / 사용자 선택)를 붙입니다.
@@ -391,37 +391,37 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 | symptom | 화면 이름 | 주행 중 카드 | 최소 등급 | 대표 안내 묶음 |
 | --- | --- | --- | --- | --- |
-| `VIBRATION` | 떨림 | 예 | `L2_CHECK` | `G_STOP_SAFE` |
-| `PULLING` | 쏠림 | 아니요 | `L2_CHECK` | `G_STOP_SAFE` |
+| `VIBRATION` | 떨림 | 예 | `L2_CHECK` | `G_VIBRATION_STOP` |
+| `PULLING` | 쏠림 | 아니요 | `L2_CHECK` | `G_PULLING_STOP` |
 | `NOISE` | 소음 | 아니요 | `L1_RECORD` | `G_NOISE_CHECK` |
 | `BURNING_SMELL` | 냄새 | 예 | `L2_CHECK` | `G_SMELL_STOP` |
 | `PEDAL_PROBLEM` | 페달 이상 | 아니요 | `L2_CHECK` | `G_PEDAL_CHECK` |
 | `TIRE_DAMAGE` | 타이어 | 예 | `L2_CHECK` | `G_TIRE_STOP` |
 | `COLLISION` | 사고 | 예 | `L3_URGENT` | `G_COLLISION` |
 | `POWER_LOSS` | 출력 저하 | 아니요 | `L2_CHECK` | `G_POWER_LOSS` |
-| `UNKNOWN` | 잘 모르겠음 | 예 | `L1_RECORD` | `G_STOP_SAFE` |
+| `UNKNOWN` | 잘 모르겠음 | 예 | `L1_RECORD` | `G_UNKNOWN_CHECK` |
 
-- `PEDAL_PROBLEM`은 "평소와 다르다"는 기록용 증상입니다. 차가 멈추지 않거나 저절로 빨라지는 긴급 상황은 일반 증상이 아니라 상황 선택 맨 위 긴급 줄("안 멈춰요", "저절로 빨라져요")로 갑니다. 그래서 v3의 `STOPPING_FAILED`·`UNWANTED_ACCEL`은 증상 값이 아니라 안내 상태(3.3.3절)입니다.
+- `PEDAL_PROBLEM`은 "평소와 다르다"는 기록용 증상입니다. 차가 멈추지 않거나 저절로 빨라지는 긴급 상황은 상황 선택 맨 위 긴급 줄("안 멈춰요", "저절로 빨라져요")로 갑니다. 페달 이상을 고르거나 "페달", "브레이크"라고 말하면 두 긴급 선택지를 다시 보여 줍니다(rules-lab `pedal_problem_emergency_choices`: 안 멈춤 → `DECEL_FAILURE_GUIDE`, 빨라짐 → `UNWANTED_ACCEL_GUIDE`). 그래서 v3의 `STOPPING_FAILED`·`UNWANTED_ACCEL`은 증상 값이 아니라 안내 상태(3.3.3절)입니다.
 - `POWER_LOSS`(힘이 떨어지거나 시동이 꺼짐)는 한 곳에만 있습니다.
 - 정차 중에는 최대 3개를 고를 수 있습니다. 최종 등급은 고른 증상의 최소 등급과 차량 신호 등급(새 에어백 전개 = `L3_URGENT`) 가운데 높은 값입니다.
 - 대표 안내는 하나만 읽습니다. 순서는 `COLLISION` → `BURNING_SMELL` → `TIRE_DAMAGE`·`PULLING`·`VIBRATION` → `POWER_LOSS` → `PEDAL_PROBLEM` → `NOISE` → `UNKNOWN`입니다. 나머지는 함께 고른 증상으로 남깁니다.
 
-부위(`body_area`)를 고르면 아래 증상과 경고등 후보를 먼저 보여 줍니다. 좌우는 운전석 기준입니다. 운전석 위치가 달라도 그림을 좌우 반전하지 않습니다. 아래 표는 초안이며 사용자 검토가 필요합니다. 차량·서버·화면은 rules-lab에 둔 같은 판을 씁니다.
+부위(`body_area`)를 고르면 아래 증상과 경고등 후보를 먼저 보여 줍니다(rules-lab `body_area_symptom_map`, `body_area_warning_links`). 좌우는 운전석 기준입니다. 운전석 위치가 달라도 그림을 좌우 반전하지 않습니다. 이 표는 초안이며 사용자 검토가 필요합니다. 차량·서버·화면은 같은 판을 씁니다.
 
 | body_area | 보여 줄 증상 | 함께 보여 줄 경고등 후보 |
 | --- | --- | --- |
-| `FRONT` | `NOISE`, `BURNING_SMELL`, `VIBRATION`, `POWER_LOSS`, `COLLISION` | `ENGINE`, `ENGINE_TEMPERATURE` |
-| `FRONT_LEFT_TIRE`, `FRONT_RIGHT_TIRE` | `VIBRATION`, `PULLING`, `NOISE`, `TIRE_DAMAGE` | `TPMS` |
-| `REAR_LEFT_TIRE`, `REAR_RIGHT_TIRE` | `VIBRATION`, `NOISE`, `TIRE_DAMAGE` | `TPMS` |
-| `CABIN` | `PEDAL_PROBLEM`, `VIBRATION`, `BURNING_SMELL` | 경고등 찾기 전체 |
-| `REAR` | `NOISE`, `COLLISION` | `TRUNK_OPEN` |
-| `UNDERBODY` | `NOISE`, `VIBRATION`, `BURNING_SMELL` | — |
+| `FRONT` | `NOISE`, `BURNING_SMELL`, `COLLISION`, `POWER_LOSS`, `UNKNOWN` | `ENGINE` |
+| `FRONT_LEFT_TIRE`, `FRONT_RIGHT_TIRE` | `VIBRATION`, `PULLING`, `TIRE_DAMAGE`, `NOISE`, `UNKNOWN` | `TPMS` |
+| `REAR_LEFT_TIRE`, `REAR_RIGHT_TIRE` | `VIBRATION`, `TIRE_DAMAGE`, `NOISE`, `UNKNOWN` | `TPMS` |
+| `CABIN` | `PEDAL_PROBLEM`, `BURNING_SMELL`, `VIBRATION`, `NOISE`, `POWER_LOSS`, `UNKNOWN` | — (경고등 찾기 전체로 이동) |
+| `REAR` | `NOISE`, `COLLISION`, `UNKNOWN` | — |
+| `UNDERBODY` | `NOISE`, `VIBRATION`, `BURNING_SMELL`, `UNKNOWN` | — |
 | `UNKNOWN` | 9개 모두 | — |
 
 #### 3.2.4 증상 재현 조건 카드(N2) [시연]
 
-- 조건: 같은 증상이 3번 이상 기록되면 만듭니다(자체, 9.5 고정값).
-- 계산은 단순 규칙입니다. LLM을 쓰지 않습니다. 기록마다 조건을 범주로 바꿉니다. 속도 구간(10km/h 단위), 브레이크 밟음(예·아니요·모름), 조향 방향(왼쪽·직진·오른쪽, 기준 ±5°, 자체), 방향지시등, 주행거리 범위입니다. 같은 범주가 3번 이상이고 해당 기록의 3분의 2 이상이면 공통 조건으로 보여 줍니다. 속도는 관측한 최소~최대 구간으로 씁니다(예: "시속 60~80km").
+- 조건: 같은 증상이 3번 이상 기록되면 만듭니다(rules-lab `symptom_patterns.minimum_occurrences`).
+- 계산은 단순 규칙입니다. LLM을 쓰지 않습니다. 기록마다 조건을 범주로 바꿉니다. 속도 구간(20km/h 단위, rules-lab `speed_bucket_kmh`), 브레이크 밟음(예·아니요·모름), 조향 방향(왼쪽·직진·오른쪽, 기준 ±5°, 자체), 방향지시등, 주행거리 범위입니다. 같은 범주가 3번 이상이고 해당 기록의 3분의 2 이상이면 공통 조건으로 보여 줍니다(자체). 속도는 관측한 최소~최대 구간으로 씁니다(예: "시속 60~80km").
 - 출력 예: "3번 중 3번 브레이크를 밟는 중", "모두 왼쪽으로 도는 중". 원인은 쓰지 않습니다.
 - 품질이 `OK`가 아닌 값은 세지 않습니다. 시연 모드에서는 `TEST_INPUT` 값도 세고 카드에 [시험 입력]을 붙입니다.
 - 차량이 같은 규칙으로 계산하므로 오프라인에서도 보입니다. 서버 사본은 `GET /v1/symptom-patterns`입니다.
@@ -457,8 +457,8 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 #### 3.3.2 확인 질문 조건(실험값)
 
-- 급가속 후보(이동 속력 1.0m/s 이상, 가속도 2.5m/s² 이상이 700ms 이상)만으로는 화면·음성을 내지 않고 기록만 합니다. 고속도로 합류 같은 정상 가속도 이 값을 넘을 수 있습니다.
-- 확인 질문은 다음이 모두 맞을 때만 띄웁니다. 주행 중, 브레이크 참이 500ms 이상 유지(get 조회 성공으로 유지 확인), 그 뒤 1,000ms 동안 속력 감소 0.5m/s 미만, 차속 품질 `OK`이고 500ms 안의 값입니다.
+- 급가속 후보(이동 속력 1.0m/s 이상, 가속도 2.5m/s² 이상이 700ms 이상)만으로는 화면·음성을 내지 않고 기록만 합니다(rules-lab `candidate_output_without_prompt = NONE`). 고속도로 합류 같은 정상 가속도 이 값을 넘을 수 있습니다.
+- 확인 질문은 다음이 모두 맞을 때만 띄웁니다. 주행 중(이동 속력 1.0m/s 이상), 브레이크 밟음이 참인 상태에서 1,000ms 동안 속력 감소 0.5m/s 미만, 차속 품질 `OK`(시연 모드는 `TEST_INPUT`)입니다. 브레이크 값은 이 계산 동안 1초 간격 get 조회로 다시 확인합니다(rules-lab `guidance.confirm_prompt_conditions`, `reconfirm_get_interval_ms_during_guidance`).
 - 정차 출발 직후와 저속 구간에서는 질문을 띄우지 않고 기록만 합니다. PMSA가 작동하는 구간이기 때문입니다. 구간 값은 대상 차량의 PMSA 조건을 확인한 뒤 rules-lab에서 정합니다.
 - 차속이 없으면(에뮬레이터 기본 상태) 자동 질문 조건이 꺼지고 직접 알림만 동작합니다. 화면을 상황 선택으로 자동 전환하지 않습니다. 상단 상태 칩만 "속도 확인 불가"로 바꿉니다.
 - 질문은 화면 한 줄, 음성 1회, 왼쪽 [네], 오른쪽 [아니요]입니다. 8초 동안 응답이 없으면 질문을 닫고 기록만 남깁니다(자체).
@@ -494,7 +494,7 @@ stateDiagram-v2
 - "정차 확인"은 주행 제한 해제, 시험 입력 차속 0이 3초 유지, 또는 운전자의 "차가 멈췄어요"입니다.
 - 새 에어백 전개 신호는 어느 상태에서든 `HELP_CONFIRM`(발송 확인 10초)으로 갑니다.
 - 일반 증상(떨림 등)을 고르면 대표 안내 묶음의 한 단계를 `MANUAL_SELECTION` 안에서 음성으로 들려주고, 정차하면 `STOPPED_REVIEW`로 갑니다.
-- 신호가 결측돼도 안내 상태를 바꾸지 않습니다. 자동 질문 조건만 꺼집니다. 회복은 필요한 신호가 5초 동안 `OK`일 때입니다(rules-lab `automatic_recovery_hold_ms`).
+- 신호가 결측돼도 안내 상태를 바꾸지 않습니다. 자동 질문 조건만 꺼지고, 신호가 다시 `OK`가 되면 다시 켜집니다.
 
 | guidance_state | 화면 | 왼쪽 버튼(더 많은 도움) | 오른쪽 버튼(끝내기·보내지 않기) | 음성 |
 | --- | --- | --- | --- | --- |
@@ -511,7 +511,8 @@ stateDiagram-v2
 
 #### 3.3.4 안내 묶음 `guide_bundles`
 
-- 테이블: `guide_bundles(guide_id, version, vehicle_profile_id, availability, source_manual_ref, steps_json, tts_lines_json)`. `steps_json`의 단계마다 `step_id`, 행동 문장, 정지 그림, 정차용 설명 애니메이션(선택), 주행 중 표시 여부가 있습니다.
+- 테이블: `guide_bundles(guide_id, version, vehicle_profile_id, availability, source_manual_ref, steps_json, tts_lines_json)`에 계약이 `guide_kind`(`WARNING`·`EMERGENCY`·`SYMPTOM`), `title`, 경고등 항목 필드, `content_sha256`, 검토자·검토일을 더했습니다. 단계마다 `step_id`, 행동 문장(3줄 이하), 정지 그림, 정차용 설명 애니메이션(선택), 주행 중 움직임 여부가 있습니다.
+- 상태별 묶음: `UNWANTED_ACCEL_GUIDE` → `G_UNWANTED_ACCEL`, `DECEL_FAILURE_GUIDE` → `G_DECEL_FAILURE`, `STOPPED_REVIEW` → `G_STOP_SAFE`, `HELP_CONFIRM` → `G_HELP_REQUEST`(rules-lab `guide_id_by_state`).
 - 화면과 음성은 `guide_id + version + step_id`를 함께 씁니다.
 - 제품에서는 `VERIFIED`만 재생합니다. `DRAFT_DEMO`는 시연 모드에서만 "검토 전 예시"와 함께 씁니다. 묶음이 없거나 `UNAVAILABLE`이면 검토된 일반 문장 `G_STOP_SAFE`("안전한 곳에 세우고, 필요하면 119에 신고하세요")만 씁니다.
 - 출처 표시: 정차 중 화면 아래에 "출처: ○○ 취급설명서 ○절(판·확인일)"을 둡니다. 주행 중에는 숨깁니다.
@@ -524,14 +525,22 @@ stateDiagram-v2
   "guide_id": "G_DECEL_FAILURE",
   "version": 1,
   "vehicle_profile_id": "avante-target-pending",
+  "guide_kind": "EMERGENCY",
   "availability": "DRAFT_DEMO",
   "source_manual_ref": "CE1/2024 취급설명서 비상 제동 절(예시, 대상 차량 확인 전)",
-  "steps_json": [
-    {"step_id": "epb_pull", "visual_asset_id": "epb-switch-still-v1", "parked_animation_asset_id": "epb-practice-v1", "show_while_driving": true}
+  "title": "감속 실패 대처",
+  "telltale_type": null,
+  "steps": [
+    {"step_id": "epb_pull", "ordinal": 1, "text_lines": ["전자식 파킹 브레이크로 비상 제동"],
+     "still_image_asset_id": "epb-switch-still-v1", "parked_animation_asset_id": "epb-practice-v1",
+     "motion_while_driving": false, "tts_line_ids": ["epb_pull_1"]}
   ],
-  "tts_lines_json": [
-    {"step_id": "epb_pull", "text": "주행 중 브레이크 페달에 문제가 생길 경우 전자식 파킹 브레이크 스위치를 당겨 비상 제동을 할 수 있습니다."}
-  ]
+  "tts_lines": [
+    {"line_id": "epb_pull_1", "preroll_silence_ms": 180,
+     "audio_usage_candidates": ["USAGE_ASSISTANCE_NAVIGATION_GUIDANCE", "USAGE_ALARM"],
+     "text": "주행 중 브레이크 페달에 문제가 생길 경우 전자식 파킹 브레이크 스위치를 당겨 비상 제동을 할 수 있습니다."}
+  ],
+  "content_sha256": "(콘텐츠 해시)"
 }
 ```
 
@@ -652,7 +661,7 @@ stateDiagram-v2
 ```
 
 - `SETTLED`는 `outcome`을 가집니다. `ALL_CONFIRMED`(모두 전달 확인), `PARTIAL`(일부), `NONE_CONFIRMED`(아무도 확인 못 함)입니다.
-- `EXPIRED`는 rules-lab `notification_expiry_ms`(현재 24시간)까지 `SETTLED`에 이르지 못한 경우입니다.
+- `EXPIRED`는 rules-lab `notification.notification_expiry_ms`(현재 24시간)까지 `SETTLED`에 이르지 못한 경우입니다.
 - `delivery_state`는 보호자×`transport_group`(`KAKAO`·`TEXT`)마다 있습니다. `PENDING` → `ACCEPTED` 또는 `SUBMISSION_UNKNOWN` → `DELIVERED`·`DELIVERY_UNCONFIRMED`·`FAILED`입니다. 선점 전에 취소되면 `CANCELLED`입니다. 열람은 상태가 아니라 `opened_at`입니다.
 
 | 버튼(화면) | `action` | 정책 변화 | `driver_response` |
@@ -671,7 +680,7 @@ stateDiagram-v2
 #### 3.4.6 알림톡 우선·문자 전환(서버 담당)
 
 - 전환 주체는 자체 서버 하나입니다. 발송사의 자동 대체는 끕니다.
-- **알림톡 전달 확인 기한**은 최초 발송사 제출을 시작한 시각부터 rules-lab `delivery_unknown_fallback_after_ms`(현재 10,000ms)입니다. 이 기한까지 전달을 확인하지 못하면 `DELIVERY_UNCONFIRMED`로 두고 문자 작업을 만듭니다. "발송 전 확인 10초"와는 다른 값이며 따로 바뀔 수 있습니다. 결과는 제출 뒤 2·5·10초에 조회하고 HTTP 요청 제한은 3초입니다(rules-lab).
+- **알림톡 전달 확인 기한**은 최초 발송사 제출을 시작한 시각부터 rules-lab `notification.kakao_delivery_confirmation_deadline_ms`(현재 10,000ms, 옛 이름 `delivery_unknown_fallback_after_ms`)입니다. 이 기한까지 전달을 확인하지 못하면 `DELIVERY_UNCONFIRMED`로 두고 문자 작업을 만듭니다. "발송 전 확인 10초"와는 다른 값이며 따로 바뀔 수 있습니다. 결과는 제출 뒤 2·5·10초에 조회하고 HTTP 요청 제한은 3초입니다(rules-lab).
 - 응답이 사라지면 `SUBMISSION_UNKNOWN`으로 두고 같은 기한을 유지합니다. 요청 ID가 없으면 그룹 키로 결과를 찾습니다. 재시도가 기한을 뒤로 미루지 않습니다.
 - 실패가 확인되면 1초 안에 문자 작업을 만듭니다(목표). 같은 채널 재시도는 접수되지 않았음이 확실한 일시 오류(예: 429·503)에만 합니다. 처음을 포함해 최대 3번, 1초·3초 뒤입니다(rules-lab `max_channel_attempts`, `backoff_ms`). 접수 여부를 모르면 재발송하지 않고 결과부터 조회합니다.
 - 문자는 EUC-KR 90바이트 이하면 SMS, 넘으면 LMS(제목 40바이트, 본문 2,000바이트)입니다. SMS와 LMS는 `TEXT` 한 그룹입니다.
@@ -742,10 +751,10 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 #### 3.4.8 보호자 경험(N11) [설계]
 
 - **초대·동의:** 누가 등록했는지, 어떤 때 알림이 오는지, 연습 알림 미리 보기, 동의·거절을 보여 줍니다. 번호 인증은 `POST /v1/guardians/{id}/verify`입니다.
-- **연습 알림:** 등록 직후 한 번 보냅니다(`POST /v1/guardians/{id}/practice-alert`). 발신 이름과 모양을 익히고 실제 수신을 확인합니다.
-- **알림 페이지:** 맨 위 "먼저 할 일", 상황(추정), 지도와 위치 측정 시각·출처, 운전자 응답, 사고 순간 차량 스냅샷, 빠른 답 [확인했어요][전화할게요], 끝난 알림과 정정 표시입니다. 빠른 답은 `POST /v1/guardian-replies`입니다.
-- **빠른 답 전달:** 차 화면의 보호자 알림 상태에 한 줄로 보이고 짧은 음성 1회("보호자가 확인했어요")를 냅니다. 주행 중에는 화면을 바꾸지 않습니다.
-- **인증:** 링크 토큰은 URL 경로나 쿼리가 아니라 조각(`#`)에 둡니다. Pleos 보안 가이드는 토큰을 URL 경로·쿼리에 넣지 말라고 합니다. 등록 때 번호 인증을 마친 브라우저에서는 바로 열리고, 다른 기기에서는 번호 인증을 요구합니다. 시도 횟수를 제한합니다.
+- **연습 알림:** 등록 직후 한 번 보냅니다(`POST /v1/guardians/{id}/practice-alert`). 발신 이름과 모양을 익히고 실제 수신을 확인합니다. 보호자당 하루 1번까지이며 위치를 넣지 않습니다.
+- **알림 페이지:** 맨 위 "먼저 할 일", 상황(추정), 지도와 위치 측정 시각·출처, 운전자 응답, 사고 순간 차량 스냅샷, 빠른 답 [확인했어요][전화할게요](`SEEN`·`WILL_CALL`), 끝난 알림과 정정 표시입니다. 빠른 답은 `POST /v1/guardian-replies`입니다.
+- **빠른 답 전달:** 정차 중에는 차 화면의 보호자 알림 상태에 한 줄로 보이고 짧은 음성 1회("보호자가 확인했어요")를 냅니다. 주행 중에는 화면 한 줄만 바꾸고 소리를 내지 않습니다.
+- **인증:** 링크 토큰은 URL 경로나 쿼리가 아니라 조각(`#`)에 둡니다. Pleos 보안 가이드는 토큰을 URL 경로·쿼리에 넣지 말라고 합니다. 등록 때 번호 인증을 마친 브라우저에서는 바로 열리고, 다른 기기에서는 번호 인증을 요구합니다. 인증 번호는 6자리·5분 유효이며 5번 틀리면 15분 잠급니다(rules-lab `guardian_otp`).
 - 보호자는 다른 보호자의 전달 상태를 볼 수 없습니다. 차량 마이크·카메라를 켤 수 없습니다.
 - 에뮬레이터 시연은 모의 서버와 PC 브라우저로 합니다.
 
@@ -764,17 +773,17 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 
 #### 3.4.11 위치 제공 동의·기록·알림(N10) [설계]
 
-- **운전자 동의:** 위치 수집과 보호자 위치 제공을 항목별로 받고 철회할 수 있습니다(`POST·GET /v1/consents`). 보호자의 수신 동의와 따로 둡니다.
+- **운전자 동의:** 항목별로 받고 철회할 수 있습니다(`POST·GET /v1/consents`). 항목은 `TERMS`, `PRIVACY_POLICY`, `LOCATION_COLLECT`, `LOCATION_SHARE_GUARDIAN`, `SPEECH_TEXT_STORE`, `PHONE_PAIRING`, `MAINTENANCE_SHARE`입니다. 보호자의 수신 동의와 따로 둡니다.
 - **보낼 때마다 알림:** 운전자 화면의 시간표와 휴대폰에 "21:00 보호자 2명(엄마, 형)에게 위치를 보냈습니다"를 남기고 짧은 음성 1회를 냅니다.
 - **제공 기록:** 받는 사람, 시각, 목적, 채널을 남깁니다(`GET /v1/location-disclosures`). 좌표를 지운 뒤에도 기록은 보관합니다. 보관 기간은 법 확인 뒤 정합니다.
-- **공유 중지:** 사건 뒤 위치 갱신은 운전자의 "안전함·공유 중지" 또는 정한 시간(초안 1시간, 자체) 가운데 먼저 오는 때 멈춥니다.
+- **공유 중지:** 사건 뒤 위치 갱신은 운전자의 "안전함·공유 중지" 또는 정한 시간(1시간, rules-lab `post_incident_location_stream_max_ms`) 가운데 먼저 오는 때 멈춥니다.
 - **동의 철회:** 열린 공유 링크를 바로 무효로 하고, 대기 중 발송을 취소합니다. 그 뒤 사건은 `BLOCKED_NO_CONSENT`입니다.
 - 위치 필드는 5.3절을 따릅니다. 미터 정확도는 없습니다.
 - 법적 요건(위치기반서비스 사업 신고, 이용약관·처리방침, 제3자 제공 때 매회 통보)은 출시 전 요건입니다(6.7절).
 
 #### 3.4.12 공유 차량과 이번 운전자 [설계]
 
-- 정차 중 운전석 점유나 문 열림·닫힘 뒤 "이번 운전자: (최근 운전자) / 다른 가족 / 게스트" 칩을 한 번 보여 줍니다.
+- 정차 중 운전석 점유나 문 열림·닫힘 뒤 "이번 운전자: (최근 운전자) / 다른 가족 / 게스트" 칩을 한 번 보여 줍니다. 운전자는 `driver_profiles`에 둡니다.
 - 기록과 보호자 목록은 운전자별입니다. `driver_mode`는 `OWNER`, `REGISTERED_DRIVER`, `GUEST`, `UNKNOWN`입니다.
 - 게스트와 미상은 자동 위치 발송을 끕니다(`BLOCKED_NO_CONSENT`). "지금 도움 요청" 때 그 자리에서 동의를 받습니다.
 - 기록 공개 범위의 기본값은 "운전한 사람만"입니다.
