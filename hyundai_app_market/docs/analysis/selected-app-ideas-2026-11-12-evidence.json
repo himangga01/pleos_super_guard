@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "analysis_date_kst": "2026-11-12",
+  "scope": "Four selected app concepts; proposal only",
+  "selected": [
+    {
+      "id": "P08-1",
+      "name": "세이브포인트"
+    },
+    {
+      "id": "P08-2",
+      "name": "경고등 도감"
+    },
+    {
+      "id": "P02-2",
+      "name": "귀가 역전골"
+    },
+    {
+      "id": "P05-3",
+      "name": "반찬 입국심사"
+    }
+  ],
+  "baseline": [
+    {
+      "path": "docs/analysis/app-ideas-brainstorm-2026-11-11.md",
+      "bytes": 35307,
+      "sha256": "6c83f045d4fd43efbf76017538b792e297be203405d44073d1b462031c414834"
+    },
+    {
+      "path": "docs/analysis/brainstorm/2026-11-11/p08.md",
+      "bytes": 11355,
+      "sha256": "1e724ab180bd35c86743e9a6a65dd96b6496720b1b925de9daf8d79d2d507468"
+    },
+    {
+      "path": "docs/analysis/brainstorm/2026-11-11/p02.md",
+      "bytes": 14596,
+      "sha256": "58beaeb340e1a9b7930068460af049c06ebba16c24f56b88001f30d9c0fd878d"
+    },
+    {
+      "path": "docs/analysis/pleos-sdk-review.md",
+      "bytes": 16231,
+      "sha256": "c13b98630b9d813c258c241926b7a4c73829d530b9637480bf25a9e3d22800ed"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 3353,
+      "sha256": "3a3bb951d6cba254956b0a88564d2d94111b00523f864a71edc5fce908684d88"
+    },
+    {
+      "git_repository": false,
+      "app_source_files": 0,
+      "existing_selected_report": false
+    }
+  ],
+  "sources": [
+    {
+      "title": "Google 주차 저장 안내",
+      "url": "https://support.google.com/maps/answer/7257797?co=GENIE.Platform%3DAndroid&hl=en",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "현대차 한국어 경고등 설명서",
+      "url": "https://ownersmanual.hyundai.com/full_webhelp/DN8HEV/2026/ko_KR/warning_indicator_lights.html",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "현대차 미국 사양 경고등 설명서",
+      "url": "https://ownersmanual.hyundai.com/full_webhelp/LX3/2026/en_US/warning_indicator_lights.html",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "Pleos 위치 정보",
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/location-data-access",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "Pleos 위치 권한",
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/declaring-permissions",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "Pleos 경유지",
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/waypoint-settings",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "Pleos 경로 요청",
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/route-with-waypoints",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "Pleos 내비 알림",
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/event-listeners",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "Pleos SDK 변경 기록",
+      "url": "https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "서울교통공사 막차 시간표",
+      "url": "https://data.seoul.go.kr/dataList/OA-110/A/1/datasetView.do",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "FDA 식품 보관 안내",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/refrigerator-thermometers-cold-facts-about-food-safety",
+      "method": "web",
+      "result": "opened",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "공모전 개발 범위",
+      "url": "https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008",
+      "method": "agbrowse HTTP verify",
+      "result": "ok=true; verdict=weak_ok; explicit five SDK permission present",
+      "checked_date_kst": "2026-11-12"
+    },
+    {
+      "title": "USDA 보조 후보",
+      "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/keep-food-safe-food-safety-basics",
+      "method": "web",
+      "result": "403; excluded",
+      "checked_date_kst": "2026-11-12"
+    }
+  ],
+  "planned_screen_ids": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "W1",
+    "W2",
+    "W3",
+    "W4",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "F1",
+    "F2",
+    "F3",
+    "F4"
+  ],
+  "food_states": [
+    "차에 실음",
+    "차에서 내림",
+    "냉장고에 넣음"
+  ],
+  "proposal_examples": {
+    "return_target": "22:50",
+    "earlier_estimate": "22:42",
+    "earlier_by_minutes": 8,
+    "later_estimate": "22:56",
+    "later_by_minutes": 6,
+    "source": "illustrative design values; not runtime outputs"
+  },
+  "limits": [
+    "No product code authored",
+    "No Android build or emulator run",
+    "No vehicle, SDK, phone transfer, server, navigation, microphone or food temperature test",
+    "No user interview or market validation",
+    "USDA candidate excluded after 403"
+  ],
+  "document_verification": {
+    "checked_at_kst": "2026-11-12T07:15:55.022549+09:00",
+    "result": "PASS",
+    "selected_concepts": 4,
+    "proposed_screens": 16,
+    "successful_primary_sources": 12,
+    "excluded_primary_candidates": 1,
+    "broken_local_links": 0,
+    "illustrative_time_arithmetic": "PASS",
+    "report_sha256": "419edbf856ad793d965f19947b1647e27e2c7e56f90b291f6b021fffed1831d1",
+    "colloquial_phrase_spot_check": 0,
+    "application_tests": "not run; no application authored"
+  },
+  "verification_commands": [
+    "agbrowse search --verify 'https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008' --json --browser never",
+    "python - (standard-input document, link, source-coverage and illustrative-time checks)"
+  ]
+}

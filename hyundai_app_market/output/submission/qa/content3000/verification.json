@@ -1,0 +1,292 @@
+{
+  "date": "2026-11-12",
+  "request": "Visible fields 2-6 each 3,000 characters, including spaces; one-line summary unchanged",
+  "counting": "Microsoft Word wdStatisticCharactersWithSpaces, including manual line breaks; field labels and outside content are not counted",
+  "baseline_sha256": "125fd9e786db361d4103bc7a9793775eb8e744653bf457aa39a44e9947b0ad53",
+  "items": [
+    {
+      "item": 2,
+      "title": "기획 배경",
+      "word_characters_including_spaces_and_manual_breaks": 3000,
+      "text_characters_excluding_manual_breaks": 2978,
+      "manual_line_breaks": 22,
+      "paragraphs": 12,
+      "source": "docs/submission/official-content-3000/02-background.txt",
+      "sha256": "b87729cff8c53cdee3cfeda2aec3936be0122ca683884a96be91572ad2e07c94"
+    },
+    {
+      "item": 3,
+      "title": "앱 주요 기능 및 차량 특화 요소",
+      "word_characters_including_spaces_and_manual_breaks": 3000,
+      "text_characters_excluding_manual_breaks": 2978,
+      "manual_line_breaks": 22,
+      "paragraphs": 12,
+      "source": "docs/submission/official-content-3000/03-features.txt",
+      "sha256": "a12e21aba4735a55ee70cf3dcd0785f4cb30617aa954392dc06ab728a93b5824"
+    },
+    {
+      "item": 4,
+      "title": "주요 사용 시나리오",
+      "word_characters_including_spaces_and_manual_breaks": 3000,
+      "text_characters_excluding_manual_breaks": 2978,
+      "manual_line_breaks": 22,
+      "paragraphs": 12,
+      "source": "docs/submission/official-content-3000/04-scenarios.txt",
+      "sha256": "560bb72d5def8f61a8752306f8f1e5bdaad31f8f74dfa7b1c6ca40bf50362aa3"
+    },
+    {
+      "item": 5,
+      "title": "개발 계획",
+      "word_characters_including_spaces_and_manual_breaks": 3000,
+      "text_characters_excluding_manual_breaks": 2978,
+      "manual_line_breaks": 22,
+      "paragraphs": 12,
+      "source": "docs/submission/official-content-3000/05-development.txt",
+      "sha256": "3f4df1eed297c9c1240590701ac36cc2094f50ebbcec0d319a216344944e99ff"
+    },
+    {
+      "item": 6,
+      "title": "기대효과 및 발전 가능성",
+      "word_characters_including_spaces_and_manual_breaks": 3000,
+      "text_characters_excluding_manual_breaks": 2978,
+      "manual_line_breaks": 22,
+      "paragraphs": 12,
+      "source": "docs/submission/official-content-3000/06-impact.txt",
+      "sha256": "0eb0ecf0fddef2ce79bb3d7a2fc68c075e0d8faf67229983290d94c703f4034e"
+    }
+  ],
+  "total_authored_characters": 15000,
+  "one_line_summary_unchanged": true,
+  "reference_and_shortform_fields_unchanged": true,
+  "identity_consent_signature_images_styles_numbering_unchanged": true,
+  "appendix_unchanged": true,
+  "changed_package_parts": [
+    "word/document.xml"
+  ],
+  "docx_sha256": "b76cc254190c781272d733b7cf8f6e271544999e90a56e397b0d721b7f497a54",
+  "visual_QA": "passed",
+  "original_consent_signature_xml_unchanged": true,
+  "pdf_text_coverage": [
+    {
+      "source": "02-background.txt",
+      "paragraphs_found_in_PDF": 12,
+      "paragraphs_expected": 12
+    },
+    {
+      "source": "03-features.txt",
+      "paragraphs_found_in_PDF": 12,
+      "paragraphs_expected": 12
+    },
+    {
+      "source": "04-scenarios.txt",
+      "paragraphs_found_in_PDF": 12,
+      "paragraphs_expected": 12
+    },
+    {
+      "source": "05-development.txt",
+      "paragraphs_found_in_PDF": 12,
+      "paragraphs_expected": 12
+    },
+    {
+      "source": "06-impact.txt",
+      "paragraphs_found_in_PDF": 12,
+      "paragraphs_expected": 12
+    }
+  ],
+  "consent_original_design": [
+    {
+      "old_page": 7,
+      "current_page": 13,
+      "original_XML_fonts_sizes_text_unchanged": true,
+      "max_character_position_delta_points": {
+        "x0": 1.9999999992137418e-05,
+        "x1": 1.9999999992137418e-05,
+        "top": 0.0,
+        "bottom": 0.0,
+        "size": 0.0
+      },
+      "pixel_body_difference_bbox": null,
+      "full_difference_bbox": [
+        1015,
+        1509,
+        1034,
+        1524
+      ],
+      "note": "New page number; signature underline has at most 0.01512pt PDF rounding shift, not a style change."
+    },
+    {
+      "old_page": 8,
+      "current_page": 14,
+      "original_XML_fonts_sizes_text_unchanged": true,
+      "max_character_position_delta_points": {
+        "x0": 0.015120000000024447,
+        "x1": 0.015120000000024447,
+        "top": 0.0,
+        "bottom": 0.0,
+        "size": 0.0
+      },
+      "pixel_body_difference_bbox": [
+        254,
+        952,
+        563,
+        954
+      ],
+      "full_difference_bbox": [
+        254,
+        952,
+        1034,
+        1524
+      ],
+      "note": "New page number; signature underline has at most 0.01512pt PDF rounding shift, not a style change."
+    }
+  ],
+  "word_counts_executed": [
+    {
+      "tag": "app_summary",
+      "word_characters_with_spaces": 88
+    },
+    {
+      "tag": "planning_background",
+      "word_characters_with_spaces": 3000
+    },
+    {
+      "tag": "vehicle_scenario",
+      "word_characters_with_spaces": 3000
+    },
+    {
+      "tag": "key_features",
+      "word_characters_with_spaces": 3000
+    },
+    {
+      "tag": "pleos_plan",
+      "word_characters_with_spaces": 3000
+    },
+    {
+      "tag": "reference_files",
+      "word_characters_with_spaces": 3000
+    },
+    {
+      "tag": "reference_link",
+      "word_characters_with_spaces": 255
+    },
+    {
+      "tag": "shortform_link",
+      "word_characters_with_spaces": 3
+    }
+  ],
+  "official_page_count": 14,
+  "appendix_page_count": 40,
+  "visual_review": {
+    "reviewer": "root",
+    "render_directory": "output/submission/qa/content3000/render2",
+    "all_pages_reviewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "unresolved_findings": []
+  },
+  "rendered_pages": [
+    {
+      "page": 1,
+      "sha256": "44c75a82398816477ea47f6f09e173b74fe521511c1b0242396be421932fc204"
+    },
+    {
+      "page": 2,
+      "sha256": "56ea80a9968e9ee1936cad2a68e429d6dda5e250f0734f4c2a22aedebaf7a067"
+    },
+    {
+      "page": 3,
+      "sha256": "1613d4887797974955e8e30a3cf56f22a36ff5361c05d62c8f72fbc8c03f00b2"
+    },
+    {
+      "page": 4,
+      "sha256": "e098b1542b076d1eb16ded7a911e7d73b72a35849b1f5dbd793657273c75a05c"
+    },
+    {
+      "page": 5,
+      "sha256": "76ea1142a94a973e138c3df9b536cecba6decffc4722d9d696a12412d6671bf3"
+    },
+    {
+      "page": 6,
+      "sha256": "c910b194736dea8f32f5c4e38848e093cd51eae8dca998ec363ac3414184ad93"
+    },
+    {
+      "page": 7,
+      "sha256": "5156a13c8bad5570dce3dc8f331c7fb475dd87e234e594618866ac04b772e7bb"
+    },
+    {
+      "page": 8,
+      "sha256": "3c6dfe2535a9705526d1cb498809f159e6eaff93fdd3b1e4116f194aec72cfe9"
+    },
+    {
+      "page": 9,
+      "sha256": "acffed5ab74470f83b9a8a31176143472843951f3d649d60797682d8589a0bfa"
+    },
+    {
+      "page": 10,
+      "sha256": "f1571bb1f99b9c3e5be6a4978d466064e0c8c3bb28745d1cd6bd87c0e7e8ec26"
+    },
+    {
+      "page": 11,
+      "sha256": "5b307459c7351de8785f23162c73b6992d2eb7058eabe959199501a987781123"
+    },
+    {
+      "page": 12,
+      "sha256": "0719c9819bd437e13ea3138b4fdea06d53bda10202679a0f84fdbd41cc38ebb6"
+    },
+    {
+      "page": 13,
+      "sha256": "587a2c895bf42a844ba40a478c81a3ae9c696874d5e9bdc68f779bc40c571905"
+    },
+    {
+      "page": 14,
+      "sha256": "e62f3fe226dd351dfdb898301ca69f86c1ae45faf503ee52e6695e337a5aa749"
+    }
+  ],
+  "limits": [
+    "Document content, counts and layout only; no new app, sensor or messaging tests",
+    "Word count includes spaces and 22 manual line breaks per field; visible text excluding line breaks is 2978 characters per field",
+    "Existing Word-to-PDF fallback used because bundled LibreOffice was unavailable; Poppler Symbol/ArialUnicode warnings were visually checked",
+    "Earlier design-only verification retained under qa/content3000/baseline/previous-verification.json"
+  ],
+  "final_files": [
+    {
+      "path": "output/submission/01_공식양식_플레오스가드.docx",
+      "bytes": 3678630,
+      "sha256": "b76cc254190c781272d733b7cf8f6e271544999e90a56e397b0d721b7f497a54"
+    },
+    {
+      "path": "output/submission/01_공식양식_플레오스가드.pdf",
+      "bytes": 1149731,
+      "sha256": "4ba97ca260f419fadfc47062d12505c2a138c4a17ecba499b493b60922056423"
+    },
+    {
+      "path": "output/submission/02_상세기획_기술명세.docx",
+      "bytes": 5981826,
+      "sha256": "84d5bb3c42d3cc73311f75d5c984606101530185bf61bc5b6707fc82cb7035f2"
+    },
+    {
+      "path": "output/submission/02_상세기획_기술명세.pdf",
+      "bytes": 2637347,
+      "sha256": "490730b44f1cd17d2de4d4ef13f43f2fcb1e2689098efdcd44d217d62027c666"
+    }
+  ],
+  "bundle": {
+    "path": "output/submission/플레오스가드_제출문서_Word_PDF.zip",
+    "sha256": "1ddb6ac486b028ea39f6409488c0a9a907af6ac9b20d5d2a459a018acdba032a",
+    "members": 4
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,1561 @@
+{
+  "schema_version": 1,
+  "analysis_date_kst": "2026-11-11",
+  "exported_at_kst": "2026-11-11T21:12:32.827847+09:00",
+  "scope": {
+    "guide_and_reference_start_pages": 49,
+    "api_detail_and_package_pages": 18,
+    "common_and_contest_pages": 9,
+    "primary_poms": 5,
+    "primary_aars": 5,
+    "pleos_transitive_poms": 7
+  },
+  "verification_level": "public documentation and static package metadata; no Android build or runtime calls",
+  "documents": [
+    {
+      "url": "https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008",
+      "final_url": "https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 23773,
+      "sha256": "62bac155538f599a2bf36c4ebddf8310beef0117583d92d2e80ed78a39e8a51f",
+      "title": "공모전 개발 범위 및 기술 문의 안내 | 현대자동차그룹 차량용 앱 개발 공모전",
+      "checked_at_kst": "2026-11-11T21:12:32.091354+09:00",
+      "body_chars": 1203
+    },
+    {
+      "url": "https://document.pleos.ai/docs/connect/guide/getting-started/application-development/configure-pleos-connect-emulator",
+      "final_url": "https://document.pleos.ai/docs/connect/guide/getting-started/application-development/configure-pleos-connect-emulator",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 42319,
+      "sha256": "085b4d53cec2d2bc50214369d45ab3c7975df3eba5b2dc6a1ea0a9793956034b",
+      "title": "Pleos Connect Emulator 설정 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:12:31.966896+09:00",
+      "body_chars": 1280
+    },
+    {
+      "url": "https://document.pleos.ai/docs/connect/guide/getting-started/application-development/setup-connect-sdk-emulator",
+      "final_url": "https://document.pleos.ai/docs/connect/guide/getting-started/application-development/setup-connect-sdk-emulator",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48539,
+      "sha256": "a5cfd7d96ac68b3cea886a3463fe0c4d76016b9e559c171d73c13fcde5b5367e",
+      "title": "Pleos Connect Emulator 설치 및 실행 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:12:31.975403+09:00",
+      "body_chars": 2897
+    },
+    {
+      "url": "https://document.pleos.ai/docs/connect/guide/getting-started/application-development/use-vehicle-emulator",
+      "final_url": "https://document.pleos.ai/docs/connect/guide/getting-started/application-development/use-vehicle-emulator",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 45378,
+      "sha256": "636f6bb78223fe7b41cd5008296238bc49113d6189be19918bd41dee902792de",
+      "title": "Pleos Connect Virtual Console 셋업 가이드 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:12:32.043967+09:00",
+      "body_chars": 2333
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 44058,
+      "sha256": "0308eb74a4889b9964d1f15425ec92a2900e98b8e072ca4bd49b9f86ed86a836",
+      "title": "Overview | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:12:31.894159+09:00",
+      "body_chars": 1460
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/declaring-permissions",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/declaring-permissions",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48586,
+      "sha256": "e7720a0d71c09e445b043f8d87063c110a8d4afb3fbe0ce1ac1e28792261b3aa",
+      "title": "Declaring permission | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.513524+09:00",
+      "body_chars": 1193
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 42141,
+      "sha256": "c777bafb381ebb3ffa09d83758ec0a748f22ec7385515af66432c7c88efa12cd",
+      "title": "FusedLocation | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:00.177135+09:00",
+      "body_chars": 91
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/error-handling",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/error-handling",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 43267,
+      "sha256": "a6cab2b8634dc1b17052bc1d95b92d85910dd4ca631934dc0c972d51199118bd",
+      "title": "오류 처리 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.466380+09:00",
+      "body_chars": 455
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/fused-location/ai.pleos.playground.location.fused/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/fused-location/ai.pleos.playground.location.fused/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 43451,
+      "sha256": "4ce2274e1937db944bbef2b7804f81ffab1eb4bc4da77c34c6de01131aa6c3d1",
+      "title": "ai.pleos.playground.location.fused | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:01.650703+09:00",
+      "body_chars": 147
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/fused-location/ai.pleos.playground.location.fused/fused-location/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/fused-location/ai.pleos.playground.location.fused/fused-location/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 47460,
+      "sha256": "2a5887c3802f9095dea804fa43d4a132aacee8eae6b3c89ed438979935ab0120",
+      "title": "FusedLocation | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:23.110872+09:00",
+      "body_chars": 140
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/fused-location/ai.pleos.playground.location.fused/fused-location/is-supported",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/fused-location/ai.pleos.playground.location.fused/fused-location/is-supported",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 47828,
+      "sha256": "1b2b050a4ebbc308102d168f4ad50dcdcc87f59be0c0c52f7ce698c136041c79",
+      "title": "isSupported | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:02:09.226715+09:00",
+      "body_chars": 150
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/initialization-and-release",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/initialization-and-release",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 54592,
+      "sha256": "101c6ae06f7c7b1a5f4f61644dd6011efcfb781ca62a3562573e6806939f5ed8",
+      "title": "Initialization / Release | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.466380+09:00",
+      "body_chars": 1782
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/intro",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/intro",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 49415,
+      "sha256": "e52f3cf622e4ebe1e027a97d2c3fa5ca67c5517d6aeebb117d3a7188448198e0",
+      "title": "Introduction | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.480889+09:00",
+      "body_chars": 2016
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/location-data-access",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/location-data-access",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 49845,
+      "sha256": "07b2055410827a10c85e7642f72bdf1ee8c5017f46ca08c399322ed8d41f0899",
+      "title": "위치 데이터 접근 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.569972+09:00",
+      "body_chars": 901
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/project-setup",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/project-setup",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 52803,
+      "sha256": "d1aca5ad8141ec73e7edcff3bc72ef4aaf2eb013002e20a12bbace9ae8dfaf5b",
+      "title": "Importing FusedLocation SDK | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:57:32.297799+09:00",
+      "body_chars": 1035
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/declaring-permissions",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/declaring-permissions",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 50506,
+      "sha256": "ac85eea1cc8f54d6ab041d78b45d53c11ea8e1f2e33cc9ea4b1477e1a4e7133b",
+      "title": "Declaring permissions | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:23.594512+09:00",
+      "body_chars": 1075
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/destinations",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/destinations",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 64824,
+      "sha256": "d4c002c8900dfa8481ca00eadf6d9cc3904c1686d70d0ac3eef716cf1b9718b2",
+      "title": "Destinations | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:59:57.274243+09:00",
+      "body_chars": 1848
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 42645,
+      "sha256": "b18a649b5e461de0f9883bb36560bd0a9495ee60da3a07d030d890a2c5c39d63",
+      "title": "NaviHelper | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:00.145975+09:00",
+      "body_chars": 85
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/error-handling",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/error-handling",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 53351,
+      "sha256": "b07ca5aa67246e8b775aa3abc1f22b7db8e175beebe42ea7d4ecb6485f848c30",
+      "title": "Error handling | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.661065+09:00",
+      "body_chars": 1388
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/event-listeners",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/event-listeners",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 63018,
+      "sha256": "5b0744c77d82f31acaf0bb94fa6584c0d3687f606cf1a142a393f0b24567bd77",
+      "title": "Event listeners | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:23.669575+09:00",
+      "body_chars": 2037
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/importing-sdk",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/importing-sdk",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 53477,
+      "sha256": "879debd5092f6bd315e00ecda8fc629c6bd68c2ddddbf250c71699710bf059b5",
+      "title": "Importing NaviHelper SDK | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:57:32.286776+09:00",
+      "body_chars": 966
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/initialization-and-release",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/initialization-and-release",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 65368,
+      "sha256": "a6e3e02cb7bba2b0cc1c6eb31e9c33ce0386a894f67339bdf3e074299ba7d316",
+      "title": "Initialization | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:23.648848+09:00",
+      "body_chars": 1614
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/intro",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/intro",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 47174,
+      "sha256": "e08bcbf42ad0d77f9d7e67e7e09b7383b63c4c1fe96ff292bac587b5af69c776",
+      "title": "Introduction | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.653556+09:00",
+      "body_chars": 1387
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/navi-helper/ai.pleos.playground.navi.data/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/navi-helper/ai.pleos.playground.navi.data/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 53832,
+      "sha256": "a12ab7775d2069aba5ce50f4221d999935f8de1047651ce686c953cada282c26",
+      "title": "ai.pleos.playground.navi.data | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:01.543401+09:00",
+      "body_chars": 134
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/navi-helper/ai.pleos.playground.navi.data/route-info/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/navi-helper/ai.pleos.playground.navi.data/route-info/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 54141,
+      "sha256": "599df56e7e2858acfc229d814d1326c0243496643a07cbc0380cebba50d8c7cc",
+      "title": "RouteInfo | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:23.071287+09:00",
+      "body_chars": 124
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/navi-helper/ai.pleos.playground.navi.helper/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/navi-helper/ai.pleos.playground.navi.helper/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 43934,
+      "sha256": "6ead6280aef848d338cf4d175b919507cec3c8539e32743b9b35d5cbbcfd0d4e",
+      "title": "ai.pleos.playground.navi.helper | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:01.515473+09:00",
+      "body_chars": 138
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/navi-helper/ai.pleos.playground.navi.helper/navi-helper/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/navi-helper/ai.pleos.playground.navi.helper/navi-helper/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 51708,
+      "sha256": "519e9937db3937c187ce4940bd8aafdcbfd32876d4048ac71511ec065df0d0f5",
+      "title": "NaviHelper | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:22.998731+09:00",
+      "body_chars": 128
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/route-with-waypoints",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/route-with-waypoints",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 64273,
+      "sha256": "d69969ab052c27bb4a188cd7fd2ee56e6baaace336456b9b434589f38a229374",
+      "title": "Route requests with waypoints | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.732060+09:00",
+      "body_chars": 2051
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/routes",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/routes",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 79388,
+      "sha256": "e5dd23f03125c5b8bfb2ffebce37cdfbb24826582be10d1bfe92095930b2781a",
+      "title": "Routes | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.792840+09:00",
+      "body_chars": 2599
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/waypoint-settings",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/waypoint-settings",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 73840,
+      "sha256": "ce0b04d756300ccb0c35ed5960c2d476835de48c633ea3ab5b8f7a45101ad53f",
+      "title": "Waypoints | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.752422+09:00",
+      "body_chars": 2300
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/app-registration",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/app-registration",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 56327,
+      "sha256": "92a01f8de9920bd3b793d0300bbc4e36c7080d00bd521d8d28cf15bb30ce4c6f",
+      "title": "App registration | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.273665+09:00",
+      "body_chars": 1150
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/declaring-permissions",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/declaring-permissions",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48621,
+      "sha256": "b8396e4c4bf6d398f3f03a20fcb80f8bd2e140f66fec551bf669375aadb7912d",
+      "title": "Declaring permissions | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.178938+09:00",
+      "body_chars": 721
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 42632,
+      "sha256": "fc148b9b7e7457e210cf5abf422e9b1c69f57e51d04a8175b3ff6daa555cd560",
+      "title": "SpeechToText | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:00.110098+09:00",
+      "body_chars": 89
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/error-code",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/error-code",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 51873,
+      "sha256": "504e149c63a409de1469342d90126a33fe7c5ae32935f66d3f14e9d4b7000d1b",
+      "title": "Error code | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.190445+09:00",
+      "body_chars": 1670
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/importing-sdk",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/importing-sdk",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 55245,
+      "sha256": "4f39e3e1804fc459e04364545a90c21c0daed956b380f611f5d1b6a9a034151d",
+      "title": "Importing SpeechToText SDK | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:57:32.188085+09:00",
+      "body_chars": 1071
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/initialization-and-release",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/initialization-and-release",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 67274,
+      "sha256": "83792080d2fab4a70dc16f57089e705f2e360619f4b0b198ef963bec33c9a53f",
+      "title": "Initialization | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.167906+09:00",
+      "body_chars": 1549
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/intro",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/intro",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 57879,
+      "sha256": "e788e696b838fbf5b17761a1d7f80879353a9190e062608e46662f2ff7467df8",
+      "title": "Introduction | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.251890+09:00",
+      "body_chars": 2141
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/result-listeners",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/result-listeners",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 66718,
+      "sha256": "bb1f476ec97e831af09b3cfbe004de49374c1e840d608070e504994d7f2e3f16",
+      "title": "Event listeners | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.258918+09:00",
+      "body_chars": 2014
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/sending-audio-data",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/sending-audio-data",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 75106,
+      "sha256": "4483958bdfcbf691c0b51418ba63d1c0eb2fc97f78bab63e8833c2ecaf4c2fff",
+      "title": "Sending audio data | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.304597+09:00",
+      "body_chars": 1831
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/set-locale",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/set-locale",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 51274,
+      "sha256": "fffc6818253a7466e0746e2e16ce1cacb3151425b87de363b5eb8bdebfb2e890",
+      "title": "Set locale | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.331309+09:00",
+      "body_chars": 798
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/speech-to-text/ai.pleos.playground.stt/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/speech-to-text/ai.pleos.playground.stt/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 43815,
+      "sha256": "1ea4e02504f50f9a3b6726b2af4fcd4cc870be6015b38d81bdf440da3a0d6386",
+      "title": "ai.pleos.playground.stt | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:01.660404+09:00",
+      "body_chars": 124
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/speech-to-text/ai.pleos.playground.stt/speech-to-text/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/speech-to-text/ai.pleos.playground.stt/speech-to-text/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48171,
+      "sha256": "fd0c2f6624d219f90bf81433344335a48350fd87ffbc389e4afb6b4344ff3e4e",
+      "title": "SpeechToText | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:23.144322+09:00",
+      "body_chars": 126
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/start-and-stop",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/start-and-stop",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 52644,
+      "sha256": "838c6a66c31d99b56498f8a33d5c8f4412a2ebc5697012ef254a9b2fec8618bc",
+      "title": "Start and stop recognition | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.359963+09:00",
+      "body_chars": 690
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/app-registration",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/app-registration",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 56043,
+      "sha256": "b9936642c1b8101eeb525085cdafdfe4e2557ea13cc1d58d8bc741828c3ffd2e",
+      "title": "App registration | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.900830+09:00",
+      "body_chars": 1150
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/declaring-permissions",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/declaring-permissions",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48302,
+      "sha256": "663eb837d737f210e906c035ed6743b69b305dd6e84bd18744cae9f009ecf368",
+      "title": "Declaring permissions | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.939959+09:00",
+      "body_chars": 709
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 42033,
+      "sha256": "e8256fb3f02fce19c35ff7bab08dcd940ae04d2280e50d63ed32ac0497cf159b",
+      "title": "TextToSpeech | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:00.110098+09:00",
+      "body_chars": 89
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/error-code",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/error-code",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 51556,
+      "sha256": "ff79ffcaef9c0e41248fa82257cc7a4ca7aa4545d6e043c5c1ef18d58f8b08b0",
+      "title": "Error code | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.875960+09:00",
+      "body_chars": 1660
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/event-listeners",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/event-listeners",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 61437,
+      "sha256": "8cbecaf613c870089a461777fdd92c64eedebbf558d8afa2f38f1b10b4407963",
+      "title": "Event listeners | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.885162+09:00",
+      "body_chars": 1393
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/importing-sdk",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/importing-sdk",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 54954,
+      "sha256": "3ff58c3bb1fb2f368b081731b66561f12f5828e2ce227a499ebfd10d8a9b1e2b",
+      "title": "Importing TextToSpeech SDK | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:57:32.238896+09:00",
+      "body_chars": 1071
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/initialization-and-release",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/initialization-and-release",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 67883,
+      "sha256": "2a06e44a1ca27ad5f7fabf1e3ffa0cd20e400e34e37b51500d1c19a11e03dd86",
+      "title": "Initialization | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.966251+09:00",
+      "body_chars": 1633
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/intro",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/intro",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 56860,
+      "sha256": "1b9604a9004f4f4c0cc892a47769a4879079d5b23fc4c433d1c730286c768078",
+      "title": "Introduction | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.966251+09:00",
+      "body_chars": 2095
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/set-locale",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/set-locale",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 50964,
+      "sha256": "c8c2fa09447901d99ceb76e81881b040a6a875784833046f7c394c309ab4e0aa",
+      "title": "Set locale | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.978837+09:00",
+      "body_chars": 797
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/start-and-stop",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/start-and-stop",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 54047,
+      "sha256": "8698130d5ee1cd19a3a4c3c19b2389b8a540ec0f5416f9df0ae080cad526cc51",
+      "title": "Start and stop synthesis | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:32.081044+09:00",
+      "body_chars": 808
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/text-to-speech/ai.pleos.playground.tts/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/text-to-speech/ai.pleos.playground.tts/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 43216,
+      "sha256": "6427ecd8bf908e607ad479aecf202185a8aa78f676f1c7def7dd5aedc97fcbec",
+      "title": "ai.pleos.playground.tts | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:01.610290+09:00",
+      "body_chars": 124
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/text-to-speech/ai.pleos.playground.tts/text-to-speech/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/text-to-speech/ai.pleos.playground.tts/text-to-speech/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 47940,
+      "sha256": "8fea9ee682120af7aa03e9010423fa7b847cf07fd499dc16fef1ef27736e228c",
+      "title": "TextToSpeech | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:23.001730+09:00",
+      "body_chars": 126
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/text-to-speech/ai.pleos.playground.tts/text-to-speech/initialize",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/text-to-speech/ai.pleos.playground.tts/text-to-speech/initialize",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48269,
+      "sha256": "56d1c5271bab6fdfcac310a5f35f628ced4cea8f4f17cbe41b50fff741d61ede",
+      "title": "initialize | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:02:09.249789+09:00",
+      "body_chars": 135
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/callback",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/callback",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 60476,
+      "sha256": "a515ec3838a64b853fad49071650b9f95ad69714578d44e13b10720d6ec7626e",
+      "title": "Callback | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.549285+09:00",
+      "body_chars": 1261
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/check-capability",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/check-capability",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 65449,
+      "sha256": "2da1849a1644eaaeb8acc2a51076b560ad4bbcaf61eb1b2a79e17f4a174260cb",
+      "title": "Capability | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:23.612560+09:00",
+      "body_chars": 1858
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48116,
+      "sha256": "763a1ecb49c24b139c2cb17583489fa6734d3d15202af2ed4c3c449cad9936aa",
+      "title": "Vehicle | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:00.258157+09:00",
+      "body_chars": 79
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/get-property",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/get-property",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 62618,
+      "sha256": "501ea22bddb52c1f15e7349654c6afb83ca1e2856d5e70da1a70c90f35a47601",
+      "title": "Get | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.537110+09:00",
+      "body_chars": 1188
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/intro",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/intro",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48173,
+      "sha256": "893b48669925c41dc0d1e3df437cdf07fe15e112cce881261cb01ece7f86b9f5",
+      "title": "Introduction | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.469553+09:00",
+      "body_chars": 1981
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/obtain-domain-object",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/obtain-domain-object",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 55745,
+      "sha256": "f0a9871a56a89191390631edfcb9a283f69a9ead0fc364389b966a8e2653318b",
+      "title": "Obtaining a domain object | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:00.228129+09:00",
+      "body_chars": 1335
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/project-setup",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/project-setup",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 54073,
+      "sha256": "15d3042db21bffe4a546694668bfd608eae05dd398a23caa7e7437215cf35f7e",
+      "title": "Importing Vehicle SDK | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:57:32.159681+09:00",
+      "body_chars": 890
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/set-property",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/set-property",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 53402,
+      "sha256": "8397d12fd9b99ce57f7ad79bdc8a6e7a53407e38d75af2e2a349e6467cedcf3c",
+      "title": "Set | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:00:31.553286+09:00",
+      "body_chars": 631
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle-error-code",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle-error-code",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 63793,
+      "sha256": "7dc874043e8c10dcec1a8c736c90bd785bb8252f1f50e6ce19ea64f0e3ebd151",
+      "title": "Error code | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:23.605561+09:00",
+      "body_chars": 2056
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle-permission",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle-permission",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 51663,
+      "sha256": "ad50fd1380cf76f2219f892d1b91245e0df08f8cca8cfe5ee81f56a915ae29d2",
+      "title": "Declaring permission | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:58:00.198151+09:00",
+      "body_chars": 1732
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/door/check-door-position-capabilities",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/door/check-door-position-capabilities",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 65717,
+      "sha256": "14cdab059457f23a06dc091791feb85a181599827e109c34b66ba5686b78cb49",
+      "title": "checkDoorPositionCapabilities | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:02:09.249789+09:00",
+      "body_chars": 168
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/door/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/door/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 65151,
+      "sha256": "64fcef152dc40822437c9a6bd719283712c7723e379a82e9639d8407dce3d9b0",
+      "title": "Door | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:46.122931+09:00",
+      "body_chars": 113
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/door/set-door-position",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/door/set-door-position",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 65484,
+      "sha256": "af73c03fca5483e5b45779103643991376defe12b1d43f6923e2f7597b41a86a",
+      "title": "setDoorPosition | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:02:09.253789+09:00",
+      "body_chars": 140
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 59738,
+      "sha256": "f9224ff5cee2434691878ff4908869e99259a756b5ed596e0c7793df101f2ad5",
+      "title": "ai.pleos.playground.vehicle.api | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:01.462160+09:00",
+      "body_chars": 135
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 49265,
+      "sha256": "f19bdb6f805f828ca3aba5d04861ae34558df2f549f21c15a2ea9d06a900ae1f",
+      "title": "ai.pleos.playground.vehicle | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:01.522741+09:00",
+      "body_chars": 127
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle/vehicle/entry",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle/vehicle/entry",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 56455,
+      "sha256": "38edbe1e584b08fdb64a3d941b5621a1124cba97839ab4307e7aca489a35e592",
+      "title": "Vehicle | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:01:23.012258+09:00",
+      "body_chars": 115
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/create-my-project",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/create-my-project",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 43853,
+      "sha256": "9c4e739ea76ebc7898636537641fcb2c5333301b0a3d525dd12de2d934f493ba",
+      "title": "프로젝트 생성 및 SDK 사용 신청 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:12:31.891158+09:00",
+      "body_chars": 2188
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/release-note/emulator-release-note",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/release-note/emulator-release-note",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 39103,
+      "sha256": "40affa284e61f0182ba775aa60ef85421301ae74d648fdaa6f7a8a8234cad1cf",
+      "title": "Pleos Connect Emulator 정식 릴리즈 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:12:32.082849+09:00",
+      "body_chars": 575
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 48723,
+      "sha256": "b555439689e84b04951dba1abd809b0d50da80511630ff207f5b7ed4dd489fb0",
+      "title": "Pleos Connect SDK 릴리즈 노트 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T21:12:32.052072+09:00",
+      "body_chars": 5338
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/tutorial/vehicle-sdk-sample-app",
+      "final_url": "https://document.pleos.ai/docs/pleos-only/tutorial/vehicle-sdk-sample-app",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 104587,
+      "sha256": "3138fb0813592140220be3d20ff121c5c7ce04be2880decec31c26667d38aa72",
+      "title": "Vehicle SDK Sample App 사용 가이드 | Pleos Playground",
+      "checked_at_kst": "2026-11-11T20:59:06.813683+09:00",
+      "body_chars": 11446
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact": "Vehicle",
+      "version": "2.3.2",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/Vehicle/2.3.2/Vehicle-2.3.2.aar",
+      "status": 200,
+      "bytes": 983759,
+      "sha256": "e11fdfe498cad3ecc0d5a2a6992b0c4a4d135195f1455018127bc069fd5ef937",
+      "classes": 706,
+      "min_sdk": "23",
+      "manifest_metadata": {
+        "ai.pleos.playground.service.vehicle.min_version_name": "2.3.13",
+        "ai.pleos.playground.service.vehicle.min_version_code": "65",
+        "ai.pleos.playground.sdk.vehicle.current_version_name": "2.3.2",
+        "ai.pleos.playground.sdk.vehicle.current_version_code": "73"
+      }
+    },
+    {
+      "artifact": "NaviHelper",
+      "version": "3.0.5",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/NaviHelper/3.0.5/NaviHelper-3.0.5.aar",
+      "status": 200,
+      "bytes": 65944,
+      "sha256": "15fadd11c7c611b1abdf7ebf9ce91f2a6ce2728e60b4e38b4343e11bb9c12e97",
+      "classes": 52,
+      "min_sdk": "23",
+      "manifest_metadata": {
+        "ai.pleos.playground.service.navi.helper.min_version_name": "2.0.1",
+        "ai.pleos.playground.service.navi.helper.min_version_code": "11",
+        "ai.pleos.playground.sdk.navi.helper.current_version_name": "3.0.5",
+        "ai.pleos.playground.sdk.navi.helper.current_version_code": "75"
+      }
+    },
+    {
+      "artifact": "TextToSpeech",
+      "version": "3.3.1",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/TextToSpeech/3.3.1/TextToSpeech-3.3.1.aar",
+      "status": 200,
+      "bytes": 139133,
+      "sha256": "bfbfb58376c69604afad3389878980461971683f0c51f619d03ab74b5e6a0375",
+      "classes": 92,
+      "min_sdk": "23",
+      "manifest_metadata": {
+        "ai.pleos.playground.caas.min_version_name": "4.1.29",
+        "ai.pleos.playground.caas.min_version_code": "4001029",
+        "ai.pleos.playground.service.caas.min_version_name": "4.1.29",
+        "ai.pleos.playground.service.caas.min_version_code": "4001029",
+        "ai.pleos.playground.sdk.tts.current_version_name": "3.3.1",
+        "ai.pleos.playground.sdk.tts.current_version_code": "3003001"
+      }
+    },
+    {
+      "artifact": "SpeechToText",
+      "version": "3.3.1",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/SpeechToText/3.3.1/SpeechToText-3.3.1.aar",
+      "status": 200,
+      "bytes": 188560,
+      "sha256": "35109ad13400a7fa103cca9fabbf9b785e63a6a98b17a0698a1aef51458d37bf",
+      "classes": 118,
+      "min_sdk": "23",
+      "manifest_metadata": {
+        "ai.pleos.playground.caas.min_version_name": "4.1.29",
+        "ai.pleos.playground.caas.min_version_code": "4001029",
+        "ai.pleos.playground.service.caas.min_version_name": "4.1.29",
+        "ai.pleos.playground.service.caas.min_version_code": "4001029",
+        "ai.pleos.playground.sdk.stt.current_version_name": "3.3.1",
+        "ai.pleos.playground.sdk.stt.current_version_code": "3003001"
+      }
+    },
+    {
+      "artifact": "FusedLocation",
+      "version": "1.1.3",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/FusedLocation/1.1.3/FusedLocation-1.1.3.aar",
+      "status": 200,
+      "bytes": 57604,
+      "sha256": "20ff6dc2efbea53f32d1ce4712d517fc4abac3a9ce4b990f4aca52c35ebef081",
+      "classes": 49,
+      "min_sdk": "23",
+      "manifest_metadata": {
+        "ai.pleos.playground.service.location.fused.min_version_name": "0.5.0",
+        "ai.pleos.playground.service.location.fused.min_version_code": "1",
+        "ai.pleos.playground.sdk.location.fused.current_version_name": "1.1.3",
+        "ai.pleos.playground.sdk.location.fused.current_version_code": "12"
+      }
+    }
+  ],
+  "primary_poms": [
+    {
+      "artifact": "Vehicle",
+      "version": "2.3.2",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/Vehicle/2.3.2/Vehicle-2.3.2.pom",
+      "status": 200,
+      "bytes": 2117,
+      "sha256": "b3f3be9be3ea18be522ea596a6a7de920884648f7fefed4e67816194aa775323",
+      "dependencies": [
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-stdlib",
+          "version": "1.9.25",
+          "scope": "compile"
+        },
+        {
+          "groupId": "ai.pleos.playground",
+          "artifactId": "vehicle-aidl",
+          "version": "1.1.1",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "ai.pleos.playground",
+          "artifactId": "vehicle-data",
+          "version": "1.1.11",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "androidx.core",
+          "artifactId": "core-ktx",
+          "version": "1.8.0",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-android",
+          "version": "1.6.3",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-reflect",
+          "version": "1.9.25",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "com.google.code.gson",
+          "artifactId": "gson",
+          "version": "2.10.1",
+          "scope": "runtime"
+        }
+      ]
+    },
+    {
+      "artifact": "NaviHelper",
+      "version": "3.0.5",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/NaviHelper/3.0.5/NaviHelper-3.0.5.pom",
+      "status": 200,
+      "bytes": 1747,
+      "sha256": "39e93d10d8da7758e52c83186620a8965b3b0a46438851e1a2c0dab34d292c42",
+      "dependencies": [
+        {
+          "groupId": "ai.pleos.playground",
+          "artifactId": "navi-data",
+          "version": "3.0.4",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-stdlib",
+          "version": "1.9.25",
+          "scope": "compile"
+        },
+        {
+          "groupId": "ai.pleos.playground",
+          "artifactId": "navi-aidl",
+          "version": "3.0.1",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "androidx.core",
+          "artifactId": "core-ktx",
+          "version": "1.8.0",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-android",
+          "version": "1.6.3",
+          "scope": "runtime"
+        }
+      ]
+    },
+    {
+      "artifact": "TextToSpeech",
+      "version": "3.3.1",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/TextToSpeech/3.3.1/TextToSpeech-3.3.1.pom",
+      "status": 200,
+      "bytes": 1098,
+      "sha256": "47cf8afe517daa017d19224a4819e8f09f13c01e3fb27b73eade1e9d927a4bff",
+      "dependencies": [
+        {
+          "groupId": "androidx.core",
+          "artifactId": "core-ktx",
+          "version": "1.8.0"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-android",
+          "version": "1.6.3"
+        },
+        {
+          "groupId": "com.google.code.gson",
+          "artifactId": "gson",
+          "version": "2.10.1"
+        },
+        {
+          "groupId": "ai.pleos.playground.security",
+          "artifactId": "universal-access",
+          "version": "0.6.0"
+        }
+      ]
+    },
+    {
+      "artifact": "SpeechToText",
+      "version": "3.3.1",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/SpeechToText/3.3.1/SpeechToText-3.3.1.pom",
+      "status": 200,
+      "bytes": 1098,
+      "sha256": "009757c48e8139862e5c25383ec79e11ca37b8c9a32ec6fcf810c409b33cec56",
+      "dependencies": [
+        {
+          "groupId": "androidx.core",
+          "artifactId": "core-ktx",
+          "version": "1.8.0"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-android",
+          "version": "1.6.3"
+        },
+        {
+          "groupId": "com.google.code.gson",
+          "artifactId": "gson",
+          "version": "2.10.1"
+        },
+        {
+          "groupId": "ai.pleos.playground.security",
+          "artifactId": "universal-access",
+          "version": "0.6.0"
+        }
+      ]
+    },
+    {
+      "artifact": "FusedLocation",
+      "version": "1.1.3",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/FusedLocation/1.1.3/FusedLocation-1.1.3.pom",
+      "status": 200,
+      "bytes": 2136,
+      "sha256": "71a596f1fbe4bce6de64c6fb47d62f4404fe995271369d69e0dcdb643f314b49",
+      "dependencies": [
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-stdlib",
+          "version": "1.9.25",
+          "scope": "compile"
+        },
+        {
+          "groupId": "androidx.core",
+          "artifactId": "core-ktx",
+          "version": "1.8.0",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlinx",
+          "artifactId": "kotlinx-coroutines-android",
+          "version": "1.6.3",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "org.jetbrains.kotlin",
+          "artifactId": "kotlin-reflect",
+          "version": "1.9.25",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "com.google.code.gson",
+          "artifactId": "gson",
+          "version": "2.10.1",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "ai.pleos.playground",
+          "artifactId": "fused-location-aidl",
+          "version": "0.0.5",
+          "scope": "runtime"
+        },
+        {
+          "groupId": "ai.pleos.playground",
+          "artifactId": "fused-location-data",
+          "version": "0.0.3",
+          "scope": "runtime"
+        }
+      ]
+    }
+  ],
+  "pleos_transitive_poms": [
+    {
+      "group": "ai.pleos.playground",
+      "artifact": "vehicle-aidl",
+      "version": "1.1.1",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/vehicle-aidl/1.1.1/vehicle-aidl-1.1.1.pom",
+      "status": 200,
+      "packaging": "aar"
+    },
+    {
+      "group": "ai.pleos.playground",
+      "artifact": "vehicle-data",
+      "version": "1.1.11",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/vehicle-data/1.1.11/vehicle-data-1.1.11.pom",
+      "status": 200,
+      "packaging": "aar"
+    },
+    {
+      "group": "ai.pleos.playground",
+      "artifact": "navi-data",
+      "version": "3.0.4",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/navi-data/3.0.4/navi-data-3.0.4.pom",
+      "status": 200,
+      "packaging": "aar"
+    },
+    {
+      "group": "ai.pleos.playground",
+      "artifact": "navi-aidl",
+      "version": "3.0.1",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/navi-aidl/3.0.1/navi-aidl-3.0.1.pom",
+      "status": 200,
+      "packaging": "aar"
+    },
+    {
+      "group": "ai.pleos.playground.security",
+      "artifact": "universal-access",
+      "version": "0.6.0",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/security/universal-access/0.6.0/universal-access-0.6.0.pom",
+      "status": 200,
+      "packaging": "aar"
+    },
+    {
+      "group": "ai.pleos.playground",
+      "artifact": "fused-location-aidl",
+      "version": "0.0.5",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/fused-location-aidl/0.0.5/fused-location-aidl-0.0.5.pom",
+      "status": 200,
+      "packaging": "aar"
+    },
+    {
+      "group": "ai.pleos.playground",
+      "artifact": "fused-location-data",
+      "version": "0.0.3",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/fused-location-data/0.0.3/fused-location-data-0.0.3.pom",
+      "status": 200,
+      "packaging": "aar"
+    }
+  ],
+  "selected_jvm_api_metadata": [
+    {
+      "class": "ai/pleos/playground/vehicle/api/Door",
+      "methods": [
+        {
+          "name": "checkDoorPositionCapabilities",
+          "descriptor": "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V",
+          "access": 1025,
+          "signature": "(Lkotlin/jvm/functions/Function1<-Ljava/util/Map<Lai/pleos/playground/vehicle/api/model/area/DoorArea;Lai/pleos/playground/vehicle/api/model/capability/AreaBounds<Ljava/lang/Integer;>;>;Lkotlin/Unit;>;Lkotlin/jvm/functions/Function1<-Ljava/lang/Exception;Lkotlin/Unit;>;)V"
+        },
+        {
+          "name": "checkDoorPositionCapabilities",
+          "descriptor": "(Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)V",
+          "access": 1025,
+          "signature": "(Lkotlin/jvm/functions/Function2<-Lai/pleos/playground/vehicle/api/model/capability/CapabilityConfig;-Ljava/util/Map<Lai/pleos/playground/vehicle/api/model/area/DoorArea;Lai/pleos/playground/vehicle/api/model/capability/AreaBounds<Ljava/lang/Integer;>;>;Lkotlin/Unit;>;Lkotlin/jvm/functions/Function1<-Ljava/lang/Exception;Lkotlin/Unit;>;)V"
+        },
+        {
+          "name": "setDoorPosition",
+          "descriptor": "(Lai/pleos/playground/vehicle/api/model/area/DoorArea;ILkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)V",
+          "access": 1025,
+          "signature": "(Lai/pleos/playground/vehicle/api/model/area/DoorArea;ILkotlin/jvm/functions/Function2<-Lai/pleos/playground/vehicle/api/model/area/DoorArea;-Ljava/lang/Integer;Lkotlin/Unit;>;Lkotlin/jvm/functions/Function1<-Ljava/lang/Exception;Lkotlin/Unit;>;)V"
+        },
+        {
+          "name": "registerDoorPosition",
+          "descriptor": "(Lai/pleos/playground/vehicle/api/model/area/DoorArea;Lai/pleos/playground/vehicle/listener/DoorPositionListener;)V",
+          "access": 1025
+        },
+        {
+          "name": "unregisterDoorPosition",
+          "descriptor": "(Lai/pleos/playground/vehicle/api/model/area/DoorArea;Lai/pleos/playground/vehicle/listener/DoorPositionListener;)V",
+          "access": 1025
+        }
+      ]
+    },
+    {
+      "class": "ai/pleos/playground/vehicle/listener/DoorPositionListener",
+      "methods": [
+        {
+          "name": "onPositionUpdated",
+          "descriptor": "(Ljava/lang/Integer;)V",
+          "access": 1025
+        }
+      ]
+    },
+    {
+      "class": "ai/pleos/playground/navi/helper/NaviHelper",
+      "methods": [
+        {
+          "name": "initialize",
+          "descriptor": "()V",
+          "access": 17
+        },
+        {
+          "name": "initialize",
+          "descriptor": "(Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)V",
+          "access": 17,
+          "signature": "(Lkotlin/jvm/functions/Function0<Lkotlin/Unit;>;Lkotlin/jvm/functions/Function1<-Ljava/lang/Throwable;Lkotlin/Unit;>;)V"
+        },
+        {
+          "name": "requestRoute",
+          "descriptor": "(Lai/pleos/playground/navi/data/RouteInfo;)V",
+          "access": 17
+        }
+      ]
+    },
+    {
+      "class": "ai/pleos/playground/tts/TextToSpeech",
+      "methods": [
+        {
+          "name": "initialize",
+          "descriptor": "()V",
+          "access": 17
+        },
+        {
+          "name": "initialize",
+          "descriptor": "(Lai/pleos/playground/tts/listener/OnInitializeListener;)V",
+          "access": 17
+        },
+        {
+          "name": "speak",
+          "descriptor": "(Ljava/lang/String;Z)V",
+          "access": 17
+        }
+      ]
+    },
+    {
+      "class": "ai/pleos/playground/stt/SpeechToText",
+      "methods": [
+        {
+          "name": "initialize",
+          "descriptor": "()V",
+          "access": 17
+        },
+        {
+          "name": "initialize",
+          "descriptor": "(Lai/pleos/playground/stt/listener/OnInitializeListener;)V",
+          "access": 17
+        },
+        {
+          "name": "request",
+          "descriptor": "()V",
+          "access": 17
+        },
+        {
+          "name": "sendAudio",
+          "descriptor": "([B)V",
+          "access": 17
+        },
+        {
+          "name": "completeAudioSend",
+          "descriptor": "()V",
+          "access": 17
+        }
+      ]
+    },
+    {
+      "class": "ai/pleos/playground/location/fused/FusedLocation",
+      "methods": [
+        {
+          "name": "initialize",
+          "descriptor": "()V",
+          "access": 17
+        },
+        {
+          "name": "isSupported",
+          "descriptor": "()Z",
+          "access": 17
+        },
+        {
+          "name": "getLastKnownLocation",
+          "descriptor": "(Lai/pleos/playground/location/fused/listener/FusedLocationListener;)V",
+          "access": 17
+        },
+        {
+          "name": "registerFusedLocationCallback",
+          "descriptor": "(Lai/pleos/playground/location/fused/listener/FusedLocationListener;)V",
+          "access": 17
+        },
+        {
+          "name": "addProximityAlert",
+          "descriptor": "(Lai/pleos/playground/location/fused/model/ProximityAlertRequest;Lai/pleos/playground/location/fused/listener/ProximityAlertListener;)V",
+          "access": 17
+        }
+      ]
+    },
+    {
+      "class": "ai/pleos/playground/navi/data/RouteInfo",
+      "constructors": [
+        {
+          "name": "<init>",
+          "descriptor": "(DDLjava/lang/Double;Ljava/lang/Double;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lai/pleos/playground/navi/constants/RouteOption;Ljava/lang/String;Z)V",
+          "access": 1,
+          "entry_locals": [
+            {
+              "slot": 0,
+              "name": "this",
+              "descriptor": "Lai/pleos/playground/navi/data/RouteInfo;"
+            },
+            {
+              "slot": 1,
+              "name": "latitude",
+              "descriptor": "D"
+            },
+            {
+              "slot": 3,
+              "name": "longitude",
+              "descriptor": "D"
+            },
+            {
+              "slot": 5,
+              "name": "displayLatitude",
+              "descriptor": "Ljava/lang/Double;"
+            },
+            {
+              "slot": 6,
+              "name": "displayLongitude",
+              "descriptor": "Ljava/lang/Double;"
+            },
+            {
+              "slot": 7,
+              "name": "poiName",
+              "descriptor": "Ljava/lang/String;"
+            },
+            {
+              "slot": 8,
+              "name": "poiId",
+              "descriptor": "Ljava/lang/String;"
+            },
+            {
+              "slot": 9,
+              "name": "address",
+              "descriptor": "Ljava/lang/String;"
+            },
+            {
+              "slot": 10,
+              "name": "poiSubId",
+              "descriptor": "Ljava/lang/String;"
+            },
+            {
+              "slot": 11,
+              "name": "routeOption",
+              "descriptor": "Lai/pleos/playground/navi/constants/RouteOption;"
+            },
+            {
+              "slot": 12,
+              "name": "poiProvider",
+              "descriptor": "Ljava/lang/String;"
+            },
+            {
+              "slot": 13,
+              "name": "isMobileRequest",
+              "descriptor": "Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "class": "ai/pleos/playground/navi/helper/listener/NaviHelperEventListener",
+      "methods": [
+        {
+          "name": "onWayPointInfo",
+          "descriptor": "(Ljava/util/List;)V",
+          "access": 1,
+          "signature": "(Ljava/util/List<Lai/pleos/playground/navi/data/WaypointInfo;>;)V"
+        }
+      ],
+      "absent_method_name": "onWaypointInfo"
+    }
+  ],
+  "sample_baselines": [
+    {
+      "repository": "Pleos-Playground/pleos-sample-vehicle-app",
+      "commit": "959981d960ec71144accb27af5ae5d341e72a644",
+      "default_branch": "main",
+      "tree_truncated": false,
+      "files_reviewed": [
+        {
+          "path": "app/build.gradle.kts",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-vehicle-app/blob/959981d960ec71144accb27af5ae5d341e72a644/app/build.gradle.kts"
+        },
+        {
+          "path": "app/src/main/AndroidManifest.xml",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-vehicle-app/blob/959981d960ec71144accb27af5ae5d341e72a644/app/src/main/AndroidManifest.xml"
+        },
+        {
+          "path": "app/src/main/java/ai/pleos/playground/sample/vehicle/vehicle/VehicleClient.kt",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-vehicle-app/blob/959981d960ec71144accb27af5ae5d341e72a644/app/src/main/java/ai/pleos/playground/sample/vehicle/vehicle/VehicleClient.kt"
+        },
+        {
+          "path": "gradle/libs.versions.toml",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-vehicle-app/blob/959981d960ec71144accb27af5ae5d341e72a644/gradle/libs.versions.toml"
+        }
+      ]
+    },
+    {
+      "repository": "Pleos-Playground/pleos-sample-navi-app",
+      "commit": "76ed592487a1eab7ba102b9d4b321705426886fe",
+      "default_branch": "main",
+      "tree_truncated": false,
+      "files_reviewed": [
+        {
+          "path": "app/build.gradle.kts",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-navi-app/blob/76ed592487a1eab7ba102b9d4b321705426886fe/app/build.gradle.kts"
+        },
+        {
+          "path": "app/src/main/AndroidManifest.xml",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-navi-app/blob/76ed592487a1eab7ba102b9d4b321705426886fe/app/src/main/AndroidManifest.xml"
+        },
+        {
+          "path": "app/src/main/java/ai/pleos/playground/navidevapp/screen/vm/NaviHelperViewModel.kt",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-navi-app/blob/76ed592487a1eab7ba102b9d4b321705426886fe/app/src/main/java/ai/pleos/playground/navidevapp/screen/vm/NaviHelperViewModel.kt"
+        },
+        {
+          "path": "gradle/libs.versions.toml",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-navi-app/blob/76ed592487a1eab7ba102b9d4b321705426886fe/gradle/libs.versions.toml"
+        }
+      ]
+    },
+    {
+      "repository": "Pleos-Playground/pleos-sample-fusedlocation-app",
+      "commit": "c955c3a811371892e8803f3b1d9ad3f0426e832c",
+      "default_branch": "main",
+      "tree_truncated": false,
+      "files_reviewed": [
+        {
+          "path": "app/build.gradle.kts",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-fusedlocation-app/blob/c955c3a811371892e8803f3b1d9ad3f0426e832c/app/build.gradle.kts"
+        },
+        {
+          "path": "app/src/main/AndroidManifest.xml",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-fusedlocation-app/blob/c955c3a811371892e8803f3b1d9ad3f0426e832c/app/src/main/AndroidManifest.xml"
+        },
+        {
+          "path": "app/src/main/java/ai/pleos/playground/location/fused/sample/location/FusedLocationClient.kt",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-fusedlocation-app/blob/c955c3a811371892e8803f3b1d9ad3f0426e832c/app/src/main/java/ai/pleos/playground/location/fused/sample/location/FusedLocationClient.kt"
+        },
+        {
+          "path": "gradle/libs.versions.toml",
+          "url": "https://github.com/Pleos-Playground/pleos-sample-fusedlocation-app/blob/c955c3a811371892e8803f3b1d9ad3f0426e832c/gradle/libs.versions.toml"
+        }
+      ]
+    }
+  ],
+  "vehicle_door_default_method_names": [
+    "setDoorPosition$default"
+  ],
+  "route_info_model_artifact": {
+    "group": "ai.pleos.playground",
+    "artifact": "navi-data",
+    "version": "3.0.4",
+    "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/navi-data/3.0.4/navi-data-3.0.4.aar",
+    "bytes": 298474,
+    "sha256": "7ca00e592134b53237a48cc3b7864063ecc5e2885465e3ce9c8c2a29789a2e2b",
+    "verification": "downloaded and read classes.jar; no execution"
+  },
+  "browser_checks": [
+    {
+      "url": "https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008",
+      "observation": "five SDKs explicitly permitted for contest emulator development despite Workspace Coming Soon status"
+    },
+    {
+      "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/door/set-door-position",
+      "observation": "article shows title and breadcrumbs only; codeBlocks=0; iframes=0"
+    }
+  ],
+  "initial_local_baseline": {
+    "git_repository": false,
+    "main_report_sha256": "d621a373affaaf39c353822c2b20846a359ac9b0fe0057c2cfd9f74b0fa97054",
+    "agents_sha256": "24ae1f2bae37a13901087c68770fb0522fc15e59c613779c18e65fa4898a1d23",
+    "source_report_sha256": "1f2a17ea335a5e51ff3ef1ff3a5a192c28938bc947be949ae0207070a863c59f"
+  },
+  "document_verification": {
+    "checked_at_kst": "2026-11-11T21:15:45.406827+09:00",
+    "local_documents": "PASS",
+    "api_metadata_assertions": "PASS",
+    "local_link_errors": 0,
+    "new_external_urls": 96,
+    "external_sources_matched_to_fetch_metadata": 87,
+    "github_urls_matched_to_connector_baselines": 9,
+    "extra_url_checks": []
+  },
+  "follow_up_reviews": [
+    {
+      "date_kst": "2026-11-12",
+      "scope": "Safety capabilities and three proposed apps; fresh binary metadata, no runtime tests",
+      "report": "docs/sdk/vehicle-safety-capabilities.md",
+      "evidence": "docs/sdk/evidence/vehicle-safety-inspection-2026-11-12.json",
+      "preserves_original_observations": true
+    },
+    {
+      "date_kst": "2026-11-12",
+      "scope": "Pleos-only integrated product plan and official dashcam/animation/Android-backup constraints",
+      "report": "docs/analysis/integrated-vehicle-care-2026-11-12.md",
+      "evidence": "docs/analysis/integrated-vehicle-care-2026-11-12-evidence.json",
+      "preserves_original_observations": true,
+      "binary_inspection_repeated": false
+    }
+  ]
+}

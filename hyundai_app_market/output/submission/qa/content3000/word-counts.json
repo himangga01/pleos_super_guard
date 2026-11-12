@@ -1,0 +1,42 @@
+[
+  {
+    "tag": "app_summary",
+    "characters_with_spaces": 88,
+    "word_statistic_with_spaces": 88
+  },
+  {
+    "tag": "planning_background",
+    "characters_with_spaces": 3000,
+    "word_statistic_with_spaces": 3022
+  },
+  {
+    "tag": "vehicle_scenario",
+    "characters_with_spaces": 3000,
+    "word_statistic_with_spaces": 3022
+  },
+  {
+    "tag": "key_features",
+    "characters_with_spaces": 3000,
+    "word_statistic_with_spaces": 3022
+  },
+  {
+    "tag": "pleos_plan",
+    "characters_with_spaces": 3000,
+    "word_statistic_with_spaces": 3022
+  },
+  {
+    "tag": "reference_files",
+    "characters_with_spaces": 3000,
+    "word_statistic_with_spaces": 3022
+  },
+  {
+    "tag": "reference_link",
+    "characters_with_spaces": 252,
+    "word_statistic_with_spaces": 255
+  },
+  {
+    "tag": "shortform_link",
+    "characters_with_spaces": 3,
+    "word_statistic_with_spaces": 3
+  }
+]

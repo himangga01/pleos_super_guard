@@ -1,0 +1,408 @@
+{
+  "date": "2026-11-12",
+  "reference_thread": "01a1b3d8-8797-7880-83dd-b2f3b81029e8",
+  "reference_docx_sha256": "d0fa10247efc782368b6939e7eb08a2b4dc8de7925d5fbfaf45f9199c6745740",
+  "scope": "Formatting only; all original text, controls, order, tables and approved app visuals preserved",
+  "documents": [
+    {
+      "file": "01_공식양식_플레오스가드.docx",
+      "baseline_sha256": "c63b86524b8811a51fbf5fabe175077ba7f71331a40f68a7e87e5ecef5b0fa28",
+      "sha256": "125fd9e786db361d4103bc7a9793775eb8e744653bf457aa39a44e9947b0ad53",
+      "exact_paragraph_text_and_order": true,
+      "paragraphs": 153,
+      "table_count": 10,
+      "control_count": 8,
+      "text_fields_links_and_structure_preserved": true,
+      "fonts": [
+        {
+          "family": "페이퍼로지 4 Regular",
+          "sha256": "fde17e6e5acabcfabdad79f37fedc01405a0d6298c965b3f99378dd89a25b1ba",
+          "fsType": 0,
+          "full_font_embedded": true
+        },
+        {
+          "family": "페이퍼로지 5 Medium",
+          "sha256": "82850732d41ab446f807eddde46349a7ad5f3525970d7196e061f945db9731d3",
+          "fsType": 0,
+          "full_font_embedded": true
+        },
+        {
+          "family": "페이퍼로지 7 Bold",
+          "sha256": "fe71049fe3d3a7dd3f2e0c12efd850acd1293658181af322348edde9b016e6ba",
+          "fsType": 0,
+          "full_font_embedded": true
+        },
+        {
+          "family": "페이퍼로지 8 ExtraBold",
+          "sha256": "4978d68ea7a6dcba7d00e17cd346a460e24652133b0658f57a68e1e35a603dc4",
+          "fsType": 0,
+          "full_font_embedded": true
+        }
+      ],
+      "diagram_media_changes": [
+        {
+          "part": "word/media/care_image2.png",
+          "asset": "menu-flow.png"
+        }
+      ],
+      "changed_parts": [
+        "[Content_Types].xml",
+        "word/document.xml",
+        "word/footer1.xml",
+        "word/footer2.xml",
+        "word/footer3.xml",
+        "word/settings.xml",
+        "word/styles.xml",
+        "word/fontTable.xml",
+        "word/media/care_image2.png"
+      ],
+      "original_numbering_xml_unchanged": true,
+      "embedded_font_bytes_verified": true
+    },
+    {
+      "file": "02_상세기획_기술명세.docx",
+      "baseline_sha256": "c70294b8d888669188337f72fdae5a25f2b61ac5ac1cfc7079369f45d15e66db",
+      "sha256": "84d5bb3c42d3cc73311f75d5c984606101530185bf61bc5b6707fc82cb7035f2",
+      "exact_paragraph_text_and_order": true,
+      "paragraphs": 1134,
+      "table_count": 24,
+      "control_count": 0,
+      "text_fields_links_and_structure_preserved": true,
+      "fonts": [
+        {
+          "family": "페이퍼로지 4 Regular",
+          "sha256": "fde17e6e5acabcfabdad79f37fedc01405a0d6298c965b3f99378dd89a25b1ba",
+          "fsType": 0,
+          "full_font_embedded": true
+        },
+        {
+          "family": "페이퍼로지 5 Medium",
+          "sha256": "82850732d41ab446f807eddde46349a7ad5f3525970d7196e061f945db9731d3",
+          "fsType": 0,
+          "full_font_embedded": true
+        },
+        {
+          "family": "페이퍼로지 7 Bold",
+          "sha256": "fe71049fe3d3a7dd3f2e0c12efd850acd1293658181af322348edde9b016e6ba",
+          "fsType": 0,
+          "full_font_embedded": true
+        },
+        {
+          "family": "페이퍼로지 8 ExtraBold",
+          "sha256": "4978d68ea7a6dcba7d00e17cd346a460e24652133b0658f57a68e1e35a603dc4",
+          "fsType": 0,
+          "full_font_embedded": true
+        }
+      ],
+      "diagram_media_changes": [
+        {
+          "part": "word/media/image4.png",
+          "asset": "menu-flow.png"
+        },
+        {
+          "part": "word/media/image15.png",
+          "asset": "architecture.png"
+        },
+        {
+          "part": "word/media/image16.png",
+          "asset": "guidance-state.png"
+        },
+        {
+          "part": "word/media/image17.png",
+          "asset": "notification-state.png"
+        }
+      ],
+      "changed_parts": [
+        "[Content_Types].xml",
+        "word/document.xml",
+        "word/styles.xml",
+        "word/settings.xml",
+        "word/fontTable.xml",
+        "word/header1.xml",
+        "word/footer1.xml",
+        "word/media/image4.png",
+        "word/media/image15.png",
+        "word/media/image16.png",
+        "word/media/image17.png"
+      ],
+      "original_numbering_xml_unchanged": true,
+      "embedded_font_bytes_verified": true
+    }
+  ],
+  "visual_QA": "passed",
+  "limits": [
+    "Document design and preservation checks only",
+    "No actual app, sensor, messaging, crash-response or driving-usability execution",
+    "PDF rendered by a private Word instance after bundled render_docx failed because LibreOffice was absent",
+    "Poppler emitted Symbol/ArialUnicode fallback warnings for official form; all rendered pages were visually inspected",
+    "One transient Word COM startup failure was followed by a successful fresh export; failed export was not treated as current output"
+  ],
+  "final_files": [
+    {
+      "path": "output/submission/01_공식양식_플레오스가드.docx",
+      "bytes": 3668683,
+      "sha256": "125fd9e786db361d4103bc7a9793775eb8e744653bf457aa39a44e9947b0ad53"
+    },
+    {
+      "path": "output/submission/01_공식양식_플레오스가드.pdf",
+      "bytes": 815932,
+      "sha256": "00763adf94b672d9f4d9600dbd8ad9670f3deec26c44208686208ebf56bf2f36"
+    },
+    {
+      "path": "output/submission/02_상세기획_기술명세.docx",
+      "bytes": 5981826,
+      "sha256": "84d5bb3c42d3cc73311f75d5c984606101530185bf61bc5b6707fc82cb7035f2"
+    },
+    {
+      "path": "output/submission/02_상세기획_기술명세.pdf",
+      "bytes": 2637347,
+      "sha256": "490730b44f1cd17d2de4d4ef13f43f2fcb1e2689098efdcd44d217d62027c666"
+    }
+  ],
+  "rendered_pages": {
+    "01_공식양식_플레오스가드": {
+      "count": 8,
+      "font_names": [
+        "/ArialMT",
+        "/BCDEEE+MalgunGothic",
+        "/BCDFEE+MalgunGothic",
+        "/BCDGEE+Paperlogy-7Bold",
+        "/BCDHEE+Paperlogy-7Bold",
+        "/BCDIEE+Paperlogy-4Regular",
+        "/BCDJEE+Paperlogy-4Regular",
+        "/BCDKEE+SegoeUISymbol",
+        "/BCDLEE+MalgunGothicBold",
+        "/BCDMEE+MS-Gothic",
+        "/BCDNEE+MalgunGothicBold",
+        "/BCDOEE+CourierNewPSMT"
+      ],
+      "paths_and_sha256": [
+        {
+          "path": "output/submission/qa/paperlogy/final01d/page-1.png",
+          "sha256": "44c75a82398816477ea47f6f09e173b74fe521511c1b0242396be421932fc204"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final01d/page-2.png",
+          "sha256": "fb390fd369731eef23c16a2ae5f2627f3d9dfad539e371b2630f035bc28fe667"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final01d/page-3.png",
+          "sha256": "6e46dcf58903e374d8f55b7a758ba02a87183b6709061bfd441e7081969be66d"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final01d/page-4.png",
+          "sha256": "826ed0f23002c2299fa0dec78094e3ef5c4dfcd357baf9aa58518b40512f3ef1"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final01d/page-5.png",
+          "sha256": "8b9b0327257c2499e0fd1f99b23f01fec7c9c1c58076f085c8acd4ec88102b54"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final01d/page-6.png",
+          "sha256": "1ae89dbcb8d90d69cbecce44fab0fac8d7b5454d94c328441c1ebe13df080c99"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final01d/page-7.png",
+          "sha256": "e72a244de6f36689436a04660b9aec0d34207f4db246cf5329f676b3b20133fd"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final01d/page-8.png",
+          "sha256": "5b02ad5a45a5e5a560960358f87d20241e9362170cda9018535627af1403c645"
+        }
+      ]
+    },
+    "02_상세기획_기술명세": {
+      "count": 40,
+      "font_names": [
+        "/BCDEEE+Paperlogy-4Regular",
+        "/BCDFEE+Paperlogy-4Regular",
+        "/BCDGEE+Paperlogy-7Bold",
+        "/BCDHEE+Paperlogy-7Bold",
+        "/BCDIEE+MS-Gothic",
+        "/BCDJEE+Cambria",
+        "/BCDKEE+Consolas",
+        "/BCDLEE+Cambria"
+      ],
+      "paths_and_sha256": [
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-01.png",
+          "sha256": "4972f45dc12aa1f8493ada6b531f67621d6cd941d48f20a28648e302cba2aed0"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-02.png",
+          "sha256": "a70dec0db0acb33d02b118426b5059cc303272bb9eaf8cb6c0a056da6eb549db"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-03.png",
+          "sha256": "0ed020ef8edb659e632b423cb81a36b757d4d1a91fa5a613049f66534d786c81"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-04.png",
+          "sha256": "42975664d9def5f1b0a5ef8b3901036f84adbf7de42a2f78239ede7844f76f29"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-05.png",
+          "sha256": "f04d906221a597cc410c0e01ee525e0a6ea90df8a17c14b2d9a0b37ba74bc471"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-06.png",
+          "sha256": "a359a415aadff67a77ad97f10d53da6d2331885ed4a8ab569d8566ccff383b93"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-07.png",
+          "sha256": "bcffc7d7a5d852052f5af1d142df2726cf2bb46325b74ce062f0be10d10c0380"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-08.png",
+          "sha256": "00091b04645c392ae5e912da8140bade3fb5634aa062444f49b3a0a132820e8b"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-09.png",
+          "sha256": "229f3c500755cae363c202dd84efe610f59cce3fb0fb02874024c04be936db3c"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-10.png",
+          "sha256": "f2ba8bc378c7e4e158b692679a4005ead91aba9da43bc5b1c5e0ef1ffa2b9dcf"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-11.png",
+          "sha256": "7c0c9e0dddf75b5eac7c3277ed414fb2bb199222933f7431f289404a407598ac"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-12.png",
+          "sha256": "71131724e8d1d6b7f5aba19d40cb43cd093b988e6490c9ef94effc23cdc78665"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-13.png",
+          "sha256": "9081411092dd4f46a1eb237bf08f622b4059eb4d92add639cf5554524fb24140"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-14.png",
+          "sha256": "4ed6332c56124b03c71ce1625471f6b3114c83dab071393419fa76675eb123fe"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-15.png",
+          "sha256": "8241a076df0421e5de5b117791d27e5499b8f3ff20326aa14347acfe591d8a36"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-16.png",
+          "sha256": "60d27afeeaf07074dac6a4fbaf9bb3dd5d240e568bee1252394c471c8c027568"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-17.png",
+          "sha256": "3815b15aa888494a700d9d24522ac467ee85e118bc7a9b7650eb382969a680e2"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-18.png",
+          "sha256": "e7353b682029ea89553c43e867a025d0805f451a6aeb003a947081881df31230"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-19.png",
+          "sha256": "eba988c814717e9253081948e1d1393bdf513b57114b365f9ffee73060ac346a"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-20.png",
+          "sha256": "63a4a2224236e9f706d1b4023a34415bc609e872d6dc0afa586cce7a5ebc6653"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-21.png",
+          "sha256": "d9012cf0397904f426247c63e89079c43ab579e28b40c80b502ad94f947f3169"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-22.png",
+          "sha256": "1d6873689b4d5a51595391955fd6d44073b4be5948bb8a9400239581f0cadb60"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-23.png",
+          "sha256": "3d0636136b420c3b4cbedef3a208bab49159597f8994f3c61a27641de2c1c754"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-24.png",
+          "sha256": "1fff1b6c00a16f3046c4650f6bd43766fd6c726aca0098f41d145bc1bfaaf02a"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-25.png",
+          "sha256": "b19f1605cbbb70196daeb6c9de533a68147d17c09d1313801f5664796083d5da"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-26.png",
+          "sha256": "ad3a791227a3718fe577d61bba1084d82112a76dd109d5fa669d760e16ea084c"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-27.png",
+          "sha256": "1f689b1c240522bee15045ded51fc2cf353460ea0cc66bcfee73f58151a75d6f"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-28.png",
+          "sha256": "9a7aac10e93f87d75f6e6aca97283ed1fd3fb295555a8db0a9a343215ff7f9d2"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-29.png",
+          "sha256": "4eda9ca42c0e2e1c100f65253340d4808cdf75ad222d6b6fecdfc4a75b29ecd0"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-30.png",
+          "sha256": "b9daff57a1ad1993484b234d1412f8187701476695310d5296760dc83d52eb66"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-31.png",
+          "sha256": "ce5b2d3cf705ef00b29d084c3d8f9bb8aa7e4a6866fe156d186d7bbdb20ae830"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-32.png",
+          "sha256": "a635e3f8c6abe65035e2def98ed3cdadaacba3b4cf930740498fca50fcdce454"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-33.png",
+          "sha256": "6008b1f7f4a87eb1669cec6bd3c391e77e37783484eaa8bc042c44ea1605eaee"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-34.png",
+          "sha256": "0cb637a8d3ba71261f88dee3344cfabd9403bf820fc42ea476294634b9304dd9"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-35.png",
+          "sha256": "c8899337db951a0cf8b62db4aaf01597a3b0ea286619ccd9e466a6f8be17c234"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-36.png",
+          "sha256": "aaea5d030e81badbfc12b3947d098149ff7bfc6017c604b93f0926f314c29470"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-37.png",
+          "sha256": "a110e6945d80dffe1b085452cd04f912ac3b59b9fce4a43fcb7bb8d5dc59c12b"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-38.png",
+          "sha256": "c5cbf5246b3ed891d4826bb110860e19603950be484374187c3f16fac8046b11"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-39.png",
+          "sha256": "1fe04dfde0a76499929e8eb3952005090f7455f230f2b7e1a6b20125de58d6a6"
+        },
+        {
+          "path": "output/submission/qa/paperlogy/final02c/page-40.png",
+          "sha256": "93b8e214f264830c84b73f466ca4d45e4ef6dcf9d6ab03c7de154097d4c5c1f6"
+        }
+      ]
+    }
+  },
+  "consent_original_design": {
+    "7": {
+      "pixel_identical_to_original_style_baseline": true,
+      "baseline": "output/submission/qa/qc01/page-7.png",
+      "latest": "output/submission/qa/paperlogy/final01d/page-7.png"
+    },
+    "8": {
+      "pixel_identical_to_original_style_baseline": true,
+      "baseline": "output/submission/qa/qc01/page-8.png",
+      "latest": "output/submission/qa/paperlogy/final01d/page-8.png"
+    }
+  },
+  "visual_review": {
+    "official": "Root reviewed all 8 final pages; consent/signature also pixel-identical to preserved original-style rendering",
+    "appendix": "Reviewer inspected all 40 pages, then re-inspected changed pages 14,20,21,22,23,24,37,39; remaining 32 PNGs are byte-identical",
+    "unresolved_layout_findings": []
+  },
+  "original_form_sha256": "07be893d58b0e96ab7788f0d189d6829f0e59a2cee4bc18cb90ec37eeda2f5fd"
+}

@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0",
+  "analysis_date_kst": "2026-11-12",
+  "timezone": "Asia/Seoul",
+  "scope": "Three proposed safety concepts, internal/external microphones, alarmed speech, vehicle speed, pedals, tilt/motion, cameras, event retention and guardian sharing.",
+  "canonical_sdk_review": "docs/analysis/pleos-sdk-review.md",
+  "reports": [
+    "docs/analysis/vehicle-safety-app-ideas-2026-11-12.md",
+    "docs/sdk/vehicle-safety-capabilities.md"
+  ],
+  "initial_local_baseline": {
+    "date": "2026-11-12",
+    "git_repository": false,
+    "root_entries": ["AGENTS.md", "docs"],
+    "app_sources_present": false,
+    "existing_report_hashes": [
+      {"path": "AGENTS.md", "sha256": "d10f4ea9ec79a5ceec0bb42a52af7010a472ba44714fff570855d08d1cf0e1bb"},
+      {"path": "docs/analysis/pleos-sdk-review.md", "sha256": "c13b98630b9d813c258c241926b7a4c73829d530b9637480bf25a9e3d22800ed"},
+      {"path": "docs/sdk/README.md", "sha256": "e2e21290b49ef37bc397308864e9ff53e9c7ee9a934827a157d315d4e7f3c851"},
+      {"path": "docs/sdk/vehicle.md", "sha256": "ea7c089e7e73b543a414ad1615801df97b44c30469bac11c6c3f6c24b8e87f96"},
+      {"path": "docs/sdk/speech-to-text.md", "sha256": "0adb988fe739d1841914c0c2c208d230dd58f8de1d90b53eff5a458503800673"},
+      {"path": "docs/sdk/fused-location.md", "sha256": "0a0de9e6b94d9e33ead6ec2ff701fb215966eff3a8f234e279018c0bd893e61a"},
+      {"path": "docs/analysis/selected-app-ideas-2026-11-12.md", "sha256": "419edbf856ad793d965f19947b1647e27e2c7e56f90b291f6b021fffed1831d1"},
+      {"path": "docs/analysis/hyundai-vehicle-app-contest-2026.md", "sha256": "20ff88ab95280faa9420eda3114427c95b2b49ef7d54f69848851aec71004604"},
+      {"path": "docs/sdk/evidence/sdk-inspection-2026-11-11.json", "sha256": "4dceb96defe73b80ae617339363efbb73f8ed4526126567310c6990dd267126a"}
+    ]
+  },
+  "verification_level": {
+    "official_sources_read": true,
+    "fresh_public_artifacts_downloaded": true,
+    "jvm_signatures_and_selected_permission_annotations_inspected": true,
+    "app_implemented": false,
+    "android_build_run": false,
+    "emulator_or_vehicle_calls_run": false,
+    "microphone_recognition_run": false,
+    "raw_audio_or_video_capture_run": false,
+    "guardian_notification_sent": false,
+    "safety_effectiveness_validated": false
+  },
+  "artifacts": [
+    {
+      "artifact": "ai.pleos.playground:Vehicle:2.3.2",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/Vehicle/2.3.2/Vehicle-2.3.2.aar",
+      "retrieval_date_kst": "2026-11-12",
+      "http_status": 200,
+      "bytes": 983759,
+      "sha256": "e11fdfe498cad3ecc0d5a2a6992b0c4a4d135195f1455018127bc069fd5ef937",
+      "classes_jar_class_count": 706,
+      "executed": false
+    },
+    {
+      "artifact": "ai.pleos.playground:SpeechToText:3.3.1",
+      "url": "https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/SpeechToText/3.3.1/SpeechToText-3.3.1.aar",
+      "retrieval_date_kst": "2026-11-12",
+      "http_status": 200,
+      "bytes": 188560,
+      "sha256": "35109ad13400a7fa103cca9fabbf9b785e63a6a98b17a0698a1aef51458d37bf",
+      "executed": false
+    }
+  ],
+  "vehicle_scan": {
+    "package": "ai.pleos.playground.vehicle.api",
+    "root_interface_count": 20,
+    "interfaces": ["Brake", "CarInfo", "Display", "Door", "DrivingMode", "EvBattery", "Fuel", "Gear", "HVAC", "Light", "Odometer", "Safety", "Seat", "SideMirror", "SteeringWheel", "Tire", "Toll", "TurnSignal", "Window", "Wiper"],
+    "count_rule": "public/protected method declarations returned by parser, excluding names containing $, including overloads and deprecated/permission-limited declarations",
+    "method_declaration_count": 517,
+    "is_count_of_usable_unique_apis": false,
+    "scoped_absence_findings": [
+      "No direct accelerator pedal read in these Pleos Vehicle interfaces; separate current Android pedal properties remain target-unconfirmed.",
+      "No immediate brake actuation or engine/motor torque-cut command found in these interfaces.",
+      "No car-fixed roll/pitch/IMU or camera/video capture method found in these interfaces."
+    ],
+    "limits": "Not an exhaustive inspection of OEM services, privileged APIs, transitive libraries or internal safety controllers."
+  },
+  "selected_binary_contracts": [
+    {
+      "class": "ai.pleos.playground.vehicle.api.Brake",
+      "methods": ["checkBrakePedalStatusCapabilities", "getCurrentBrakePedalStatus", "registerBrakePedalStatus", "unregisterBrakePedalStatus"],
+      "requires_permission": "pleos.car.permission.CAR_DRIVE",
+      "get_callback_generic_type": "java.lang.Boolean",
+      "get_descriptor": "(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V",
+      "get_signature": "(Lkotlin/jvm/functions/Function1<-Ljava/lang/Boolean;Lkotlin/Unit;>;Lkotlin/jvm/functions/Function1<-Ljava/lang/Exception;Lkotlin/Unit;>;)V",
+      "meaning_limit": "Pressed state, not pressure, force, effective braking or accelerator state."
+    },
+    {
+      "class": "ai.pleos.playground.vehicle.api.Safety",
+      "methods": ["checkAirbagDeployedCapabilities", "hasSeatAirbagBeenDeployed", "registerSeatAirbagDeployed", "unregisterSeatAirbagDeployed"],
+      "requires_permission": "pleos.car.permission.CAR_SAFETY",
+      "get_area_type": "ai.pleos.playground.vehicle.api.model.area.SeatArea",
+      "get_callback_generic_type": "java.lang.Boolean",
+      "meaning_limit": "Airbag deployed differs from hasSeatAirbagEnabled; initial true snapshot is not automatically a new crash."
+    },
+    {
+      "class": "ai.pleos.playground.vehicle.api.Safety",
+      "method": "getTelltalesInfo",
+      "requires_permission": "pleos.car.permission.CAR_SAFETY"
+    },
+    {
+      "class": "ai.pleos.playground.vehicle.api.Safety",
+      "methods": ["checkTelltalesCapabilities", "registerTelltales"],
+      "requires_permission": "pleos.car.permission.PRIVATE_CAR_SAFETY",
+      "runtime_grant_verified": false
+    },
+    {
+      "class": "ai.pleos.playground.vehicle.api.SteeringWheel",
+      "method": "getCurrentSteeringWheelAngle",
+      "requires_permission": "pleos.car.permission.CAR_DRIVE",
+      "callback_generic_type": "java.lang.Float",
+      "meaning_limit": "Steering wheel angle is not vehicle roll/pitch."
+    },
+    {
+      "class": "ai.pleos.playground.vehicle.api.DrivingMode",
+      "method": "getCruiseControlTargetSpeed",
+      "requires_permission": "pleos.car.permission.CAR_DRIVE",
+      "callback_generic_type": "java.lang.Float",
+      "meaning_limit": "Cruise target speed is not actual vehicle speed."
+    },
+    {
+      "class": "ai.pleos.playground.vehicle.api.Gear",
+      "methods": ["getCurrentGearSelectionState", "registerGearSelection", "unregisterGearSelection"],
+      "requires_permission": "pleos.car.permission.CAR_DRIVE",
+      "deprecated_replacement": "Google GEAR_SELECTION property",
+      "public_class_navigation_found": false
+    }
+  ],
+  "speech_binary_contracts": {
+    "classes_inspected": ["ai.pleos.playground.stt.SpeechToText", "ai.pleos.playground.stt.listener.ResultListener"],
+    "speech_to_text_method_names": ["initialize", "release", "addListener", "removeListener", "registerApp", "request", "stop", "sendAudio", "completeAudioSend", "setLocale", "getCallApi", "getAmbientAi"],
+    "result_listener_method_names": ["onUpdated", "onUpdatedEpdData", "onStartedRecognition", "onEndedRecognition", "onError", "onReady", "onUpdatedRms"],
+    "onUpdated_descriptor": "(Ljava/lang/String;Z)V",
+    "onUpdatedEpdData_descriptor": "(JJ)V",
+    "onUpdatedRms_descriptor": "(D)V",
+    "sendAudio_descriptor": "([B)V",
+    "limits": ["No raw microphone audio callback in the inspected ResultListener.", "sendAudio accepts app-supplied bytes; it is not microphone recording export.", "No internal/external microphone selection API confirmed in the inspected main class and programming guide.", "No built-in accident cause, speaker identification or emotion result found in this listener."]
+  },
+  "capability_decisions": [
+    {"feature": "internal_microphone_text", "status": "documented_and_binary_confirmed_runtime_unverified", "permission": "pleos.car.permission.STT_SERVICE"},
+    {"feature": "actual_vehicle_speed", "status": "official_Pleos_AAOS_route_runtime_unverified", "api": "CarPropertyManager / PERF_VEHICLE_SPEED", "permission": "Car.PERMISSION_SPEED", "unit": "m/s"},
+    {"feature": "brake_pressed", "status": "binary_confirmed_runtime_unverified", "permission": "pleos.car.permission.CAR_DRIVE"},
+    {"feature": "airbag_deployed", "status": "binary_confirmed_runtime_unverified", "permission": "pleos.car.permission.CAR_SAFETY"},
+    {"feature": "pedal_compression_percentages", "status": "Google_defined_Pleos_target_unconfirmed", "api": ["ACCELERATOR_PEDAL_COMPRESSION_PERCENTAGE", "BRAKE_PEDAL_COMPRESSION_PERCENTAGE"], "permission": "Car.PERMISSION_READ_CAR_PEDALS", "range": [0, 100], "read_only": true, "meaning_limit": "Physical pedal compression, not force or hydraulic pressure."},
+    {"feature": "tilt_acceleration_rotation", "status": "Android_candidates_target_unconfirmed", "prerequisites": ["actual sensors and permission", "vehicle-fixed mounting and axes", "calibration", "update timing and quality"]},
+    {"feature": "external_microphone_raw_cabin_audio_vehicle_cameras", "status": "public_capture_route_not_confirmed", "prerequisites": ["supported authorized interface", "capture permissions and lifecycle rules", "separate consent and sharing settings", "actual capture test"]},
+    {"feature": "automatic_braking_or_torque_cut", "status": "not_found_in_scanned_public_Vehicle_API", "included_in_first_version": false, "future_dependency": "OEM safety-control integration and separate validation"}
+  ],
+  "sources": [
+    {"id": "contest-scope", "url": "https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008", "read_method": "direct HTTP original and baseline contest report", "support": "Five SDKs permitted; no external STT transmission of vehicle microphone audio."},
+    {"id": "sdk-release", "url": "https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note", "support": "Current SDK versions; VehicleSpeedListener removed."},
+    {"id": "cluster-speed", "url": "https://document.pleos.ai/en/docs/pleos-only/vehicle-app-developer-guide/vehicle-app-faq", "support": "PERF_VEHICLE_SPEED via CarPropertyManager; emulator codecs differ from real vehicles."},
+    {"id": "compatibility", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/api-compatibility-availability", "support": "Capabilities and model differences; special-property review before implementation."},
+    {"id": "platform", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/platform-api-architecture", "support": "Platform API boundaries, restricted mobile APIs/sensors, network failures."},
+    {"id": "app-lifecycle", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/app-structure-screen-model", "support": "App/window/lifecycle rules; no always-running recorder guarantee."},
+    {"id": "privacy", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/security-privacy", "support": "Permissions, minimum data, shared-vehicle users, account handling."},
+    {"id": "brake", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/brake/entry", "support": "API navigation supplemented by fresh AAR signatures."},
+    {"id": "safety", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle/ai.pleos.playground.vehicle.api/safety/entry", "support": "Airbag API navigation supplemented by fresh AAR signatures."},
+    {"id": "capability", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/check-capability", "support": "Check supported functions and areas."},
+    {"id": "stt-intro", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/intro", "support": "Recognition modes and speech-to-text scope."},
+    {"id": "stt-permission", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/declaring-permissions", "support": "STT_SERVICE declaration and permission errors."},
+    {"id": "stt-request", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/start-and-stop", "support": "request/stop recognition sessions; no perpetual listening guarantee."},
+    {"id": "stt-results", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/result-listeners", "support": "Intermediate/final text, RMS, EPD byte offsets."},
+    {"id": "stt-pcm", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/sending-audio-data", "support": "ON_DEVICE PCM input, not raw recording export."},
+    {"id": "location", "url": "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/location-data-access", "support": "Location access and nullable data."},
+    {"id": "car-properties", "url": "https://developer.android.com/reference/android/car/VehiclePropertyIds", "support": "Speed, pedal compression, permissions, privileged ADAS/dynamics and wheel ticks; not Pleos target proof."},
+    {"id": "sensors", "url": "https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview", "support": "Actual sensor enumeration; device support differs."},
+    {"id": "motion", "url": "https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion", "support": "Device accelerometer, gravity, linear acceleration, gyroscope and rotation vector."},
+    {"id": "camera", "url": "https://source.android.com/docs/core/camera/system-cameras", "support": "System-camera permission boundary."},
+    {"id": "foreground", "url": "https://developer.android.com/develop/background-work/services/fgs/service-types", "support": "Android14 service types and camera/microphone while-in-use restrictions."},
+    {"id": "pmsa", "url": "https://www.hyundaimotorgroup.com/ko/tag/pedal-misapplication-safety-assist", "support": "OEM PMSA as prior art; not a public app brake API."},
+    {"id": "pedal-research", "url": "https://www.nhtsa.gov/crash-avoidance/office-crash-avoidance-research-technical-publications", "support": "Official DOT HS812058 listing summary; pedal-misapplication research exists, app efficacy unproved."}
+  ],
+  "source_read_date_kst": "2026-11-12",
+  "source_read_scope": "Official original pages and selected API sections. Some capability/location/PCM details also reuse the read baseline SDK review. Selected empty API method pages were not treated as complete specifications.",
+  "proposed_design_values": {
+    "event_pre_seconds": 30,
+    "event_post_seconds": 60,
+    "is_sdk_guarantee": false,
+    "concept_count": 3,
+    "screen_ids": ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "C5"],
+    "user_speech_examples": ["어 이거 왜이래!", "아이고!", "안돼!"],
+    "notification_states": ["locally saved", "upload attempted", "server received", "guardian device received", "guardian opened"],
+    "fixed_crash_threshold_validated": false
+  },
+  "excluded_or_limited_evidence": [
+    "Public NHTSA petition allegations were not treated as NHTSA findings.",
+    "The NHTSA report listing summary was read; the full DOT HS812058 PDF was not reviewed here.",
+    "OEM PMSA descriptions do not establish public third-party braking access.",
+    "Current Android API definitions do not establish API34 Pleos target availability."
+  ],
+  "actual_inspection": [
+    {"method": "temporary Python urllib and zipfile utility", "result": "Retrieved fresh Vehicle and SpeechToText AARs; extracted classes.jar without executing the libraries."},
+    {"method": "temporary class_review.py and annotation_review.py", "result": "Parsed public/protected JVM descriptors/signatures and selected RuntimeVisible/Invisible RequiresPermission annotations."},
+    {"command": "Get-FileHash -Algorithm SHA256 -LiteralPath <fresh SpeechToText AAR>", "result": "35109ad13400a7fa103cca9fabbf9b785e63a6a98b17a0698a1aef51458d37bf"},
+    {"command": "rg --files -g AGENTS.md -g *.md; Test-Path -LiteralPath .git", "result": "Project documentation found; .git absent."}
+  ],
+  "document_verification": {
+    "checked_date_kst": "2026-11-12",
+    "status": "PASS",
+    "markdown_files_checked": 8,
+    "local_links_checked": 54,
+    "local_link_errors": 0,
+    "tables_checked": 54,
+    "source_urls_matched_to_reports": 23,
+    "proposed_screen_ids_checked": 13,
+    "fresh_artifact_hashes_checked": 2,
+    "method_permission_pairs_compared_with_extracted_annotations": 16,
+    "speech_classes_compared_with_extracted_signatures": 2,
+    "historical_2026_11_11_verification_preserved": true,
+    "main_report_lines": 290,
+    "technical_report_lines": 152,
+    "main_report_sha256": "fb5b9bd8a06854503558b5cc52a7b229a8c50961b44fcf081cc34c7fe42b35f7",
+    "technical_report_sha256": "c7d9c620622eb8a1e7e81b504ce84c8c3c95f0a0cd41741c2d8edcfcfcd10b7c",
+    "verification_command": "Two read-only python scripts compared Markdown links/tables/source inventory/screen IDs and fresh AAR hashes/counts/selected method permissions/STT signatures.",
+    "limits": "Document and static-metadata checks only. No app build, runtime sensor/capture test, real notification or safety-effectiveness test."
+  },
+  "follow_up_reviews": [
+    {
+      "date_kst": "2026-11-12",
+      "scope": "User-directed Pleos-only integrated app, dashcam/animation/Android-backup official-source follow-up",
+      "plan": "docs/analysis/integrated-vehicle-care-2026-11-12.md",
+      "evidence": "docs/analysis/integrated-vehicle-care-2026-11-12-evidence.json",
+      "original_binary_observations_preserved": true,
+      "binary_inspection_repeated": false
+    },
+    {
+      "date_kst": "2026-11-12",
+      "scope": "PRD v2 sensor/DSP/manual-fallback/notification/IVI contract review and synthetic/static checks",
+      "plan": "docs/analysis/integrated-vehicle-care-2026-11-12.md",
+      "evidence": "docs/analysis/integrated-vehicle-care-prd-2026-11-12-evidence.json",
+      "validation": "docs/specs/vehicle-care/validation-2026-11-12.json",
+      "original_binary_observations_preserved": true,
+      "binary_inspection_repeated": false,
+      "runtime_acceptance_performed": false
+    }
+  ]
+}

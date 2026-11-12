@@ -1,0 +1,20 @@
+{
+  "checked_at_kst": "2026-11-12T06:34:09.709760+09:00",
+  "operation": "plain Korean wording revision",
+  "research_baseline_date_kst": "2026-11-11",
+  "revision_date_kst": "2026-11-12",
+  "result": "PASS",
+  "idea_count": 30,
+  "persona_groups": 10,
+  "idea_ids_and_names_preserved": true,
+  "sdk_lists_preserved": true,
+  "all_original_links_preserved": true,
+  "original_external_urls": 25,
+  "persona_original_files_unchanged": 10,
+  "broken_local_links": 0,
+  "new_research_performed": false,
+  "standalone_sejong_instruction_found": false,
+  "source_report_sha256": "7b0f19b32b3693791486b2a1386acd9b0203209067074841ef32c628877a72db",
+  "revised_report_sha256": "6c83f045d4fd43efbf76017538b792e297be203405d44073d1b462031c414834",
+  "remaining_editorial_review_terms": {}
+}

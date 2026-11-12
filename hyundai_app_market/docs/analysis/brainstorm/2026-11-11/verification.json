@@ -1,0 +1,183 @@
+{
+  "checked_at_kst": "2026-11-11T22:24:47.235278+09:00",
+  "result": "PASS",
+  "persona_files": 10,
+  "independent_agent_tasks": 10,
+  "ideas": 30,
+  "broken_local_links": 0,
+  "unique_source_urls": 39,
+  "files": [
+    {
+      "persona_id": "P01",
+      "agent_task": "/root/persona_p01",
+      "file": "docs/analysis/brainstorm/2026-11-11/p01.md",
+      "idea_count": 3,
+      "titles": [
+        "1. 해뜨기 전 12분",
+        "2. 배터리 교대조",
+        "3. 별빛 입국심사"
+      ],
+      "sha256": "ed05a3a6bf34eb5b8d77b66ea0a4e5fe238f3c7bd38cf252d09bf96c73c661fb",
+      "characters": 7776
+    },
+    {
+      "persona_id": "P02",
+      "agent_task": "/root/persona_p02",
+      "file": "docs/analysis/brainstorm/2026-11-11/p02.md",
+      "idea_count": 3,
+      "titles": [
+        "1. 트렁크 빨래 리그",
+        "2. 귀가 역전골",
+        "3. 우천취소 환전소"
+      ],
+      "sha256": "58beaeb340e1a9b7930068460af049c06ebba16c24f56b88001f30d9c0fd878d",
+      "characters": 7632
+    },
+    {
+      "persona_id": "P03",
+      "agent_task": "/root/persona_p03",
+      "file": "docs/analysis/brainstorm/2026-11-11/p03.md",
+      "idea_count": 3,
+      "titles": [
+        "P03-1. 쉬어도 이기는 원정대",
+        "P03-2. 박물관에 없는 전시품 운송국",
+        "P03-3. 오늘 전시는 딱 하나"
+      ],
+      "sha256": "843d11305f6195ff864ea6eb3b7b64606f8cbb9c0f38704812aaeb0eac2463c5",
+      "characters": 5800
+    },
+    {
+      "persona_id": "P04",
+      "agent_task": "/root/persona_p04",
+      "file": "docs/analysis/brainstorm/2026-11-11/p04.md",
+      "idea_count": 3,
+      "titles": [
+        "1. 문턱 90초",
+        "2. 두 도시 우체국",
+        "3. 주차장 1인 학회"
+      ],
+      "sha256": "6950e9618ab7f7c5d903007c24aea231d797fa1d27ec995bad1261c7a0b90adb",
+      "characters": 5652
+    },
+    {
+      "persona_id": "P05",
+      "agent_task": "/root/persona_p05",
+      "file": "docs/analysis/brainstorm/2026-11-11/p05.md",
+      "idea_count": 3,
+      "titles": [
+        "1. 질문 한 개 싣고 가기",
+        "2. 우주선 가족위원회",
+        "3. 반찬 입국심사"
+      ],
+      "sha256": "d6c79bd9e5886602c3d8ff86fe466dd949b9da1993eb944cf0e843d75e4c15f0",
+      "characters": 5685
+    },
+    {
+      "persona_id": "P06",
+      "agent_task": "/root/persona_p06",
+      "file": "docs/analysis/brainstorm/2026-11-11/p06.md",
+      "idea_count": 3,
+      "titles": [
+        "1. 되돌아갈 일, 한 칸",
+        "2. 침묵우표: 오늘 여기의 ‘사각사각’",
+        "3. 다음 마을에 건네는 한 문장"
+      ],
+      "sha256": "6956a471e908cd065d91a8cd7a0d5094f19b3e0cefbe9a9ddab15d814ddaa79c",
+      "characters": 4811
+    },
+    {
+      "persona_id": "P07",
+      "agent_task": "/root/persona_p07",
+      "file": "docs/analysis/brainstorm/2026-11-11/p07.md",
+      "idea_count": 3,
+      "titles": [
+        "1. 진료실 앞 책갈피",
+        "2. 사서 고양이의 무음 도서관",
+        "3. 캐리어 반납대"
+      ],
+      "sha256": "6c85358d46b34361d556cfa0a090cc08d71a0bfbd6f6f2bf453e51773c737d42",
+      "characters": 5312
+    },
+    {
+      "persona_id": "P08",
+      "agent_task": "/root/persona_p08",
+      "file": "docs/analysis/brainstorm/2026-11-11/p08.md",
+      "idea_count": 3,
+      "titles": [
+        "1. 세이브포인트: 내 차를 지키는 슬라임",
+        "2. 경고등 도감: 처음 만난 디버프 카드",
+        "3. 보스 입구 공략집: 건물 핀 옆의 차량 출입구"
+      ],
+      "sha256": "1e724ab180bd35c86743e9a6a65dd96b6496720b1b925de9daf8d79d2d507468",
+      "characters": 5613
+    },
+    {
+      "persona_id": "P09",
+      "agent_task": "/root/persona_p09",
+      "file": "docs/analysis/brainstorm/2026-11-11/p09.md",
+      "idea_count": 3,
+      "titles": [
+        "1. 주차왕국 한 수",
+        "2. 동네 충전 타일 수첩",
+        "3. 충전소 옆 보드게임 우체통"
+      ],
+      "sha256": "d29f555cb710e561482b40463a70bebbc5c07686560ccd9ba62b02363048c501",
+      "characters": 5346
+    },
+    {
+      "persona_id": "P10",
+      "agent_task": "/root/persona_p10",
+      "file": "docs/analysis/brainstorm/2026-11-11/p10.md",
+      "idea_count": 3,
+      "titles": [
+        "문턱 앞 한 가방",
+        "부품 한 줄, 귀가 한 코스",
+        "스패너의 귀가 사연"
+      ],
+      "sha256": "82aaee6b7b2eade87766d5446a14b62ae373e340abd89b2eadaba9961506e2a2",
+      "characters": 5350
+    }
+  ],
+  "source_urls": [
+    "https://aa.usno.navy.mil/data/api",
+    "https://appdevchallenge.auto-hmg.io/guide/judging-awards",
+    "https://appdevchallenge.auto-hmg.io/guide/overview",
+    "https://appdevchallenge.auto-hmg.io/notice/c0a1a000-2026-4923-8000-000000000008",
+    "https://catfriendly.com/veterinary-care/role-veterinary-visits/",
+    "https://catvets.com/resource/2025-transportation-of-cats-in-motor-vehicles-position-statement/",
+    "https://cpb-us-e1.wpmucdn.com/blogs.cornell.edu/dist/c/6136/files/2014/01/2013-Jiang-Hancock-Absence-makes-the-communication-grow-fonder.pdf",
+    "https://data.kma.go.kr/api/selectApiDetail.do?openApiNo=421&pgmNo=42",
+    "https://data.seoul.go.kr/dataList/OA-110/A/1/datasetView.do",
+    "https://data.seoul.go.kr/dataList/OA-15487/A/1/datasetView.do",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/FusedLocation/location-data-access",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/destinations",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/event-listeners",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/intro",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/NaviHelper/route-with-waypoints",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/intro",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/SpeechToText/start-and-stop",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/intro",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/TextToSpeech/start-and-stop",
+    "https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/check-capability",
+    "https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note",
+    "https://onlinelibrary.wiley.com/doi/abs/10.1111/jcom.12029",
+    "https://onlinemanual.nikonimglib.com/z6III/en/caring_for_the_camera_and_battery_cautions_386.html",
+    "https://ownersmanual.hyundai.com/full_webhelp/LX3/2026/en_US/warning_indicator_lights.html",
+    "https://storycorps.org/MOBILE-TOUR/",
+    "https://support.google.com/maps/answer/7257797?co=GENIE.Platform%3DAndroid&hl=en",
+    "https://www.cdc.gov/mrsa/prevention/athletes.html",
+    "https://www.cdc.gov/yellow-book/hcp/travel-air-sea/motion-sickness.html",
+    "https://www.energy.ca.gov/publications/2026/reservation-based-shared-level-2-ev-charging-multi-family-properties-analysis",
+    "https://www.fda.gov/food/buy-store-serve-safe-food/refrigerator-thermometers-cold-facts-about-food-safety",
+    "https://www.jinan.go.kr/jinanfarm/index.jinan?menuCd=DOM_000000702006000000",
+    "https://www.nhm.ac.uk/visit/quiet-galleries-spaces-in-the-museum.html",
+    "https://www.nhtsa.gov/book/countermeasures-that-work/distracted-driving",
+    "https://www.nia.nih.gov/health/healthy-aging/participating-activities-you-enjoy-you-age",
+    "https://www.nps.gov/articles/000/idkt_stargazing.htm",
+    "https://www.nps.gov/subjects/sound/enhance.htm",
+    "https://www.rda.go.kr/board/board.do?boardId=farmlcltinfo&currPage=78&dataNo=100000802000&mode=updateCnt&prgId=day_farmlcltinfoEntry&searchEDate=&searchKey=&searchSDate=&searchVal=",
+    "https://www.uwlib.or.kr/global/menu/10368/contents/40019/contents.do",
+    "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S120423174310156240"
+  ],
+  "limits": "Each agent records its original-page reads; parent rechecked selected primary pages. No interviews, app implementation, SDK runtime calls or market validation."
+}

@@ -1,0 +1,118 @@
+{
+  "schema_version": "2.0",
+  "analysis_date_kst": "2026-11-12",
+  "timezone": "Asia/Seoul",
+  "canonical_report": "docs/analysis/integrated-vehicle-care-2026-11-12.md",
+  "historical_plan": "docs/analysis/integrated-vehicle-care-2026-11-12-plan-v1.md",
+  "initial_baseline": {
+    "git_repository": false,
+    "app_source_present": false,
+    "files": [
+      {"path":"AGENTS.md","sha256":"e362ad5aa786c6acdde8d61512b4d7dba55d32913092ca54657666251e1cbc78"},
+      {"path":"docs/analysis/integrated-vehicle-care-2026-11-12.md","sha256":"4ece0cb2b665a9b55f3b003cf95b3f8ade3a246dd7a52138c26a64cbe49b2028"},
+      {"path":"docs/sdk/vehicle-safety-capabilities.md","sha256":"69141b18f63164f7a0ccc5baf4b3e2e1e1877b23234465c02e971c102ca74937"},
+      {"path":"docs/analysis/pleos-sdk-review.md","sha256":"03f34059f028905b0e2be45a18510190086b26caa2914e7b580511f44532fcc0"}
+    ]
+  },
+  "deliverables": [
+    "docs/analysis/integrated-vehicle-care-2026-11-12.md",
+    "docs/specs/vehicle-care/README.md",
+    "docs/specs/vehicle-care/api.openapi.json",
+    "docs/specs/vehicle-care/database.sql",
+    "docs/specs/vehicle-care/rules-lab.json",
+    "docs/specs/vehicle-care/ui-tokens.json",
+    "docs/specs/vehicle-care/acceptance-scenarios.json",
+    "docs/specs/vehicle-care/validation-2026-11-12.json"
+  ],
+  "requested_sections": [
+    "서비스 개요 및 공모전 차별화 포인트",
+    "시스템 아키텍처 및 데이터 파이프라인",
+    "기능별 초정밀 상세 명세",
+    "Pleos 화면 맞춤 UI/UX 상세 설계서",
+    "데이터베이스 스키마 및 상태 관리 구조",
+    "예외 처리 및 안전 규제 대응 방안"
+  ],
+  "scope_decisions": [
+    "Pleos-equipped vehicles only, IVI main app and Android backup.",
+    "Complete official target-vehicle warning/indicator/message catalog, not three warning types.",
+    "Available approved sensors only; no invented public IMU/motor RPM/DTC APIs or direct raw CAN/VHAL access.",
+    "Numerical vibration/crash rules are LAB starting values, not OEM safety criteria; production motion model disabled by default.",
+    "Same guide pipeline for user reports with distinct USER_REPORTED provenance.",
+    "Sensor incident to server immediately, external guardian dispatch after requested 10s countdown or send-now.",
+    "Kakao first and backend-owned text fallback; no concurrent provider-native resend.",
+    "Severity is estimated response priority, not injury or damage diagnosis; response absent is not unconsciousness.",
+    "1280x720dp is authored application viewport, not a universal official Pleos panel resolution.",
+    "Voice and explanation animation share guide/step/version, subject to actual driving/window permissions."
+  ],
+  "reference": {
+    "url":"https://ref.theseeker.io/r/7162",
+    "reference_id":7162,
+    "media_id":8096,
+    "read_with":"public ref MCP get_reference + contact sheet + get_reference_images",
+    "actual_image_visually_inspected":true,
+    "observed_palette":["#0A0A0C","#FF1F8F","#1C1C20","#FFFFFF"],
+    "adopted":"dark hierarchy, accent, pills, cards, avatar status, wide CTA",
+    "not_adopted":"portrait phone frames, small bottom navigation and social-content layout",
+    "web_open_failed_but_connector_succeeded":true
+  },
+  "sources": [
+    {"id":"S01","url":"https://appdevchallenge.auto-hmg.io/guide/judging-awards","read":"original page","supports":"Published first-round criteria and real working app requirement for second round; no unpublished score weights inferred."},
+    {"id":"S02","url":"https://document.pleos.ai/docs/connect/guide/docs-design/getting-started/layout","read":"web + direct original HTTP","supports":"Application window, driving/system regions, display families and landscape/portrait adaptation; no universal numeric pixel viewport found."},
+    {"id":"S03","url":"https://document.pleos.ai/docs/connect/guide/docs-design/Introduction/intro","read":"web + direct original HTTP","supports":"Contrast >=4.5:1; physical important glyph >=5mm and secondary >=3mm, concise text."},
+    {"id":"S04","url":"https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/app-structure-screen-model","read":"original page","supports":"Window resizing, foreground/background and protected Driving view."},
+    {"id":"S05","url":"https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/driver-distraction-guideline","read":"original page","supports":"CarUxRestrictions, limited moving graphics/video and audio focus; no emergency bypass established."},
+    {"id":"S06","url":"https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/platform-api-architecture","read":"original page","supports":"Platform-only hardware access, restricted sensors/mobile APIs and network loss design."},
+    {"id":"S07","url":"https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/api-compatibility-availability","read":"original page","supports":"Actual target capability/property availability and technical review for special properties."},
+    {"id":"S08","url":"https://developer.android.com/reference/android/car/VehiclePropertyIds","read":"web + direct original HTTP sections","supports":"PERF_VEHICLE_SPEED, ENGINE_RPM, WHEEL_TICK and front-wheel vs steering-wheel angle distinctions; permission and target-version constraints.","limit":"Search/cache rendering differed on permission text; current direct original HTML explicitly showed ENGINE_RPM 3P-or-privileged permission. No Pleos target grant tested."},
+    {"id":"S09","url":"https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion","read":"original page","supports":"Raw/linear acceleration and gyro definitions and sensor availability differences, not safety-quality guarantees."},
+    {"id":"S10","url":"https://source.android.com/docs/automotive/vhal/vhal-interface","read":"original page","supports":"Platform VHAL architecture, not public direct app hardware permission."},
+    {"id":"S11","url":"https://kakaobusiness.gitbook.io/main/ad/infotalk","read":"original page","supports":"Informational AlimTalk, approved templates and properly collected recipient numbers; no emergency-template approval inferred."},
+    {"id":"S12","url":"https://docs.kakaoi.ai/kakao_i_connect_message/bizmessage_eng/api/","read":"original page","supports":"BizMessage corporate service contract boundary; not treated as universal ready-to-send personal Kakao API."},
+    {"id":"S13","url":"https://docs.nhncloud.com/ko/Notification/KakaoTalk%20Bizmessage/ko/alimtalk-api-guide/","read":"web + direct original HTTP fields","supports":"Normal v2.3 messages path, request/recipient response, result lookup, optional resend, auth/messages is OTP-specific, provider idempotency window."},
+    {"id":"S14","url":"https://docs.nhncloud.com/ko/Notification/SMS/ko/api-guide/","read":"original page","supports":"SMS v3.0 and long-message mms path; EUC-KR SMS90/LMS2000/title40 byte limits and request fields."},
+    {"id":"S15","url":"https://developers.kakao.com/docs/ko/local/dev-guide","read":"original page","supports":"Server coordinate-to-address route, x longitude/y latitude; not proof of API account availability."},
+    {"id":"S16","url":"https://ownersmanual.hyundai.com/full_webhelp/DN8HEV/2026/ko_KR/warning_indicator_lights.html","read":"original page","supports":"Condition-dependent warning meanings and action structure.","limit":"Reference model not confirmed Pleos; target content not adopted as verified production guide."},
+    {"id":"S17","url":"https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/warning_indicator_lights.html","read":"original page, short intro only","supports":"General warning-section context only.","limit":"No detailed EV rules claimed from this short page and no Pleos fitment inferred."},
+    {"id":"S18","url":"https://document.pleos.ai/docs/connect/guide/docs-design/components/actions/basic-button","read":"original page","supports":"Design navigation/reference context.","limit":"No numeric64dp requirement attributed to the page; 64dp is authored design choice."}
+  ],
+  "baseline_sources_reused": [
+    "docs/sdk/evidence/vehicle-safety-inspection-2026-11-12.json",
+    "docs/analysis/integrated-vehicle-care-2026-11-12-evidence.json"
+  ],
+  "review": {
+    "reviewer":"prd_v2_review",
+    "read_only":true,
+    "initial_findings_addressed":[
+      "Manual minimum levels synchronized with numerical severity.",
+      "Overlapping impulse windows excluded from persistent vibration voting; synthetic counterexample reproduced.",
+      "Uniform grid/160Hz gate/10ms interpolation gap reflected in pseudocode.",
+      "Generic help separated from emergency moving-vehicle braking guidance.",
+      "Absolute text-fallback deadline starts on first submission even if HTTP response is lost.",
+      "Offline countdown clock fields, formula and cancellation creation intent defined.",
+      "Rows/pages computed from actual body height in all width profiles."
+    ],
+    "contract_findings_addressed":[
+      "Append observation/guidance batch API and immutable sequence/revision rules added.",
+      "Owner incident/timeline/location and guardian projection/download APIs added.",
+      "Resumable4MiB offset protocol and SQL sessions/chunks defined.",
+      "MONOTONIC_ONLY countdown requires usable elapsed time."
+    ],
+    "is_runtime_or_safety_certification":false
+  },
+  "actual_work": {
+    "official_source_review":true,
+    "reference_image_viewed":true,
+    "prd_and_contracts_written":true,
+    "synthetic_numeric_and_token_checks_run":true,
+    "app_or_backend_implemented":false,
+    "database_schema_applied":false,
+    "real_ui_render_or_panel_measurement":false,
+    "sensor_capture_or_vehicle_connection":false,
+    "real_kakao_sms_or_location_api_call":false,
+    "dashcam_or_phone_failover_test":false,
+    "crash_or_vibration_classifier_validated":false
+  },
+  "verification_record":"docs/specs/vehicle-care/validation-2026-11-12.json",
+  "final_status":"document_contract_and_synthetic_checks_complete_runtime_acceptance_unperformed",
+  "final_report_sha256":"9c861c8daeea822873ccaaaf312413592b6b1ad21b585004be58e9230a6b3283"
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "analysis_date_kst": "2026-11-12",
+  "timezone": "Asia/Seoul",
+  "canonical_plan": "docs/analysis/integrated-vehicle-care-2026-11-12.md",
+  "historical_plan_copy": "docs/analysis/integrated-vehicle-care-2026-11-12-plan-v1.md",
+  "superseded_by_prd_evidence": "docs/analysis/integrated-vehicle-care-prd-2026-11-12-evidence.json",
+  "scope": "User-directed merger of ideas 2/5/6 into a Pleos-main warning/fault record and emergency guidance app with Android backup. Only Pleos-equipped vehicles.",
+  "status": "historical_product_plan_superseded_by_prd_v2",
+  "initial_baseline": {
+    "git_repository": false,
+    "application_sources_present": false,
+    "files": [
+      {"path": "AGENTS.md", "sha256": "607120e8589983feb4552fcc88e4377072b4c5b3714d4159817a03ceb67b81a3"},
+      {"path": "docs/analysis/six-app-ideas-2026-11-12.md", "sha256": "534ece706d03a904f427b646aa977074c7b052a73fa0a9681ecc7cf4f9989d12"},
+      {"path": "docs/analysis/selected-app-ideas-2026-11-12.md", "sha256": "f755f159704a966c3b88bc53db2433c9f9d0b5b815649e2a1ca830cf8108558f"},
+      {"path": "docs/analysis/vehicle-safety-app-ideas-2026-11-12.md", "sha256": "cc3b45d47fea6095e3ed7b9a10f796349a84df5be950260c4c35f269eeb9d286"},
+      {"path": "docs/analysis/pleos-sdk-review.md", "sha256": "dd96516ef59e9b65c1b789a409cb29fe65c11f995a5e5ac534bbea954e526c91"},
+      {"path": "docs/sdk/vehicle-safety-capabilities.md", "sha256": "c7d9c620622eb8a1e7e81b504ce84c8c3c95f0a0cd41741c2d8edcfcfcd10b7c"}
+    ]
+  },
+  "user_decisions": [
+    "Merge former ideas 2, 5 and 6.",
+    "Replace the previous three-warning limit with the full warning/indicator/message catalog for supported Pleos cars.",
+    "Support direct and photo-assisted warning lookup and nearby Hyundai service linking.",
+    "Retain intermittent fault symptoms, permitted interior/exterior audio and video, and vehicle state.",
+    "Differentiate rapid acceleration without brake input from brake input without observed deceleration.",
+    "Provide both voice and explanatory Pleos screen animations, including pedal/foot direction and verified emergency controls.",
+    "Record all received evidence and the app's guidance/notification actions.",
+    "Start accident signaling on recognition, without waiting for media completion or driver confirmation.",
+    "Investigate installed dashcam integration and provide help voice for unresponsive/night cases.",
+    "Pleos app is primary; Android phone is pre-armed backup for that Pleos car, including vehicle power loss.",
+    "Do not expand to ordinary/non-Pleos vehicles."
+  ],
+  "requirements": [
+    {"id": "R01", "topic": "2/5/6 merger", "section": "1", "verification": "design_covered"},
+    {"id": "R02", "topic": "Pleos-only main app, phone helper not generic product", "section": "2", "verification": "design_covered"},
+    {"id": "R03", "topic": "complete supported-vehicle warning/indicator/message catalog", "section": "3.1", "verification": "planned_catalog_not_collected"},
+    {"id": "R04", "topic": "manual similar-symbol lookup", "section": "3.2", "verification": "planned_not_implemented"},
+    {"id": "R05", "topic": "photo-assisted multiple-symbol/text lookup", "section": "3.2", "verification": "planned_not_implemented"},
+    {"id": "R06", "topic": "service search and emergency triage", "section": "3.3", "verification": "official_web_service_confirmed_app_api_unconfirmed"},
+    {"id": "R07", "topic": "intermittent symptoms and repair visit evidence", "section": "4", "verification": "planned_not_implemented"},
+    {"id": "R08", "topic": "interior/exterior original audio", "section": "4.2", "verification": "capture_route_target_unconfirmed"},
+    {"id": "R09", "topic": "video and pre-event retention", "section": "4.1", "verification": "capture_lifecycle_target_unconfirmed"},
+    {"id": "R10", "topic": "rapid speed rise with absent brake input", "section": "5.1", "verification": "algorithm_and_thresholds_not_validated"},
+    {"id": "R11", "topic": "alarmed speech as supplementary evidence", "section": "5.1", "verification": "STT_documented_quality_unverified"},
+    {"id": "R12", "topic": "brake and pedal/foot-direction guidance", "section": "5.2", "verification": "assets_and_target_layout_review_pending"},
+    {"id": "R13", "topic": "brake input with no deceleration escalation", "section": "5.1", "verification": "algorithm_not_validated_Boolean_not_force"},
+    {"id": "R14", "topic": "fast accurate target-specific emergency stopping guidance", "section": "5.3", "verification": "Pleos_target_manual_and_review_pending"},
+    {"id": "R15", "topic": "synchronized voice and Pleos explanatory animation", "section": "5.2", "verification": "driving_policy_format_and_execution_pending"},
+    {"id": "R16", "topic": "record received evidence, decisions and output results", "section": "5.4", "verification": "planned_not_implemented"},
+    {"id": "R17", "topic": "multi-signal accident recognition", "section": "6.1", "verification": "runtime_support_and_accuracy_unverified"},
+    {"id": "R18", "topic": "immediate first event transmission and retention", "section": "6.1", "verification": "planned_not_implemented_no_real_notifications"},
+    {"id": "R19", "topic": "installed dashcam investigation", "section": "8", "verification": "official_consumer_and_vendor_routes_read_target_integration_unverified"},
+    {"id": "R20", "topic": "unresponsive/night conditions and loud help voice", "section": "6.2", "verification": "audio_audibility_and_eligibility_unverified"},
+    {"id": "R21", "topic": "pre-armed Android failover after car power loss", "section": "7", "verification": "architecture_only_no_failover_test"},
+    {"id": "R22", "topic": "offline behavior, consent, retention and access separation", "section": "12", "basis": "implementation conditions inferred from requested backup/recording", "verification": "planned_not_implemented"}
+  ],
+  "official_sources_read": [
+    {"id": "S01", "url": "https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note", "supports": "Current listed SDK versions match earlier Vehicle 2.3.2 and STT 3.3.1; no fresh binary inspection in this follow-up."},
+    {"id": "S02", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/api-compatibility-availability", "supports": "Target-specific capabilities, AAOS properties and special-property technical review."},
+    {"id": "S03", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/platform-api-architecture", "supports": "No direct physical hardware access, some sensors/mobile APIs restricted, offline/network design."},
+    {"id": "S04", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/driver-distraction-guideline", "supports": "Driving restrictions, reduced/limited moving graphics and audio focus. No automatic emergency exemption established."},
+    {"id": "S05", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/app-structure-screen-model", "supports": "Driving view cannot be arbitrarily hidden; app lifecycle and background work constraints."},
+    {"id": "S06", "url": "https://document.pleos.ai/docs/pleos-only/vehicle-app-developer-guide/vehicle-app-faq", "supports": "Actual cluster-speed AAOS route; not GPS or cruise target speed."},
+    {"id": "S07", "url": "https://ownersmanual.hyundai.com/full_webhelp/DN8HEV/2026/ko_KR/warning_indicator_lights.html", "supports": "Warning/indicator variants and condition-dependent guidance.", "limit": "Reference only. Not evidence of Pleos fitment or an adopted target catalog."},
+    {"id": "S08", "url": "https://ownersmanual.hyundai.com/full_webhelp/CE1/2024/ko_KR/iddb9b77f2061.html", "supports": "Manufacturer example of EPB emergency operation and limitations.", "limit": "Not proof this model is a supported Pleos car or a validated stopping recipe for the target."},
+    {"id": "S09", "url": "https://ownersmanual.hyundai.com/full_webhelp/ME/2025/ko_KR/id23C63000W3M.html", "supports": "MyHyundai consumer playback/download/sharing; Wi-Fi connection may interrupt mobile network as stated for this model.", "limit": "No public third-party Pleos streaming API established; not adopted as Pleos target model."},
+    {"id": "S10", "url": "https://www.hyundai.com/kr/ko/service-membership/service-network/service-reservation-search", "supports": "Official service search/reservation website and service-type differences.", "limit": "Third-party nearest-center/reservation API and successful booking unverified."},
+    {"id": "S11", "url": "https://developer.android.com/develop/background-work/services/fgs/service-types", "supports": "Android foreground service types and microphone/camera/location startup prerequisites; no unconditional post-crash activation guarantee."},
+    {"id": "S12", "url": "https://developer.android.com/develop/ui/compose/sharing/receive", "supports": "General receiving of content shared by another Android app; not proof a particular dashcam exports it."},
+    {"id": "S13", "url": "https://media.blackvue.com/press-release-blackvue-introduces-cloud-api-facilitate-fleet-telematics-software-integration/", "published_date": "2018-10-04", "supports": "Historical vendor integration announcement and official FLEETA product link.", "limit": "Historical announcement alone does not establish current integration rights or target support."},
+    {"id": "S14", "url": "https://fleeta.io/pages/developers", "supports": "Official FLEETA product page links to developers.fleeta.io, confirming the developer portal relationship."},
+    {"id": "S15", "url": "https://developers.fleeta.io/", "supports": "Published cloud events/video API candidate. Some parking-impact examples specify minutes, not immediate emergency response.", "limit": "No account, device, subscription, exact timing or API call tested."},
+    {"id": "S16", "url": "https://developers.fleeta.io/docs/wifi", "supports": "Local Wi-Fi overview, recordings/live view candidate, single-client restriction, detailed schemas/guides still coming soon.", "limit": "No direct Pleos hardware-access approval or working local integration established."},
+    {"id": "S17", "url": "https://news.aaa-calif.com/news/auto-club-recommends-steps-to-154948", "published_date": "2010-03-10", "supports": "Independent first-party safety guidance to know model-specific controls and keep attention on the road.", "limit": "Historical corroboration, not a current target-Pleos emergency procedure."}
+  ],
+  "source_read_date_kst": "2026-11-12",
+  "additional_http_proof": [
+    {"command": "agbrowse search --verify https://ownersmanual.hyundai.com/full_webhelp/CE1/2024/ko_KR/iddb9b77f2061.html --json --browser never", "verdict": "strong_ok", "ok": true, "source": "fetch", "chrome_used": false, "scope": "Original manual page available; no vehicle test."},
+    {"command": "agbrowse search --verify https://ownersmanual.hyundai.com/full_webhelp/ME/2025/ko_KR/id23C63000W3M.html --json --browser never", "verdict": "weak_ok", "ok": true, "source": "fetch", "chrome_used": false, "scope": "Short original manual body read separately with web open; not overall integration sufficiency."}
+  ],
+  "excluded_or_limited_candidates": [
+    {"url": "https://blackvue.com/fleet-sdk/", "result": "404", "used_as_current_capability_proof": false},
+    {"url": "https://manual.blackvue.com/docs/blackvue-fleet-sdk/", "result": "Navigation/footer only in retrieved page", "used_as_complete_specification": false},
+    {"url": "https://ownersmanual.hyundai.com/docview/webhelp/Hyundai/19da8a75-d5be-43b8-9c69-9f888be5a155/idf21fe56a480.html", "result": "404", "used_as_original_page_proof": false},
+    {"type": "Search snippets, news summaries and public complaint allegations", "used_as_API_or_safety_proof": false}
+  ],
+  "proposed_values": {
+    "symptom_pre_seconds": 30,
+    "symptom_post_seconds": 60,
+    "first_guidance_after_valid_signal_received_target_seconds": 1,
+    "are_validated_safety_thresholds_or_sdk_guarantees": false,
+    "rapid_acceleration_and_no_deceleration_thresholds": "not_set_pending_target_sampling_and_validation",
+    "no_response_timeout_and_help_voice_repeat": "not_set_pending_validation"
+  },
+  "actual_work": {
+    "existing_reports_read": true,
+    "official_original_pages_read": true,
+    "product_plan_written": true,
+    "sdk_artifact_redownloaded": false,
+    "binary_inspection_repeated": false,
+    "app_code_written": false,
+    "android_build_or_emulator_test": false,
+    "vehicle_phone_dashcam_connected": false,
+    "emergency_guide_assets_built_or_validated": false,
+    "raw_capture_or_failover_executed": false,
+    "messages_calls_bookings_sent": false,
+    "safety_effectiveness_validated": false
+  },
+  "review": {
+    "status": "read_only_builder_check_completed_corrections_applied",
+    "reviewer_task": "integrated_plan_review",
+    "reviewer_modified_files_or_ran_app_tests": false,
+    "items": [
+      {"priority": "P1", "finding": "Brake absent must not include missing/unsupported/stale values.", "resolution": "Section 5.1 now uses valid false only and explicitly separates true, false and unknown; future tests added."},
+      {"priority": "P1", "finding": "Non-deceleration branch could include a stopped car or ordinary constant speed.", "resolution": "Section 5.1 now requires motion plus an active unintended-acceleration response or user stopping-failure request; signed reverse speed handling and tests added."},
+      {"priority": "P1", "finding": "First accident transmission could wait for storage or location.", "resolution": "Section 6.1 now starts transmission independently with event ID, receipt time and signal; no fresh GPS, file commit, media or user-response wait; failure tests added."},
+      {"priority": "P2", "finding": "Foreground emergency graphics while navigation is showing were not a verified platform path.", "resolution": "Section 5.2 and phase 1 now require approved display/notification path verification. Section 5.3 separates decision, real audio start and visible screen latency."}
+    ],
+    "requirements_coverage_assessment": "Reviewer reported all requested feature areas covered. This is a planning review, not safety certification or runtime acceptance."
+  },
+  "document_verification": {
+    "status": "PASS",
+    "checked_date_kst": "2026-11-12",
+    "markdown_files_checked": 7,
+    "local_links_and_heading_anchors_checked": 69,
+    "tables_checked": 57,
+    "requirements_mapped_to_sections": 22,
+    "proposed_screens_checked": 10,
+    "official_source_entries_checked": 17,
+    "builder_review_findings_addressed": 4,
+    "link_anchor_table_errors": 0,
+    "report_lines": 320,
+    "verification_command": "Read-only Python checks of Markdown links/headings/tables, JSON syntax, requirement IDs/section mapping, screen IDs, key requested behaviors and preserved dated follow-up references.",
+    "validator_note": "Initial section matcher assumed a trailing period after subsection numbers; corrected the checker to accept the actual heading syntax and reran the full check. No product behavior was executed.",
+    "runtime_or_safety_acceptance": false
+  }
+}

@@ -1,0 +1,2735 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Pleos Vehicle Care application backend",
+    "version": "2.1.0",
+    "description": "Proposed application-owned API, not a Pleos or Kakao API. No running server is implied. All examples are synthetic. Production sending requires server-side enrollment, verified recipients, approved templates and environment gates."
+  },
+  "servers": [
+    {
+      "url": "https://care.example.invalid"
+    }
+  ],
+  "security": [
+    {
+      "sessionBearer": []
+    }
+  ],
+  "paths": {
+    "/v1/incidents": {
+      "post": {
+        "operationId": "createIncident",
+        "summary": "Persist incident and notification policy without waiting for address or media",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncidentCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Persisted; not proof of guardian delivery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentAck"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Previously committed identical request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentAck"
+                }
+              }
+            }
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "get": {
+        "operationId": "getIncident",
+        "responses": {
+          "200": {
+            "description": "Authorized incident projection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentView"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/actions": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "post": {
+        "operationId": "applyIncidentAction",
+        "description": "Atomic policy version check. A rejected uncommitted 409 does not consume the idempotency key. Cancellation after provider submission cannot recall a message.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncidentAction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Committed or previously committed action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/observations": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "post": {
+        "operationId": "appendObservationBatch",
+        "description": "Append immutable device-sequenced observations and guidance events. Same batch hash is idempotent; changed sequence content is 409. Recompute severity monotonically and increment public notification revision only for material severity/response change.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObservationBatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Batch committed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentAck"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Previously committed identical batch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentAck"
+                }
+              }
+            }
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/timeline": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "get": {
+        "operationId": "getAuthorizedIncidentTimeline",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-authorized immutable evidence/action/output timeline; provider secrets/recipient numbers excluded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimelinePage"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/manual-reports": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "post": {
+        "operationId": "appendManualReport",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualReport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "User report retained with USER_REPORTED provenance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuideDecision"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/locations": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "post": {
+        "operationId": "appendIncidentLocation",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Location"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Location retained; reverse geocoding asynchronous",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationAck"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/locations/latest": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "get": {
+        "operationId": "getLatestAuthorizedLocation",
+        "responses": {
+          "200": {
+            "description": "Latest position with source/time/accuracy/address availability, including position=null",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationView"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/assets": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "post": {
+        "operationId": "prepareEvidenceUpload",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetPrepare"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Upload permit, not completed evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadPermit"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/assets/{assetId}/complete": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        },
+        {
+          "name": "assetId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "completeEvidenceUpload",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "upload_id",
+                  "sha256",
+                  "bytes"
+                ],
+                "properties": {
+                  "upload_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "bytes": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Server hash verification queued; ETag is not assumed to be SHA-256",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "asset_id",
+                    "state"
+                  ],
+                  "properties": {
+                    "asset_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "state": {
+                      "const": "VERIFYING"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/assets/{assetId}/download": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        },
+        {
+          "name": "assetId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getOwnerEvidenceDownload",
+        "responses": {
+          "200": {
+            "description": "Owner-only short-lived URL for COMPLETE asset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadPermit"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/incidents/{incidentId}/deliveries": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "get": {
+        "operationId": "getIncidentDeliveries",
+        "responses": {
+          "200": {
+            "description": "Per recipient/channel state; opened_at is independent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Delivery"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/uploads/{uploadId}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/UploadId"
+        }
+      ],
+      "head": {
+        "operationId": "getUploadOffset",
+        "responses": {
+          "200": {
+            "description": "Owner-authorized resumable upload state",
+            "headers": {
+              "Upload-Offset": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "Upload-Length": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "Upload-Expires": {
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "appendUploadChunk",
+        "description": "Application-owned offset protocol, not a claim of full tus support. Max 4MiB; non-final chunks exactly 4MiB. Same offset/length/hash replay returns current offset, changed replay or out-of-order offset is 409. Chunks are staged then assembled; not directly assumed to be 4MiB S3 multipart parts.",
+        "parameters": [
+          {
+            "name": "Upload-Offset",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "Upload-Chunk-SHA256",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Chunk retained; not whole-asset verification",
+            "headers": {
+              "Upload-Offset": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "413": {
+            "description": "Chunk exceeds 4MiB"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/uploads/{uploadId}/renew": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/UploadId"
+        }
+      ],
+      "post": {
+        "operationId": "renewAuthorizedUpload",
+        "description": "Recheck owner, asset state and quota; renewed permit expires after 15 minutes",
+        "responses": {
+          "200": {
+            "description": "Upload lease renewed without resetting offset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadPermit"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/vehicles/{vehicleId}/warning-guides": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VehicleId"
+        }
+      ],
+      "get": {
+        "operationId": "listVerifiedWarningGuides",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 120
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 256
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Only verified guides matching Pleos target profile in normal mode",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "coverage",
+                    "next_cursor"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WarningGuide"
+                      }
+                    },
+                    "coverage": {
+                      "type": "object",
+                      "required": [
+                        "expected",
+                        "reviewed",
+                        "complete"
+                      ],
+                      "properties": {
+                        "expected": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "minimum": 0
+                        },
+                        "reviewed": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "complete": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
+                    "next_cursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/vehicles/{vehicleId}/capabilities": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VehicleId"
+        }
+      ],
+      "put": {
+        "operationId": "reportCapabilitySnapshot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CapabilitySnapshot"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Snapshot retained; not manufacturer certification"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/vehicles/{vehicleId}/guardians": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VehicleId"
+        }
+      ],
+      "get": {
+        "operationId": "listVehicleGuardians",
+        "responses": {
+          "200": {
+            "description": "Masked contacts and verified consent states",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "maxItems": 5,
+                  "items": {
+                    "$ref": "#/components/schemas/GuardianView"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      },
+      "post": {
+        "operationId": "registerGuardianForVerification",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "display_name",
+                  "phone_e164"
+                ],
+                "properties": {
+                  "display_name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 30
+                  },
+                  "phone_e164": {
+                    "type": "string",
+                    "pattern": "^\\+[1-9][0-9]{7,14}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "PENDING_VERIFICATION, not active until number verification and recipient consent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuardianView"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/guardians/{guardianId}/consent": {
+      "parameters": [
+        {
+          "name": "guardianId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "put": {
+        "operationId": "updateVerifiedGuardianConsent",
+        "description": "Guardian-authenticated number verification must already be satisfied. Owner alone cannot accept for recipient.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "accepted",
+                  "policy_version"
+                ],
+                "properties": {
+                  "accepted": {
+                    "type": "boolean"
+                  },
+                  "policy_version": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "media_allowed": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Consent recorded or revoked"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/shares/{shareId}/ack": {
+      "parameters": [
+        {
+          "name": "shareId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "acknowledgeAuthenticatedView",
+        "description": "Requires authenticated bound guardian and unexpired/unrevoked grant, not merely knowledge of URL",
+        "responses": {
+          "200": {
+            "description": "OPENED recorded independently of transport delivery"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/shares/{shareId}": {
+      "parameters": [
+        {
+          "name": "shareId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getAuthenticatedGuardianProjection",
+        "description": "Requires bound guardian session and valid grant; projection excludes other guardians and unconsented original media",
+        "responses": {
+          "200": {
+            "description": "Scope-filtered guardian incident view",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuardianProjection"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/v1/shares/{shareId}/assets/{assetId}/download": {
+      "parameters": [
+        {
+          "name": "shareId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "assetId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getConsentedGuardianEvidenceDownload",
+        "responses": {
+          "200": {
+            "description": "Recheck authenticated guardian, grant expiry/revocation and media scope; COMPLETE asset only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadPermit"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "sessionBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Application-issued device/account/guardian session. Provider secrets are never client tokens."
+      }
+    },
+    "parameters": {
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "IncidentId": {
+        "name": "incidentId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "VehicleId": {
+        "name": "vehicleId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "UploadId": {
+        "name": "uploadId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "responses": {
+      "Problem": {
+        "description": "400/401/403/404/422/429/503, authenticated error scope",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "409: idempotency or state version conflict; previous committed result is never overwritten",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Quality": {
+        "type": "string",
+        "enum": [
+          "VALID",
+          "STALE",
+          "MISSING",
+          "TIMEOUT",
+          "UNSUPPORTED",
+          "DENIED",
+          "INVALID_CLOCK",
+          "OUT_OF_RANGE",
+          "GAPPED"
+        ]
+      },
+      "DriverResponse": {
+        "type": "string",
+        "enum": [
+          "NOT_REQUESTED",
+          "RESPONDED_SAFE",
+          "RESPONDED_HELP",
+          "NO_RESPONSE",
+          "UNKNOWN"
+        ]
+      },
+      "Severity": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "level",
+          "confidence",
+          "reasons"
+        ],
+        "properties": {
+          "level": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 3
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW",
+              "UNKNOWN"
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "maxLength": 80
+            }
+          }
+        }
+      },
+      "Symptom": {
+        "type": "string",
+        "enum": [
+          "SHAKE",
+          "STEERING_PULL",
+          "METAL_NOISE",
+          "BURNING_SMELL",
+          "PEDAL_ABNORMAL",
+          "TIRE_DAMAGE",
+          "MINOR_COLLISION",
+          "SINGLE_COLLISION",
+          "POWER_LOSS",
+          "STOPPING_FAILED",
+          "UNWANTED_ACCEL",
+          "UNKNOWN_PEDAL"
+        ]
+      },
+      "ManualReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_report_id",
+          "selected_symptoms",
+          "observed_at",
+          "reported_stopped",
+          "request_help"
+        ],
+        "properties": {
+          "client_report_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "selected_symptoms": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/components/schemas/Symptom"
+            }
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reported_stopped": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "request_help": {
+            "type": "boolean"
+          },
+          "selected_region": {
+            "type": "string",
+            "enum": [
+              "FRONT_BODY",
+              "FRONT_TIRE",
+              "CABIN",
+              "REAR_BODY",
+              "UNKNOWN"
+            ],
+            "default": "UNKNOWN",
+            "description": "User-selected vehicle region, not sensor-confirmed fault localization"
+          }
+        }
+      },
+      "Observation": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sequence",
+          "code",
+          "source",
+          "quality",
+          "observed_at",
+          "value"
+        ],
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "origin_device_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "PLEOS_VEHICLE",
+              "AAOS_PROPERTY",
+              "APPROVED_VEHICLE_IMU",
+              "PHONE_IMU",
+              "PHONE_LOCATION",
+              "VEHICLE_LOCATION",
+              "USER_REPORTED",
+              "SYNTHETIC"
+            ]
+          },
+          "quality": {
+            "$ref": "#/components/schemas/Quality"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "age_ms": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "unit": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 30
+          },
+          "value": {
+            "type": [
+              "number",
+              "boolean",
+              "string",
+              "array",
+              "null"
+            ],
+            "maxLength": 2048,
+            "maxItems": 64,
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "code": {
+                  "enum": [
+                    "AIRBAG_DEPLOYED",
+                    "BRAKE_PRESSED"
+                  ]
+                }
+              },
+              "required": [
+                "code"
+              ]
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "quality": {
+                  "const": "VALID"
+                }
+              },
+              "required": [
+                "quality"
+              ]
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Location": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "lat",
+          "lng",
+          "accuracy_m",
+          "observed_at",
+          "age_ms",
+          "source",
+          "quality"
+        ],
+        "properties": {
+          "lat": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": -90,
+            "maximum": 90
+          },
+          "lng": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": -180,
+            "maximum": 180
+          },
+          "accuracy_m": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "observed_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "age_ms": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "VEHICLE_LOCATION",
+              "PHONE_LOCATION",
+              "USER_REPORTED",
+              "UNAVAILABLE"
+            ]
+          },
+          "quality": {
+            "$ref": "#/components/schemas/Quality"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "lat": {
+                  "type": "null"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "lng": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "lng": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "quality": {
+                  "const": "VALID"
+                }
+              },
+              "required": [
+                "quality"
+              ]
+            },
+            "then": {
+              "properties": {
+                "lat": {
+                  "type": "number"
+                },
+                "lng": {
+                  "type": "number"
+                },
+                "observed_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "source": {
+                  "enum": [
+                    "VEHICLE_LOCATION",
+                    "PHONE_LOCATION",
+                    "USER_REPORTED"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "NotificationIntent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "guardian_ids",
+          "intent",
+          "countdown_remaining_ms",
+          "countdown_started_at",
+          "elapsed_ms_at_submit",
+          "clock_confidence",
+          "clock_domain",
+          "clock_error_bound_ms",
+          "cancel_action_id"
+        ],
+        "properties": {
+          "guardian_ids": {
+            "type": "array",
+            "maxItems": 5,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "intent": {
+            "type": "string",
+            "enum": [
+              "RECORD_ONLY",
+              "COUNTDOWN",
+              "SEND_NOW",
+              "CANCELLED"
+            ]
+          },
+          "countdown_remaining_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "countdown_started_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "elapsed_ms_at_submit": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 86400000
+          },
+          "clock_confidence": {
+            "type": "string",
+            "enum": [
+              "SYNCHRONIZED",
+              "MONOTONIC_ONLY",
+              "UNKNOWN"
+            ]
+          },
+          "clock_domain": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "clock_error_bound_ms": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "cancel_action_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "intent": {
+                  "const": "CANCELLED"
+                }
+              },
+              "required": [
+                "intent"
+              ]
+            },
+            "then": {
+              "properties": {
+                "cancel_action_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "clock_confidence": {
+                  "const": "SYNCHRONIZED"
+                }
+              },
+              "required": [
+                "clock_confidence"
+              ]
+            },
+            "then": {
+              "properties": {
+                "countdown_started_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "elapsed_ms_at_submit": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 86400000
+                },
+                "clock_error_bound_ms": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 500
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "intent": {
+                  "const": "COUNTDOWN"
+                },
+                "clock_confidence": {
+                  "const": "MONOTONIC_ONLY"
+                }
+              },
+              "required": [
+                "intent",
+                "clock_confidence"
+              ]
+            },
+            "then": {
+              "properties": {
+                "elapsed_ms_at_submit": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 86400000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "IncidentCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_incident_id",
+          "vehicle_id",
+          "device_id",
+          "occurred_at",
+          "kind",
+          "rule_profile_id",
+          "severity_estimate",
+          "observations",
+          "manual_report",
+          "location",
+          "driver_response",
+          "notification",
+          "test_mode"
+        ],
+        "properties": {
+          "client_incident_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vehicle_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "device_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "VEHICLE_FAULT",
+              "VEHICLE_EMERGENCY",
+              "COLLISION_SUSPECTED",
+              "USER_SOS"
+            ]
+          },
+          "rule_profile_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "severity_estimate": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "observations": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "$ref": "#/components/schemas/Observation"
+            }
+          },
+          "manual_report": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ManualReport"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "location": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "driver_response": {
+            "$ref": "#/components/schemas/DriverResponse"
+          },
+          "notification": {
+            "$ref": "#/components/schemas/NotificationIntent"
+          },
+          "test_mode": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "observations": {
+                  "contains": {
+                    "type": "object",
+                    "required": [
+                      "source"
+                    ],
+                    "properties": {
+                      "source": {
+                        "const": "SYNTHETIC"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "test_mode": {
+                  "const": true
+                }
+              }
+            }
+          }
+        ]
+      },
+      "PolicyState": {
+        "type": "string",
+        "enum": [
+          "RECORD_ONLY",
+          "COUNTDOWN",
+          "RELEASED",
+          "DISPATCHING",
+          "CANCELLED",
+          "BLOCKED_NO_RECIPIENT"
+        ]
+      },
+      "IncidentAck": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "incident_id",
+          "version",
+          "accepted_at",
+          "severity",
+          "notification_state",
+          "notification_revision",
+          "release_at",
+          "test_mode"
+        ],
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "accepted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "notification_state": {
+            "$ref": "#/components/schemas/PolicyState"
+          },
+          "notification_revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "release_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "test_mode": {
+            "type": "boolean"
+          }
+        }
+      },
+      "IncidentView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "incident_id",
+          "version",
+          "accepted_at",
+          "severity",
+          "notification_state",
+          "notification_revision",
+          "release_at",
+          "test_mode",
+          "kind",
+          "driver_response",
+          "latest_location",
+          "manual_symptoms",
+          "active_guide",
+          "assets",
+          "deliveries",
+          "last_received_at"
+        ],
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "accepted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "notification_state": {
+            "$ref": "#/components/schemas/PolicyState"
+          },
+          "notification_revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "release_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "test_mode": {
+            "type": "boolean"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "VEHICLE_FAULT",
+              "VEHICLE_EMERGENCY",
+              "COLLISION_SUSPECTED",
+              "USER_SOS"
+            ]
+          },
+          "driver_response": {
+            "$ref": "#/components/schemas/DriverResponse"
+          },
+          "latest_location": {
+            "$ref": "#/components/schemas/LocationView"
+          },
+          "manual_symptoms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Symptom"
+            }
+          },
+          "active_guide": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GuidePosition"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "assets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetView"
+            }
+          },
+          "deliveries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Delivery"
+            }
+          },
+          "last_received_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "IncidentAction": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_action_id",
+          "expected_version",
+          "action",
+          "occurred_at"
+        ],
+        "properties": {
+          "client_action_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "SEND_NOW",
+              "CANCEL",
+              "RESPOND_SAFE",
+              "REQUEST_HELP",
+              "REPORT_STOPPED"
+            ]
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ActionResult": {
+        "type": "object",
+        "required": [
+          "incident_id",
+          "version",
+          "notification_state",
+          "already_submitted"
+        ],
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "notification_state": {
+            "$ref": "#/components/schemas/PolicyState"
+          },
+          "already_submitted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "GuideDecision": {
+        "type": "object",
+        "required": [
+          "incident_id",
+          "guide_id",
+          "source",
+          "severity",
+          "review_status"
+        ],
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "guide_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source": {
+            "const": "USER_REPORTED"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "review_status": {
+            "type": "string",
+            "enum": [
+              "VERIFIED",
+              "UNAVAILABLE",
+              "DRAFT_TEST_ONLY"
+            ]
+          }
+        }
+      },
+      "LocationAck": {
+        "type": "object",
+        "required": [
+          "address_status"
+        ],
+        "properties": {
+          "address_status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "AVAILABLE",
+              "UNAVAILABLE",
+              "FAILED"
+            ]
+          }
+        }
+      },
+      "AssetPrepare": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_asset_id",
+          "channel",
+          "content_type",
+          "bytes",
+          "sha256",
+          "started_at",
+          "ended_at",
+          "source"
+        ],
+        "properties": {
+          "client_asset_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "IMU",
+              "CABIN_AUDIO",
+              "EXTERIOR_AUDIO",
+              "FRONT_VIDEO",
+              "REAR_VIDEO",
+              "CABIN_VIDEO",
+              "PHOTO",
+              "GUIDANCE_LOG"
+            ]
+          },
+          "content_type": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 536870912
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ended_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 100
+          }
+        }
+      },
+      "UploadPermit": {
+        "type": "object",
+        "required": [
+          "asset_id",
+          "upload_id",
+          "upload_url",
+          "expires_at",
+          "chunk_bytes",
+          "offset",
+          "method"
+        ],
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "upload_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "upload_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "chunk_bytes": {
+            "const": 4194304
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "method": {
+            "const": "PATCH"
+          }
+        }
+      },
+      "Delivery": {
+        "type": "object",
+        "required": [
+          "guardian_id",
+          "channel",
+          "revision",
+          "state",
+          "delivered_at",
+          "opened_at"
+        ],
+        "properties": {
+          "guardian_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "KAKAO",
+              "SMS",
+              "LMS"
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "QUEUED",
+              "SUBMITTING",
+              "SUBMISSION_UNKNOWN",
+              "ACCEPTED",
+              "DELIVERED",
+              "FAILED",
+              "DELIVERY_UNCONFIRMED",
+              "CANCELLED"
+            ]
+          },
+          "delivered_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "opened_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "CapabilitySnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "device_id",
+          "observed_at",
+          "signals"
+        ],
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "signals": {
+            "type": "array",
+            "maxItems": 128,
+            "items": {
+              "type": "object",
+              "required": [
+                "signal_id",
+                "support",
+                "source",
+                "actual_rate_hz",
+                "unit"
+              ],
+              "properties": {
+                "signal_id": {
+                  "type": "string"
+                },
+                "support": {
+                  "type": "string",
+                  "enum": [
+                    "SUPPORTED",
+                    "UNSUPPORTED",
+                    "UNKNOWN",
+                    "DENIED"
+                  ]
+                },
+                "source": {
+                  "type": "string"
+                },
+                "actual_rate_hz": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "unit": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "GuardianView": {
+        "type": "object",
+        "required": [
+          "guardian_id",
+          "display_name",
+          "phone_masked",
+          "state"
+        ],
+        "properties": {
+          "guardian_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "phone_masked": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "PENDING_VERIFICATION",
+              "PENDING_CONSENT",
+              "ACTIVE",
+              "REVOKED"
+            ]
+          }
+        }
+      },
+      "WarningGuide": {
+        "type": "object",
+        "required": [
+          "guide_id",
+          "warning_code",
+          "version",
+          "official_meaning",
+          "mobility_action",
+          "checklist",
+          "source_url",
+          "review_status"
+        ],
+        "properties": {
+          "guide_id": {
+            "type": "string"
+          },
+          "warning_code": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "official_meaning": {
+            "type": "string"
+          },
+          "mobility_action": {
+            "type": "string",
+            "enum": [
+              "STOP_SAFE",
+              "SLOW_CHECK",
+              "CAUTION",
+              "UNKNOWN"
+            ]
+          },
+          "checklist": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "step_id",
+                "text",
+                "asset_id"
+              ],
+              "properties": {
+                "step_id": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "asset_id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "review_status": {
+            "const": "VERIFIED"
+          }
+        }
+      },
+      "GuidanceEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_event_id",
+          "guide_id",
+          "guide_version",
+          "step_id",
+          "occurred_at",
+          "output",
+          "result",
+          "error_code"
+        ],
+        "properties": {
+          "client_event_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "guide_id": {
+            "type": "string"
+          },
+          "guide_version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "step_id": {
+            "type": "string"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "output": {
+            "type": "string",
+            "enum": [
+              "AUDIO",
+              "VISUAL"
+            ]
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "REQUESTED",
+              "STARTED",
+              "COMPLETED",
+              "FAILED",
+              "BLOCKED_BY_HOST"
+            ]
+          },
+          "error_code": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 80
+          }
+        }
+      },
+      "ObservationBatch": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_batch_id",
+          "device_id",
+          "observations",
+          "guidance_events"
+        ],
+        "properties": {
+          "client_batch_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "device_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "observations": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "$ref": "#/components/schemas/Observation"
+            }
+          },
+          "guidance_events": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "$ref": "#/components/schemas/GuidanceEvent"
+            }
+          }
+        },
+        "anyOf": [
+          {
+            "properties": {
+              "observations": {
+                "minItems": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "guidance_events": {
+                "minItems": 1
+              }
+            }
+          }
+        ]
+      },
+      "GuidePosition": {
+        "type": "object",
+        "required": [
+          "guide_id",
+          "version",
+          "step_id"
+        ],
+        "properties": {
+          "guide_id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "step_id": {
+            "type": "string"
+          }
+        }
+      },
+      "AssetView": {
+        "type": "object",
+        "required": [
+          "asset_id",
+          "channel",
+          "state",
+          "started_at",
+          "ended_at",
+          "source",
+          "has_gaps"
+        ],
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "UPLOADING",
+              "VERIFYING",
+              "COMPLETE",
+              "FAILED"
+            ]
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ended_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "type": "string"
+          },
+          "has_gaps": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DownloadPermit": {
+        "type": "object",
+        "required": [
+          "download_url",
+          "expires_at",
+          "sha256"
+        ],
+        "properties": {
+          "download_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "LocationView": {
+        "type": "object",
+        "required": [
+          "position",
+          "road_address",
+          "lot_address",
+          "address_status",
+          "last_received_at"
+        ],
+        "properties": {
+          "position": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "road_address": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lot_address": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "address_status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "AVAILABLE",
+              "UNAVAILABLE",
+              "FAILED"
+            ]
+          },
+          "last_received_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "TimelineEntry": {
+        "type": "object",
+        "required": [
+          "event_id",
+          "kind",
+          "observed_at",
+          "source_device_id",
+          "payload"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "OBSERVATION",
+              "GUIDANCE",
+              "MANUAL",
+              "USER_ACTION",
+              "DELIVERY"
+            ]
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source_device_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "payload": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Observation"
+              },
+              {
+                "$ref": "#/components/schemas/GuidanceEvent"
+              },
+              {
+                "$ref": "#/components/schemas/ManualReport"
+              },
+              {
+                "$ref": "#/components/schemas/IncidentAction"
+              },
+              {
+                "$ref": "#/components/schemas/Delivery"
+              }
+            ]
+          }
+        }
+      },
+      "TimelinePage": {
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/TimelineEntry"
+            }
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "GuardianProjection": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "incident_id",
+          "occurred_at",
+          "kind",
+          "severity",
+          "vehicle_display",
+          "driver_response",
+          "latest_location",
+          "symptoms",
+          "warning_summary",
+          "permitted_assets",
+          "recipient_delivery_states",
+          "last_received_at"
+        ],
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "vehicle_display": {
+            "type": "string"
+          },
+          "driver_response": {
+            "$ref": "#/components/schemas/DriverResponse"
+          },
+          "latest_location": {
+            "$ref": "#/components/schemas/LocationView"
+          },
+          "symptoms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Symptom"
+            }
+          },
+          "warning_summary": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "permitted_assets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetView"
+            }
+          },
+          "recipient_delivery_states": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Delivery"
+            }
+          },
+          "last_received_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Problem": {
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "status",
+          "code",
+          "request_id"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 400,
+            "maximum": 599
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "VALIDATION_ERROR",
+              "UNAUTHENTICATED",
+              "FORBIDDEN",
+              "NOT_FOUND",
+              "IDEMPOTENCY_CONFLICT",
+              "VERSION_CONFLICT",
+              "GUIDE_NOT_VERIFIED",
+              "RATE_LIMITED",
+              "UPSTREAM_UNAVAILABLE"
+            ]
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "retry_after_ms": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}
