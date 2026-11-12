@@ -1,0 +1,70 @@
+{
+  "generator": "output/submission/build_v4.py",
+  "converter": "LibreOffice (soffice --headless)",
+  "counting": "XML 계산값(작성란 w:t 글자 수 + w:br 개수). Word ComputeStatistics(5) 실측이 아님",
+  "documents": {
+    "official": {
+      "docx": "01_공식양식_플레오스가드.docx",
+      "docx_sha256": "4e435f07b006438dbc66f8e1363069f2cb01b013ff8fe771ba16aaccded91353",
+      "pdf_sha256": "7467cd6f18e7d0aad8cc1c0bff383d71217a31059fba7a8cfaf5bed790e3e362",
+      "pdf_pages": 14,
+      "field_counts_2_6": [
+        {
+          "item": 2,
+          "xml_count_text_plus_breaks": 3000,
+          "text_characters": 2978,
+          "manual_line_breaks": 22,
+          "paragraphs": 12
+        },
+        {
+          "item": 3,
+          "xml_count_text_plus_breaks": 3000,
+          "text_characters": 2978,
+          "manual_line_breaks": 22,
+          "paragraphs": 12
+        },
+        {
+          "item": 4,
+          "xml_count_text_plus_breaks": 3000,
+          "text_characters": 2978,
+          "manual_line_breaks": 22,
+          "paragraphs": 12
+        },
+        {
+          "item": 5,
+          "xml_count_text_plus_breaks": 3000,
+          "text_characters": 2978,
+          "manual_line_breaks": 22,
+          "paragraphs": 12
+        },
+        {
+          "item": 6,
+          "xml_count_text_plus_breaks": 3000,
+          "text_characters": 2978,
+          "manual_line_breaks": 22,
+          "paragraphs": 12
+        }
+      ],
+      "item1_chars": 100,
+      "item7_xml_count": 228,
+      "consent_pages_from_word_pdf": {
+        "lo_pages": 14,
+        "word_pages": 14,
+        "lo_consent_start": 12,
+        "word_consent_start": 12,
+        "replaced": true
+      },
+      "restyle_paragraphs": 152,
+      "forbidden_strings_found": []
+    },
+    "annex": {
+      "docx": "02_상세기획_기술명세.docx",
+      "docx_sha256": "62b18bebc6dd62f63680af78435a0d6655254d26d27365f107c07d7f1ac3fd2a",
+      "pdf_sha256": "f59bcd7b52281fe99e41938937bf3b6a87f851bf558018dd2c15b4ec648ad66e",
+      "pdf_pages": 43,
+      "restyle_paragraphs": 1608,
+      "forbidden_strings_found": []
+    }
+  },
+  "zip_sha256": "ad75da2cb7ca284b9898551f52661cdbf6d3351c541a584f46ef68148a4ebb17"
+}

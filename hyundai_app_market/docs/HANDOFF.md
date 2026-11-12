@@ -6,7 +6,7 @@
 
 ## 1. 현재 상태부터 확인합니다
 
-**공식 양식 {OFF_PAGES}쪽과 상세 별첨 {ANNEX_PAGES}쪽의 v4.1 Word·PDF가 완성돼 있습니다.** 공식 양식 2~6번은 각각 3,000자입니다. 이번 v4.1은 다음 과정을 거쳐 만들었습니다.
+**공식 양식 14쪽과 상세 별첨 43쪽의 v4.1 Word·PDF가 완성돼 있습니다.** 공식 양식 2~6번은 각각 3,000자입니다. 이번 v4.1은 다음 과정을 거쳐 만들었습니다.
 
 1. 압축 해제 파일 876개를 주제별 12묶음으로 나눠 2회씩 리뷰했습니다.
 2. 공모전 사이트 전체와 Pleos 개발 문서·SDK 패키지를 다시 확인했습니다.
@@ -36,11 +36,11 @@
 
 | 산출물 | 파일 | 바이트 | SHA-256 |
 | --- | --- | ---: | --- |
-| 공식 양식 Word (14쪽) | [01_공식양식_플레오스가드.docx](../output/submission/01_공식양식_플레오스가드.docx) | 3,900,271 | `1a27d0e871b11ade92c48bedd722ac3b2853af29ea56fc440b2f56f4d644a322` |
-| 공식 양식 PDF | [01_공식양식_플레오스가드.pdf](../output/submission/01_공식양식_플레오스가드.pdf) | 1,305,395 | `5fad4387411b195b365b6ce466f41d83e075876575a1295bddc9a2cd8b1530a8` |
-| 상세 별첨 Word (37쪽) | [02_상세기획_기술명세.docx](../output/submission/02_상세기획_기술명세.docx) | 5,333,441 | `7196247b1a1073fa6b5ebf8873215ed6ecea4c9c6deca16b1213e7ab39e05694` |
-| 상세 별첨 PDF | [02_상세기획_기술명세.pdf](../output/submission/02_상세기획_기술명세.pdf) | 3,099,615 | `325debb1051019b332427442feb056d4b1fe025cbde77116351f5dc0287a9312` |
-| 제출 ZIP (위 4개만) | [플레오스가드_제출문서_Word_PDF.zip](../output/submission/플레오스가드_제출문서_Word_PDF.zip) | 12,300,615 | `ba8906788eabb0844cdf2e543306189797cf733ac3be30b34c34c3f2e6134eb5` |
+| 공식 양식 Word (14쪽) | [01_공식양식_플레오스가드.docx](../output/submission/01_공식양식_플레오스가드.docx) | 4,117,084 | `4e435f07b006438dbc66f8e1363069f2cb01b013ff8fe771ba16aaccded91353` |
+| 공식 양식 PDF | [01_공식양식_플레오스가드.pdf](../output/submission/01_공식양식_플레오스가드.pdf) | 1,367,047 | `7467cd6f18e7d0aad8cc1c0bff383d71217a31059fba7a8cfaf5bed790e3e362` |
+| 상세 별첨 Word (43쪽) | [02_상세기획_기술명세.docx](../output/submission/02_상세기획_기술명세.docx) | 5,948,728 | `62b18bebc6dd62f63680af78435a0d6655254d26d27365f107c07d7f1ac3fd2a` |
+| 상세 별첨 PDF | [02_상세기획_기술명세.pdf](../output/submission/02_상세기획_기술명세.pdf) | 3,494,434 | `f59bcd7b52281fe99e41938937bf3b6a87f851bf558018dd2c15b4ec648ad66e` |
+| 제출 ZIP (위 4개만) | [플레오스가드_제출문서_Word_PDF.zip](../output/submission/플레오스가드_제출문서_Word_PDF.zip) | 13,375,808 | `ad75da2cb7ca284b9898551f52661cdbf6d3351c541a584f46ef68148a4ebb17` |
 
 - 바로 전 판(v4.0: 공식 14쪽, 별첨 37쪽)은 [qa/history/2026-11-12-v4.0](../output/submission/qa/history/2026-11-12-v4.0/)에, 그 전 판(v3: 공식 14쪽, 별첨 40쪽)은 [qa/history/2026-11-12-v3](../output/submission/qa/history/2026-11-12-v3/)에 바이트 그대로 보존했습니다.
 - 공모전 원본 양식은 [official-form-original.docx](../output/submission/official-form-original.docx)입니다(55,208바이트, SHA-256 `07be893d58b0e96ab7788f0d189d6829f0e59a2cee4bc18cb90ec37eeda2f5fd`). 2026-11-12에 공모전 사이트에서 다시 내려받은 양식과 해시가 같았습니다.
@@ -171,7 +171,7 @@ python3 build_v4.py --out qa/<새 폴더> [--stage official|annex|all] [--instal
 ### 이번에 실행한 확인
 - 2~6번 원고: 각 3,000자, 12문단, NFC. DOCX 작성란 XML 계산값도 각 3,000. 1번 한 줄 소개 100자.
 - 금지 문자열(옛 이름, 로컬 경로, 내부 작업 기록 표현) 0건.
-- 공식 양식 {OFF_PAGES}쪽, 별첨 {ANNEX_PAGES}쪽. 모든 쪽을 렌더해(`output/submission/qa/v4-r2/render/`) 확인했습니다. v4.0 렌더는 `qa/v4-r1/render/`입니다.
+- 공식 양식 14쪽, 별첨 43쪽. 모든 쪽을 렌더해(`output/submission/qa/v4-r2/render/`) 확인했습니다. v4.0 렌더는 `qa/v4-r1/render/`입니다.
 - 공식 양식 13·14쪽(03·04)은 2026-11-12 Word 변환본과 텍스트가 같아 그 쪽을 그대로 썼습니다.
 - 개발 계약 v3.1 검사 560개 통과(보호자 3명 반영 뒤, SQL 제약 시험은 임시 PostgreSQL 16): `validation-2026-11-12-v3.1-final.json`.
 - 화면 시안 33장: 글자 22px 이상, 3줄 이하, 대비 4.5:1 이상을 생성기가 검사했습니다.

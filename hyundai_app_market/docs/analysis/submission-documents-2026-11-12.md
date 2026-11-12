@@ -164,7 +164,7 @@
 - 공식 양식 그림 6을 가로 재현 조건 화면으로 바꾸고 모든 캡션을 실제 그림과 대조했습니다.
 
 ### 산출물과 제작 방법
-- 공식 양식 {OFF_PAGES}쪽, 별첨 {ANNEX_PAGES}쪽. 해시와 크기는 [HANDOFF 3장](../HANDOFF.md)과 [v4.1 검증 기록](submission-documents-verification-2026-11-12-v4.1.json)에 있습니다.
+- 공식 양식 14쪽, 별첨 43쪽. 해시와 크기는 [HANDOFF 3장](../HANDOFF.md)과 [v4.1 검증 기록](submission-documents-verification-2026-11-12-v4.1.json)에 있습니다.
 - 생성기는 그대로 `output/submission/build_v4.py`입니다. v4.0 산출물은 `output/submission/qa/history/2026-11-12-v4.0/`에 보존했습니다.
 
 ### 한계

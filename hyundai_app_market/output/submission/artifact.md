@@ -1,5 +1,7 @@
 # 공식 양식 제작 계약
 
+> 2026-11-12 현재 판은 v4.1(공식 양식 14쪽, 별첨 43쪽)이며 `build_v4.py`로만 만듭니다. 쪽수·해시·검증은 [HANDOFF](../../docs/HANDOFF.md) 3·11장이 기준입니다. 아래의 디자인 규칙(여백, 글꼴, 표, 03·04 원본 보존)은 그대로 유효하고, 아래의 쪽수·렌더 폴더·검증 스크립트 기록은 이전 판의 이력입니다.
+
 - 원본: official-form-original.docx. SHA-256 07be893d58b0e96ab7788f0d189d6829f0e59a2cee4bc18cb90ec37eeda2f5fd. 원본5페이지·1section.
 - A4 11906×16838twip. 여백 top935/bottom907/left1020/right1020. 기존 footer·styles·numbering·동의 본문 유지.
 - 01 참가신청서, 02 앱 프로젝트 소개 1~8항, 03 동의서, 04 서명표 순서 유지.
