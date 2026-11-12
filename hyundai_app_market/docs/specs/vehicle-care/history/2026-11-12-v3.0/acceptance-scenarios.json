@@ -1,0 +1,1637 @@
+{
+  "version": "3.0.0",
+  "previous_version": "2.0.0",
+  "status": "PLANNED_ACCEPTANCE_CASES_NOT_EXECUTED_APP_TESTS",
+  "rule_profile_id": "pleos-care-lab-20261112-r2",
+  "contract_version": "3.0.0",
+  "note": "구현 뒤 실행할 인수 사례입니다. 통과한 앱 시험이 아닙니다. T01–T56은 v2 사례를 1차 비판 반영 결정 9장 이름으로 고친 것이고(v2_id), T57 이후는 새 기능·주행 제한·패리티·동의·정정·빠른 답·시연 모드·SecurityException·서비스 연결 대기 사례입니다.",
+  "legend": {
+    "grade": {
+      "DEMO": "[시연] 공개 SDK·Pleos 문서 경로, 에뮬레이터에서 보임",
+      "DESIGN": "[설계] 서버·휴대폰 앱 추가 구현 필요(모의 서버로 보임)",
+      "FUTURE": "[향후] 공개 문서 밖"
+    },
+    "demo_method": {
+      "VIRTUAL_CONSOLE": "에뮬레이터 Virtual Console 카드로 실제 SDK 값 주입",
+      "TEST_INPUT": "앱 안 시험 입력 재생기([시험 입력] 표시)",
+      "MOCK_SERVER": "앱 안 모의 서버·모의 발송기",
+      "ADB": "adb 명령(주행 제한 on/off 등)",
+      "MANUAL": "사람이 보고 확인(에뮬레이터 마이크·FormFactorConsole·측정 등)"
+    },
+    "feature": {
+      "F0": "공통·시연 모드",
+      "F1": "경고등 찾기",
+      "F2": "증상 기록",
+      "F3": "긴급 안내",
+      "F4": "보호자 알림",
+      "F5": "정비소 연결",
+      "F6": "휴대폰 보조 앱"
+    },
+    "refs": "api:operationId, sql:테이블, rules:rules-lab 키 경로, tokens:ui-tokens 키 경로"
+  },
+  "cases": [
+    {
+      "id": "T01",
+      "feature": "F2",
+      "area": "capability",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "공개 SDK에 진동 센서가 없어 future_motion_analysis가 enabled=false",
+      "when": "주행을 시작한다",
+      "expect": "진동 분석 화면·표시가 없다. 지금 기록·증상 고르기·차량 신호 시간표는 동작한다",
+      "refs": [
+        "rules:future_motion_analysis.enabled",
+        "rules:recording.signal_ring_buffer_before_s"
+      ],
+      "v2_id": "T01"
+    },
+    {
+      "id": "T02",
+      "feature": "F2",
+      "area": "sampling",
+      "grade": "FUTURE",
+      "availability": "FUTURE",
+      "demo_method": "TEST_INPUT",
+      "given": "[향후] 실제 IMU 50Hz(연구용 합성 신호)",
+      "when": "진동 분석을 요청한다",
+      "expect": "200Hz 주장과 20–80Hz 분석을 하지 않는다",
+      "refs": [
+        "rules:future_motion_analysis.vibration.minimum_sample_rate_hz"
+      ],
+      "v2_id": "T02"
+    },
+    {
+      "id": "T03",
+      "feature": "F2",
+      "area": "sampling",
+      "grade": "FUTURE",
+      "availability": "FUTURE",
+      "demo_method": "TEST_INPUT",
+      "given": "[향후] 실제 160Hz와 확인된 앨리어싱 방지",
+      "when": "대역을 고른다",
+      "expect": "1–5Hz·5–20Hz만 가능, 20–80Hz는 끈다(80 > 0.4×160)",
+      "refs": [
+        "rules:future_motion_analysis.vibration.bands"
+      ],
+      "v2_id": "T03"
+    },
+    {
+      "id": "T04",
+      "feature": "F2",
+      "area": "synthetic_math",
+      "grade": "FUTURE",
+      "availability": "FUTURE",
+      "demo_method": "TEST_INPUT",
+      "given": "[향후] 200Hz, 한 축 2Hz 사인 0.2g, 기준선 p95=0.01g",
+      "when": "유효 창을 분석한다",
+      "expect": "BODY 대역 RMS 약 0.141421g로 기준을 넘는다. 패턴일 뿐 원인 진단이 아니다",
+      "refs": [
+        "rules:future_motion_analysis.vibration.bands"
+      ],
+      "v2_id": "T04"
+    },
+    {
+      "id": "T05",
+      "feature": "F2",
+      "area": "synthetic_math",
+      "grade": "FUTURE",
+      "availability": "FUTURE",
+      "demo_method": "TEST_INPUT",
+      "given": "[향후] 200Hz, 한 축 2Hz 사인 0.02g, 기준선 p95=0.01g",
+      "when": "분석한다",
+      "expect": "BODY RMS 약 0.014142g로 0.08g 바닥 아래",
+      "refs": [
+        "rules:future_motion_analysis.vibration.bands"
+      ],
+      "v2_id": "T05"
+    },
+    {
+      "id": "T06",
+      "feature": "F2",
+      "area": "synthetic_math",
+      "grade": "FUTURE",
+      "availability": "FUTURE",
+      "demo_method": "TEST_INPUT",
+      "given": "[향후] 200ms 동안 2g 단일 펄스가 겹치는 512샘플 창들에 걸침",
+      "when": "지속 진동 투표 전에 충격 구간을 뺀다",
+      "expect": "충격 후보는 남기고, 충격과 겹친 창은 지속 진동 투표에서 뺀다",
+      "refs": [
+        "rules:future_motion_analysis.vibration.exclude_impulse_intersecting_windows_from_sustained_vote"
+      ],
+      "v2_id": "T06"
+    },
+    {
+      "id": "T07",
+      "feature": "F2",
+      "area": "vibration",
+      "grade": "FUTURE",
+      "availability": "FUTURE",
+      "demo_method": "TEST_INPUT",
+      "given": "[향후] 거친 길에서 떨어진 충격이 여러 번",
+      "when": "분석한다",
+      "expect": "반복 충격 패턴만 기록하고 엔진·타이어 원인을 말하지 않는다",
+      "refs": [
+        "rules:future_motion_analysis.vibration.root_cause_diagnosis_allowed"
+      ],
+      "v2_id": "T07"
+    },
+    {
+      "id": "T08",
+      "feature": "F2",
+      "area": "quality",
+      "grade": "FUTURE",
+      "availability": "FUTURE",
+      "demo_method": "TEST_INPUT",
+      "given": "[향후] 전체 수집률 95% 이상이지만 20ms 빈 구간",
+      "when": "창을 분석한다",
+      "expect": "그 창은 무효, 최근 투표를 초기화한다",
+      "refs": [
+        "rules:future_motion_analysis.imu_quality.max_interpolation_gap_ms"
+      ],
+      "v2_id": "T08"
+    },
+    {
+      "id": "T09",
+      "feature": "F2",
+      "area": "clock",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "given": "Vehicle SDK 브레이크 콜백 onBrakePedalStatusUpdated(status)에는 측정 시각이 없다",
+      "when": "관측을 저장한다",
+      "expect": "measured_at=null, received_at만 기록, freshness_basis=ARRIVAL_ONLY. 측정 시각을 지어내지 않는다",
+      "refs": [
+        "api:appendObservationBatch",
+        "sql:observations",
+        "rules:signal_validity.on_change"
+      ],
+      "v2_id": "T09"
+    },
+    {
+      "id": "T10",
+      "feature": "F3",
+      "area": "freshness",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "차속(주기형, 시험 입력)이 3,000ms 끊김. 브레이크(변화 알림형)는 3,000ms 넘게 새 콜백이 없지만 서비스 연결 유지",
+      "when": "신호 유효성을 판단한다",
+      "expect": "차속은 정확히 3,000ms부터 STALE. 브레이크는 OK 유지(시간만으로 STALE 처리하지 않음)",
+      "refs": [
+        "rules:signal_validity.periodic.freshness_ms",
+        "rules:signal_validity.on_change.time_based_staleness"
+      ],
+      "v2_id": "T10"
+    },
+    {
+      "id": "T11",
+      "feature": "F3",
+      "area": "brake",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "given": "브레이크 값이 null이거나 권한이 없다",
+      "when": "정규화한다",
+      "expect": "brake_pressed.value=null, quality UNAVAILABLE 또는 PERMISSION_DENIED. false로 바꾸지 않는다",
+      "refs": [
+        "api:createIncident",
+        "rules:signal_validity.sdk_call.security_exception_quality"
+      ],
+      "v2_id": "T11"
+    },
+    {
+      "id": "T12",
+      "feature": "F3",
+      "area": "acceleration",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "고속도로 합류 가속 2.8m/s²(시험 입력), 브레이크 false, 운전자 보고 없음",
+      "when": "가속 조건이 맞는다",
+      "expect": "guidance_state는 OBSERVING 유지. 화면·음성 출력 0건, 관측만 기록. 행동 지시 없음",
+      "refs": [
+        "rules:guidance.candidate_output_without_prompt",
+        "rules:guidance.start_requires_user_report"
+      ],
+      "v2_id": "T12"
+    },
+    {
+      "id": "T13",
+      "feature": "F3",
+      "area": "manual",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "given": "운전자가 증상 고르기의 '안 멈춰요'를 누른다(또는 누르고 말하기 '안 멈춰')",
+      "when": "보고를 저장한다",
+      "expect": "guidance_state DECEL_FAILURE_GUIDE, guide_id G_DECEL_FAILURE, entry USER_BUTTON 또는 USER_VOICE, 증상 PEDAL_PROBLEM(source USER_SELECTION·STT). 자동 발송 없음, '보호자에게 알리기' 선택지 제공",
+      "refs": [
+        "api:appendObservationBatch",
+        "sql:guidance_events",
+        "rules:guidance.guide_id_by_state",
+        "rules:symptoms.pedal_problem_emergency_choices"
+      ],
+      "v2_id": "T13"
+    },
+    {
+      "id": "T14",
+      "feature": "F4",
+      "area": "manual",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "이미 멈춘 운전자가 '지금 도움 요청'을 누른다",
+      "when": "도움 요청 흐름을 연다",
+      "expect": "HELP_CONFIRM(받는 사람 목록 표시) → '보내기' 뒤 RELEASED. 주행 중 감속 실패 안내로 가지 않는다",
+      "refs": [
+        "api:applyIncidentAction",
+        "rules:notification.scope.immediate_send_requires_recipient_list_confirmation"
+      ],
+      "v2_id": "T14"
+    },
+    {
+      "id": "T15",
+      "feature": "F2",
+      "area": "severity",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "VIBRATION·PULLING·BURNING_SMELL·TIRE_DAMAGE 중 하나를 고른다",
+      "when": "차량과 서버가 등급을 정한다",
+      "expect": "같은 설정으로 L2_CHECK. 정책은 RECORD_ONLY(자동 발송 없음)",
+      "refs": [
+        "rules:symptoms.minimum_severity",
+        "rules:notification.scope.manual_symptom_auto_send"
+      ],
+      "v2_id": "T15"
+    },
+    {
+      "id": "T16",
+      "feature": "F4",
+      "area": "severity",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "급감속 값(시험 입력)만 있고 에어백·사고 선택이 없다",
+      "when": "등급을 정한다",
+      "expect": "L3_URGENT로 올리지 않는다. 기록만",
+      "refs": [
+        "rules:severity.speed_only_evidence_raises_to_l3"
+      ],
+      "v2_id": "T16"
+    },
+    {
+      "id": "T17",
+      "feature": "F4",
+      "area": "airbag",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "에어백 이상 표시(hasSeatAirbagEnabled) 또는 사용자가 에어백 경고등을 고름",
+      "when": "사고 신호를 판단한다",
+      "expect": "새 전개로 보지 않는다. COUNTDOWN 없음",
+      "refs": [
+        "rules:severity.airbag_enabled_or_warning_selection_is_not_deployment"
+      ],
+      "v2_id": "T17"
+    },
+    {
+      "id": "T18",
+      "feature": "F4",
+      "area": "countdown",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "새 에어백 전개(시험 입력)와 ACTIVE 보호자",
+      "when": "사건을 만든다",
+      "expect": "저장·업로드는 바로. 정책 COUNTDOWN, 발송 전 확인 10초(SEND_NOW면 바로 RELEASED)",
+      "refs": [
+        "api:createIncident",
+        "rules:notification.pre_send_confirmation_ms",
+        "sql:notification_policies"
+      ],
+      "v2_id": "T18"
+    },
+    {
+      "id": "T19",
+      "feature": "F4",
+      "area": "airbag",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "앱 시작 때 첫 에어백 값이 이미 true",
+      "when": "앱이 시작된다",
+      "expect": "기준값으로 저장. 새 사고를 만들지 않는다",
+      "refs": [
+        "rules:severity.airbag_initial_true_is_baseline"
+      ],
+      "v2_id": "T19"
+    },
+    {
+      "id": "T20",
+      "feature": "F4",
+      "area": "location",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "location=null, 주소 변환 불가",
+      "when": "사건을 만든다",
+      "expect": "위치 없이 받아 준다. GPS·자료를 기다리지 않는다",
+      "refs": [
+        "api:createIncident"
+      ],
+      "v2_id": "T20"
+    },
+    {
+      "id": "T21",
+      "feature": "F4",
+      "area": "countdown",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "COUNTDOWN 9초째, 작업 미시작",
+      "when": "CANCEL(카운트다운 중 '괜찮아요')을 확정한다",
+      "expect": "정책 CANCELLED, driver_response RESPONDED_SAFE, 보내지 않은 작업 취소, 기록 보존",
+      "refs": [
+        "api:applyIncidentAction",
+        "sql:incident_actions"
+      ],
+      "v2_id": "T21"
+    },
+    {
+      "id": "T22",
+      "feature": "F4",
+      "area": "countdown",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "COUNTDOWN 1초째",
+      "when": "SEND_NOW를 확정한다",
+      "expect": "바로 RELEASED. 남은 9초를 기다리지 않는다",
+      "refs": [
+        "api:applyIncidentAction"
+      ],
+      "v2_id": "T22"
+    },
+    {
+      "id": "T23",
+      "feature": "F4",
+      "area": "delivery",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "알림톡 HTTP 응답 유실, 전체 호출 3,000ms 시간 초과(모의 발송기)",
+      "when": "첫 제출부터 알림톡 전달 확인 기한 10,000ms가 지난다",
+      "expect": "ACCEPTED·요청 ID가 없어도 transport_group TEXT 전달을 만든다(SUBMISSION_UNKNOWN 유지)",
+      "refs": [
+        "rules:notification.kakao_delivery_confirmation_deadline_ms",
+        "sql:deliveries"
+      ],
+      "v2_id": "T23"
+    },
+    {
+      "id": "T24",
+      "feature": "F4",
+      "area": "delivery",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "알림톡이 9초째 DELIVERED",
+      "when": "기한 작업이 돈다",
+      "expect": "문자 전환을 만들지 않는다",
+      "refs": [
+        "sql:deliveries"
+      ],
+      "v2_id": "T24"
+    },
+    {
+      "id": "T25",
+      "feature": "F4",
+      "area": "delivery",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "10초째 문자 전환, 11초째 알림톡 DELIVERED",
+      "when": "맞춘다",
+      "expect": "두 전달 모두 같은 사건·revision에 묶인다. 사고 두 건이 아니다",
+      "refs": [
+        "sql:deliveries"
+      ],
+      "v2_id": "T25"
+    },
+    {
+      "id": "T26",
+      "feature": "F4",
+      "area": "delivery",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "발송사 접수만 있고 수신·열람 증거 없음",
+      "when": "보호자 알림 상태를 그린다",
+      "expect": "보호자별 한 줄에 ACCEPTED만. DELIVERED·열람으로 보이지 않는다",
+      "refs": [
+        "api:getIncidentDeliveries",
+        "tokens:parity_rules"
+      ],
+      "v2_id": "T26"
+    },
+    {
+      "id": "T27",
+      "feature": "F4",
+      "area": "recipient",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "인증·동의된 보호자가 없다",
+      "when": "사건을 만든다",
+      "expect": "사건 보존, BLOCKED_NO_RECIPIENT, 임의 번호 발송 없음. 화면은 119·블루링크 SOS 이용 방법만 안내",
+      "refs": [
+        "api:createIncident",
+        "rules:notification.scope.no_guardian_behavior"
+      ],
+      "v2_id": "T27"
+    },
+    {
+      "id": "T28",
+      "feature": "F4",
+      "area": "race",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "작업자가 이미 발송사에 제출함",
+      "when": "CANCEL이 도착한다",
+      "expect": "already_submitted=true. 회수했다고 말하지 않고 '이미 보냄 · 정정 보내기'를 보여 준다",
+      "refs": [
+        "api:applyIncidentAction",
+        "api:sendCorrection"
+      ],
+      "v2_id": "T28"
+    },
+    {
+      "id": "T29",
+      "feature": "F4",
+      "area": "clock",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "오프라인 elapsed_ms_at_submit=30000, 남은 시간 0",
+      "when": "처음 동기화된다",
+      "expect": "10초를 다시 주지 않고 RELEASED, 지연 표시(timing_uncertain)",
+      "refs": [
+        "api:createIncident"
+      ],
+      "v2_id": "T29"
+    },
+    {
+      "id": "T30",
+      "feature": "F4",
+      "area": "clock",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "다시 연결되기 전에 오프라인에서 취소함",
+      "when": "requested_state CANCELLED와 cancel_action_id로 생성한다",
+      "expect": "첫 트랜잭션이 발송 작업 전에 정책을 CANCELLED로 만든다",
+      "refs": [
+        "api:createIncident"
+      ],
+      "v2_id": "T30"
+    },
+    {
+      "id": "T31",
+      "feature": "F4",
+      "area": "clock",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "유효한 사건이지만 카운트다운 시계를 확인할 수 없음",
+      "when": "동기화한다",
+      "expect": "새 10초를 주지 않고 timing_uncertain 표시와 함께 RELEASED",
+      "refs": [
+        "rules:notification.unknown_countdown_clock_policy"
+      ],
+      "v2_id": "T31"
+    },
+    {
+      "id": "T32",
+      "feature": "F0",
+      "area": "layout",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "ui-tokens 5.0.0 세로 기준 시안 840×1212px",
+      "when": "영역을 쌓는다",
+      "expect": "regions_px 높이 합 1212, 겹침 0, 레터박스 없음, 아래 주 버튼 2개 고정. 실제 버튼 80dp·간격 24dp는 실제 창 밀도로 확인",
+      "refs": [
+        "tokens:layouts.portrait.regions_px",
+        "tokens:self_defined.primary_touch"
+      ],
+      "v2_id": "T32"
+    },
+    {
+      "id": "T33",
+      "feature": "F0",
+      "area": "layout",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "ui-tokens 5.0.0 가로 시안 예시 1280×720dp(일반·긴급 배치 각각)",
+      "when": "영역을 확인한다",
+      "expect": "모든 영역이 창 안에 있고 같은 배치 안에서 겹치지 않는다. 12열 그리드·296×144 카드는 쓰지 않는다",
+      "refs": [
+        "tokens:layouts.landscape.regions_dp",
+        "tokens:layouts.landscape.emergency_regions_dp"
+      ],
+      "v2_id": "T33"
+    },
+    {
+      "id": "T34",
+      "feature": "F0",
+      "area": "contrast",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "ui-tokens 5.0.0 contrast_pairs 전체",
+      "when": "대비를 계산한다",
+      "expect": "모든 조합 4.5:1 이상. #702132 위 #FF5B6B(3.565)는 쓰지 않고 #FFB3BA(6.355)로 바꾼다",
+      "refs": [
+        "tokens:contrast_pairs",
+        "tokens:forbidden_pairs",
+        "tokens:official_limits.contrast_min"
+      ],
+      "v2_id": "T34"
+    },
+    {
+      "id": "T35",
+      "feature": "F1",
+      "area": "guide",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "DRAFT_DEMO 또는 다른 차종 안내 묶음",
+      "when": "mode=NORMAL로 목록·묶음을 요청한다",
+      "expect": "VERIFIED만 준다(묶음은 422 GUIDE_NOT_VERIFIED). mode=DEMO에서만 '검토 전 예시' 표시와 함께 준다",
+      "refs": [
+        "api:listVerifiedWarningGuides",
+        "api:getGuideBundle",
+        "sql:guide_bundles"
+      ],
+      "v2_id": "T35"
+    },
+    {
+      "id": "T36",
+      "feature": "F4",
+      "area": "api",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "latitude 91 또는 좌표 한쪽만 있음",
+      "when": "요청을 검증한다",
+      "expect": "422. 0,0을 지어내지 않는다",
+      "refs": [
+        "api:appendIncidentLocation"
+      ],
+      "v2_id": "T36"
+    },
+    {
+      "id": "T37",
+      "feature": "F2",
+      "area": "api",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "증상 4개, 모르는 증상 값, 옛 이름(SHAKE·STEERING_PULL)",
+      "when": "보고를 검증한다",
+      "expect": "422. 기기 안 보고는 고칠 수 있게 남긴다",
+      "refs": [
+        "api:appendManualReport",
+        "sql:manual_reports"
+      ],
+      "v2_id": "T37"
+    },
+    {
+      "id": "T38",
+      "feature": "F4",
+      "area": "authorization",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "다른 소유자의 사건·보호자 ID",
+      "when": "읽기·발송을 요청한다",
+      "expect": "403 또는 존재를 숨긴 404. 자료 노출·발송 없음",
+      "refs": [
+        "api:getIncident"
+      ],
+      "v2_id": "T38"
+    },
+    {
+      "id": "T39",
+      "feature": "F2",
+      "area": "assets",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "올린 자료 해시가 선언한 SHA-256과 다름",
+      "when": "완료 확인을 한다",
+      "expect": "자료 FAILED, 완료 배지 없음",
+      "refs": [
+        "api:completeEvidenceUpload",
+        "sql:evidence_assets"
+      ],
+      "v2_id": "T39"
+    },
+    {
+      "id": "T40",
+      "feature": "F6",
+      "area": "backup",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "차량이 휴대폰에 사건 ID를 넘기기 전에 꺼지고 휴대폰이 같은 trip에서 새 사건을 보고",
+      "when": "서버가 받는다",
+      "expect": "related_incident_id로 묶고 기존 알림의 새 revision으로 처리. 보호자 메시지는 1세트(one_open_alert_per_vehicle)",
+      "refs": [
+        "api:createIncident",
+        "sql:notification_policies",
+        "rules:notification.cross_device_merge_window_ms"
+      ],
+      "v2_id": "T40"
+    },
+    {
+      "id": "T41",
+      "feature": "F2",
+      "area": "dashcam",
+      "grade": "FUTURE",
+      "availability": "FUTURE",
+      "demo_method": "MANUAL",
+      "given": "[향후] 블랙박스 Wi-Fi가 모바일 데이터를 끊을 수 있음",
+      "when": "사건 대기 중",
+      "expect": "첫 사건 정보 전송을 먼저 하고 알림을 막는 자동 망 전환을 하지 않는다",
+      "refs": [
+        "rules:recording.raw_audio_video_capture"
+      ],
+      "v2_id": "T41"
+    },
+    {
+      "id": "T42",
+      "feature": "F3",
+      "area": "audio",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "감속 실패 안내 음성과 도움 요청 음성이 동시에 가능",
+      "when": "음성 순서를 정한다",
+      "expect": "감속 실패 안내가 먼저. 겹치는 음성 없음",
+      "refs": [
+        "rules:audio.priority"
+      ],
+      "v2_id": "T42"
+    },
+    {
+      "id": "T43",
+      "feature": "F2",
+      "area": "capture",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "STT 결과 문장은 있고 원본 녹음 API는 없음",
+      "when": "기록을 보여 준다",
+      "expect": "인식 문장만 보여 준다. 원본 소리가 있다고 말하지 않는다",
+      "refs": [
+        "api:appendManualReport",
+        "rules:recording.raw_audio_video_capture"
+      ],
+      "v2_id": "T43"
+    },
+    {
+      "id": "T44",
+      "feature": "F2",
+      "area": "offline",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "서버에 닿지 않음",
+      "when": "사건을 큐에 넣는다",
+      "expect": "기기에 보관하고 '대기 중' 표시. 접수·전달 배지 없음",
+      "refs": [
+        "api:createIncident"
+      ],
+      "v2_id": "T44"
+    },
+    {
+      "id": "T45",
+      "feature": "F3",
+      "area": "recovery",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "given": "증상 고르기·발송 확인 중에 차량 서비스 연결이 회복됨",
+      "when": "신호가 다시 들어온다",
+      "expect": "화면을 닫거나 보고를 지우거나 10초를 다시 시작하지 않는다",
+      "refs": [
+        "rules:driving_state.data_gap_auto_screen_switch"
+      ],
+      "v2_id": "T45"
+    },
+    {
+      "id": "T46",
+      "feature": "F4",
+      "area": "severity",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "유효한 센서·사용자 근거가 없음",
+      "when": "등급을 정한다",
+      "expect": "severity=null. 기본 L1로 채우지 않는다",
+      "refs": [
+        "rules:severity.missing_evidence_severity",
+        "sql:incidents"
+      ],
+      "v2_id": "T46"
+    },
+    {
+      "id": "T47",
+      "feature": "F4",
+      "area": "severity",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "운전자 응답이 없지만 사고·도움 요청 근거도 없음",
+      "when": "시간이 끝난다",
+      "expect": "응답 없음만으로 사고를 추정하지 않는다",
+      "refs": [
+        "api:createIncident"
+      ],
+      "v2_id": "T47"
+    },
+    {
+      "id": "T48",
+      "feature": "F4",
+      "area": "provider",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "알림톡 템플릿 미승인, 문자 계약·수신자는 유효",
+      "when": "알림을 보낸다",
+      "expect": "허용된 문자 경로를 쓰고 알림톡 불가를 기록. 거짓 알림톡 성공 없음",
+      "refs": [
+        "sql:deliveries"
+      ],
+      "v2_id": "T48"
+    },
+    {
+      "id": "T49",
+      "feature": "F1",
+      "area": "scope",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "Pleos 탑재가 확인되지 않은 일반 차량",
+      "when": "실제 차량 프로필을 켠다",
+      "expect": "422 PROFILE_NOT_VERIFIED. 일반 차량 모드 없음",
+      "refs": [
+        "api:registerVehicle",
+        "sql:vehicle_profiles"
+      ],
+      "v2_id": "T49"
+    },
+    {
+      "id": "T50",
+      "feature": "F3",
+      "area": "host",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "내비·시스템 패널이 앞에 있어 긴급 화면을 띄울 수 없음",
+      "when": "안내를 시작한다",
+      "expect": "BLOCKED_BY_HOST 기록, 음성 1회와 알림 1개만. 시스템 전체 화면 팝업을 쓰지 않는다",
+      "refs": [
+        "sql:guidance_events",
+        "rules:audio.system_fullscreen_popup"
+      ],
+      "v2_id": "T50"
+    },
+    {
+      "id": "T51",
+      "feature": "F2",
+      "area": "append_contract",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "같은 관측 묶음과 기기 순번을 다시 보냄",
+      "when": "추가 경로를 두 번 부른다",
+      "expect": "묶음 한 번만 확정. 같은 내용은 멱등, 같은 순번의 다른 내용은 409",
+      "refs": [
+        "api:appendObservationBatch",
+        "sql:observation_batches"
+      ],
+      "v2_id": "T51"
+    },
+    {
+      "id": "T52",
+      "feature": "F4",
+      "area": "query_contract",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "소유자 세션과 묶인 보호자 세션",
+      "when": "사건·시간표·최신 위치·보호자 화면을 읽는다",
+      "expect": "소유자는 전체, 보호자는 shares의 허용 필드와 자기 전달 상태(my_delivery_states)만. 보호자 세션으로 deliveries·timeline은 403",
+      "refs": [
+        "api:getAuthorizedIncidentTimeline",
+        "api:getAuthenticatedGuardianProjection",
+        "api:getIncidentDeliveries"
+      ],
+      "v2_id": "T52"
+    },
+    {
+      "id": "T53",
+      "feature": "F2",
+      "area": "upload_contract",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "4MiB 조각을 보관한 뒤 연결이 끊김",
+      "when": "HEAD → 같은 조각 재전송 → 나머지와 완료",
+      "expect": "오프셋 유지, 같은 재전송은 중복 없음, 다른 해시는 409, 전체 SHA-256 확인 뒤에만 완료",
+      "refs": [
+        "api:getUploadOffset",
+        "api:appendUploadChunk",
+        "sql:upload_chunks"
+      ],
+      "v2_id": "T53"
+    },
+    {
+      "id": "T54",
+      "feature": "F4",
+      "area": "clock_contract",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "COUNTDOWN, MONOTONIC_ONLY, elapsed_ms_at_submit=null",
+      "when": "검증한다",
+      "expect": "422. null을 0으로 계산하지 않는다",
+      "refs": [
+        "api:createIncident"
+      ],
+      "v2_id": "T54"
+    },
+    {
+      "id": "T55",
+      "feature": "F4",
+      "area": "revision",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "L2_CHECK 기록 중 운전자가 '사고'(COLLISION)를 고름",
+      "when": "묶음을 추가한다",
+      "expect": "notification_revision 증가, 기존 기한 연장 없음. 취소 전 오래된 자료로 다시 켜지지 않는다",
+      "refs": [
+        "api:appendObservationBatch",
+        "sql:incidents"
+      ],
+      "v2_id": "T55"
+    },
+    {
+      "id": "T56",
+      "feature": "F3",
+      "area": "guidance_log",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "화면 표시는 막히고 음성은 시작됨",
+      "when": "안내 기록을 추가하고 시간표를 읽는다",
+      "expect": "출력별 결과를 따로 남긴다. 운전자가 듣거나 따랐다고 주장하지 않는다",
+      "refs": [
+        "sql:guidance_events",
+        "api:getAuthorizedIncidentTimeline"
+      ],
+      "v2_id": "T56"
+    },
+    {
+      "id": "T57",
+      "feature": "F1",
+      "area": "check_items",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "엔진오일 LOW(시험 입력, [시험 입력] 표시)",
+      "when": "값이 바뀐다",
+      "expect": "점검 항목 카드 표시, 관련 경고등 설명을 후보 맨 앞에, 사건 incident_trigger VEHICLE_MAINTENANCE_SIGNAL. 문구는 '같은 원인의 공개 신호'이며 경고등을 읽었다고 하지 않는다",
+      "refs": [
+        "rules:check_items",
+        "api:createIncident",
+        "sql:incidents"
+      ]
+    },
+    {
+      "id": "T58",
+      "feature": "F1",
+      "area": "predrive",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "given": "정차 중, 워셔액 부족(시험 입력), 보호자 2명 ACTIVE, 휴대폰 연결됨, VC로 뒤 왼쪽 문 열림",
+      "when": "출발 전 점검 카드를 연다",
+      "expect": "점검 항목·정비 일정·보호자 준비·휴대폰 연결만 한 장. 문·안전벨트는 시스템 출발 전 안내와 겹치므로 넣지 않는다. 주행 중에는 열리지 않는다",
+      "refs": [
+        "rules:check_items.predrive_card_excludes",
+        "api:startTrip"
+      ]
+    },
+    {
+      "id": "T59",
+      "feature": "F2",
+      "area": "pattern",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "같은 차량에서 VIBRATION을 시속 60~80km(시험 입력)·오른쪽 조향 중 3번 기록",
+      "when": "재현 조건 카드를 요청한다",
+      "expect": "카드 1장(occurrences 3, speed 60~80, test_input_included=true). 2번이면 카드 없음. 원인 진단 문구 없음",
+      "refs": [
+        "api:listSymptomPatterns",
+        "sql:manual_reports",
+        "rules:symptom_patterns.minimum_occurrences"
+      ]
+    },
+    {
+      "id": "T60",
+      "feature": "F2",
+      "area": "voice_record",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "운전자가 마이크 버튼을 누르고 '떨려요'라고 말함(에뮬레이터 마이크)",
+      "when": "STT 결과가 온다",
+      "expect": "memo_text 저장, VIBRATION 후보 확인. 누르기 전에는 듣지 않고 TTS 재생 중에는 STT를 멈춘다. 외부 음성 인식 없음",
+      "refs": [
+        "api:appendManualReport",
+        "rules:performance.always_on_speech_recognition",
+        "rules:audio.stt_paused_while_tts_playing"
+      ]
+    },
+    {
+      "id": "T61",
+      "feature": "F1",
+      "area": "voice_search",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "누르고 말하기 '주황 타이어 경고등'",
+      "when": "경고등 찾기 검색",
+      "expect": "STT 결과 문자열로 후보 최대 3개(색 AMBER·모양 타이어). 경고등 상태 API를 부르지 않는다",
+      "refs": [
+        "api:listVerifiedWarningGuides",
+        "rules:warning_lookup.candidate_limit"
+      ]
+    },
+    {
+      "id": "T62",
+      "feature": "F4",
+      "area": "snapshot",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "운전석 에어백 전개(시험 입력), VC 좌석 점유 2석, 벨트(시험 입력), VC 운전석 문 열림, 위치 측정 시각 있음",
+      "when": "사고 사건을 만든다",
+      "expect": "vehicle_snapshot 각 값에 quality·received_at. 보호자 화면 occupants 요약(탑승 2, 문 열림, has_test_input=true)",
+      "refs": [
+        "api:createIncident",
+        "api:getAuthenticatedGuardianProjection"
+      ]
+    },
+    {
+      "id": "T63",
+      "feature": "F5",
+      "area": "service_stop",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "주행 중 목적지 안내 중, 앱 안 정비소 목록 2곳",
+      "when": "정비소 들르기를 고른다",
+      "expect": "현재 목적지를 유지한 채 경유지로 넣는다(requestRouteWithWaypoints/addWaypoint). 후보별 도착 예상은 requestTrip을 한 건씩. POI 검색 결과 수신을 주장하지 않는다",
+      "refs": [
+        "tokens:screens"
+      ]
+    },
+    {
+      "id": "T64",
+      "feature": "F2",
+      "area": "maintenance",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "given": "정비 노트 주행거리 32,000km, VC 주행거리를 32,300km로 바꿈",
+      "when": "정차·주행 상태에서 홈을 연다",
+      "expect": "정차 중에만 '정비 뒤 500km 동안 같은 증상이 있었나요?'(recheck_until_km 32,500). 주행 중에는 묻지 않는다",
+      "refs": [
+        "api:createMaintenanceNote",
+        "api:answerMaintenanceRecheck",
+        "sql:maintenance_notes",
+        "rules:maintenance.recheck_distance_km"
+      ]
+    },
+    {
+      "id": "T65",
+      "feature": "F3",
+      "area": "practice",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "ADB",
+      "given": "비상 절차 미리 익히기 화면",
+      "when": "adb driving_regulation on/off와 VC 브레이크 0↔100%",
+      "expect": "정차(off)에서만 열리고 애니메이션 허용. on이면 닫히거나 막힘. 브레이크 100%면 '밟음 확인'",
+      "refs": [
+        "rules:guidance.practice",
+        "tokens:animation.parked_motion_allowed"
+      ]
+    },
+    {
+      "id": "T66",
+      "feature": "F0",
+      "area": "demo_mode",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "시연 모드에서 차속·에어백을 시험 입력 재생기로 넣음",
+      "when": "화면·시간표·보호자 화면을 본다",
+      "expect": "source·quality TEST_INPUT, 화면마다 [시험 입력], 보호자 화면 [시험], test_mode=true, 실제 발송 꺼짐",
+      "refs": [
+        "rules:demo_mode",
+        "api:createIncident",
+        "sql:observations"
+      ]
+    },
+    {
+      "id": "T67",
+      "feature": "F4",
+      "area": "disclosure",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "위치를 담은 보호자 알림 2건(엄마·형)",
+      "when": "발송된다",
+      "expect": "location_disclosures 2행, 운전자 화면에 '누구에게·언제' 표시, '공유 중지'를 누르면 location_stream_until=지금",
+      "refs": [
+        "api:listLocationDisclosures",
+        "sql:location_disclosures",
+        "rules:privacy.notify_driver_each_disclosure"
+      ]
+    },
+    {
+      "id": "T68",
+      "feature": "F4",
+      "area": "practice_alert",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "ACTIVE 보호자",
+      "when": "연습 알림을 보낸다",
+      "expect": "[연습] 라벨, 위치 없음, 사건 없음(is_practice=true), 같은 날 두 번째는 429",
+      "refs": [
+        "api:sendGuardianPracticeAlert",
+        "sql:deliveries",
+        "rules:notification.practice_alert"
+      ]
+    },
+    {
+      "id": "T69",
+      "feature": "F4",
+      "area": "quick_reply",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "보호자 웹(PC 브라우저)에서 [전화할게요]",
+      "when": "답을 보낸다",
+      "expect": "guardian_replies 저장, 차량이 조회해 정차 중이면 화면과 짧은 음성, 주행 중이면 화면 한 줄",
+      "refs": [
+        "api:postGuardianReply",
+        "sql:guardian_replies",
+        "rules:notification.quick_reply_relay"
+      ]
+    },
+    {
+      "id": "T70",
+      "feature": "F1",
+      "area": "weekly_card",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "정차 중 홈, 지난 카드 뒤 7일 지남",
+      "when": "홈을 연다",
+      "expect": "경고등 익히기 카드 1장. 도감 키는 TelltaleType 상수 이름 참조만. 매니페스트에 PRIVATE 권한 없음",
+      "refs": [
+        "rules:warning_lookup.weekly_card",
+        "rules:warning_lookup.telltale_state_read"
+      ]
+    },
+    {
+      "id": "T71",
+      "feature": "F0",
+      "area": "driving_restriction",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "ADB",
+      "given": "adb shell cmd hmg_car_service --service drivingstate driving_regulation on",
+      "when": "홈을 본다",
+      "expect": "큰 버튼(지금 기록·증상 고르기 5개·보호자에게 알리기)만, 차 그림 작게 또는 숨김, 움직임 0. off면 전체 화면",
+      "refs": [
+        "tokens:driving_mode",
+        "tokens:layouts.portrait.driving"
+      ]
+    },
+    {
+      "id": "T72",
+      "feature": "F0",
+      "area": "driving_restriction",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "ADB",
+      "given": "CarUxRestrictions를 받지 못함",
+      "when": "화면 규칙을 정한다",
+      "expect": "주행 중으로 간주. 영상·설정·긴 설명을 열지 않는다. 긴급 음성과 도움 요청은 막지 않는다",
+      "refs": [
+        "rules:driving_state.unknown_state_policy",
+        "rules:driving_state.emergency_voice_allowed_when_unknown"
+      ]
+    },
+    {
+      "id": "T73",
+      "feature": "F0",
+      "area": "driving_restriction",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "ADB",
+      "given": "driving_regulation on",
+      "when": "주행 중 갈 수 있는 모든 화면을 따라간다",
+      "expect": "메뉴 깊이 3단계 이하, 문단 3줄 이하, 휴대폰 연결 QR·동의 변경은 막힘(PARKED_ONLY)",
+      "refs": [
+        "rules:driving_state.driving_menu_max_depth",
+        "tokens:official_limits.driving_text_max_lines",
+        "api:createPairingQr"
+      ]
+    },
+    {
+      "id": "T74",
+      "feature": "F0",
+      "area": "parity",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "발송 확인 6초 남음, 부위 FRONT_LEFT_TIRE 선택 상태",
+      "when": "FormFactorConsole로 세로↔가로를 바꾼다",
+      "expect": "남은 시간·고른 부위·안내 단계 유지, 같은 행동 버튼, 레터박스 없음",
+      "refs": [
+        "tokens:parity_rules",
+        "tokens:layouts"
+      ]
+    },
+    {
+      "id": "T75",
+      "feature": "F3",
+      "area": "parity",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "긴급 안내에서 '차가 멈췄어요'를 누르는 중 발송 확인으로 바뀜",
+      "when": "500ms 안에 터치가 들어온다",
+      "expect": "터치를 무시해 취소되지 않는다. '보내지 않기'는 모든 긴급 화면에서 같은 자리·같은 중립색",
+      "refs": [
+        "tokens:self_defined.input_guard_after_emergency_transition",
+        "rules:guidance.same_position_same_meaning_in_emergency_flow"
+      ]
+    },
+    {
+      "id": "T76",
+      "feature": "F4",
+      "area": "consent",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "운전자 LOCATION_SHARE_GUARDIAN 동의 없음",
+      "when": "에어백 사건(시험 입력)",
+      "expect": "BLOCKED_NO_CONSENT, 기록 보존. 정차 뒤 '동의하고 보내기'를 보여 준다",
+      "refs": [
+        "api:createIncident",
+        "api:recordConsent",
+        "rules:notification.require_driver_location_share_consent"
+      ]
+    },
+    {
+      "id": "T77",
+      "feature": "F4",
+      "area": "consent",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "driver_mode GUEST(이번 운전자 확인에서 게스트 선택)",
+      "when": "충돌 선택 → 지금 도움 요청",
+      "expect": "trip auto_location_send_enabled=false, 자동 위치 발송 없음. 도움 요청 때 그 자리 동의 뒤에만 발송",
+      "refs": [
+        "api:startTrip",
+        "sql:trips",
+        "rules:notification.guest_or_unknown_driver_auto_location_send"
+      ]
+    },
+    {
+      "id": "T78",
+      "feature": "F4",
+      "area": "consent",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "열린 보호자 공유와 대기 발송이 있음",
+      "when": "운전자가 위치 제공 동의를 철회한다",
+      "expect": "같은 트랜잭션에서 공유 끊김·대기 발송 취소, 다음 사건은 BLOCKED_NO_CONSENT",
+      "refs": [
+        "api:recordConsent",
+        "sql:consents",
+        "rules:privacy.consent_withdrawal_revokes_open_shares"
+      ]
+    },
+    {
+      "id": "T79",
+      "feature": "F4",
+      "area": "correction",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "RELEASED 뒤 운전자가 '괜찮아요'",
+      "when": "RESPOND_SAFE를 확정한다",
+      "expect": "revision+1, 같은 보호자에게 CARE_UPDATE_V1 정정(is_correction=true), action 기록에 correction_reason DRIVER_SAFE",
+      "refs": [
+        "api:applyIncidentAction",
+        "sql:incident_actions",
+        "rules:notification.correction"
+      ]
+    },
+    {
+      "id": "T80",
+      "feature": "F4",
+      "area": "correction",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "정책 COUNTDOWN",
+      "when": "corrections에 FALSE_ALARM을 보낸다",
+      "expect": "409(정정은 RELEASED 이후만, 그 전에는 CANCEL). RELEASED 뒤에는 202와 정정 발송",
+      "refs": [
+        "api:sendCorrection"
+      ]
+    },
+    {
+      "id": "T81",
+      "feature": "F4",
+      "area": "quick_reply",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "다른 사건의 보호자 세션",
+      "when": "이 사건 share_id로 빠른 답을 보낸다",
+      "expect": "403. 저장·전달 없음",
+      "refs": [
+        "api:postGuardianReply"
+      ]
+    },
+    {
+      "id": "T82",
+      "feature": "F0",
+      "area": "demo_mode",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "시험 입력 값인데 화면 배지가 꺼진 설정",
+      "when": "값을 그리려 한다",
+      "expect": "그리지 않거나 배지를 강제로 붙인다. TEST_INPUT은 quality OK로 바뀌지 않는다",
+      "refs": [
+        "rules:deployment.test_input_label_required",
+        "sql:observations"
+      ]
+    },
+    {
+      "id": "T83",
+      "feature": "F0",
+      "area": "security_exception",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "given": "CAR_SAFETY 권한을 선언하지 않은 시험 빌드",
+      "when": "registerSeatAirbagDeployed를 부르고 get도 부른다",
+      "expect": "register는 즉시 SecurityException → 잡아서 PERMISSION_DENIED, get은 onFailed(SecurityException) → 같은 처리. 앱이 죽지 않고 차량 연결 확인 표에 '권한 없음'",
+      "refs": [
+        "rules:signal_validity.sdk_call",
+        "api:reportCapabilitySnapshot"
+      ]
+    },
+    {
+      "id": "T84",
+      "feature": "F4",
+      "area": "security_exception",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "FUSED_LOCATION 런타임 허용 거부",
+      "when": "사건 위치를 읽는다",
+      "expect": "SecurityException을 잡아 location quality PERMISSION_DENIED(좌표 null). 사건은 만든다",
+      "refs": [
+        "api:appendIncidentLocation",
+        "sql:incident_locations"
+      ]
+    },
+    {
+      "id": "T85",
+      "feature": "F0",
+      "area": "service_connection",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "given": "Vehicle.initialize() 직후 연결 전 get 호출",
+      "when": "3,000ms 안에 연결되지 않는다",
+      "expect": "앱 제한 시간으로 UNAVAILABLE, '차량 연결 확인 중' 표시. 연결 뒤 등록하고 첫 값을 get으로 읽는다",
+      "refs": [
+        "rules:signal_validity.sdk_call.service_connect_wait_timeout_ms",
+        "rules:signal_validity.on_change.initial_get_after_register"
+      ]
+    },
+    {
+      "id": "T86",
+      "feature": "F3",
+      "area": "service_connection",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "긴급 안내 중 차량 서비스 연결이 끊김",
+      "when": "브레이크 값을 판단한다",
+      "expect": "변화 알림형 신호를 UNAVAILABLE로 바꾸고 OK로 보이지 않는다. 다시 연결되면 재등록·첫 값 get",
+      "refs": [
+        "rules:signal_validity.on_change.invalidate_on_service_disconnect"
+      ]
+    },
+    {
+      "id": "T87",
+      "feature": "F0",
+      "area": "threading",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "콜백이 Binder 스레드에서 옴",
+      "when": "화면 상태를 바꾼다",
+      "expect": "메인 스레드로 넘긴 뒤 반영. 리스너는 (신호, 영역)마다 하나, 같은 객체로 해제",
+      "refs": [
+        "rules:signal_validity.sdk_call.callbacks_on_binder_thread_post_to_main",
+        "rules:signal_validity.sdk_call.listener_key"
+      ]
+    },
+    {
+      "id": "T88",
+      "feature": "F3",
+      "area": "audio",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "감속 실패 안내 음성 재생 중",
+      "when": "Gleo를 부르고, 통화가 오고, 시동 종료(Suspend)",
+      "expect": "음성 앞 무음 150~200ms. Gleo면 즉시 멈추고 끝난 뒤 그 단계를 처음부터. 통화 중에는 화면만. Suspend면 포커스 반납",
+      "refs": [
+        "rules:audio",
+        "api:getGuideBundle"
+      ]
+    },
+    {
+      "id": "T89",
+      "feature": "F0",
+      "area": "performance",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "주행 중(driving_regulation on) 앱 CPU 7%가 10초 지속",
+      "when": "예산을 잰다",
+      "expect": "한 단계 강등하고 '분석 축소' 표시. RAM은 400MB 이하. 에뮬레이터 값은 실차 성능이 아니라고 표시",
+      "refs": [
+        "rules:performance.driving_cpu_budget_pct_lt",
+        "rules:performance.ram_budget_mb_max",
+        "rules:performance.degrade_ladder"
+      ]
+    },
+    {
+      "id": "T90",
+      "feature": "F0",
+      "area": "performance",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "사건 없이 30분 주행(driving_regulation on)",
+      "when": "음성 인식 세션 수를 센다",
+      "expect": "0회. 상시 청취 없음",
+      "refs": [
+        "rules:performance.always_on_speech_recognition"
+      ]
+    },
+    {
+      "id": "T91",
+      "feature": "F6",
+      "area": "pairing",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "ADB",
+      "given": "driving_regulation on 상태 또는 QR 발급 5분 뒤",
+      "when": "QR을 만들거나 휴대폰에서 확인한다",
+      "expect": "주행 중에는 QR을 띄우지 않는다. 5분 지난 코드는 410 PAIRING_EXPIRED. 블루투스 연결을 가정하지 않는다",
+      "refs": [
+        "api:createPairingQr",
+        "api:confirmPairing",
+        "sql:device_pairings",
+        "rules:pairing"
+      ]
+    },
+    {
+      "id": "T92",
+      "feature": "F6",
+      "area": "trip",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "차량이 trip을 연 뒤 휴대폰도 POST /v1/trips",
+      "when": "두 기기가 출발 준비를 한다",
+      "expect": "같은 trip_id(200). 차량마다 열린 trip은 하나",
+      "refs": [
+        "api:startTrip",
+        "sql:trips"
+      ]
+    },
+    {
+      "id": "T93",
+      "feature": "F0",
+      "area": "vehicle",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "CarInfo.getVINInfo 값",
+      "when": "차량을 등록한다",
+      "expect": "vin_sha256만 보내고 원본 VIN은 기기 밖으로 나가지 않는다. 서버는 HMAC만 저장. 같은 VIN의 다른 활성 등록은 409",
+      "refs": [
+        "api:registerVehicle",
+        "sql:vehicles"
+      ]
+    },
+    {
+      "id": "T94",
+      "feature": "F4",
+      "area": "guardian_otp",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "보호자 초대 페이지",
+      "when": "틀린 OTP를 5번 넣는다",
+      "expect": "423 OTP_LOCKED 15분. 초대 토큰은 URL 조각에만 있고 서버 로그에 없다",
+      "refs": [
+        "api:verifyGuardianPhone",
+        "sql:guardian_verifications",
+        "rules:guardian_otp"
+      ]
+    },
+    {
+      "id": "T95",
+      "feature": "F5",
+      "area": "share_link",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "정차 중 정비사 요약 링크 생성",
+      "when": "24시간 뒤 열람한다",
+      "expect": "410 SHARE_EXPIRED. 요약에는 위치·보호자 정보가 없다. 토큰은 URL 조각",
+      "refs": [
+        "api:createMaintenanceShareLink",
+        "api:viewMaintenanceShareLink",
+        "sql:share_links",
+        "rules:share_links"
+      ]
+    },
+    {
+      "id": "T96",
+      "feature": "F4",
+      "area": "help_request",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "보호자 2명 ACTIVE",
+      "when": "'지금 도움 요청' → 받는 사람 확인 화면 → '보내기'",
+      "expect": "recipients_shown_guardian_ids 2명, 바로 RELEASED(10초 없음). 보호자가 없으면 119·블루링크 SOS 이용 방법만 안내. 앱이 119에 자동 신고하지 않는다",
+      "refs": [
+        "api:applyIncidentAction",
+        "sql:incident_actions",
+        "rules:notification.scope"
+      ]
+    },
+    {
+      "id": "T97",
+      "feature": "F3",
+      "area": "confirm_prompt",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "given": "VC 브레이크 100% 600ms, 시험 입력 차속이 1초에 0.3m/s만 줄어듦, 운전자 보고 없음",
+      "when": "조건을 판단한다",
+      "expect": "CONFIRM_PROMPT('차가 멈추지 않나요?')만. DECEL_FAILURE_GUIDE 진입 없음, 전자식 파킹 브레이크 안내 없음",
+      "refs": [
+        "rules:guidance.sensor_combination_output",
+        "rules:guidance.no_deceleration_auto_guidance_allowed"
+      ]
+    },
+    {
+      "id": "T98",
+      "feature": "F3",
+      "area": "false_alarm",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "긴급 안내 진행 중(오탐)",
+      "when": "'괜찮아요, 안내 끝내기'를 누른다",
+      "expect": "END_GUIDANCE → ENDED, 기록은 남기고 발송 없음, '안내를 끝냈습니다' 확인",
+      "refs": [
+        "api:applyIncidentAction",
+        "rules:guidance.end_guidance_action"
+      ]
+    },
+    {
+      "id": "T99",
+      "feature": "F2",
+      "area": "symptom_select",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "ADB",
+      "given": "driving_regulation on / off",
+      "when": "증상 고르기를 연다",
+      "expect": "주행 중 큰 카드 5개(VIBRATION·BURNING_SMELL·TIRE_DAMAGE·COLLISION·UNKNOWN), 정차 중 9개. COLLISION이 아닌 증상은 카운트다운 없이 RECORD_ONLY",
+      "refs": [
+        "rules:symptoms.driving_quick_cards",
+        "sql:manual_reports",
+        "api:appendManualReport"
+      ]
+    },
+    {
+      "id": "T100",
+      "feature": "F4",
+      "area": "collision",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "운전자가 '사고'(COLLISION)를 고름",
+      "when": "사건을 만든다",
+      "expect": "incident_trigger USER_COLLISION, L3_URGENT, COUNTDOWN 10초",
+      "refs": [
+        "api:createIncident",
+        "rules:notification.scope.auto_send_after_confirmation_triggers"
+      ]
+    },
+    {
+      "id": "T101",
+      "feature": "F2",
+      "area": "body_area",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "given": "부위 FRONT_LEFT_TIRE(운전석 기준)를 고름",
+      "when": "증상 카드를 보여 준다",
+      "expect": "body_area_symptom_map 순서의 카드와 'TPMS' 경고등 찾기 연결. 저장 값 body_area FRONT_LEFT_TIRE. 고장 위치 확인이라고 말하지 않는다",
+      "refs": [
+        "rules:symptoms.body_area_symptom_map",
+        "rules:symptoms.body_area_warning_links",
+        "sql:manual_reports"
+      ]
+    },
+    {
+      "id": "T102",
+      "feature": "F4",
+      "area": "location",
+      "grade": "DESIGN",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "차량 위치(confidence 원값)와 휴대폰 위치",
+      "when": "보호자 화면을 만든다",
+      "expect": "accuracy_m·'오차 반경' 문구 없음, location_confidence 원값 저장, 측정 시각 표시, 휴대폰 위치는 location_source PHONE으로 따로",
+      "refs": [
+        "api:getLatestAuthorizedLocation",
+        "sql:incident_locations"
+      ]
+    },
+    {
+      "id": "T103",
+      "feature": "F3",
+      "area": "guide_bundle",
+      "grade": "DEMO",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MOCK_SERVER",
+      "given": "네트워크 없음, APK에 든 G_DECEL_FAILURE 묶음",
+      "when": "감속 실패 안내를 연다",
+      "expect": "APK 묶음으로 동작, 단계마다 정지 그림 1장과 3줄 이하 글, motion_while_driving=false, 음성 앞 무음 150~200ms. 갱신은 해시 확인 뒤에만",
+      "refs": [
+        "api:getGuideBundle",
+        "sql:guide_bundles",
+        "tokens:animation"
+      ]
+    }
+  ]
+}

@@ -21,7 +21,7 @@
    },
    {
     "image": "assets/v4/composite/form-portrait-2.png",
-    "caption": "주행 중 긴급 안내와 보호자 발송 확인. 움직이지 않는 그림과 짧은 음성, 같은 자리 같은 뜻의 버튼을 씁니다."
+    "caption": "주행 중 긴급 안내와 보호자 발송 확인. 움직이지 않는 그림과 짧은 음성을 쓰고, 끝내기는 왼쪽, 도움과 보내기는 오른쪽에 둡니다."
    },
    {
     "image": "assets/v4/composite/form-portrait-3.png",
@@ -29,8 +29,8 @@
     "page_break_before": true
    },
    {
-    "image": "assets/v4/landscape/ui-home.png",
-    "caption": "가로 화면의 홈. 세로 화면과 같은 기능을 차량 그림과 함께 넓게 보여 줍니다."
+    "image": "assets/v4/landscape/ui-history.png",
+    "caption": "가로 화면의 재현 조건 카드. 같은 증상이 세 번 쌓이면 평소 주행보다 자주 겹친 조건을 정비사에게 보여 줍니다."
    }
   ]
  }
