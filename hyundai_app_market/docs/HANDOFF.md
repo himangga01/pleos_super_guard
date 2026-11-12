@@ -27,7 +27,7 @@
 | 7 | [SDK 종합 검토](analysis/pleos-sdk-review.md) 및 [차량 안전 기능 검토](sdk/vehicle-safety-capabilities.md) | 문서·선언에서 확인한 기능과 실제 검증이 필요한 기능 |
 | 8 | [공모전 조사](analysis/hyundai-vehicle-app-contest-2026.md) 및 [출처 기록](analysis/hyundai-vehicle-app-contest-2026-sources.md) | 공식 제출 조건과 원문 링크 |
 
-공통 분석 정책은 `C:/Users/강지혜/.agents/analysis-policy.md`입니다. 서비스 분석을 별도로 요청받으면 영어로 작성합니다. 현재 인계와 공모전 문서는 한국어를 사용합니다.
+공통 분석 정책은 사용자 로컬 파일 `~/.agents/analysis-policy.md`입니다. 서비스 분석을 별도로 요청받으면 영어로 작성합니다. 현재 인계와 공모전 문서는 한국어를 사용합니다.
 
 ## 3. 최종 전달 파일
 
