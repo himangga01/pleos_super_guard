@@ -937,7 +937,7 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 두 배치의 버튼 이름, 버튼 수, 왼쪽·오른쪽의 뜻, 들어가는 화면은 같습니다. 일반 화면의 아래 두 버튼은 "왼쪽 = 이 화면의 주 행동, 오른쪽 = 보조 행동 또는 도움"이고, 긴급 흐름은 3.3.5절 규칙을 따릅니다.
 
 - 세로 기준 시안은 840×1212px입니다(자체, 마켓 스크린샷 규격을 단서로 삼음). 가로 시안 1280×720dp는 예시입니다. 실제 창 크기는 에뮬레이터 FormFactorConsole로 확인합니다. [폼 팩터 시험](https://document.pleos.ai/docs/pleos-only/app-test-guide/form-factor-test-guide)
-- 가로 시안의 영역 좌표는 `ui-tokens.json`의 `regions`를 따르며 예시입니다. 카드의 고정 크기(v3의 296×144dp, 349×132dp)와 12열 그리드는 쓰지 않습니다. 카드는 창 크기에 맞춰 배치하되 주행 중에는 페이지를 넘기지 않게 합니다.
+- 영역 좌표는 `ui-tokens.json`의 `layouts`를 따르며 예시입니다. 가로 정차 중 상황 선택 카드 9개는 349×132dp(자체)이고, v3의 296×144dp와 12열 그리드는 폐기했습니다. 주행 중에는 페이지를 넘기지 않게 합니다.
 - 창 크기나 방향이 바뀌어도 고른 부위, 진행 중 안내, 남은 확인 시간을 유지합니다. 버튼과 기능이 바뀌지 않습니다.
 - 조수석 창에서 실행됐는지 앱이 알 수 있는지는 확인 필요입니다. 그래서 음성을 기본 전달 경로로 둡니다.
 
@@ -977,7 +977,7 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 | 주요 행동 간격 | 24dp | 자체 |
 | 앱 본문 글자 | 22sp 이상 | 자체 |
 | 세로 기준 시안 / 가로 시안 | 840×1212px / 1280×720dp(예시) | 자체 |
-| 긴급 상태 전환 뒤 입력 보호 | 0.5~0.7초 | 자체 시험값 |
+| 긴급 상태 전환 뒤 입력 보호 | 시작값 500ms(0.5~0.7초에서 시험) | 자체 시험값 |
 | 중복 탭 병합 | 300ms | 자체 |
 | 주행 중 긴급 문장 | 한 문장, 한글 20자 안팎 | 자체 목표 |
 | 주행 중 메뉴 깊이 | 3단계 이하 | 자체(Pleos 내비 앱 기준 참고) |
@@ -997,7 +997,7 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 | 위치·보호자 | #9FA4FF | 7.52:1 |
 | 긴급 배경 / 긴급 띠 | #1B0B12 / #702132 | 띠 위 흰 글자 10.28:1 |
 
-- **대비 수정:** 긴급 띠 #702132 위의 #FF5B6B 글자·아이콘은 3.56:1이라 기준 미달이어서 뺐습니다. 띠 위 제목·아이콘은 #F7FAFF(10.28:1)입니다. 빨간 긴급 버튼(#FF5B6B) 위 글자·아이콘은 #090E16(6.41:1)입니다. 시안 전체의 조합별 측정값은 [화면 설계 v4](ux-v4-section.md) 4.7절에 있습니다.
+- **대비 수정:** 긴급 띠 #702132 위의 #FF5B6B 글자·아이콘은 3.56:1이라 기준 미달이어서 뺐습니다(`forbidden_pairs`). 띠 위 제목·아이콘은 #F7FAFF(10.28:1)이고, 강조가 필요하면 `emergency_band_accent` #FFB3BA(6.36:1)를 씁니다. 빨간 긴급 버튼(#FF5B6B) 위 글자·아이콘은 #090E16(6.41:1)입니다. 시안 전체의 조합별 측정값은 [화면 설계 v4](ux-v4-section.md) 4.7절에 있습니다.
 - 상태는 색만으로 전하지 않고 아이콘과 문구를 함께 씁니다. 전달 완료 표시가 구조 기관 접수처럼 보이지 않게 합니다.
 - 고령 운전자를 위해 설정에 "글자 크게 보기"를 둡니다(자체).
 
@@ -1005,7 +1005,7 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 
 - 손을 뗄 때 확정하고, 누른 채 영역 밖으로 나가면 취소합니다. 누르면 95%로 줄어드는 효과를 줍니다(공식 디자인 가이드).
 - 300ms 안의 중복 탭은 한 번으로 합칩니다(자체).
-- 긴급 상태가 바뀐 직후 0.5~0.7초는 터치를 무시합니다(자체 시험값).
+- 긴급 상태가 바뀐 직후 0.5~0.7초는 터치를 무시합니다(자체 시험값, 시작값 500ms).
 - 음성 입력은 누르고 말하기입니다. 듣는 동안 "듣는 중"을 화면 위에 표시합니다.
 
 ### 4.7 아이콘
@@ -1016,34 +1016,32 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 
 ### 4.8 화면 목록과 ID
 
-화면 ID는 화면 코드, `ui-tokens.json`의 `screens`, 인수 시나리오에 같이 씁니다. v3의 P0~P9와 C01~C08, 옛 `screens` 10개 이름(`parts`, `manual`, `stopping` 등)은 쓰지 않습니다.
+화면 ID는 화면 코드, `ui-tokens.json`의 `screens`, rules-lab, 인수 시나리오에 같이 씁니다. v3의 P0~P9와 C01~C08, 옛 `screens` 10개 이름(`parts`, `manual`, `stopping` 등)은 쓰지 않습니다(옛 이름 대응은 ui-tokens `legacy_screen_map`). 시안 파일은 실제 v4 폴더 기준입니다.
 
 | ID | 화면 이름 | 기능 | 세로 시안(`portrait/`) | 가로 시안(`landscape/`) | 주행 중 |
 | --- | --- | --- | --- | --- | --- |
-| `home` | 홈(정차 중) | 공통 | p-home | ui-home | 주행 중 홈으로 바뀝니다. |
-| `home_parts` | 홈 · 부위 선택 | F2 | p-parts | ui-parts | 정차 중만 |
-| `home_driving` | 홈(주행 중) | 공통 | p-home-driving | ui-home-driving | 상태 한 줄과 큰 버튼 3개 |
+| `home` | 홈(정차 중 · 부위 선택 · 주행 중) | 공통 | p-home, p-parts, p-home-driving | ui-home, ui-parts, ui-home-driving | 주행 중 홈으로 바뀝니다(상태 한 줄, 큰 버튼 3개). |
 | `warning_find` | 경고등 찾기 | F1 | p-warning-find | ui-warning(왼쪽) | 3번 누르기·말로 찾기. 문구 입력은 정차 중 |
-| `warning_result` | 경고등 설명 | F1 | p-warning-result | ui-warning(오른쪽) | 요약 3줄과 운행 판단. 상세는 정차 후 |
-| `check_items` | 점검 항목 · 출발 전 점검 | F1 | p-check | ui-check | 정차 중만(주행 중에는 짧은 음성 1회) |
+| `warning_detail` | 경고등 설명 | F1 | p-warning-result | ui-warning(오른쪽) | 운행 판단 띠와 짧은 음성. 상세는 정차 후 |
+| `check_items` | 점검 항목 | F1 | p-check | ui-check | 짧은 음성 1회. 목록은 정차 중 |
+| `predrive_check` | 출발 전 점검 | F1 | p-check(같은 시안) | ui-check(같은 시안) | 정차 중만 |
 | `record_now` | 지금 기록(차량 상태 시간표) | F2 | p-record | ui-record | 버튼 한 번과 "기록했습니다" 음성 |
 | `pattern` | 재현 조건 | F2 | p-pattern | ui-history | 정차 중만 |
-| `history` | 기록 목록 | F2 | — | — | 막힘 |
-| `maintenance_note` | 정비 노트 · 재발 확인 | F2 | — | — | 막힘 |
-| `manual_select` | 상황 선택 | F2·F3 | p-manual | ui-manual | 긴급 줄과 큰 카드(3.3.6절) |
-| `emergency_guide` | 긴급 안내(원치 않는 가속) | F3 | p-emergency | ui-guidance | 정지 그림과 음성 |
+| `maintenance_note` | 정비 노트 · 재발 확인 | F2 | — | — | 정차 중만 |
+| `symptom_select` | 상황 선택 | F2·F3 | p-manual | ui-manual | 긴급 줄과 큰 카드(3.3.6절) |
+| `emergency_guidance` | 긴급 안내(원치 않는 가속) | F3 | p-emergency | ui-guidance | 정지 그림과 음성 |
 | `decel_failure` | 감속 실패 대처 | F3 | p-stopping | ui-stopping | 정지 그림과 음성 |
 | `practice` | 비상 절차 미리 익히기 | F3 | p-practice | ui-practice | 열리지 않음 |
 | `countdown` | 발송 확인(10초) | F4 | p-countdown | ui-countdown | 숫자와 음성 |
-| `help_confirm` | 받는 사람 확인 | F4 | — | — | 발송 확인과 같은 배치, 타이머 없음 |
-| `stopped_review` | 정차 후 확인 | F3·F4 | — | — | 정차 뒤에만 |
 | `guardian_status` | 보호자 알림 상태 | F4 | p-guardian | ui-guardian | 보호자별 상태 한 줄 |
 | `service_stop` | 정비소 들르기 | F5 | p-service | ui-service | 후보 한 번 누르기 |
-| `settings` | 설정·동의 | 공통 | — | — | 막힘 |
-| `phone_pairing` | 휴대폰 연결 | F6 | — | — | 막힘 |
-| `demo` | 시연 모드 | F0 | — | — | 막힘 |
+| `settings_consent` | 설정·동의 | 공통 | — | — | 정차 중만 |
+| `phone_pairing` | 휴대폰 연결 | F6 | — | — | 정차 중만 |
+| `demo_mode` | 시연 모드 | F0 | — | — | 정차 중만 |
 
-시안이 없는 화면(받는 사람 확인, 정차 후 확인, 기록 목록, 정비 노트, 설정, 휴대폰 연결, 시연 모드, 첫 실행 준비, 오류·빈 상태, 보호자 웹 페이지, 휴대폰 앱 화면)은 흐름도(4.10절)에만 있고 시안은 설계 예정입니다. 시안 파일과 ID의 대응이 [화면 설계 v4](ux-v4-section.md)에서 바뀌면 이 표를 함께 고칩니다.
+- 받는 사람 확인(`help_confirm`), 정차 후 확인(`stopped_review`), 기록 목록(`history`)은 이 문서가 더하는 화면 ID 제안입니다(5.12절). 받는 사람 확인은 발송 확인과 같은 배치에서 타이머만 뺍니다.
+- 시안이 없는 화면(위 세 화면, 정비 노트, 설정·동의, 휴대폰 연결, 시연 모드, 첫 실행 준비, 오류·빈 상태, 보호자 웹 페이지, 휴대폰 앱 화면)은 흐름도(4.10절)에만 있고 시안은 설계 예정입니다.
+- 시안 파일과 ID의 대응이 [화면 설계 v4](ux-v4-section.md)나 ui-tokens에서 바뀌면 이 표를 함께 고칩니다.
 
 ### 4.9 공통 컴포넌트
 
