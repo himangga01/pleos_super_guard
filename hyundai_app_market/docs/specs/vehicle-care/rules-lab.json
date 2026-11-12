@@ -1,30 +1,44 @@
 {
-  "schema_version": "2.0.0",
-  "profile_id": "pleos-care-lab-20261112-r2",
-  "previous_profile_id": "pleos-care-lab-20261112",
-  "contract_version": "3.0.0",
+  "schema_version": "2.1.0",
+  "profile_id": "pleos-care-lab-20261112-r3",
+  "previous_profile_id": "pleos-care-lab-20261112-r2",
+  "contract_version": "3.1.0",
   "classification": "ENGINEERING_STARTING_VALUES_NOT_VALIDATED_SAFETY_THRESHOLDS",
-  "note": "개발용 시작값입니다. 제조사·실차 검증값이 아니며 앱이 차를 제어하지 않습니다. 이전 판은 history/2026-11-12-v2.1/rules-lab.json에 그대로 있습니다.",
+  "note": "개발용 시작값입니다. 제조사·실차 검증값이 아니며 앱이 차를 제어하지 않습니다. 이전 판은 history/2026-11-12-v3.0/rules-lab.json(2.0.0), history/2026-11-12-v2.1/rules-lab.json에 그대로 있습니다. 2.1.0은 2차 비판 결정(B·D·F·H)을 반영했습니다.",
   "deployment": {
     "mode": "LAB",
     "production_motion_model_approved": false,
     "test_input_label_required": true,
     "test_input_label": "[시험 입력]",
     "test_message_label": "[시험]",
-    "real_dispatch_enabled_in_demo": false
+    "real_dispatch_enabled_in_demo": false,
+    "mixed_test_input_incident_dispatch": "MOCK_ONLY",
+    "test_input_unit": "PER_SIGNAL"
   },
   "signal_catalog": [
     {
       "code": "VEHICLE_SPEED",
-      "api": "AAOS CarPropertyManager PERF_VEHICLE_SPEED(Pleos FAQ 안내 경로. Vehicle SDK 2.3.2 VehicleSpeedListener 삭제)",
+      "api": "AAOS CarPropertyManager PERF_VEHICLE_SPEED(공개 SDK 5종과 Pleos 개발자 FAQ가 안내하는 AAOS 차속 경로. Vehicle SDK 2.3.2에는 차속 리스너 없음)",
       "permission": "android.car.permission.CAR_SPEED",
-      "protection_level": "dangerous(미검증)",
+      "protection_level": "dangerous(AOSP Car 서비스 매니페스트, 권한 묶음 LOCATION)",
       "delivery_kind": "PERIODIC",
       "unit": "m/s",
       "source": "AAOS_PROPERTY",
       "availability": "DRAFT_DEMO",
       "demo_method": "TEST_INPUT",
-      "note": "Virtual Console에 차속 카드가 없어 시연은 시험 입력 재생기로 하고 [시험 입력]을 표시한다."
+      "note": "Virtual Console에 차속 카드가 없어 시연은 시험 입력 재생기로 하고 [시험 입력]을 표시한다. 허락 창이 위치 권한처럼 보일 수 있다(확인 필요).",
+      "runtime_permission_required": true,
+      "sample_rate_hz": 10,
+      "negative_value_means_reverse": true,
+      "on_permission_denied": {
+        "quality": "PERMISSION_DENIED",
+        "confirm_prompt": "DISABLED",
+        "pattern_speed_condition": "HIDDEN",
+        "unwanted_accel_candidate": "DISABLED",
+        "direct_driver_reports": "UNCHANGED",
+        "screen_label": "속도 권한 없음",
+        "consent_screen_line": "속도는 확인 질문과 재현 조건에만 씁니다"
+      }
     },
     {
       "code": "BRAKE_PEDAL",
@@ -71,7 +85,7 @@
       "source": "VEHICLE_SDK",
       "availability": "DRAFT_DEMO",
       "demo_method": "VIRTUAL_CONSOLE",
-      "note": "AVD는 영역별 미지원이 있을 수 있어 capability 결과를 따른다."
+      "note": "AVD는 영역별 미지원이 있을 수 있어 capability 결과를 따른다. 사고 순간 스냅샷에 쓰고 출발 전 점검 카드에는 넣지 않는다(B10)."
     },
     {
       "code": "SEAT_OCCUPANCY",
@@ -94,7 +108,8 @@
       "unit": "boolean(영역별)",
       "source": "VEHICLE_SDK",
       "availability": "DRAFT_DEMO",
-      "demo_method": "TEST_INPUT"
+      "demo_method": "TEST_INPUT",
+      "note": "사고 순간 스냅샷에만 쓴다(출발 전 점검 카드에는 넣지 않음, B10). Virtual Console 카드가 없어 [시험 입력]."
     },
     {
       "code": "AIRBAG_DEPLOYED",
@@ -165,7 +180,7 @@
     },
     {
       "code": "WASHER_FLUID_LOW",
-      "api": "Vehicle Safety.hasLowWasherFluidWarning",
+      "api": "Vehicle Safety.hasLowWasherFluidWarning / registerLowWasherFluidWaringState(SDK 철자 그대로)",
       "permission": "pleos.car.permission.CAR_SAFETY",
       "protection_level": "normal",
       "delivery_kind": "ON_CHANGE",
@@ -195,7 +210,7 @@
       "source": "FUSED_LOCATION",
       "availability": "DRAFT_DEMO",
       "demo_method": "MANUAL",
-      "note": "미터 정확도 없음. 측정 시각을 함께 표시한다. 에뮬레이터 위치 설정으로 시연."
+      "note": "미터 정확도 없음. 측정 시각을 함께 표시한다. 오래된 위치는 signal_validity.location_fix로 STALE 처리. 에뮬레이터 위치 설정으로 시연."
     },
     {
       "code": "UX_RESTRICTION",
@@ -225,13 +240,65 @@
       "code": "STT_TEXT",
       "api": "SpeechToText 3.3.1 request() / ResultListener.onUpdated(stt, completed)",
       "permission": "pleos.car.permission.STT_SERVICE",
-      "protection_level": "normal",
+      "protection_level": "미기재(공식 문서·바이너리에 보호 수준 없음, 확인 필요)",
       "delivery_kind": "ON_REQUEST",
       "unit": "string",
       "source": "STT",
       "availability": "DRAFT_DEMO",
       "demo_method": "MANUAL",
-      "note": "누르고 말하기 또는 앱 질문 뒤에만. 상시 청취 없음."
+      "note": "말로 하기 버튼을 한 번 누른 뒤 최대 8초, 또는 앱 질문 뒤에만 듣는다. 누르고 있기 방식 없음. 상시 청취 없음."
+    },
+    {
+      "code": "CLIMATE_AC",
+      "api": "Vehicle HVAC.getHvacAcState / registerHvacAcState(SeatArea)",
+      "permission": "pleos.car.permission.CAR_CLIMATE",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "boolean",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "virtual_console_card": "Air Conditioning(있음)",
+      "note": "소리 용의자 지우기(H3)·재현 조건 후보(B12). 읽기만 하고 제어하지 않는다."
+    },
+    {
+      "code": "CLIMATE_FAN_SPEED",
+      "api": "Vehicle HVAC.getHvacFanSpeed / registerHvacFanSpeed(SeatArea)",
+      "permission": "pleos.car.permission.CAR_CLIMATE",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "단계(범위는 Capability)",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "virtual_console_card": "Fan Speed 0~8(있음)",
+      "note": "바람 세기. 에어컨·송풍기 소리를 가려내는 데 쓴다(H3)."
+    },
+    {
+      "code": "WINDOW_POSITION",
+      "api": "Vehicle Window.getCurrentWindowPosition / registerWindowPosition(WindowArea)",
+      "permission": "pleos.car.permission.CAR_WINDOWS",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "%(범위는 Capability)",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "virtual_console_card": "Window Position 0~100%(있음)",
+      "note": "창문 열림. 바람 소리를 가려내는 데 쓴다(H3)."
+    },
+    {
+      "code": "WIPER_STATE",
+      "api": "Vehicle Wiper.getCurrentWiperState / registerWiperState(WindowArea)",
+      "permission": "pleos.car.permission.CAR_WINDOWS",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "WiperState OFF|ON|OTHER|SERVICE",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "virtual_console_card": "확인 필요(Windshield Wiper Switch 카드가 상태를 바꾸는지 미확인)",
+      "note": "와이퍼 소리를 가려내는 데 쓴다(H3)."
     }
   ],
   "signal_validity": {
@@ -260,8 +327,11 @@
         "BRAKE_FLUID_LEVEL",
         "WASHER_FLUID_LOW",
         "POWER_DOWN_WARNING",
-        "LOCATION",
-        "UX_RESTRICTION"
+        "UX_RESTRICTION",
+        "CLIMATE_AC",
+        "CLIMATE_FAN_SPEED",
+        "WINDOW_POSITION",
+        "WIPER_STATE"
       ],
       "time_based_staleness": false,
       "valid_while": "SERVICE_CONNECTED_AND_LAST_RECEIVED_VALUE_EXISTS",
@@ -284,7 +354,8 @@
       "register_may_throw_security_exception_synchronously": true,
       "callbacks_on_binder_thread_post_to_main": true,
       "listener_key": "SIGNAL_AREA_LISTENER_OBJECT",
-      "note": "연결 전 호출은 SDK 큐에 쌓이고 대기 제한이 없으므로 앱이 3,000ms 제한을 둔다(D20)."
+      "note": "연결 전 호출은 SDK 큐에 쌓이고 대기 제한이 없으므로 앱이 3,000ms 제한을 둔다(D20).",
+      "security_exception_vs_capability": "권한이 없으면 register는 SecurityException을 바로 던지고 get·check는 onFailed로 알린다(PERMISSION_DENIED). 미지원은 Capability 결과(AccessType NONE 등)로 판단한다(NOT_SUPPORTED). 둘을 섞지 않는다(B3)."
     },
     "removed_rules": [
       "urgent_speed_max_age_ms",
@@ -295,7 +366,17 @@
       "automatic_recovery_hold_ms",
       "clock_future_tolerance_ms",
       "minimum_valid_coverage_ratio"
-    ]
+    ],
+    "location_fix": {
+      "applies_to": [
+        "LOCATION"
+      ],
+      "stale_after_ms": 60000,
+      "basis": "MEASURED_AT_IF_PRESENT_ELSE_RECEIVED_AT",
+      "stale_quality": "STALE",
+      "guardian_page_label": "마지막 측정 HH:MM(N분 전)",
+      "note": "위치는 측정값이라 시간이 지나면 틀린다(C7r2-11). 변화 알림형 규칙에서 빼고 측정 시각 기준 신선도를 둔다. 60초는 자체 시작값."
+    }
   },
   "driving_state": {
     "source": "AAOS CarUxRestrictions",
@@ -317,9 +398,22 @@
       "CONSENT_CHANGE",
       "MAINTENANCE_SHARE_LINK",
       "MAINTENANCE_RECHECK_QUESTION",
-      "GUARDIAN_MANAGEMENT"
+      "GUARDIAN_MANAGEMENT",
+      "DRIVER_CHANGE",
+      "PAIRING_VEHICLE_CONFIRM",
+      "OWNERSHIP_TRANSFER_FROM_VEHICLE",
+      "ARRIVAL_ALERT_SETTING",
+      "DEVICE_UNPAIR"
     ],
-    "data_gap_auto_screen_switch": false
+    "data_gap_auto_screen_switch": false,
+    "withdrawal_allowed_while_driving": [
+      "CONSENT_WITHDRAW",
+      "LOCATION_SHARING_STOP"
+    ],
+    "gear_signal": {
+      "used": false,
+      "note": "Vehicle SDK Gear는 숨김 API라 쓰지 않는다. AAOS GEAR_SELECTION은 Pleos 문서 근거 확인 뒤 [설계]로 올릴 수 있다. 정차 판정은 CarUxRestrictions와 차속(F9)."
+    }
   },
   "guidance": {
     "start_requires_user_report": true,
@@ -342,12 +436,12 @@
       "minimum_speed_drop_m_s": 0.5,
       "unwanted_accel_suspect_m_s2": 2.5,
       "unwanted_accel_hold_ms": 700,
-      "note": "조건이 맞아도 확인 질문만 띄운다. 브레이크 Boolean과 감속 미관측만으로 비상 제동 안내에 들어가지 않는다(D8)."
+      "note": "조건이 맞아도 확인 질문만 띄운다. 브레이크 Boolean과 감속 미관측만으로 비상 제동 안내에 들어가지 않는다(D8). 브레이크 눌림이 1,000ms 이어지는 동안 감속이 0.5m/s 미만이면 질문 후보. 인수 시나리오도 같은 값(T97). 차속 권한이 없으면 꺼짐."
     },
     "emergency_voice_text_source": "TARGET_VEHICLE_OWNERS_MANUAL_EMERGENCY_PROCEDURE_ONLY",
     "app_creates_new_control_sequence": false,
     "end_guidance_action": "END_GUIDANCE",
-    "end_guidance_label": "괜찮아요, 안내 끝내기",
+    "end_guidance_label": "괜찮아요 · 안내 끝내기",
     "input_guard_ms_after_emergency_transition": 500,
     "same_position_same_meaning_in_emergency_flow": true,
     "guide_id_by_state": {
@@ -359,7 +453,91 @@
     "practice": {
       "parked_only": true,
       "brake_check_signal": "BRAKE_PEDAL",
-      "animation_allowed": true
+      "animation_allowed": true,
+      "entry_requires": "UX_RESTRICTION_OFF",
+      "exit_on_driving_restriction": "CLOSE_AND_STOP_TTS",
+      "tts_stop_deadline_ms": 250,
+      "practice_prefix_line": "연습입니다"
+    },
+    "confirm_prompt_answers": {
+      "left": {
+        "label": "괜찮아요",
+        "result": "ENDED",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "안 멈춰요",
+        "result": "DECEL_FAILURE_GUIDE",
+        "entry": "PROMPT_CONFIRMED",
+        "color": "EMERGENCY"
+      },
+      "voice_answers": {
+        "안 멈춰": "DECEL_FAILURE_GUIDE",
+        "괜찮아": "ENDED"
+      },
+      "yes_no_buttons": false
+    },
+    "confirm_prompt_suppression": {
+      "key": [
+        "trip_id",
+        "CONFIRM_PROMPT"
+      ],
+      "max_prompts_per_window": 1,
+      "window_ms": 300000,
+      "note": "같은 주행에서 확인 질문은 5분에 최대 1회(F2). 막힌 조건 충족은 화면·음성 없이 관측만 기록한다."
+    },
+    "confirm_prompt_background_output": "VOICE_ONCE_NO_NOTIFICATION_BUTTONS",
+    "meaning_fixed": {
+      "저절로 빨라져요": "UNWANTED_ACCEL_GUIDE",
+      "안 멈춰요": "DECEL_FAILURE_GUIDE",
+      "note": "말 하나 = 상태 하나(B8)."
+    },
+    "screen_buttons": {
+      "UNWANTED_ACCEL_GUIDE": {
+        "left": {
+          "label": "괜찮아요",
+          "action": "END_GUIDANCE"
+        },
+        "right": {
+          "label": "안 멈춰요",
+          "next_state": "DECEL_FAILURE_GUIDE"
+        }
+      },
+      "DECEL_FAILURE_GUIDE": {
+        "left": {
+          "label": "차가 멈췄어요",
+          "action": "END_GUIDANCE",
+          "next_state": "STOPPED_REVIEW"
+        },
+        "right": {
+          "label": "도움 요청",
+          "next_state": "HELP_CONFIRM"
+        }
+      },
+      "CONFIRM_PROMPT": {
+        "left": {
+          "label": "괜찮아요",
+          "action": "END_GUIDANCE"
+        },
+        "right": {
+          "label": "안 멈춰요",
+          "next_state": "DECEL_FAILURE_GUIDE"
+        }
+      },
+      "rule": "F1: 왼쪽 = 끝내기·취소·기록(중립색), 오른쪽 = 도움·보내기·감속 실패(빨강). 앱 전체 같은 쪽."
+    },
+    "button_side_rule": "APP_WIDE_LEFT_NEUTRAL_RIGHT_RED",
+    "decel_failure_screen": {
+      "source_line_while_driving": false,
+      "caption_placeholder": "취급설명서 비상 제동 절차(검토 후 확정 문장)",
+      "invented_control_sentence": false,
+      "still_images_max": 1
+    },
+    "voice_entry": {
+      "requires_talk_button": true,
+      "always_listening": false,
+      "example_phrase_car_is_strange": false,
+      "note": "음성으로 긴급 안내를 시작할 때도 먼저 '말로 하기'를 누른다(F3)."
     }
   },
   "severity": {
@@ -393,10 +571,7 @@
     ],
     "driving_quick_cards": [
       "VIBRATION",
-      "BURNING_SMELL",
-      "TIRE_DAMAGE",
-      "COLLISION",
-      "UNKNOWN"
+      "BURNING_SMELL"
     ],
     "parked_cards": [
       "VIBRATION",
@@ -562,7 +737,44 @@
       "UNKNOWN": [
         "모르겠"
       ]
-    }
+    },
+    "driving_emergency_choices": [
+      "NOT_STOPPING",
+      "SPEEDING_UP",
+      "COLLISION"
+    ],
+    "driving_choice_order": [
+      "NOT_STOPPING",
+      "SPEEDING_UP",
+      "COLLISION",
+      "VIBRATION",
+      "BURNING_SMELL"
+    ],
+    "driving_choice_labels": {
+      "NOT_STOPPING": "안 멈춰요",
+      "SPEEDING_UP": "저절로 빨라져요",
+      "COLLISION": "사고가 났어요",
+      "VIBRATION": "차체 떨림",
+      "BURNING_SMELL": "타는 냄새"
+    },
+    "driving_selectable_symptoms": [
+      "VIBRATION",
+      "BURNING_SMELL",
+      "COLLISION",
+      "PEDAL_PROBLEM"
+    ],
+    "emergency_choice_records": {
+      "NOT_STOPPING": "PEDAL_PROBLEM",
+      "SPEEDING_UP": "PEDAL_PROBLEM",
+      "COLLISION": "COLLISION"
+    },
+    "parked_emergency_choices": [
+      "NOT_STOPPING",
+      "SPEEDING_UP",
+      "COLLISION"
+    ],
+    "parked_total_choices": 12,
+    "driving_cards_note": "주행 중 5개(긴급 3 + 증상 2), 정차 후 12개(증상 9 + 긴급 3). 2차 결정 B9가 1차 9.1의 주행 중 5개 구성을 대신한다."
   },
   "warning_lookup": {
     "steps": [
@@ -572,7 +784,7 @@
     ],
     "candidate_limit": 3,
     "text_search": true,
-    "voice_search": "STT_PUSH_TO_TALK",
+    "voice_search": "STT_TAP_TO_TALK",
     "detail_while_driving": "MOBILITY_BAND_AND_SHORT_VOICE_ONLY",
     "photo_lookup": {
       "device": "PHONE_COMPANION_PARKED",
@@ -612,9 +824,21 @@
     "predrive_card_includes": [
       "CHECK_ITEMS",
       "MAINTENANCE_SCHEDULE",
+      "UNFINISHED_RECORDS",
       "GUARDIAN_READINESS",
       "PHONE_PAIRING_STATE"
-    ]
+    ],
+    "predrive_card_check_rows": [
+      "ENGINE_OIL_LEVEL",
+      "BRAKE_FLUID_LEVEL",
+      "WASHER_FLUID_LOW",
+      "POWER_DOWN_WARNING"
+    ],
+    "predrive_card_buttons": {
+      "left": "확인했어요",
+      "right": "정비소 들르기"
+    },
+    "seatbelt_door_use": "ACCIDENT_SNAPSHOT_ONLY"
   },
   "notification": {
     "scope": {
@@ -678,7 +902,9 @@
         "DISPATCHING",
         "SETTLED",
         "EXPIRED"
-      ]
+      ],
+      "cancel_pending_previous_revision_jobs": true,
+      "changes_policy_state": false
     },
     "guardian_first_line": "먼저 전화해 보세요. 받지 않고 사고가 의심되면 119에 이 위치를 알려 주세요.",
     "practice_alert": {
@@ -693,6 +919,45 @@
     "quick_reply_relay": {
       "parked": "SCREEN_AND_SHORT_TTS",
       "driving": "SCREEN_ONE_LINE"
+    },
+    "open_alert_window_ms": 7200000,
+    "open_alert_window_states": [
+      "COUNTDOWN",
+      "RELEASED",
+      "DISPATCHING"
+    ],
+    "open_alert_window_close": "SERVER_JOB_AT_WINDOW_END_OR_TERMINAL_STATE",
+    "correction_exempt_from_open_alert": true,
+    "merge_inside_window": {
+      "same_or_lower_severity": "RELATED_RECORD_ONLY_NO_MESSAGE",
+      "higher_severity": "NEW_REVISION_ADDITIONAL_INFO",
+      "outside_window": "INDEPENDENT_ALERT"
+    },
+    "merged_incident_cancel_scope": "ALL_OPEN_ALERTS_IN_WINDOW",
+    "offline_release_max_delay_ms": 600000,
+    "offline_release_after_max_delay": "ASK_AGAIN_WHEN_PARKED",
+    "server_recompute_changes_requested_state": false,
+    "test_mode_dispatch": "MOCK_ONLY",
+    "guardian_alert_free_regardless_of_count": true,
+    "arrival_alert": {
+      "default_enabled": false,
+      "trigger": "NaviHelper onDestinationArrived",
+      "template_code": "CARE_ARRIVAL_V1",
+      "message": "잘 도착했어요",
+      "includes_location": false,
+      "includes_destination_name": false,
+      "max_per_trip": 1,
+      "allowed_driver_modes": [
+        "OWNER",
+        "REGISTERED_DRIVER"
+      ],
+      "requires_parked_to_enable": true,
+      "disclosure_record": {
+        "purpose": "ARRIVAL_ALERT",
+        "location_precision": "NONE"
+      },
+      "user_decision_pending": true,
+      "note": "자동 발송 범위를 넓히는 기능이라 사용자 결정 항목(H7). 기본 꺼짐."
     }
   },
   "guardian_otp": {
@@ -708,7 +973,12 @@
     "transport": "SERVER_RELAY",
     "bluetooth_assumed": false,
     "companion_apk_separate": true,
-    "companion_includes_pleos_sdk": false
+    "companion_includes_pleos_sdk": false,
+    "one_time_code": true,
+    "vehicle_screen_confirm_required": true,
+    "vehicle_confirm_prompt": "이 휴대폰(가린 번호)을 연결할까요?",
+    "second_phone_role": "REGISTERED_DRIVER",
+    "first_scanner_becomes_owner": false
   },
   "share_links": {
     "maintenance_link_expiry_ms": 86400000,
@@ -731,13 +1001,26 @@
     "lbs_business_report": "PRE_LAUNCH_REQUIREMENT_LEGAL_CHECK_NEEDED",
     "legal_interpretation_status": "NEEDS_CONFIRMATION",
     "driving_data_marketing_use": false,
-    "guest_mode_auto_location_send": false
+    "guest_mode_auto_location_send": false,
+    "disclosure_records_on_delete": "ANONYMIZE_NOT_DELETE",
+    "disclosure_notify_dedupe": "PER_INCIDENT_RECIPIENT_REVISION",
+    "disclosure_voice_notice": "FIRST_PER_INCIDENT_ONLY",
+    "location_receipt_box": {
+      "shows": [
+        "RECIPIENT_MASKED",
+        "TIME",
+        "CHANNEL",
+        "LOCATION_PRECISION",
+        "OPEN_SHARE_UNTIL"
+      ],
+      "stop_button": "stopIncidentLocationSharing"
+    },
+    "stop_sharing_keeps_consent": true,
+    "guardian_cannot_request_location": true
   },
   "audio": {
     "tts_mode": "ON_DEVICE",
     "tts_locale": "ko-KR",
-    "preroll_silence_ms_min": 150,
-    "preroll_silence_ms_max": 200,
     "audio_usage_candidates": [
       "USAGE_ASSISTANCE_NAVIGATION_GUIDANCE",
       "USAGE_ALARM"
@@ -757,7 +1040,17 @@
       "RECORD_ACK"
     ],
     "siren_or_alarm_sound": false,
-    "system_fullscreen_popup": false
+    "system_fullscreen_popup": false,
+    "tts_preroll_silence_insertable_by_app": false,
+    "tts_leading_clip_check": "EMULATOR_CHECK_FIRST_SYLLABLE",
+    "tts_leading_clip_mitigation": "SHORT_LEADING_PAUSE_PHRASE",
+    "bundled_audio_preroll_silence_ms_min": 150,
+    "bundled_audio_preroll_silence_ms_max": 200,
+    "bundled_audio_preroll_note": "Pleos 음성 안내 선행 묵음 가이드 참고값. 앱에 넣은 고정 음원 파일에만 담는다. TTS SDK는 오디오 데이터를 주지 않아 TTS 음성 앞에는 넣지 못한다(B5).",
+    "audio_focus_owner": "APP_ANDROID_AUDIOMANAGER",
+    "audio_focus_note": "TTS SDK에는 포커스 코드가 없다. 앱이 AudioManager로 직접 요청·반납한다(B5).",
+    "suspend_detection": "PUBLIC_PATH_NEEDS_CONFIRMATION(CarPowerManager는 CAR_POWER signature)",
+    "resume_after_call": "RESTART_CURRENT_STEP"
   },
   "performance": {
     "driving_cpu_budget_pct_lt": 5,
@@ -768,7 +1061,7 @@
     "content_load_ms_max": 10000,
     "source": "Pleos 앱 심사·성능 가이드 원문 수치",
     "always_on_speech_recognition": false,
-    "speech_recognition_mode": "PUSH_TO_TALK_OR_APP_QUESTION_ONLY",
+    "speech_recognition_mode": "TAP_TO_TALK_OR_APP_QUESTION_ONLY",
     "app_question_listen_window_ms": 8000,
     "degrade_after_over_budget_ms": 10000,
     "degrade_ladder": [
@@ -782,7 +1075,19 @@
     "server_poll_active_window_ms": 60000,
     "server_poll_ms_after_window": 10000,
     "server_poll_ms_idle": null,
-    "emulator_measurement_is_not_vehicle_performance": true
+    "emulator_measurement_is_not_vehicle_performance": true,
+    "parked_cpu_budget_pct_max": 25,
+    "server_poll_stop_on": [
+      "SETTLED",
+      "EXPIRED",
+      "CANCELLED",
+      "RECORD_ONLY",
+      "BLOCKED_NO_RECIPIENT",
+      "BLOCKED_NO_CONSENT"
+    ],
+    "server_poll_max_active_ms": 600000,
+    "cpu_measure": "앱 프로세스 CPU 시간 ÷ 경과 시간 ÷ 코어 수, 10초 창",
+    "baseline_sampling_interval_s": 60
   },
   "symptom_patterns": {
     "minimum_occurrences": 3,
@@ -792,11 +1097,62 @@
       "brake_pressed",
       "steering_angle_deg",
       "turn_signal",
-      "doors_open",
-      "odometer_km",
-      "fuel_or_soc_pct"
+      "trip_elapsed_s",
+      "climate_ac_on",
+      "climate_fan_speed",
+      "window_open_max_pct",
+      "wiper_state"
     ],
-    "diagnosis_allowed": false
+    "diagnosis_allowed": false,
+    "period_info_fields": [
+      "odometer_km"
+    ],
+    "baseline_comparison": {
+      "baseline": "SAME_DRIVER_NORMAL_DRIVING_SAMPLES",
+      "baseline_sampling_interval_s": 60,
+      "baseline_min_samples": 30,
+      "show_rule": "matched/of >= 2/3 AND (baseline_ratio IS NULL OR matched/of >= baseline_ratio * 1.5)",
+      "minimum_lift": 1.5,
+      "common_label": "3번 중 3번 = 공통, 2번 = 자주",
+      "excluded_cumulative": [
+        "ODOMETER",
+        "FUEL_PERCENT",
+        "EV_SOC"
+      ],
+      "excluded_reason": "누적·감소만 하는 값은 짧은 기간 기록에서 늘 겹치므로 조건이 아니다(주행거리는 기간 정보로만).",
+      "candidate_conditions": [
+        "SPEED_BUCKET",
+        "BRAKE_PEDAL",
+        "STEERING_SIDE",
+        "TURN_SIGNAL",
+        "TRIP_ELAPSED",
+        "CLIMATE_AC",
+        "CLIMATE_FAN",
+        "WINDOW_OPEN",
+        "WIPER"
+      ],
+      "trip_elapsed_buckets_min": [
+        0,
+        5,
+        15,
+        30,
+        60
+      ],
+      "steering_side_threshold_deg": 5,
+      "computed_on": "VEHICLE",
+      "server_view": "COUNT_AND_SPEED_SUMMARY_ONLY",
+      "mix_drivers": false,
+      "mix_test_and_real": false
+    },
+    "sound_suspects": {
+      "signals": [
+        "CLIMATE_AC",
+        "CLIMATE_FAN_SPEED",
+        "WINDOW_POSITION",
+        "WIPER_STATE"
+      ],
+      "purpose": "에어컨·창문·와이퍼 소리였는지 정비사가 가려냄(H3)"
+    }
   },
   "maintenance": {
     "recheck_distance_km": 500,
@@ -827,7 +1183,11 @@
     ],
     "label": "[시험 입력]",
     "guardian_page_label": "[시험]",
-    "real_dispatch_enabled": false
+    "real_dispatch_enabled": false,
+    "test_input_overrides_live": "PER_SIGNAL",
+    "test_input_overrides_live_note": "시험 입력을 켠 신호는 실제 구독 값을 화면과 판단에 쓰지 않는다. 다른 신호는 실제 값을 쓴다.",
+    "any_test_input_sets_test_mode": true,
+    "real_dispatch_when_test_mode": false
   },
   "future_motion_analysis": {
     "availability": "FUTURE",
@@ -889,6 +1249,172 @@
       "deceleration_candidate_m_s2": -7.0,
       "deceleration_min_duration_ms": 200,
       "deceleration_points": 20
+    }
+  },
+  "voice": {
+    "entry": "TALK_BUTTON_TAP",
+    "label": "말로 하기",
+    "listen_window_ms": 8000,
+    "hold_to_talk": false,
+    "always_listening": false,
+    "routes": [
+      {
+        "route": "EMERGENCY_DECEL_FAILURE",
+        "keywords": [
+          "안 멈춰",
+          "멈추지 않"
+        ],
+        "target": "DECEL_FAILURE_GUIDE",
+        "entry": "USER_VOICE"
+      },
+      {
+        "route": "EMERGENCY_UNWANTED_ACCEL",
+        "keywords": [
+          "빨라져",
+          "저절로"
+        ],
+        "target": "UNWANTED_ACCEL_GUIDE",
+        "entry": "USER_VOICE"
+      },
+      {
+        "route": "HELP_REQUEST",
+        "keywords": [
+          "도와",
+          "도움",
+          "사고"
+        ],
+        "target": "HELP_CONFIRM",
+        "note": "받는 사람 확인 화면으로 간다. 바로 보내지 않는다."
+      },
+      {
+        "route": "WARNING_LOOKUP",
+        "keywords": [
+          "경고등",
+          "불이 들어",
+          "불 켜",
+          "램프",
+          "주황",
+          "빨간"
+        ],
+        "target": "WARNING_LOOKUP"
+      },
+      {
+        "route": "RECORD_MEMO",
+        "keywords": [],
+        "target": "MANUAL_REPORT_STT",
+        "default": true
+      }
+    ],
+    "route_priority": [
+      "EMERGENCY_DECEL_FAILURE",
+      "EMERGENCY_UNWANTED_ACCEL",
+      "HELP_REQUEST",
+      "WARNING_LOOKUP",
+      "RECORD_MEMO"
+    ],
+    "stt_paused_while_tts_playing": true,
+    "note": "버튼을 한 번 누르면 최대 8초 듣고 STT 결과 문자열로 나눈다(H1). 누르고 있기 방식 없음(B6)."
+  },
+  "time_sync": {
+    "method": "SERVER_TIME_RESPONSE",
+    "endpoint": "POST /v1/time-sync",
+    "max_rtt_ms": 1000,
+    "max_sample_age_ms": 600000,
+    "max_error_ms": 500,
+    "server_downgrade_rule": "|countdown_started_at + elapsed_ms_at_submit - accepted_at| > clock_error_bound_ms + rtt_ms 이면 MONOTONIC_ONLY",
+    "late_cancel_grace_ms": 0,
+    "late_cancel_after_release": "이미 보냈습니다 · 정정 보내기",
+    "note": "클라이언트가 SYNCHRONIZED라고 주장해도 서버 시각 표본(clock_sync)이 없거나 오래되면 인정하지 않는다(D6)."
+  },
+  "guardian_share_session": {
+    "two_step": true,
+    "step1_input": "URL_FRAGMENT_TOKEN_POST",
+    "step1_shows": [
+      "ALERT_KIND",
+      "OCCURRED_AT",
+      "GUARDIAN_TODO_TEXT",
+      "TEST_LABEL"
+    ],
+    "step1_hides": [
+      "LOCATION",
+      "COORDINATES",
+      "ADDRESS",
+      "DRIVER_NAME",
+      "QUICK_REPLIES"
+    ],
+    "step2_check": "PHONE_LAST4",
+    "max_failed_attempts": 5,
+    "lock_ms": 900000,
+    "session_ttl_max": "SHARE_EXPIRY_24H",
+    "opened_at_recorded_on": "STEP1_POST",
+    "preview_bot_counts_as_open": false
+  },
+  "trip": {
+    "same_driver_open_trip": "REUSE_200",
+    "different_driver_open_trip": "END_DRIVER_CHANGED_AND_CREATE_201",
+    "auto_end_after_idle_ms": 21600000,
+    "device_silent_end_ms": 7200000,
+    "end_on_ignition_off": "DEVICE_REPORTS_WHEN_DETECTED(공개 감지 경로 확인 필요)",
+    "driver_chip": {
+      "show_when": "PARKED_AFTER_DRIVER_SEAT_OCCUPANCY_OR_DOOR_CHANGE",
+      "single_driver_vehicle_skips_chip": true,
+      "no_answer_default_multi_driver": "UNKNOWN",
+      "user_decision_pending": true
+    },
+    "guest_auto_location_send_default": false,
+    "guest_consent_scope": "TRIP",
+    "consent_only_when_parked": true,
+    "note": "6시간·2시간은 자체 시작값."
+  },
+  "ownership_transfer": {
+    "initiators": [
+      "CURRENT_OWNER",
+      "VEHICLE_SCREEN"
+    ],
+    "objection_window_ms": 604800000,
+    "transfer_expiry_ms": 604800000,
+    "records_move_to_new_owner": false,
+    "new_registration_per_owner": true,
+    "vin_conflict_path": "VEHICLE_SCREEN_TRANSFER_REQUEST"
+  },
+  "retention": {
+    "server_incident_days": 30,
+    "speech_text_days": 7,
+    "location_coordinates_days": 30,
+    "device_local_incident_days": 30,
+    "account_delete_purge_hours": 72,
+    "device_unpair": "REVOKE_SESSION_AND_DEVICE_WIPE_COMMAND",
+    "guardian_withdraw": "REVOKE_ERASE_PHONE_THEN_PURGE_GUARDIAN",
+    "disclosure_log_retention_days": null,
+    "disclosure_log_after_purge": "ANONYMIZED_MASKED_COPY",
+    "legal_check_needed": true
+  },
+  "service_stop": {
+    "candidate_limit": 3,
+    "eta_api": "NaviHelper requestTrip(NAVI_ROUTE)",
+    "eta_meaning": "후보까지의 거리·도착 예상 시각",
+    "detour_label_allowed": false,
+    "add_while_guiding": "NaviHelper addWaypoint(NAVI_ROUTE_SEARCH) — 가던 목적지 유지",
+    "route_when_not_guiding": "NaviHelper requestRoute(NAVI_ROUTE_SEARCH)",
+    "new_route_with_waypoints": "NaviHelper requestRouteWithWaypoints(NAVI_ROUTE_SEARCH) — 새 목적지 지정이라 '가던 목적지 유지'에 쓰지 않음",
+    "show_in_navi": "NaviHelper requestNavigationScreen(NAVI_CUSTOM_MAP)",
+    "in_app_map": false,
+    "buttons": {
+      "left": "내비에서 보기",
+      "right": "경유지로 추가"
+    },
+    "arrival_checkin": {
+      "detectors": [
+        "FUSED_PROXIMITY_ENTER",
+        "NAVI_WAYPOINT_ARRIVED",
+        "USER_TAP"
+      ],
+      "proximity_api": "FusedLocation addProximityAlert(ProximityAlertRequest(latitude, longitude, radiusMeters, {ENTER}))",
+      "proximity_permission": "pleos.car.permission.FUSED_LOCATION(dangerous)",
+      "radius_m": 150,
+      "show_pattern_card_when": "PARKED",
+      "coordinates_sent_to_server": false,
+      "remove_alert_after": "ENTER_OR_TRIP_END"
     }
   }
 }

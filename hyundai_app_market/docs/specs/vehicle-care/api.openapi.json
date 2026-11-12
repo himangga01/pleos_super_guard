@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "플레오스 가드 앱 서버 API(Pleos Guard application backend)",
-    "version": "3.0.0",
-    "description": "이 앱이 직접 만들 서버 API 계약(제안)이다. Pleos·카카오 공식 API가 아니며 실행 중인 서버를 뜻하지 않는다. 예시는 모두 가상 값이다. 상태·열거형·위치·스냅샷 이름은 1차 비판 반영 결정 9장(계약 고정 사항)을 그대로 쓴다(x-contract-source=DECISIONS-9). 공개 SDK 밖 입력은 스키마에서 빼고 x-future-inputs에 availability FUTURE로 적었다. 실제 발송은 서버 등록·인증된 수신자·승인 템플릿·환경 조건을 갖춘 뒤에만 켠다."
+    "version": "3.1.0",
+    "description": "이 앱이 직접 만들 서버 API 계약(제안)이다. Pleos·카카오 공식 API가 아니며 실행 중인 서버를 뜻하지 않는다. 예시는 모두 가상 값이다. 상태·열거형·위치·스냅샷 이름은 1차 비판 반영 결정 9장(계약 고정 사항)을 그대로 쓰고(x-contract-source=DECISIONS-9), 2차 비판 결정(B·D·F·H)으로 더한 이름은 x-contract-source=DECISIONS-R2로 표시한다. 공개 SDK 밖 입력은 스키마에서 빼고 x-future-inputs에 availability FUTURE로 적었다. 실제 발송은 서버 등록·인증된 수신자·승인 템플릿·환경 조건을 갖춘 뒤에만 켠다. 공통 규칙: (1) 시험 입력(source=TEST_INPUT)이 신호 하나라도 섞인 사건은 test_mode=true이고 모의 발송(dispatch_mode=MOCK)만 한다. (2) Idempotency-Key는 본문의 client_*_id와 같아야 하며 다르면 400이다. 범위는 (세션 주체, operationId), 보관은 7일(오프라인 재전송 고려). (3) 사건 행동·정정·위치 공유 멈추기는 x-authz의 '운전자 본인' 규칙을 따른다. 다른 계정은 403 DRIVER_MISMATCH. (4) 서버 시각은 POST /v1/time-sync와 응답의 server_time(밀리초)으로 준다. 클라이언트가 보낸 SYNCHRONIZED 주장은 서버가 시각 표본으로 다시 확인한다. (5) 앱 화면에는 지도를 그리지 않는다(공개 SDK에 지도 없음). 보호자 웹(휴대폰 브라우저)의 지도는 서버·웹 기능이다."
   },
   "servers": [
     {
@@ -48,6 +48,18 @@
     },
     {
       "name": "maintenance"
+    },
+    {
+      "name": "driver"
+    },
+    {
+      "name": "account"
+    },
+    {
+      "name": "time"
+    },
+    {
+      "name": "arrival"
     }
   ],
   "x-future-inputs": [
@@ -83,7 +95,7 @@
     },
     {
       "input": "기어",
-      "api": "Gear(@hide, Deprecated)",
+      "api": "Vehicle SDK Gear는 숨김 API라 쓰지 않음. AAOS GEAR_SELECTION은 Pleos 문서 근거 확인 뒤 [설계]로 올릴 수 있음(F9)",
       "permission": null,
       "availability": "FUTURE"
     },
@@ -113,7 +125,7 @@
     },
     {
       "input": "차량 전원 차단 뒤 차량 신호 이어받기",
-      "api": "공개 차량-휴대폰 연동 SDK 없음. 휴대폰은 마지막으로 받은 사건과 남은 확인 시간으로 보호자 발송만 이어감(D21)",
+      "api": "공개 차량-휴대폰 연동 SDK 없음. 보호자 발송은 서버 작업 큐가 release_at대로 이어 가고, 휴대폰은 상태만 보여 준다(D21)",
       "permission": null,
       "availability": "FUTURE"
     },
@@ -137,7 +149,7 @@
             "deviceSession": []
           }
         ],
-        "description": "원본 VIN은 보내지 않는다. 소유자 계정 연결은 휴대폰 연결 확인(pairing/confirm)에서 한다. Pleos 탑재 프로필이 확인되지 않으면 실제 차량 프로필 활성화를 막는다(PROFILE_NOT_VERIFIED).",
+        "description": "원본 VIN은 보내지 않는다. 소유자 계정 연결은 휴대폰 연결 확인(pairing/confirm)에서 한다. Pleos 탑재 프로필이 확인되지 않으면 실제 차량 프로필 활성화를 막는다(PROFILE_NOT_VERIFIED). 같은 VIN 해시의 활성 등록이 있으면 409 VIN_ALREADY_REGISTERED이고, 차 화면은 소유자 이전(VEHICLE_SCREEN) 절차를 안내한다(D6).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -207,7 +219,7 @@
             "deviceSession": []
           }
         ],
-        "description": "같은 차량에 열린 trip이 있으면 200으로 그 trip을 돌려준다. GUEST·UNKNOWN 운전자는 auto_location_send_enabled=false.",
+        "description": "출발 준비. 같은 차량의 열린 trip이 같은 driver_profile_id면 200으로 그 trip을 돌려준다(두 기기 공유). 운전자가 다르면 이전 trip을 DRIVER_CHANGED로 닫고 새 trip(201)을 만든다. 열린 trip이 rules-lab trip.auto_end_after_idle_ms보다 오래 멈춰 있었으면 LONG_PARKED로 닫고 새로 만든다(D3). GUEST·UNKNOWN 운전자는 auto_location_send_enabled=false.",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -277,7 +289,7 @@
             "deviceSession": []
           }
         ],
-        "description": "차량 화면에 일회용 QR을 띄운다. 만료는 rules-lab pairing.qr_code_ttl_ms(5분).",
+        "description": "차량 화면에 일회용 QR을 띄운다(정차 중). 만료는 rules-lab pairing.qr_code_ttl_ms(5분). QR을 찍기만 해서는 연결되지 않고 차 화면 확인이 필요하다(D6).",
         "requestBody": {
           "required": true,
           "content": {
@@ -332,7 +344,7 @@
             "ownerSession": []
           }
         ],
-        "description": "휴대폰 보조 앱(별도 APK, Pleos SDK 미포함)이 QR 코드를 확인하고 차량을 소유자 계정에 묶는다.",
+        "description": "휴대폰 보조 앱(별도 APK, Pleos SDK 미포함)이 QR 코드를 확인한다. 결과는 AWAITING_VEHICLE_CONFIRM이며 차 화면 [연결] 뒤에 CONFIRMED가 된다. 소유자가 이미 있으면 REGISTERED_DRIVER로만 연결한다. VIN 충돌은 소유자 이전 절차로 넘긴다(D6).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -382,6 +394,16 @@
           },
           "default": {
             "$ref": "#/components/responses/Problem"
+          },
+          "202": {
+            "description": "차 화면 확인 대기",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PairingResult"
+                }
+              }
+            }
           }
         }
       }
@@ -398,7 +420,7 @@
             "deviceSession": []
           }
         ],
-        "description": "판정은 차량 안에서 한다. 서버는 같은 rule_profile_id로 재계산해 발송 정책에만 쓴다. 같은 차량에 열린 알림이 있으면 새 사건을 related_incident_id로 묶고 기존 알림의 새 revision으로 처리한다(rules-lab notification.cross_device_merge_window_ms). 운전자 위치 제공 동의가 없거나 GUEST면 BLOCKED_NO_CONSENT, 활성 보호자가 없으면 BLOCKED_NO_RECIPIENT.",
+        "description": "판정은 차량 안에서 한다. 서버는 같은 rule_profile_id로 재계산하지만 requested_state를 바꾸지 않고 불일치만 시간표에 남긴다. 같은 차량의 열린 알림 시간 창(rules-lab notification.open_alert_window_ms, 2시간) 안이면 새 사건을 related_incident_id로 묶는다: 같은 등급 이하면 관련 기록만(메시지 없음), 더 높은 등급이면 기존 알림의 새 revision('추가 정보'). 창 밖이면 독립 알림이다(D4). 시험 입력이 섞인 사건은 test_mode=true·dispatch_mode=MOCK(D2). GUEST·UNKNOWN이거나 위치 제공 동의가 없으면 BLOCKED_NO_CONSENT(정차 뒤 TRIP 동의 + REQUEST_HELP로 RELEASED), 활성 보호자가 없으면 BLOCKED_NO_RECIPIENT. 오프라인으로 rules-lab notification.offline_release_max_delay_ms(10분)보다 늦게 도착한 자동 발송은 정차 확인 뒤 다시 묻는다.",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -522,7 +544,8 @@
           "default": {
             "$ref": "#/components/responses/Problem"
           }
-        }
+        },
+        "x-authz": "차량 기기는 현재 trip의 driver_profile_id 기록만. 휴대폰 계정은 자기 driver_profile 기록만(다른 운전자 기록은 그 운전자 동의 뒤)."
       }
     },
     "/v1/incidents/{incidentId}": {
@@ -592,7 +615,7 @@
             "ownerSession": []
           }
         ],
-        "description": "정책 행 버전 비교로 원자 처리. 발송사 제출 뒤 CANCEL은 회수할 수 없으므로 already_submitted=true를 돌려주고, 화면은 '이미 보냄 · 정정 보내기'로 바꾼다. RESPOND_SAFE는 정정 알림(revision+1)을 만든다. REQUEST_HELP는 받는 사람 목록을 보여 준 뒤에만 보낸다.",
+        "description": "정책 행 버전 비교로 원자 처리. 발송사 제출 뒤 CANCEL은 회수할 수 없으므로 already_submitted=true를 돌려주고, 화면은 '이미 보냄 · 정정 보내기'로 바꾼다. RESPOND_SAFE는 정정 알림(revision+1)을 만든다. REQUEST_HELP는 받는 사람 목록을 보여 준 뒤에만 보낸다. 묶인 사건(related_incident_id)에서 CANCEL을 보내도 서버는 alert_incident_id의 알림과 같은 시간 창의 열린 알림 전체를 멈추고 cancelled_incident_ids로 돌려준다(D4). BLOCKED_NO_CONSENT 사건은 정차 중 TRIP 동의를 기록한 뒤 REQUEST_HELP로 RELEASED가 된다(D3). 늦은 취소는 countdown_elapsed_ms와 서버 시각 표본으로 판정한다(D6).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -640,7 +663,8 @@
           "default": {
             "$ref": "#/components/responses/Problem"
           }
-        }
+        },
+        "x-authz": "운전자 본인: 차량 기기(그 사건 trip 진행 중) 또는 그 사건 driver_profile.user_id의 휴대폰 계정만. 소유자라도 다른 운전자의 사건이면 403 DRIVER_MISMATCH."
       }
     },
     "/v1/incidents/{incidentId}/corrections": {
@@ -663,7 +687,7 @@
             "ownerSession": []
           }
         ],
-        "description": "RELEASED 이후 사건에만 허용. action 기록에는 SEND_CORRECTION으로 남는다. 템플릿은 rules-lab notification.correction.template_code. COUNTDOWN 중이면 409(CANCEL을 쓴다).",
+        "description": "RELEASED 이후 사건에만 허용(RELEASED·DISPATCHING·SETTLED·EXPIRED). 정정은 정책 상태를 되돌리지 않고 deliveries의 새 revision과 CORRECTION_SUBMIT 작업만 만들므로 같은 차량 열린 알림 하나 제약에 막히지 않는다(D4 정정 예외). 같은 보호자의 이전 판 미제출 작업(문자 전환 포함)은 취소한다. action 기록에는 SEND_CORRECTION으로 남는다. 템플릿은 rules-lab notification.correction.template_code. COUNTDOWN 중이면 409(CANCEL을 쓴다).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -711,7 +735,8 @@
           "default": {
             "$ref": "#/components/responses/Problem"
           }
-        }
+        },
+        "x-authz": "운전자 본인: 차량 기기(그 사건 trip 진행 중) 또는 그 사건 driver_profile.user_id의 휴대폰 계정만. 소유자라도 다른 운전자의 사건이면 403 DRIVER_MISMATCH."
       }
     },
     "/v1/incidents/{incidentId}/observations": {
@@ -731,7 +756,7 @@
             "deviceSession": []
           }
         ],
-        "description": "기기 순번 기준 추가만. 같은 묶음은 멱등, 같은 순번의 다른 내용은 409. 등급은 단조로만 다시 계산한다.",
+        "description": "기기 순번 기준 추가만. 같은 묶음은 멱등, 같은 순번의 다른 내용은 409. 등급은 단조로만 다시 계산한다. source=TEST_INPUT 관측은 test_mode=true 사건에만 붙일 수 있다(422 TEST_INPUT_IN_REAL_INCIDENT, D2).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -860,7 +885,7 @@
             "deviceSession": []
           }
         ],
-        "description": "수동 증상은 자동 발송하지 않는다(D10). COLLISION은 사건 생성 때 trigger USER_COLLISION으로 처리한다.",
+        "description": "수동 증상은 자동 발송하지 않는다(D10). COLLISION은 사건 생성 때 trigger USER_COLLISION으로 처리한다. 주행 중 카드 선택은 VIBRATION·BURNING_SMELL·COLLISION·PEDAL_PROBLEM(안 멈춰요·저절로 빨라져요)만(B9).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -1278,7 +1303,7 @@
             "ownerSession": []
           }
         ],
-        "description": "읽기 전용 요약. 만료 최대 24시간(rules-lab share_links.maintenance_link_expiry_ms). 운전자 MAINTENANCE_SHARE 동의가 없으면 422 CONSENT_REQUIRED.",
+        "description": "읽기 전용 요약. 만료 최대 24시간(rules-lab share_links.maintenance_link_expiry_ms). 운전자 MAINTENANCE_SHARE 동의가 없으면 422 CONSENT_REQUIRED. 철회는 POST /v1/share-links/{linkId}/revoke.",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -1342,7 +1367,7 @@
           "maintenance"
         ],
         "security": [],
-        "description": "9.4 밖 보강. 링크의 URL 조각 토큰을 본문으로 보낸다. 만료·철회면 410.",
+        "description": "9.4 밖 보강. 링크의 URL 조각 토큰을 본문으로 보낸다. 만료면 410 SHARE_EXPIRED, 철회면 410 SHARE_REVOKED.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1775,7 +1800,8 @@
           "default": {
             "$ref": "#/components/responses/Problem"
           }
-        }
+        },
+        "description": "차량 기기는 현재 trip 운전자의 보호자만, 휴대폰 계정은 자기 보호자만 본다."
       }
     },
     "/v1/guardians": {
@@ -1790,7 +1816,7 @@
             "ownerSession": []
           }
         ],
-        "description": "PENDING_VERIFICATION으로 만들고 보호자에게 초대·OTP를 보낸다. 운전자 프로필당 5명 초과는 422.",
+        "description": "PENDING_VERIFICATION으로 만들고 보호자에게 초대·OTP를 보낸다. 운전자 프로필당 5명 초과는 422. 보호자 알림은 인원과 관계없이 무료(최대 5명, C4).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -1854,7 +1880,7 @@
           "guardian"
         ],
         "security": [],
-        "description": "보호자 초대 페이지가 호출한다. 5회 실패 시 15분 잠금(rules-lab guardian_otp). 성공하면 PENDING_CONSENT와 보호자 세션을 준다.",
+        "description": "보호자 초대 페이지가 호출한다. 5회 실패 시 15분 잠금(rules-lab guardian_otp). 성공하면 PENDING_CONSENT와 보호자 세션을 준다. 보호자는 먼저 초대 문자로 번호를 확인해 수신에 동의하고, 그 뒤에 연습 알림을 받는다.",
         "requestBody": {
           "required": true,
           "content": {
@@ -2119,7 +2145,7 @@
             "ownerSession": []
           }
         ],
-        "description": "LOCATION_SHARE_GUARDIAN은 실제 운전자 본인(subject_role=DRIVER 또는 OWNER)이 한다. 철회는 같은 트랜잭션에서 열린 share를 끊고 대기 발송을 취소한다. 차량에서는 정차 중에만 받는다.",
+        "description": "LOCATION_SHARE_GUARDIAN은 실제 운전자 본인이 한다(subject_role=OWNER는 OWNER 프로필에만). GUEST·UNKNOWN은 scope=TRIP만, 주는 동의는 정차 중에만(recorded_while_parked=true). 철회는 언제든 받고, 같은 트랜잭션에서 열린 share를 끊고 대기 발송을 취소하며 이후 사건은 BLOCKED_NO_CONSENT가 된다. 이번 사건 위치만 멈추려면 동의 철회가 아니라 stopIncidentLocationSharing을 쓴다(D3·D5).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -2174,7 +2200,8 @@
           "default": {
             "$ref": "#/components/responses/Problem"
           }
-        }
+        },
+        "x-authz": "위치 정보 주체 본인(그 driver_profile.user_id의 휴대폰, 또는 그 운전자가 차량 화면에서 직접)."
       },
       "get": {
         "operationId": "listConsents",
@@ -2215,13 +2242,14 @@
           "default": {
             "$ref": "#/components/responses/Problem"
           }
-        }
+        },
+        "x-authz": "운전자 본인: 차량 기기(현재 trip 운전자 본인) 또는 driver_profile.user_id의 휴대폰 계정만. 소유자라도 다른 운전자의 사건이면 403 DRIVER_MISMATCH."
       }
     },
     "/v1/location-disclosures": {
       "get": {
         "operationId": "listLocationDisclosures",
-        "summary": "위치 제공 기록(누구에게·언제)",
+        "summary": "위치 제공 기록(내 위치 영수증함: 누구에게·언제·무엇을)",
         "tags": [
           "privacy"
         ],
@@ -2276,7 +2304,9 @@
           "default": {
             "$ref": "#/components/responses/Problem"
           }
-        }
+        },
+        "description": "운전자 본인의 기록만 최신순으로 준다(H6). 각 줄에 가린 받는 사람, 경로, 정밀도(주소·좌표·위치 없음), 아직 열린 공유면 location_stream_until을 준다. '공유 중지'는 POST /v1/incidents/{incidentId}/location-sharing/stop. 보호자 삭제·탈퇴·계정 삭제 뒤에도 익명화한 기록으로 남는다(D5).",
+        "x-authz": "운전자 본인: 차량 기기(현재 trip 운전자 본인) 또는 driver_profile.user_id의 휴대폰 계정만. 소유자라도 다른 운전자의 사건이면 403 DRIVER_MISMATCH."
       }
     },
     "/v1/guide-bundles/{guide_id}": {
@@ -2296,7 +2326,7 @@
             "deviceSession": []
           }
         ],
-        "description": "최초 묶음은 APK에 들어 있다. 서버는 갱신만 준다. NORMAL에서 DRAFT_DEMO만 있으면 422 GUIDE_NOT_VERIFIED. 차량은 content_sha256 확인 뒤에만 활성화한다.",
+        "description": "최초 묶음은 APK에 들어 있다. 서버는 갱신만 준다. NORMAL에서 DRAFT_DEMO만 있으면 422 GUIDE_NOT_VERIFIED. 차량은 content_sha256 확인 뒤에만 활성화한다. TTS 문장 앞 무음은 앱이 넣지 않는다(TtsLine.leading_pause_text, B5).",
         "parameters": [
           {
             "name": "vehicle_profile_id",
@@ -2563,7 +2593,8 @@
           "default": {
             "$ref": "#/components/responses/Problem"
           }
-        }
+        },
+        "description": "서버 사본은 운전자·test_mode별 횟수·속도 요약(computed_by=SERVER_SUMMARY)이다. 평소 주행 대비 비교 카드는 차량이 만든다(B12). 시험 입력 기록과 실제 기록을 섞지 않는다."
       }
     },
     "/v1/shares/{shareId}": {
@@ -2583,7 +2614,7 @@
             "guardianSession": []
           }
         ],
-        "description": "묶인 보호자 세션과 유효한 공유만. 다른 보호자 정보·원본 자료 제외. 열람은 이 호출이 아니라 ack로 기록(미리보기 봇 제외).",
+        "description": "2단계 확인(POST /v1/shares/{shareId}/session/verify)으로 받은 보호자 세션과 유효한 공유만. 다른 보호자 정보·원본 자료 제외. 열람(opened_at)은 1단계 POST에서, 확인 열람은 ack로 기록한다(미리보기 봇 제외).",
         "responses": {
           "200": {
             "description": "범위 안 보기",
@@ -2700,6 +2731,1122 @@
             "$ref": "#/components/responses/Problem"
           }
         }
+      }
+    },
+    "/v1/shares/{shareId}/session": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/ShareId"
+        }
+      ],
+      "post": {
+        "operationId": "openGuardianShareSession",
+        "summary": "보호자 링크 열기(2단계 열람 1단계)",
+        "tags": [
+          "guardian"
+        ],
+        "security": [],
+        "description": "알림 링크의 조각 토큰을 본문으로 받아 1단계 화면(무슨 일·언제·먼저 할 일)만 준다. 위치·좌표·빠른 답은 주지 않는다. 이 POST가 성공하면 전달의 opened_at을 기록한다(미리보기 봇은 POST하지 않음)(D1·H5).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuardianShareSessionOpen"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "1단계 화면",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuardianSharePreview"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
+          },
+          "423": {
+            "$ref": "#/components/responses/Locked"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D1"
+      }
+    },
+    "/v1/shares/{shareId}/session/verify": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/ShareId"
+        }
+      ],
+      "post": {
+        "operationId": "verifyGuardianShareSession",
+        "summary": "휴대폰 번호 뒷자리 확인(2단계)",
+        "tags": [
+          "guardian"
+        ],
+        "security": [],
+        "description": "번호 끝 4자리가 맞으면 이 공유에 묶인 보호자 세션을 준다. 5회 틀리면 423 PHONE_CHECK_LOCKED 15분(rules-lab guardian_share_session).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuardianShareSessionVerify"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "보호자 세션",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuardianShareSessionResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
+          },
+          "423": {
+            "$ref": "#/components/responses/Locked"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D1"
+      }
+    },
+    "/v1/driver-profiles": {
+      "post": {
+        "operationId": "createDriverProfile",
+        "summary": "운전자 프로필 만들기",
+        "tags": [
+          "driver"
+        ],
+        "security": [
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "소유자 휴대폰에서 등록 운전자·게스트 프로필을 만든다. 동의·보호자·trip이 쓰는 driver_profile_id를 만드는 경로(D3).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DriverProfileCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "만듦",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DriverProfileView"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "같은 요청의 이전 결과",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DriverProfileView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D3"
+      }
+    },
+    "/v1/vehicles/{vehicleId}/driver-profiles": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VehicleId"
+        }
+      ],
+      "get": {
+        "operationId": "listVehicleDriverProfiles",
+        "summary": "이번 운전자 칩 목록",
+        "tags": [
+          "driver"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          },
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "차량 칩에는 표시 이름만 준다. 운전자가 한 명이면 single_driver_vehicle=true(칩 생략)(D3).",
+        "responses": {
+          "200": {
+            "description": "목록",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DriverProfileList"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D3"
+      }
+    },
+    "/v1/trips/{tripId}/driver": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/TripId"
+        }
+      ],
+      "put": {
+        "operationId": "setTripDriver",
+        "summary": "이번 운전자 지정·변경(정차 중)",
+        "tags": [
+          "trip",
+          "driver"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          }
+        ],
+        "description": "같은 운전자면 그대로 200. 다르면 열린 trip을 DRIVER_CHANGED로 닫고 새 trip을 201로 연다. GUEST·UNKNOWN은 자동 위치 발송 꺼짐. 여러 운전자 차량에서 칩에 답이 없으면 UNKNOWN(D3).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripDriverChange"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "변경 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripView"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "새 trip",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D3"
+      }
+    },
+    "/v1/trips/{tripId}/end": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/TripId"
+        }
+      ],
+      "post": {
+        "operationId": "endTrip",
+        "summary": "trip 종료",
+        "tags": [
+          "trip"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          },
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "기기가 USER_ENDED·IGNITION_OFF로 닫는다. 서버는 rules-lab trip.auto_end_after_idle_ms(장시간 정차)·device_silent_end_ms(기기 연락 끊김)로 자동 종료한다. 시동 종료 감지 공개 경로는 확인 필요(D3·B5).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripEndRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "종료됨(이미 종료면 이전 결과)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D3"
+      }
+    },
+    "/v1/incidents/{incidentId}/location-sharing/stop": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IncidentId"
+        }
+      ],
+      "post": {
+        "operationId": "stopIncidentLocationSharing",
+        "summary": "이번 사건 위치 공유 멈추기",
+        "tags": [
+          "privacy"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          },
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "그 사건의 모든 share_grants.location_stream_until = 지금. REVOKE_SHARES면 링크도 끊는다. 위치 제공 동의는 바꾸지 않는다(D5). 보호자 알림 상태 화면 오른쪽 '공유 중지'.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationSharingStopRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "멈춤(이미 멈췄으면 이전 결과)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationSharingStopResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-authz": "운전자 본인: 차량 기기(그 사건 trip 진행 중) 또는 그 사건 driver_profile.user_id의 휴대폰 계정만. 소유자라도 다른 운전자의 사건이면 403 DRIVER_MISMATCH.",
+        "x-decision": "D5"
+      }
+    },
+    "/v1/share-links/{linkId}/revoke": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/LinkId"
+        }
+      ],
+      "post": {
+        "operationId": "revokeMaintenanceShareLink",
+        "summary": "정비사 링크 철회",
+        "tags": [
+          "maintenance"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          },
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "철회 뒤 열람은 410 SHARE_REVOKED(D5).",
+        "responses": {
+          "200": {
+            "description": "철회됨",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShareLinkRevokeResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-authz": "운전자 본인: 차량 기기(그 사건 trip 진행 중) 또는 그 사건 driver_profile.user_id의 휴대폰 계정만. 소유자라도 다른 운전자의 사건이면 403 DRIVER_MISMATCH.",
+        "x-decision": "D5"
+      }
+    },
+    "/v1/guardians/{guardianId}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/GuardianId"
+        }
+      ],
+      "delete": {
+        "operationId": "removeGuardian",
+        "summary": "보호자 삭제·보호자 탈퇴",
+        "tags": [
+          "guardian",
+          "account"
+        ],
+        "security": [
+          {
+            "ownerSession": []
+          },
+          {
+            "guardianSession": []
+          }
+        ],
+        "description": "소유자가 보호자를 지우거나 보호자 본인이 탈퇴한다. 즉시 REVOKED·열린 공유 끊기·대기 발송 취소, 번호 암호문은 지운다. 위치 제공 기록은 가린 사본으로 남는다(D5).",
+        "responses": {
+          "202": {
+            "description": "접수",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletionAccepted"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D5"
+      }
+    },
+    "/v1/devices/{deviceId}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/DeviceId"
+        }
+      ],
+      "delete": {
+        "operationId": "unpairDevice",
+        "summary": "기기 연결 해제",
+        "tags": [
+          "account"
+        ],
+        "security": [
+          {
+            "ownerSession": []
+          },
+          {
+            "deviceSession": []
+          }
+        ],
+        "description": "기기 세션을 바로 무효로 하고 DEVICE_WIPE 명령(차량 기록 삭제)을 남긴다. 해제된 기기의 다음 요청은 401 DEVICE_REVOKED이며 기기는 로컬 기록·토큰을 지운다(D5).",
+        "responses": {
+          "202": {
+            "description": "접수",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletionAccepted"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D5"
+      }
+    },
+    "/v1/me": {
+      "delete": {
+        "operationId": "deleteAccount",
+        "summary": "계정 삭제",
+        "tags": [
+          "account"
+        ],
+        "security": [
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "rules-lab retention.account_delete_purge_hours(72시간) 안에 사건·위치·음성 문장·보호자·기기를 지운다. 위치 제공 기록은 익명화한다(D5).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "접수",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletionAccepted"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D5"
+      }
+    },
+    "/v1/pairing/{pairingId}/vehicle-confirm": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/PairingId"
+        }
+      ],
+      "post": {
+        "operationId": "confirmPairingOnVehicle",
+        "summary": "차 화면에서 휴대폰 연결 확인",
+        "tags": [
+          "pairing"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          }
+        ],
+        "description": "휴대폰 확인 뒤 차 화면에 '이 휴대폰(가린 번호)을 연결할까요?'를 띄우고 [연결]을 누르면 CONFIRMED. 거절하면 REJECTED. 정차 중에만(D6).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PairingVehicleConfirm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "결과",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PairingResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D6"
+      }
+    },
+    "/v1/vehicles/{vehicleId}/ownership-transfers": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VehicleId"
+        }
+      ],
+      "post": {
+        "operationId": "startOwnershipTransfer",
+        "summary": "소유자 이전 시작",
+        "tags": [
+          "vehicle",
+          "account"
+        ],
+        "security": [
+          {
+            "ownerSession": []
+          },
+          {
+            "deviceSession": []
+          }
+        ],
+        "description": "현재 소유자가 시작하면 PENDING_NEW_OWNER, 차 화면(정차 중)에서 시작하면 현재 소유자에게 알리고 OBJECTION_WINDOW(rules-lab ownership_transfer.objection_window_ms)를 거친다. 새 소유자는 QR+차 화면 확인으로 새 등록을 받고, 이전 등록은 revoked_at으로 닫힌다. 기록은 옮기지 않는다(D6).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OwnershipTransferCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "시작",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnershipTransferView"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "같은 요청의 이전 결과",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnershipTransferView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D6"
+      }
+    },
+    "/v1/vehicles/{vehicleId}/ownership-transfers/{transferId}/cancel": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VehicleId"
+        },
+        {
+          "$ref": "#/components/parameters/TransferId"
+        }
+      ],
+      "post": {
+        "operationId": "cancelOwnershipTransfer",
+        "summary": "소유자 이전 취소·이의",
+        "tags": [
+          "vehicle",
+          "account"
+        ],
+        "security": [
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "현재 소유자가 이전을 취소하거나 차 화면에서 시작된 이전에 이의를 제기한다(D6).",
+        "responses": {
+          "200": {
+            "description": "취소됨",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnershipTransferView"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D6"
+      }
+    },
+    "/v1/time-sync": {
+      "post": {
+        "operationId": "syncServerTime",
+        "summary": "서버 시각 받기(시계 오차 측정)",
+        "tags": [
+          "time"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          },
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "서버가 받은 시각과 보낸 시각을 밀리초로 돌려준다. 기기는 오차·왕복 시간을 계산해 NotificationIntent.clock_sync에 넣는다(D6). 멱등 키가 필요 없다.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeSyncRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "서버 시각",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSyncResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "D6"
+      }
+    },
+    "/v1/driver-profiles/{driverProfileId}/arrival-alert": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/DriverProfileId"
+        }
+      ],
+      "put": {
+        "operationId": "updateArrivalAlertSetting",
+        "summary": "도착 알림 켜기·끄기",
+        "tags": [
+          "arrival"
+        ],
+        "security": [
+          {
+            "ownerSession": []
+          },
+          {
+            "deviceSession": []
+          }
+        ],
+        "description": "기본 꺼짐. 운전자 본인이 정차 중에만 켠다. GUEST·UNKNOWN은 켤 수 없다(422)(H7).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArrivalAlertSettingUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "설정",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrivalAlertSettingView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-authz": "운전자 본인(그 driver_profile.user_id의 휴대폰, 또는 그 운전자가 정차 중 차량 화면에서 직접).",
+        "x-decision": "H7"
+      }
+    },
+    "/v1/trips/{tripId}/arrival": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/TripId"
+        }
+      ],
+      "post": {
+        "operationId": "reportTripArrival",
+        "summary": "내비 목적지 도착 보고(도착 알림)",
+        "tags": [
+          "arrival"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          }
+        ],
+        "description": "NaviHelper onDestinationArrived 때 보낸다. 설정이 켜져 있고 OWNER·REGISTERED_DRIVER이며 test_mode=false일 때만 고른 보호자에게 '잘 도착했어요'(CARE_ARRIVAL_V1, 장소 없음)를 보낸다. trip당 1회. 위치 제공 기록에 ARRIVAL_ALERT·NONE으로 남긴다(H7).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripArrivalReport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "결과",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripArrivalResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "H7"
+      }
+    },
+    "/v1/service-checkins": {
+      "post": {
+        "operationId": "recordServiceCheckin",
+        "summary": "정비소 도착 체크인",
+        "tags": [
+          "maintenance"
+        ],
+        "security": [
+          {
+            "deviceSession": []
+          },
+          {
+            "ownerSession": []
+          }
+        ],
+        "description": "FusedLocation 근접 알림(ENTER)·NaviHelper onWayPointArrived·사용자 누름으로 정비소 도착을 기록한다. 정차 중이면 재현 조건 카드를 바로 보여 준다. 좌표는 받지 않는다(H8).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceCheckinCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "기록됨",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceCheckinView"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "같은 요청의 이전 결과",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceCheckinView"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "default": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-decision": "H8"
       }
     }
   },
@@ -2849,6 +3996,51 @@
           "type": "string",
           "format": "uuid"
         }
+      },
+      "TripId": {
+        "name": "tripId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "DeviceId": {
+        "name": "deviceId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "PairingId": {
+        "name": "pairingId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "TransferId": {
+        "name": "transferId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "DriverProfileId": {
+        "name": "driverProfileId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
       }
     },
     "responses": {
@@ -2987,7 +4179,7 @@
           "PHONE",
           "TEST_INPUT"
         ],
-        "description": "입력 출처 source(9.1). TEST_INPUT은 시연 모드의 시험 입력이며 화면에 [시험 입력]을 표시한다.",
+        "description": "입력 출처 source(9.1). TEST_INPUT은 시연 모드의 시험 입력이며 신호 단위로 붙인다(D2). 화면에 [시험 입력]을 표시하고, 하나라도 섞인 사건은 test_mode=true·모의 발송만.",
         "x-contract-source": "DECISIONS-9"
       },
       "Quality": {
@@ -3000,7 +4192,7 @@
           "NOT_SUPPORTED",
           "TEST_INPUT"
         ],
-        "description": "신호 품질 quality(9.1). STALE은 주기형 신호(차속)에만 쓴다. 변화 알림형 신호는 마지막 수신 시각과 서비스 연결 상태로 판단한다(rules-lab signal_validity).",
+        "description": "신호 품질 quality(9.1). STALE은 주기형 신호(차속)와 위치 측정값(rules-lab signal_validity.location_fix)에만 쓴다. 변화 알림형 신호는 마지막 수신 시각과 서비스 연결 상태로 판단한다. PERMISSION_DENIED는 권한 없음(SecurityException·onFailed), NOT_SUPPORTED는 Capability 결과가 미지원인 경우다(B3).",
         "x-contract-source": "DECISIONS-9"
       },
       "PolicyState": {
@@ -3201,9 +4393,13 @@
           "LOCATION",
           "UX_RESTRICTION",
           "WARNING_USER_SELECTED",
-          "STT_TEXT"
+          "STT_TEXT",
+          "CLIMATE_AC",
+          "CLIMATE_FAN_SPEED",
+          "WINDOW_POSITION",
+          "WIPER_STATE"
         ],
-        "description": "공개 경로로 받는 신호 코드. 경고등 상태·IMU·충격·가속 페달·기어·주차 브레이크·타이어 현재 공기압·시동·비상등은 FUTURE라 이 목록에 없다(x-future-inputs).",
+        "description": "공개 경로로 받는 신호 코드. 경고등 상태·IMU·충격·가속 페달·기어·주차 브레이크·타이어 현재 공기압·시동·비상등은 FUTURE라 이 목록에 없다(x-future-inputs). CLIMATE_AC·CLIMATE_FAN_SPEED(HVAC, CAR_CLIMATE)·WINDOW_POSITION(Window, CAR_WINDOWS)·WIPER_STATE(Wiper, CAR_WINDOWS)는 소리 용의자 지우기(H3)·재현 조건 후보(B12)용 normal 권한 신호다.",
         "x-contract-source": "CONTRACT-V3"
       },
       "SignalDeliveryKind": {
@@ -3368,12 +4564,14 @@
         "type": "string",
         "enum": [
           "PENDING",
+          "AWAITING_VEHICLE_CONFIRM",
           "CONFIRMED",
+          "REJECTED",
           "EXPIRED",
           "REVOKED"
         ],
-        "description": "휴대폰 연결 상태.",
-        "x-contract-source": "CONTRACT-V3"
+        "description": "휴대폰 연결 상태. 휴대폰이 QR 코드를 확인하면 AWAITING_VEHICLE_CONFIRM, 차 화면의 [연결]을 눌러야 CONFIRMED(D6).",
+        "x-contract-source": "DECISIONS-R2"
       },
       "DeviceRole": {
         "type": "string",
@@ -3442,9 +4640,10 @@
         "enum": [
           "GUARDIAN_ALERT",
           "GUARDIAN_PAGE_VIEW",
-          "CORRECTION"
+          "CORRECTION",
+          "ARRIVAL_ALERT"
         ],
-        "description": "위치 제공 목적.",
+        "description": "위치 제공 목적. ARRIVAL_ALERT는 도착 알림(H7, 장소 없이 '도착' 사실만, location_precision NONE).",
         "x-contract-source": "CONTRACT-V3"
       },
       "AddressSource": {
@@ -3564,7 +4763,19 @@
           "HASH_MISMATCH",
           "PARKED_ONLY",
           "RATE_LIMITED",
-          "UPSTREAM_UNAVAILABLE"
+          "UPSTREAM_UNAVAILABLE",
+          "TEST_INPUT_IN_REAL_INCIDENT",
+          "DRIVER_MISMATCH",
+          "ALERT_MERGED",
+          "VIN_ALREADY_REGISTERED",
+          "SHARE_REVOKED",
+          "DEVICE_REVOKED",
+          "VEHICLE_CONFIRM_REQUIRED",
+          "PHONE_CHECK_FAILED",
+          "PHONE_CHECK_LOCKED",
+          "CLOCK_UNSYNCHRONIZED",
+          "TRANSFER_PENDING",
+          "GUEST_STANDING_CONSENT_NOT_ALLOWED"
         ],
         "description": "오류 코드.",
         "x-contract-source": "CONTRACT-V3"
@@ -4102,9 +5313,61 @@
           },
           "maintenance_flags": {
             "$ref": "#/components/schemas/MaintenanceFlags"
+          },
+          "climate_ac_on": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BooleanReading"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "HVAC getHvacAcState(CAR_CLIMATE, normal). Virtual Console 카드 있음(Air Conditioning)."
+          },
+          "climate_fan_speed": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NumberReading"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "HVAC getHvacFanSpeed 단계(CAR_CLIMATE, normal). Virtual Console 카드 있음(Fan Speed 0~8)."
+          },
+          "window_open_max_pct": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NumberReading"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Window getCurrentWindowPosition 중 가장 많이 열린 값(%)(CAR_WINDOWS, normal). Virtual Console 카드 있음(Window Position)."
+          },
+          "wiper_state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WiperReading"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Wiper getCurrentWiperState(CAR_WINDOWS, normal). Virtual Console 카드가 상태를 바꾸는지 확인 필요."
+          },
+          "trip_elapsed_s": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "description": "출발 뒤 경과 시간(초). 앱이 trip started_at으로 계산한다(B12)."
           }
         },
-        "description": "차량 스냅샷 vehicle_snapshot(9.3). speed_mps는 AAOS PERF_VEHICLE_SPEED(m/s, source AAOS_PROPERTY) 또는 TEST_INPUT. steering_angle_deg는 Vehicle SDK 앞바퀴 조향각(도, 왼쪽 음수, 핸들 회전각 아님). odometer_km는 km. airbag_deployed는 좌석 영역별 '새 전개' 값이며 등록 직후 첫 값은 기준값이다."
+        "description": "차량 스냅샷 vehicle_snapshot(9.3). speed_mps는 AAOS PERF_VEHICLE_SPEED(m/s, source AAOS_PROPERTY) 또는 TEST_INPUT. steering_angle_deg는 Vehicle SDK 앞바퀴 조향각(도, 왼쪽 음수, 핸들 회전각 아님). odometer_km는 km. airbag_deployed는 좌석 영역별 '새 전개' 값이며 등록 직후 첫 값은 기준값이다. 공조·창문·와이퍼·출발 뒤 경과 시간은 선택 값이며 재현 조건 후보(B12·H3)에만 쓴다. 안전벨트·문 값은 사고 순간 스냅샷에 쓰고 출발 전 점검 카드에는 넣지 않는다(B10)."
       },
       "Location": {
         "type": "object",
@@ -4228,7 +5491,8 @@
           "address_status",
           "address_source",
           "last_received_at",
-          "location_stream_until"
+          "location_stream_until",
+          "measured_age_ms"
         ],
         "properties": {
           "position": {
@@ -4266,9 +5530,17 @@
               "null"
             ],
             "format": "date-time"
+          },
+          "measured_age_ms": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "description": "측정(또는 수신) 뒤 지난 시간. rules-lab signal_validity.location_fix.stale_after_ms를 넘으면 '마지막 측정 HH:MM(N분 전)'."
           }
         },
-        "description": "표시용 최신 위치. 주소는 NaviHelper getCurrentLocationInfo 또는 서버 변환."
+        "description": "표시용 최신 위치. 주소는 NaviHelper getCurrentLocationInfo(NAVI_ROUTE) 또는 서버 변환. 차 화면은 측정 시각·주소 문자만, 지도는 보호자 웹에서만(B11)."
       },
       "LocationAck": {
         "type": "object",
@@ -4646,7 +5918,7 @@
               "null"
             ],
             "maxLength": 200,
-            "description": "누르고 말하기의 STT 결과 문자열(N3). 원본 소리는 없다."
+            "description": "'말로 하기'(버튼을 한 번 누른 뒤 최대 8초 듣기, H1)의 STT 결과 문자열. 원본 소리는 없다."
           },
           "selected_while_driving": {
             "type": "boolean"
@@ -4665,17 +5937,21 @@
             "format": "date-time"
           }
         },
-        "description": "증상 고르기 결과. source는 USER_SELECTION 또는 STT.",
+        "description": "증상 고르기 결과. source는 USER_SELECTION 또는 STT. 주행 중 상황 선택 카드는 5개(B9): 긴급 3개(안 멈춰요·저절로 빨라져요는 PEDAL_PROBLEM으로 기록하고 각각 감속 실패 대처·원치 않는 가속 안내를 연다, 사고가 났어요는 COLLISION) + 증상 2개(VIBRATION 차체 떨림, BURNING_SMELL 타는 냄새). 정차 후에는 9개 증상 + 긴급 3개. 말로 하기(STT)는 카드 제한 없이 문자열로 분류한다.",
         "allOf": [
           {
             "if": {
               "properties": {
                 "selected_while_driving": {
                   "const": true
+                },
+                "input_source": {
+                  "const": "USER_SELECTION"
                 }
               },
               "required": [
-                "selected_while_driving"
+                "selected_while_driving",
+                "input_source"
               ]
             },
             "then": {
@@ -4685,9 +5961,8 @@
                     "enum": [
                       "VIBRATION",
                       "BURNING_SMELL",
-                      "TIRE_DAMAGE",
                       "COLLISION",
-                      "UNKNOWN"
+                      "PEDAL_PROBLEM"
                     ]
                   }
                 }
@@ -4765,7 +6040,8 @@
           "clock_domain",
           "clock_error_bound_ms",
           "cancel_action_id",
-          "recipients_shown_at"
+          "recipients_shown_at",
+          "clock_sync"
         ],
         "properties": {
           "guardian_ids": {
@@ -4842,9 +6118,19 @@
             ],
             "format": "date-time",
             "description": "'지금 도움 요청' 확인 화면에서 받는 사람 목록을 보여 준 뒤 '보내기'를 누른 시각(D10)."
+          },
+          "clock_sync": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ClockSyncSample"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
-        "description": "생성 시 알림 의도. 서버 초기 정책 상태는 requested_state를 따른다.",
+        "description": "생성 시 알림 의도. 서버 초기 정책 상태는 requested_state를 따른다. 서버가 다시 계산한 등급은 requested_state를 바꾸지 않는다(불일치는 시간표에만). SYNCHRONIZED는 clock_sync 표본이 있어야 하고, 서버는 |countdown_started_at + elapsed_ms_at_submit - accepted_at| > clock_error_bound_ms + rtt_ms이면 MONOTONIC_ONLY로 낮춘다.",
         "allOf": [
           {
             "if": {
@@ -4943,6 +6229,25 @@
                 }
               }
             }
+          },
+          {
+            "if": {
+              "properties": {
+                "clock_confidence": {
+                  "const": "SYNCHRONIZED"
+                }
+              },
+              "required": [
+                "clock_confidence"
+              ]
+            },
+            "then": {
+              "properties": {
+                "clock_sync": {
+                  "$ref": "#/components/schemas/ClockSyncSample"
+                }
+              }
+            }
           }
         ]
       },
@@ -4967,7 +6272,8 @@
           "location",
           "driver_response",
           "notification",
-          "test_mode"
+          "test_mode",
+          "contains_test_input"
         ],
         "properties": {
           "client_incident_id": {
@@ -5068,10 +6374,15 @@
           },
           "test_mode": {
             "type": "boolean",
-            "default": true
+            "default": true,
+            "description": "시연 모드 사건. true면 모의 발송(dispatch_mode=MOCK)만 한다."
+          },
+          "contains_test_input": {
+            "type": "boolean",
+            "description": "관측·스냅샷 값 중 source=TEST_INPUT이 하나라도 있으면 true(D2). 서버가 다시 계산해 다르면 422."
           }
         },
-        "description": "사건 생성. 주소·자료 업로드를 기다리지 않는다. 발송 범위(D10)는 allOf 규칙과 서버 정책이 함께 지킨다.",
+        "description": "사건 생성. 주소·자료 업로드를 기다리지 않는다. 발송 범위(D10)는 allOf 규칙과 서버 정책이 함께 지킨다. 시험 입력이 신호 하나라도 섞이면 test_mode=true·contains_test_input=true여야 하며 실제 발송을 하지 않는다(D2).",
         "allOf": [
           {
             "if": {
@@ -5165,23 +6476,442 @@
           },
           {
             "if": {
-              "properties": {
-                "vehicle_snapshot": {
+              "anyOf": [
+                {
                   "properties": {
-                    "speed_mps": {
-                      "properties": {
-                        "source": {
-                          "const": "TEST_INPUT"
-                        }
+                    "contains_test_input": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "contains_test_input"
+                  ]
+                },
+                {
+                  "properties": {
+                    "observations": {
+                      "contains": {
+                        "properties": {
+                          "source": {
+                            "const": "TEST_INPUT"
+                          }
+                        },
+                        "required": [
+                          "source"
+                        ]
                       }
                     }
-                  }
+                  },
+                  "required": [
+                    "observations"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "speed_mps": {
+                          "properties": {
+                            "source": {
+                              "const": "TEST_INPUT"
+                            }
+                          },
+                          "required": [
+                            "source"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "speed_mps"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "brake_pressed": {
+                          "properties": {
+                            "source": {
+                              "const": "TEST_INPUT"
+                            }
+                          },
+                          "required": [
+                            "source"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "brake_pressed"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "steering_angle_deg": {
+                          "properties": {
+                            "source": {
+                              "const": "TEST_INPUT"
+                            }
+                          },
+                          "required": [
+                            "source"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "steering_angle_deg"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "turn_signal": {
+                          "properties": {
+                            "source": {
+                              "const": "TEST_INPUT"
+                            }
+                          },
+                          "required": [
+                            "source"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "turn_signal"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "odometer_km": {
+                          "properties": {
+                            "source": {
+                              "const": "TEST_INPUT"
+                            }
+                          },
+                          "required": [
+                            "source"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "odometer_km"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "fuel_or_soc_pct": {
+                          "properties": {
+                            "source": {
+                              "const": "TEST_INPUT"
+                            }
+                          },
+                          "required": [
+                            "source"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "fuel_or_soc_pct"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "doors_open": {
+                          "contains": {
+                            "properties": {
+                              "source": {
+                                "const": "TEST_INPUT"
+                              }
+                            },
+                            "required": [
+                              "source"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "doors_open"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "seat_occupied": {
+                          "contains": {
+                            "properties": {
+                              "source": {
+                                "const": "TEST_INPUT"
+                              }
+                            },
+                            "required": [
+                              "source"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "seat_occupied"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "seatbelt_unbuckled": {
+                          "contains": {
+                            "properties": {
+                              "source": {
+                                "const": "TEST_INPUT"
+                              }
+                            },
+                            "required": [
+                              "source"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "seatbelt_unbuckled"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "airbag_deployed": {
+                          "contains": {
+                            "properties": {
+                              "source": {
+                                "const": "TEST_INPUT"
+                              }
+                            },
+                            "required": [
+                              "source"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "airbag_deployed"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "maintenance_flags": {
+                          "properties": {
+                            "engine_oil": {
+                              "properties": {
+                                "source": {
+                                  "const": "TEST_INPUT"
+                                }
+                              },
+                              "required": [
+                                "source"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "engine_oil"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "maintenance_flags"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "maintenance_flags": {
+                          "properties": {
+                            "brake_fluid": {
+                              "properties": {
+                                "source": {
+                                  "const": "TEST_INPUT"
+                                }
+                              },
+                              "required": [
+                                "source"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "brake_fluid"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "maintenance_flags"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "maintenance_flags": {
+                          "properties": {
+                            "washer_fluid_low": {
+                              "properties": {
+                                "source": {
+                                  "const": "TEST_INPUT"
+                                }
+                              },
+                              "required": [
+                                "source"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "washer_fluid_low"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "maintenance_flags"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
+                },
+                {
+                  "properties": {
+                    "vehicle_snapshot": {
+                      "properties": {
+                        "maintenance_flags": {
+                          "properties": {
+                            "power_down_warning": {
+                              "properties": {
+                                "source": {
+                                  "const": "TEST_INPUT"
+                                }
+                              },
+                              "required": [
+                                "source"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "power_down_warning"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "maintenance_flags"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "vehicle_snapshot"
+                  ]
                 }
-              }
+              ]
             },
             "then": {
               "properties": {
                 "test_mode": {
+                  "const": true
+                }
+              }
+            },
+            "description": "D2: 시험 입력이 신호 하나라도 섞이면 test_mode=true(모의 발송만). 어긋나면 422 TEST_INPUT_IN_REAL_INCIDENT."
+          },
+          {
+            "if": {
+              "properties": {
+                "observations": {
+                  "contains": {
+                    "properties": {
+                      "source": {
+                        "const": "TEST_INPUT"
+                      }
+                    },
+                    "required": [
+                      "source"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "observations"
+              ]
+            },
+            "then": {
+              "properties": {
+                "contains_test_input": {
                   "const": true
                 }
               }
@@ -5203,7 +6933,10 @@
           "release_at",
           "timing_uncertain",
           "test_mode",
-          "related_incident_id"
+          "related_incident_id",
+          "alert_incident_id",
+          "dispatch_mode",
+          "server_time"
         ],
         "properties": {
           "incident_id": {
@@ -5264,9 +6997,25 @@
               "null"
             ],
             "format": "uuid"
+          },
+          "alert_incident_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "열린 알림을 가진 사건(D4). 묶인 사건이면 그 알림 사건, 스스로 가지면 자기 incident_id, 알림이 없으면 null. 차량의 카운트다운·보내지 않음은 이 사건으로 보낸다."
+          },
+          "dispatch_mode": {
+            "$ref": "#/components/schemas/DispatchMode"
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "서버 시각(밀리초)."
           }
         },
-        "description": "저장 확인. 보호자 전달 증거가 아니다.",
+        "description": "저장 확인. 보호자 전달 증거가 아니다. 같은 차량의 열린 알림 시간 창(2시간) 안이면 related_incident_id·alert_incident_id로 묶인다(D4).",
         "allOf": [
           {
             "if": {
@@ -5327,7 +7076,10 @@
           "assets",
           "deliveries",
           "guardian_replies",
-          "last_received_at"
+          "last_received_at",
+          "alert_incident_id",
+          "dispatch_mode",
+          "server_time"
         ],
         "properties": {
           "incident_id": {
@@ -5478,6 +7230,22 @@
           "last_received_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "alert_incident_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "열린 알림을 가진 사건(D4). 묶인 사건이면 그 알림 사건, 스스로 가지면 자기 incident_id, 알림이 없으면 null. 차량의 카운트다운·보내지 않음은 이 사건으로 보낸다."
+          },
+          "dispatch_mode": {
+            "$ref": "#/components/schemas/DispatchMode"
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "서버 시각(밀리초)."
           }
         },
         "description": "소유자·차량 기기용 사건 보기.",
@@ -5604,7 +7372,8 @@
           "expected_version",
           "action",
           "occurred_at",
-          "recipients_shown_guardian_ids"
+          "recipients_shown_guardian_ids",
+          "countdown_elapsed_ms"
         ],
         "properties": {
           "client_action_id": {
@@ -5640,6 +7409,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          "countdown_elapsed_ms": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 86400000,
+            "description": "기기 단조 시계로 잰 카운트다운 경과(늦은 취소 판정용, D6). 카운트다운이 없으면 null."
           }
         },
         "description": "운전자 행동. 정책 행 버전 비교로 원자 처리.",
@@ -5675,7 +7453,10 @@
           "notification_outcome",
           "already_submitted",
           "correction_created",
-          "guidance_state"
+          "guidance_state",
+          "alert_incident_id",
+          "cancelled_incident_ids",
+          "server_time"
         ],
         "properties": {
           "incident_id": {
@@ -5714,6 +7495,26 @@
                 "type": "null"
               }
             ]
+          },
+          "alert_incident_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "cancelled_incident_ids": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "CANCEL로 멈춘 열린 알림 사건들(D4). 묶인 사건에서 보내도 같은 시간 창의 열린 알림 전체가 멈춘다."
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -5981,7 +7782,10 @@
           "accepted_at",
           "delivered_at",
           "opened_at",
-          "fallback_deadline_at"
+          "fallback_deadline_at",
+          "is_arrival",
+          "dispatch_mode",
+          "supersedes_delivery_id"
         ],
         "properties": {
           "delivery_id": {
@@ -6043,6 +7847,21 @@
             ],
             "format": "date-time",
             "description": "알림톡 전달 확인 기한(rules-lab notification.kakao_delivery_confirmation_deadline_ms). 넘으면 문자로 바꾼다."
+          },
+          "is_arrival": {
+            "type": "boolean",
+            "description": "도착 알림(H7). 사건·연습이 아니다."
+          },
+          "dispatch_mode": {
+            "$ref": "#/components/schemas/DispatchMode"
+          },
+          "supersedes_delivery_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "정정이 대신한 이전 판 전달. 정정이 생기면 같은 보호자의 이전 판 미제출 작업(문자 전환 포함)을 취소한다."
           }
         },
         "description": "보호자별·채널별 전달 한 줄. 보호자별 상태를 한 줄씩 보여 준다(D16).",
@@ -6119,7 +7938,7 @@
             ]
           }
         },
-        "description": "기능 × 영역 단위 지원 상태. 권한 없음은 PERMISSION_DENIED(SecurityException)."
+        "description": "기능 × 영역 단위 지원 상태. 권한 없음은 PERMISSION_DENIED(register의 SecurityException 또는 get의 onFailed), 미지원은 Capability 결과(AccessType NONE 등)로 NOT_SUPPORTED(B3)."
       },
       "CapabilitySnapshot": {
         "type": "object",
@@ -6274,7 +8093,7 @@
             "type": "boolean"
           }
         },
-        "description": "출발 준비. 같은 차량에 열린 trip이 있으면 새로 만들지 않고 그 trip을 돌려준다(두 기기 공유)."
+        "description": "출발 준비. 같은 차량의 열린 trip이 같은 driver_profile_id면 200으로 그 trip을 돌려준다(두 기기 공유). 운전자가 다르면 이전 trip을 DRIVER_CHANGED로 닫고 새 trip(201)을 만든다. 열린 trip이 rules-lab trip.auto_end_after_idle_ms보다 오래 멈춰 있었으면 LONG_PARKED로 닫고 새로 만든다(D3)."
       },
       "TripReadiness": {
         "type": "object",
@@ -6284,7 +8103,10 @@
           "active_guardian_count",
           "location_share_consent_active",
           "auto_location_send_enabled",
-          "guide_pack_version"
+          "guide_pack_version",
+          "unfinished_record_count",
+          "arrival_alert_enabled",
+          "driver_chip_required"
         ],
         "properties": {
           "phone_paired": {
@@ -6308,9 +8130,22 @@
               "null"
             ],
             "minimum": 1
+          },
+          "unfinished_record_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "끝나지 않은 기록(정비 노트·재발 확인·메모 미완료) 수(B10)."
+          },
+          "arrival_alert_enabled": {
+            "type": "boolean",
+            "description": "도착 알림(H7). 기본 false."
+          },
+          "driver_chip_required": {
+            "type": "boolean",
+            "description": "여러 운전자가 등록된 차량이면 정차 중 '이번 운전자' 칩을 보여 준다(D3)."
           }
         },
-        "description": "출발 전 점검 카드(N7)의 준비 항목. 시스템 출발 전 안내(문·안전벨트·브레이크)는 여기 넣지 않는다."
+        "description": "출발 전 점검 카드(N7)의 준비 항목. 시스템 출발 전 안내와 겹치는 안전벨트·문 칸은 넣지 않는다(B10). 점검 항목·정비 일정·끝나지 않은 기록·보호자·휴대폰 준비."
       },
       "TripView": {
         "type": "object",
@@ -6322,7 +8157,10 @@
           "driver_mode",
           "started_at",
           "readiness",
-          "test_mode"
+          "test_mode",
+          "ended_at",
+          "ended_reason",
+          "server_time"
         ],
         "properties": {
           "trip_id": {
@@ -6352,6 +8190,27 @@
           },
           "test_mode": {
             "type": "boolean"
+          },
+          "ended_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "ended_reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TripEndReason"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -6395,7 +8254,7 @@
           "qr_payload": {
             "type": "string",
             "maxLength": 300,
-            "description": "일회용 연결 코드와 차량 기기 공개키 지문. 접근 토큰은 담지 않는다."
+            "description": "일회용 연결 코드(5분)와 차량 기기 공개키 지문. 접근 토큰은 담지 않는다. 같은 코드는 한 번만 쓴다."
           },
           "expires_at": {
             "type": "string",
@@ -6413,7 +8272,9 @@
           "pairing_id",
           "code",
           "phone_device_id",
-          "phone_public_key_ref"
+          "phone_public_key_ref",
+          "requested_role",
+          "transfer_id"
         ],
         "properties": {
           "pairing_id": {
@@ -6431,6 +8292,17 @@
           "phone_public_key_ref": {
             "type": "string",
             "maxLength": 200
+          },
+          "requested_role": {
+            "$ref": "#/components/schemas/PairingRole"
+          },
+          "transfer_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "소유자 이전으로 새 소유자가 연결할 때만."
           }
         }
       },
@@ -6443,7 +8315,9 @@
           "vehicle_id",
           "phone_device_id",
           "paired_at",
-          "owner_bound"
+          "owner_bound",
+          "bound_role",
+          "vehicle_confirm_required"
         ],
         "properties": {
           "pairing_id": {
@@ -6462,13 +8336,31 @@
             "format": "uuid"
           },
           "paired_at": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "owner_bound": {
             "type": "boolean"
+          },
+          "bound_role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PairingRole"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "vehicle_confirm_required": {
+            "type": "boolean",
+            "description": "차 화면 [연결]을 기다리는 중이면 true."
           }
-        }
+        },
+        "description": "QR을 먼저 찍은 사람이 소유자가 되지 않도록, 휴대폰 확인 뒤 차 화면에서 '이 휴대폰(가린 번호)을 연결할까요?'에 [연결]을 눌러야 CONFIRMED(D6)."
       },
       "GuardianCreate": {
         "type": "object",
@@ -6728,7 +8620,10 @@
           "item",
           "granted",
           "policy_version",
-          "decided_at"
+          "decided_at",
+          "scope",
+          "trip_id",
+          "recorded_while_parked"
         ],
         "properties": {
           "client_consent_id": {
@@ -6757,8 +8652,68 @@
           "decided_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/ConsentScope"
+          },
+          "trip_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "recorded_while_parked": {
+            "type": "boolean",
+            "description": "차량 화면 동의는 정차 중에만. 위치 제공 동의는 true여야 한다(D3)."
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "scope": {
+                  "const": "TRIP"
+                }
+              },
+              "required": [
+                "scope"
+              ]
+            },
+            "then": {
+              "properties": {
+                "trip_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "item": {
+                  "const": "LOCATION_SHARE_GUARDIAN"
+                },
+                "granted": {
+                  "const": true
+                }
+              },
+              "required": [
+                "item",
+                "granted"
+              ]
+            },
+            "then": {
+              "properties": {
+                "recorded_while_parked": {
+                  "const": true
+                }
+              }
+            }
+          }
+        ],
+        "description": "운전자 동의·철회. GUEST·UNKNOWN 프로필은 scope=TRIP만(서버 규칙, SQL consents.driver_mode 교차 확인). subject_role=OWNER는 OWNER 프로필에만. 위치 제공 동의는 정차 중에만 받고, 철회만 언제든 받는다(D3)."
       },
       "ConsentView": {
         "type": "object",
@@ -6771,7 +8726,9 @@
           "policy_version",
           "granted_at",
           "withdrawn_at",
-          "active"
+          "active",
+          "scope",
+          "trip_id"
         ],
         "properties": {
           "consent_id": {
@@ -6807,6 +8764,16 @@
           },
           "active": {
             "type": "boolean"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/ConsentScope"
+          },
+          "trip_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
           }
         }
       },
@@ -6834,11 +8801,14 @@
           "incident_id",
           "driver_profile_id",
           "recipient_guardian_id",
-          "recipient_display_name",
+          "recipient_label_masked",
           "channel",
           "purpose",
+          "location_precision",
           "disclosed_at",
-          "driver_notified_at"
+          "driver_notified_at",
+          "location_stream_until",
+          "anonymized_at"
         ],
         "properties": {
           "disclosure_id": {
@@ -6846,8 +8816,12 @@
             "format": "uuid"
           },
           "incident_id": {
-            "type": "string",
-            "format": "uuid"
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "익명화 뒤 null."
           },
           "driver_profile_id": {
             "type": [
@@ -6857,18 +8831,26 @@
             "format": "uuid"
           },
           "recipient_guardian_id": {
-            "type": "string",
-            "format": "uuid"
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "보호자 삭제·탈퇴 뒤 null(ON DELETE SET NULL)."
           },
-          "recipient_display_name": {
+          "recipient_label_masked": {
             "type": "string",
-            "maxLength": 30
+            "maxLength": 40,
+            "description": "가린 받는 사람 표시(예: '딸 · 010-****-1234'). 익명화 뒤에도 남는다."
           },
           "channel": {
             "$ref": "#/components/schemas/DisclosureChannel"
           },
           "purpose": {
             "$ref": "#/components/schemas/DisclosurePurpose"
+          },
+          "location_precision": {
+            "$ref": "#/components/schemas/LocationPrecision"
           },
           "disclosed_at": {
             "type": "string",
@@ -6880,9 +8862,24 @@
               "null"
             ],
             "format": "date-time"
+          },
+          "location_stream_until": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "아직 열린 공유면 위치 갱신이 멈출 시각. '공유 중지' 버튼은 stopIncidentLocationSharing을 부른다."
+          },
+          "anonymized_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
           }
         },
-        "description": "위치 제공 기록(N10). 좌표를 지운 뒤에도 남긴다. 보관 기간은 법령 확인 뒤 정한다."
+        "description": "위치 제공 기록(N10·H6 내 위치 영수증함). '누구에게·언제·무엇을(주소/좌표/위치 없음)'. 삭제 대신 익명화하며 보관 기간은 법령 확인 뒤 정한다."
       },
       "LocationDisclosurePage": {
         "type": "object",
@@ -7068,7 +9065,9 @@
         "required": [
           "line_id",
           "text",
-          "preroll_silence_ms",
+          "leading_pause_text",
+          "bundled_audio_asset_id",
+          "bundled_audio_preroll_silence_ms",
           "audio_usage_candidates"
         ],
         "properties": {
@@ -7081,10 +9080,30 @@
             "minLength": 1,
             "maxLength": 120
           },
-          "preroll_silence_ms": {
-            "type": "integer",
+          "leading_pause_text": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 12,
+            "description": "음성 앞부분 잘림이 에뮬레이터에서 확인될 때만 문장 앞에 두는 짧은 쉼표 문구(B5). TTS 음성에 무음을 넣는 값이 아니다."
+          },
+          "bundled_audio_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 80,
+            "description": "앱에 넣은 고정 음원 파일. 앱이 AudioManager로 직접 재생할 때만."
+          },
+          "bundled_audio_preroll_silence_ms": {
+            "type": [
+              "integer",
+              "null"
+            ],
             "minimum": 150,
-            "maximum": 200
+            "maximum": 200,
+            "description": "앱 고정 음원 파일 앞에 담아 둔 무음(Pleos 음성 안내 선행 묵음 가이드 참고값). TTS 문장에는 쓰지 않는다."
           },
           "audio_usage_candidates": {
             "type": "array",
@@ -7094,7 +9113,28 @@
             }
           }
         },
-        "description": "긴급 음성은 대상 차량 취급설명서의 비상 절차 문장만 그대로 쓴다(D7)."
+        "description": "긴급 음성은 대상 차량 취급설명서의 비상 절차 문장만 그대로 쓴다(D7). TTS SDK는 오디오 데이터·포커스 코드를 주지 않으므로 앱이 TTS 음성 앞에 무음을 넣지 못한다(B5).",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "bundled_audio_asset_id": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "bundled_audio_asset_id"
+              ]
+            },
+            "then": {
+              "properties": {
+                "bundled_audio_preroll_silence_ms": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
       },
       "GuideStep": {
         "type": "object",
@@ -7493,7 +9533,10 @@
           "turn_signal_mode",
           "steering_side",
           "brake_pressed_ratio",
-          "test_input_included"
+          "test_input_included",
+          "highlighted_conditions",
+          "period_odometer_km",
+          "baseline_compared"
         ],
         "properties": {
           "speed_kmh_min": {
@@ -7540,6 +9583,80 @@
           },
           "test_input_included": {
             "type": "boolean"
+          },
+          "highlighted_conditions": {
+            "type": "array",
+            "maxItems": 9,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "key",
+                "label",
+                "matched",
+                "of",
+                "baseline_ratio",
+                "lift"
+              ],
+              "properties": {
+                "key": {
+                  "$ref": "#/components/schemas/ConditionKey"
+                },
+                "label": {
+                  "type": "string",
+                  "maxLength": 40
+                },
+                "matched": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "of": {
+                  "type": "integer",
+                  "minimum": 3
+                },
+                "baseline_ratio": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "평소 주행 표본에서 같은 조건이 나온 비율."
+                },
+                "lift": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0
+                }
+              }
+            },
+            "description": "평소 주행보다 유난히 겹친 조건만(rules-lab symptom_patterns.baseline_comparison). 주행거리·누적 값은 후보가 아니다."
+          },
+          "period_odometer_km": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "required": [
+              "first",
+              "last"
+            ],
+            "properties": {
+              "first": {
+                "type": "number"
+              },
+              "last": {
+                "type": "number"
+              }
+            },
+            "description": "기간 정보로만 보여 준다(조건 아님)."
+          },
+          "baseline_compared": {
+            "type": "boolean",
+            "description": "차량이 평소 주행 표본과 비교했으면 true. 서버 요약 뷰는 false."
           }
         }
       },
@@ -7555,7 +9672,10 @@
           "last_at",
           "common_conditions",
           "summary_text",
-          "availability"
+          "availability",
+          "driver_profile_id",
+          "test_mode",
+          "computed_by"
         ],
         "properties": {
           "vehicle_id": {
@@ -7596,6 +9716,25 @@
           },
           "availability": {
             "$ref": "#/components/schemas/Availability"
+          },
+          "driver_profile_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "test_mode": {
+            "type": "boolean",
+            "description": "시험 입력 기록과 실제 기록은 섞지 않는다."
+          },
+          "computed_by": {
+            "type": "string",
+            "enum": [
+              "VEHICLE",
+              "SERVER_SUMMARY"
+            ],
+            "description": "카드는 차량이 평소 주행과 비교해 만든다. 서버 사본(symptom_patterns 뷰)은 횟수·속도 요약뿐이다."
           }
         },
         "description": "증상 재현 조건 카드(N2). 같은 증상 3번 이상일 때만 만든다. 원인 진단이 아니다."
@@ -7762,7 +9901,7 @@
             "format": "date-time"
           }
         },
-        "description": "보호자 화면. 다른 보호자의 정보와 원본 자료는 담지 않는다."
+        "description": "보호자 화면(2단계 확인 뒤). 다른 보호자의 정보와 원본 자료는 담지 않는다. 지도는 보호자 웹 기능이다(B11)."
       },
       "TimelineEntry": {
         "type": "object",
@@ -7889,7 +10028,1241 @@
             "minimum": 0
           }
         }
+      },
+      "DispatchMode": {
+        "type": "string",
+        "enum": [
+          "REAL",
+          "MOCK"
+        ],
+        "description": "발송 방식(D2). test_mode=true 사건은 MOCK만(모의 발송기). REAL은 실제 발송사.",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "TripEndReason": {
+        "type": "string",
+        "enum": [
+          "USER_ENDED",
+          "DRIVER_CHANGED",
+          "IGNITION_OFF",
+          "LONG_PARKED",
+          "DEVICE_SILENT",
+          "OWNERSHIP_TRANSFER"
+        ],
+        "description": "trip 종료 이유(D3). IGNITION_OFF는 기기가 시동 종료로 판단해 보낸 경우(감지 경로 확인 필요), LONG_PARKED·DEVICE_SILENT는 서버 자동 종료.",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "ConsentScope": {
+        "type": "string",
+        "enum": [
+          "STANDING",
+          "TRIP"
+        ],
+        "description": "동의 범위(D3). GUEST·UNKNOWN 운전자는 TRIP(이번 trip만)만 허용하고 trip이 끝나면 끝난다.",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "ShareSessionStage": {
+        "type": "string",
+        "enum": [
+          "PHONE_CHECK_REQUIRED",
+          "VERIFIED",
+          "LOCKED",
+          "EXPIRED"
+        ],
+        "description": "보호자 링크 2단계 열람 단계(D1·H5). 링크 열기 → 휴대폰 번호 뒷자리 확인 → 위치·상태.",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "TransferState": {
+        "type": "string",
+        "enum": [
+          "PENDING_NEW_OWNER",
+          "OBJECTION_WINDOW",
+          "COMPLETED",
+          "CANCELLED",
+          "EXPIRED"
+        ],
+        "description": "소유자 이전 상태(D6). 차 화면에서 시작하면 현재 소유자에게 알린 뒤 OBJECTION_WINDOW를 거친다.",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "TransferInitiator": {
+        "type": "string",
+        "enum": [
+          "CURRENT_OWNER",
+          "VEHICLE_SCREEN"
+        ],
+        "description": "소유자 이전을 시작한 곳(D6).",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "PairingRole": {
+        "type": "string",
+        "enum": [
+          "OWNER",
+          "REGISTERED_DRIVER"
+        ],
+        "description": "휴대폰 연결 역할(D6). 소유자가 이미 있는 차량의 두 번째 이후 휴대폰은 REGISTERED_DRIVER로만 연결한다.",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "LocationPrecision": {
+        "type": "string",
+        "enum": [
+          "ADDRESS",
+          "COORDINATES",
+          "NONE"
+        ],
+        "description": "제공한 위치의 정밀도(H6). NONE은 위치 없이 사실만 보낸 경우(도착 알림 등).",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "CheckinDetection": {
+        "type": "string",
+        "enum": [
+          "FUSED_PROXIMITY_ENTER",
+          "NAVI_WAYPOINT_ARRIVED",
+          "USER_TAP"
+        ],
+        "description": "정비소 도착을 알아챈 방법(H8). FusedLocation addProximityAlert ENTER, NaviHelper onWayPointArrived, 사용자가 직접 누름.",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "ArrivalSkipReason": {
+        "type": "string",
+        "enum": [
+          "SETTING_OFF",
+          "GUEST_OR_UNKNOWN_DRIVER",
+          "NO_ACTIVE_GUARDIAN",
+          "ALREADY_SENT",
+          "TEST_MODE_MOCK_ONLY"
+        ],
+        "description": "도착 알림을 보내지 않은 이유(H7).",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "WiperStateValue": {
+        "type": "string",
+        "enum": [
+          "OFF",
+          "ON",
+          "OTHER",
+          "SERVICE"
+        ],
+        "description": "Vehicle SDK WiperState 이름 그대로(H3).",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "ConditionKey": {
+        "type": "string",
+        "enum": [
+          "SPEED_BUCKET",
+          "BRAKE_PEDAL",
+          "STEERING_SIDE",
+          "TURN_SIGNAL",
+          "TRIP_ELAPSED",
+          "CLIMATE_AC",
+          "CLIMATE_FAN",
+          "WINDOW_OPEN",
+          "WIPER"
+        ],
+        "description": "재현 조건 후보(B12·H3). 주행거리·연료처럼 누적 값은 후보가 아니다.",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "DeletionKind": {
+        "type": "string",
+        "enum": [
+          "GUARDIAN",
+          "DEVICE",
+          "ACCOUNT"
+        ],
+        "description": "삭제·해제 요청 종류(D5).",
+        "x-contract-source": "DECISIONS-R2"
+      },
+      "WiperReading": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "value",
+          "quality",
+          "received_at",
+          "source"
+        ],
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WiperStateValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quality": {
+            "$ref": "#/components/schemas/Quality"
+          },
+          "received_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "source": {
+            "$ref": "#/components/schemas/InputSource"
+          }
+        },
+        "description": "와이퍼 상태 값(H3).",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "quality": {
+                  "enum": [
+                    "OK",
+                    "TEST_INPUT"
+                  ]
+                }
+              },
+              "required": [
+                "quality"
+              ]
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "source": {
+                  "const": "TEST_INPUT"
+                }
+              },
+              "required": [
+                "source"
+              ]
+            },
+            "then": {
+              "properties": {
+                "quality": {
+                  "const": "TEST_INPUT"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ClockSyncSample": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "offset_ms",
+          "rtt_ms",
+          "synced_at"
+        ],
+        "properties": {
+          "offset_ms": {
+            "type": "integer",
+            "description": "서버 시각 - 기기 시각(밀리초). POST /v1/time-sync 응답으로 기기가 계산."
+          },
+          "rtt_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000,
+            "description": "왕복 시간. rules-lab time_sync.max_rtt_ms 이하일 때만 SYNCHRONIZED."
+          },
+          "synced_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "서버 시각 응답으로 잰 시계 오차(D6). 클라이언트 주장만으로 SYNCHRONIZED를 인정하지 않는다."
+      },
+      "TimeSyncRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_sent_at",
+          "client_mono_ms",
+          "clock_domain"
+        ],
+        "properties": {
+          "client_sent_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "client_mono_ms": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "clock_domain": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "description": "시계 오차 측정 요청(D6). NTP처럼 보낸 시각과 단조 시계를 함께 보낸다."
+      },
+      "TimeSyncResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "server_received_at",
+          "server_sent_at",
+          "echo_client_mono_ms",
+          "max_rtt_ms",
+          "valid_for_ms"
+        ],
+        "properties": {
+          "server_received_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "server_sent_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "echo_client_mono_ms": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "max_rtt_ms": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "valid_for_ms": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "description": "서버 시각 응답(밀리초 ISO-8601). offset = ((server_received_at - client_sent_at) + (server_sent_at - client_received_at)) / 2."
+      },
+      "TripDriverChange": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_change_id",
+          "driver_profile_id",
+          "driver_mode",
+          "chip_answer",
+          "changed_while_parked",
+          "occurred_at"
+        ],
+        "properties": {
+          "client_change_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "driver_profile_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "driver_mode": {
+            "$ref": "#/components/schemas/DriverMode"
+          },
+          "chip_answer": {
+            "type": "string",
+            "enum": [
+              "SELECTED",
+              "NO_ANSWER"
+            ],
+            "description": "NO_ANSWER면 여러 운전자 차량에서는 UNKNOWN(자동 위치 발송 꺼짐)으로 둔다."
+          },
+          "changed_while_parked": {
+            "const": true,
+            "description": "CarUxRestrictions로 정차를 확인한 경우에만."
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "'이번 운전자' 지정·변경(D3). 운전자가 바뀌면 열린 trip을 DRIVER_CHANGED로 닫고 새 trip을 연다. GUEST·UNKNOWN은 자동 위치 발송 꺼짐.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "driver_mode": {
+                  "enum": [
+                    "OWNER",
+                    "REGISTERED_DRIVER"
+                  ]
+                }
+              },
+              "required": [
+                "driver_mode"
+              ]
+            },
+            "then": {
+              "properties": {
+                "driver_profile_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "TripEndRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_end_id",
+          "reason",
+          "ended_at"
+        ],
+        "properties": {
+          "client_end_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TripEndReason"
+              },
+              {
+                "enum": [
+                  "USER_ENDED",
+                  "IGNITION_OFF"
+                ]
+              }
+            ]
+          },
+          "ended_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "trip 종료(D3). 기기는 USER_ENDED·IGNITION_OFF만 보낸다. 서버는 LONG_PARKED·DEVICE_SILENT로 자동 종료한다."
+      },
+      "DriverProfileCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_driver_profile_id",
+          "vehicle_id",
+          "driver_mode",
+          "display_name",
+          "user_id"
+        ],
+        "properties": {
+          "client_driver_profile_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vehicle_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "driver_mode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DriverMode"
+              },
+              {
+                "enum": [
+                  "OWNER",
+                  "REGISTERED_DRIVER",
+                  "GUEST"
+                ]
+              }
+            ]
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          "user_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          }
+        },
+        "description": "운전자 프로필 만들기(D3). REGISTERED_DRIVER는 그 사람 휴대폰 연결로 user_id가 생긴다. GUEST는 계정이 없다.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "driver_mode": {
+                  "enum": [
+                    "OWNER",
+                    "REGISTERED_DRIVER"
+                  ]
+                }
+              },
+              "required": [
+                "driver_mode"
+              ]
+            },
+            "then": {
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "DriverProfileView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "driver_profile_id",
+          "vehicle_id",
+          "driver_mode",
+          "display_name",
+          "is_current_trip_driver",
+          "auto_location_send_default",
+          "arrival_alert_enabled"
+        ],
+        "properties": {
+          "driver_profile_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vehicle_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "driver_mode": {
+            "$ref": "#/components/schemas/DriverMode"
+          },
+          "display_name": {
+            "type": "string",
+            "maxLength": 30
+          },
+          "is_current_trip_driver": {
+            "type": "boolean"
+          },
+          "auto_location_send_default": {
+            "type": "boolean",
+            "description": "GUEST·UNKNOWN은 항상 false."
+          },
+          "arrival_alert_enabled": {
+            "type": "boolean"
+          }
+        },
+        "description": "차량 칩·설정용 운전자 프로필. 차량 기기에는 표시 이름만 준다."
+      },
+      "DriverProfileList": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "single_driver_vehicle"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/DriverProfileView"
+            }
+          },
+          "single_driver_vehicle": {
+            "type": "boolean",
+            "description": "운전자가 한 명뿐이면 칩을 생략하고 그 운전자로 둔다."
+          }
+        }
+      },
+      "GuardianShareSessionOpen": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "token"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200,
+            "description": "알림 링크의 URL 조각(#t=…)에서 읽어 본문으로 보낸다."
+          }
+        },
+        "description": "1단계: 링크 열기. 미리보기 봇은 이 POST를 하지 않으므로 열람으로 세지 않는다."
+      },
+      "GuardianSharePreview": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "share_session_id",
+          "stage",
+          "alert_kind",
+          "occurred_at",
+          "guardian_todo_text",
+          "test_label",
+          "phone_check_hint",
+          "expires_at"
+        ],
+        "properties": {
+          "share_session_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/ShareSessionStage"
+          },
+          "alert_kind": {
+            "$ref": "#/components/schemas/IncidentTrigger"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "guardian_todo_text": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "test_label": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "[시험]",
+              "[연습]",
+              null
+            ]
+          },
+          "phone_check_hint": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "예: '이 알림을 받은 휴대폰 번호 끝 4자리'"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "1단계 화면: 무슨 일·언제·먼저 할 일만. 위치·좌표·운전자 이름·빠른 답은 2단계 뒤에만(D1)."
+      },
+      "GuardianShareSessionVerify": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "share_session_id",
+          "token",
+          "phone_last4"
+        ],
+        "properties": {
+          "share_session_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "token": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "phone_last4": {
+            "type": "string",
+            "pattern": "^[0-9]{4}$"
+          }
+        },
+        "description": "2단계: 휴대폰 번호 뒷자리 확인. 5회 틀리면 15분 잠금(rules-lab guardian_share_session)."
+      },
+      "GuardianShareSessionResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "share_session_id",
+          "share_id",
+          "stage",
+          "guardian_session_token",
+          "guardian_session_expires_at"
+        ],
+        "properties": {
+          "share_session_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "share_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stage": {
+            "const": "VERIFIED"
+          },
+          "guardian_session_token": {
+            "type": "string",
+            "maxLength": 400
+          },
+          "guardian_session_expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "2단계 통과. 보호자 세션은 이 공유의 만료(최대 24시간)를 넘지 않는다."
+      },
+      "LocationSharingStopRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_stop_id",
+          "scope",
+          "occurred_at"
+        ],
+        "properties": {
+          "client_stop_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "LOCATION_ONLY",
+              "REVOKE_SHARES"
+            ],
+            "description": "LOCATION_ONLY는 위치 갱신만 멈추고 상태·답은 남긴다. REVOKE_SHARES는 이 사건의 보호자 링크를 모두 끊는다."
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "이번 사건 위치 공유 멈추기(D5). 위치 제공 동의는 그대로라 다음 사건 알림은 계속 간다('앞으로 위치 보내지 않기'는 동의 철회)."
+      },
+      "LocationSharingStopResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "incident_id",
+          "stopped_share_count",
+          "location_stream_until",
+          "consent_unchanged",
+          "server_time"
+        ],
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stopped_share_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          },
+          "location_stream_until": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "consent_unchanged": {
+            "const": true
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ShareLinkRevokeResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "link_id",
+          "revoked_at"
+        ],
+        "properties": {
+          "link_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "revoked_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "DeletionAccepted": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "request_id",
+          "kind",
+          "accepted_at",
+          "purge_due_at",
+          "disclosure_records"
+        ],
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/DeletionKind"
+          },
+          "accepted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "purge_due_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "계정 삭제는 rules-lab retention.account_delete_purge_hours(72시간) 안."
+          },
+          "disclosure_records": {
+            "const": "ANONYMIZED",
+            "description": "위치 제공 기록은 지우지 않고 받는 사람·운전자 연결을 지운 가린 사본으로 남긴다(D5)."
+          }
+        },
+        "description": "삭제·해제 접수(202)."
+      },
+      "PairingVehicleConfirm": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "decision",
+          "shown_phone_label_masked",
+          "confirmed_while_parked",
+          "occurred_at"
+        ],
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "ACCEPT",
+              "REJECT"
+            ]
+          },
+          "shown_phone_label_masked": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "차 화면에 보여 준 휴대폰 표시(가린 번호·기기 이름)."
+          },
+          "confirmed_while_parked": {
+            "const": true
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "차 화면 확인 버튼(D6). 차 안에 있는 사람만 누를 수 있다."
+      },
+      "OwnershipTransferCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_transfer_id",
+          "initiated_by",
+          "reason",
+          "requested_while_parked"
+        ],
+        "properties": {
+          "client_transfer_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "initiated_by": {
+            "$ref": "#/components/schemas/TransferInitiator"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "SALE",
+              "FAMILY",
+              "OTHER"
+            ]
+          },
+          "requested_while_parked": {
+            "type": "boolean",
+            "description": "VEHICLE_SCREEN이면 true여야 한다."
+          }
+        },
+        "description": "소유자 이전 시작(D6). 이전 소유자의 기록·보호자·운전자 프로필은 새 소유자에게 옮기지 않는다. 새 소유자는 QR+차 화면 확인으로 새 등록(vehicle_id)을 받는다.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "initiated_by": {
+                  "const": "VEHICLE_SCREEN"
+                }
+              },
+              "required": [
+                "initiated_by"
+              ]
+            },
+            "then": {
+              "properties": {
+                "requested_while_parked": {
+                  "const": true
+                }
+              }
+            }
+          }
+        ]
+      },
+      "OwnershipTransferView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "transfer_id",
+          "from_vehicle_id",
+          "to_vehicle_id",
+          "state",
+          "initiated_by",
+          "expires_at",
+          "objection_window_ends_at"
+        ],
+        "properties": {
+          "transfer_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "from_vehicle_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "to_vehicle_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "state": {
+            "$ref": "#/components/schemas/TransferState"
+          },
+          "initiated_by": {
+            "$ref": "#/components/schemas/TransferInitiator"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "objection_window_ends_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "ArrivalAlertSettingUpdate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "enabled",
+          "guardian_ids",
+          "updated_while_parked"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "guardian_ids": {
+            "type": "array",
+            "maxItems": 5,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "updated_while_parked": {
+            "const": true
+          }
+        },
+        "description": "도착 알림 설정(H7). 기본 꺼짐. 운전자 본인만 켠다(GUEST 불가). 자동 발송 범위를 넓히는 기능이라 사용자 결정 항목이다.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "enabled": {
+                  "const": true
+                }
+              },
+              "required": [
+                "enabled"
+              ]
+            },
+            "then": {
+              "properties": {
+                "guardian_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ArrivalAlertSettingView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "driver_profile_id",
+          "enabled",
+          "guardian_ids",
+          "default_enabled",
+          "updated_at"
+        ],
+        "properties": {
+          "driver_profile_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "guardian_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "default_enabled": {
+            "const": false
+          },
+          "updated_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "TripArrivalReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_arrival_id",
+          "arrived_at",
+          "trigger",
+          "includes_location"
+        ],
+        "properties": {
+          "client_arrival_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "arrived_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trigger": {
+            "const": "NAVI_DESTINATION_ARRIVED",
+            "description": "NaviHelper onDestinationArrived."
+          },
+          "includes_location": {
+            "const": false,
+            "description": "도착 알림에는 장소·좌표를 담지 않는다."
+          }
+        },
+        "description": "내비 목적지 도착 보고(H7)."
+      },
+      "TripArrivalResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "trip_id",
+          "sent",
+          "skip_reason",
+          "deliveries"
+        ],
+        "properties": {
+          "trip_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sent": {
+            "type": "boolean"
+          },
+          "skip_reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ArrivalSkipReason"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "deliveries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Delivery"
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "sent": {
+                  "const": false
+                }
+              },
+              "required": [
+                "sent"
+              ]
+            },
+            "then": {
+              "properties": {
+                "skip_reason": {
+                  "$ref": "#/components/schemas/ArrivalSkipReason"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ServiceCheckinCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_checkin_id",
+          "vehicle_id",
+          "trip_id",
+          "shop_ref",
+          "shop_display_name",
+          "detected_by",
+          "arrived_at",
+          "detected_while_parked"
+        ],
+        "properties": {
+          "client_checkin_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vehicle_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trip_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "shop_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "description": "내비 POI 번호 또는 앱 후보 ID. 좌표는 보내지 않는다."
+          },
+          "shop_display_name": {
+            "type": "string",
+            "maxLength": 60
+          },
+          "detected_by": {
+            "$ref": "#/components/schemas/CheckinDetection"
+          },
+          "arrived_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "detected_while_parked": {
+            "type": "boolean"
+          }
+        },
+        "description": "정비소 도착 체크인(H8). 근접 알림 좌표는 기기 안에서만 쓴다."
+      },
+      "ServiceCheckinView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "checkin_id",
+          "pattern_card_ids",
+          "show_pattern_card_now",
+          "maintenance_share_suggested"
+        ],
+        "properties": {
+          "checkin_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pattern_card_ids": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "type": "string",
+              "maxLength": 80
+            }
+          },
+          "show_pattern_card_now": {
+            "type": "boolean",
+            "description": "정차 중이면 true(재현 조건 카드를 바로 보여 줌)."
+          },
+          "maintenance_share_suggested": {
+            "type": "boolean"
+          }
+        }
       }
     }
-  }
+  },
+  "x-sdk-notes": [
+    {
+      "topic": "정비소 경유지(B1·B2)",
+      "api": "NaviHelper addWaypoint(길안내 중, 가던 목적지 유지)·requestRoute(길안내 아님)·requestRouteWithWaypoints(새 목적지·경유지 지정)",
+      "permission": "NAVI_ROUTE_SEARCH(normal)",
+      "note": "requestRouteWithWaypoints는 새 경로 요청이라 '가던 목적지 유지'에 쓰지 않는다."
+    },
+    {
+      "topic": "정비소 도착 예상",
+      "api": "NaviHelper requestTrip(후보까지 거리·시간), getCurrentLocationInfo(주소)",
+      "permission": "NAVI_ROUTE(normal)",
+      "note": "결과는 후보까지의 도착 예상이다. '우회 +N분'으로 표기하지 않는다."
+    },
+    {
+      "topic": "내비에서 보기(B11·H2)",
+      "api": "NaviHelper requestNavigationScreen",
+      "permission": "NAVI_CUSTOM_MAP(normal)",
+      "note": "앱 안에는 지도를 그리지 않는다."
+    },
+    {
+      "topic": "목적지·경유지 도착(H7·H8)",
+      "api": "NaviHelper addListener(NaviHelperEventListener) → onDestinationArrived·onWayPointArrived",
+      "permission": "-",
+      "note": "도착 알림(H7)과 정비소 도착 체크인(H8)의 계기. 에뮬레이터 동작 확인 필요."
+    },
+    {
+      "topic": "정비소 근접(H8)",
+      "api": "FusedLocation addProximityAlert(ProximityAlertRequest(latitude, longitude, radiusMeters, {ENTER}))·removeProximityAlert",
+      "permission": "pleos.car.permission.FUSED_LOCATION(dangerous)",
+      "note": "좌표는 기기 안에서만 쓰고 서버에는 보내지 않는다."
+    },
+    {
+      "topic": "차속(B4)",
+      "api": "AAOS CarPropertyManager PERF_VEHICLE_SPEED(m/s, 후진 음수)",
+      "permission": "android.car.permission.CAR_SPEED(dangerous, 실행 중 허락)",
+      "note": "공개 SDK 5종과 Pleos 개발자 FAQ가 안내하는 AAOS 차속 경로. 거부하면 차속 없이 동작(확인 질문·재현 조건 속도 꺼짐)."
+    },
+    {
+      "topic": "권한 없음과 미지원(B3)",
+      "api": "Vehicle SDK register·get·check",
+      "permission": "-",
+      "note": "권한이 없으면 register는 SecurityException을 바로 던지고 get은 onFailed로 알린다(PERMISSION_DENIED). 미지원은 Capability 결과(AccessType NONE 등)로 판단한다(NOT_SUPPORTED). 둘을 섞지 않는다."
+    },
+    {
+      "topic": "음성(B5)",
+      "api": "TextToSpeech 3.3.1 speak·setAudioAttributes",
+      "permission": "-",
+      "note": "TTS SDK는 오디오 데이터·포커스 코드를 주지 않아 앱이 음성 앞에 무음을 넣을 수 없다. 앞부분 잘림은 에뮬레이터에서 확인하고, 필요하면 안내 문장 앞에 짧은 쉼표 문구를 둔다. 오디오 포커스는 앱이 Android AudioManager로 직접 요청·반납한다."
+    },
+    {
+      "topic": "시동 종료(Suspend) 감지(B5)",
+      "api": "공개 경로 확인 필요",
+      "permission": "-",
+      "note": "AAOS CarPowerManager는 CAR_POWER(signature|privileged)라 일반 앱이 쓸 수 없다. trip 자동 종료는 기기 연락 끊김·장시간 정차로도 판단한다."
+    },
+    {
+      "topic": "기어(F9)",
+      "api": "Vehicle SDK Gear(숨김 API)",
+      "permission": "-",
+      "note": "쓰지 않는다. AAOS GEAR_SELECTION은 Pleos 문서 근거를 확인한 뒤 [설계]로 올릴 수 있다. 정차 판정은 CarUxRestrictions와 차속으로 한다."
+    }
+  ]
 }

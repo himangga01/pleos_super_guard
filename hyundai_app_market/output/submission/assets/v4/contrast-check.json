@@ -1,9 +1,11 @@
 {
+ "version": "v4.1",
  "rule": {
   "min_text_px": 22,
   "min_contrast": 4.5,
   "min_button_px": 88,
-  "max_lines": 3
+  "max_lines": 3,
+  "button_sides": "왼쪽 = 끝내기·취소·기록(중립색), 오른쪽 = 도움·보내기·감속 실패(빨강) 또는 주 행동 색"
  },
  "screens": {
   "p-home": {
@@ -19,6 +21,9 @@
    "buttons": [
     {
      "label": "지금 기록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -29,6 +34,9 @@
     },
     {
      "label": "도움이 필요해요",
+     "sub": null,
+     "side": "right-red",
+     "color": "#622230",
      "rect": [
       432,
       1092,
@@ -53,6 +61,9 @@
    "buttons": [
     {
      "label": "지금 기록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -63,6 +74,9 @@
     },
     {
      "label": "도움이 필요해요",
+     "sub": null,
+     "side": "right-red",
+     "color": "#622230",
      "rect": [
       432,
       1092,
@@ -82,38 +96,47 @@
    ],
    "min_text_px": 22,
    "min_ratio": 5.93,
-   "text_items": 13,
+   "text_items": 12,
    "icon_items": 7,
    "buttons": [
     {
      "label": "지금 기록",
+     "sub": "누른 순간의 차 상태를 남깁니다",
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
-      276,
-      816,
-      516
+      192,
+      277,
+      1072
      ],
-     "h": 240
+     "h": 880
     },
     {
-     "label": "말로 기록",
+     "label": "말로 하기",
+     "sub": "누른 뒤 8초 동안 말을 듣습니다",
+     "side": "middle-neutral",
+     "color": "#19283D",
      "rect": [
-      24,
-      540,
-      816,
-      780
+      293,
+      192,
+      547,
+      1072
      ],
-     "h": 240
+     "h": 880
     },
     {
      "label": "도움이 필요해요",
+     "sub": "급한 상황을 고릅니다",
+     "side": "right-red",
+     "color": "#622230",
      "rect": [
-      24,
-      804,
+      563,
+      192,
       816,
-      1044
+      1072
      ],
-     "h": 240
+     "h": 880
     }
    ],
    "overlaps": 0
@@ -130,7 +153,10 @@
    "icon_items": 21,
    "buttons": [
     {
-     "label": "말로 찾기",
+     "label": "문구로 찾기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -140,7 +166,10 @@
      "h": 96
     },
     {
-     "label": "문구로 찾기",
+     "label": "말로 찾기",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#FFC857",
      "rect": [
       432,
       1092,
@@ -159,12 +188,15 @@
     1212
    ],
    "min_text_px": 22,
-   "min_ratio": 8.51,
-   "text_items": 30,
+   "min_ratio": 8.23,
+   "text_items": 27,
    "icon_items": 10,
    "buttons": [
     {
-     "label": "정비소 들르기",
+     "label": "정차 후 자세히",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -174,7 +206,10 @@
      "h": 96
     },
     {
-     "label": "정차 후 자세히",
+     "label": "정비소 들르기",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#FFC857",
      "rect": [
       432,
       1092,
@@ -194,11 +229,14 @@
    ],
    "min_text_px": 22,
    "min_ratio": 7.52,
-   "text_items": 36,
-   "icon_items": 16,
+   "text_items": 34,
+   "icon_items": 15,
    "buttons": [
     {
      "label": "확인했어요",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -209,6 +247,9 @@
     },
     {
      "label": "정비소 들르기",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#FFC857",
      "rect": [
       432,
       1092,
@@ -227,12 +268,15 @@
     1212
    ],
    "min_text_px": 22,
-   "min_ratio": 5.93,
-   "text_items": 34,
-   "icon_items": 20,
+   "min_ratio": 6.91,
+   "text_items": 38,
+   "icon_items": 23,
    "buttons": [
     {
      "label": "기록 끝내기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -243,6 +287,9 @@
     },
     {
      "label": "말로 메모",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#5EEAD4",
      "rect": [
       432,
       1092,
@@ -261,12 +308,15 @@
     1212
    ],
    "min_text_px": 22,
-   "min_ratio": 8.51,
-   "text_items": 29,
-   "icon_items": 12,
+   "min_ratio": 5.15,
+   "text_items": 28,
+   "icon_items": 16,
    "buttons": [
     {
-     "label": "정비소에 보여 주기",
+     "label": "기록 목록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -276,7 +326,10 @@
      "h": 96
     },
     {
-     "label": "기록 목록",
+     "label": "정비소에 보여 주기",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#5EEAD4",
      "rect": [
       432,
       1092,
@@ -284,6 +337,126 @@
       1188
      ],
      "h": 96
+    }
+   ],
+   "overlaps": 0
+  },
+  "p-manual": {
+   "file": "assets/v4/portrait/p-manual.png",
+   "size": [
+    840,
+    1212
+   ],
+   "min_text_px": 22,
+   "min_ratio": 5.81,
+   "text_items": 14,
+   "icon_items": 9,
+   "buttons": [
+    {
+     "label": "고른 증상 기록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
+     "rect": [
+      24,
+      1092,
+      408,
+      1188
+     ],
+     "h": 96
+    },
+    {
+     "label": "지금 도움 요청",
+     "sub": null,
+     "side": "right-red",
+     "color": "#622230",
+     "rect": [
+      432,
+      1092,
+      816,
+      1188
+     ],
+     "h": 96
+    }
+   ],
+   "overlaps": 0
+  },
+  "p-manual-parked": {
+   "file": "assets/v4/portrait/p-manual-parked.png",
+   "size": [
+    840,
+    1212
+   ],
+   "min_text_px": 22,
+   "min_ratio": 5.81,
+   "text_items": 24,
+   "icon_items": 19,
+   "buttons": [
+    {
+     "label": "고른 증상 기록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
+     "rect": [
+      24,
+      1092,
+      408,
+      1188
+     ],
+     "h": 96
+    },
+    {
+     "label": "지금 도움 요청",
+     "sub": null,
+     "side": "right-red",
+     "color": "#622230",
+     "rect": [
+      432,
+      1092,
+      816,
+      1188
+     ],
+     "h": 96
+    }
+   ],
+   "overlaps": 0
+  },
+  "p-confirm": {
+   "file": "assets/v4/portrait/p-confirm.png",
+   "size": [
+    840,
+    1212
+   ],
+   "min_text_px": 22,
+   "min_ratio": 5.81,
+   "text_items": 14,
+   "icon_items": 7,
+   "buttons": [
+    {
+     "label": "괜찮아요",
+     "sub": "질문 닫기",
+     "side": "left-neutral",
+     "color": "#19283D",
+     "rect": [
+      24,
+      1040,
+      408,
+      1188
+     ],
+     "h": 148
+    },
+    {
+     "label": "안 멈춰요",
+     "sub": "감속 실패 대처",
+     "side": "right-red",
+     "color": "#FF5B6B",
+     "rect": [
+      432,
+      1040,
+      816,
+      1188
+     ],
+     "h": 148
     }
    ],
    "overlaps": 0
@@ -297,10 +470,13 @@
    "min_text_px": 22,
    "min_ratio": 6.41,
    "text_items": 13,
-   "icon_items": 6,
+   "icon_items": 7,
    "buttons": [
     {
-     "label": "멈추지 않아요",
+     "label": "괜찮아요",
+     "sub": "안내 끝내기",
+     "side": "left-neutral",
+     "color": "#3A3346",
      "rect": [
       24,
       1040,
@@ -310,7 +486,10 @@
      "h": 148
     },
     {
-     "label": "괜찮아요",
+     "label": "안 멈춰요",
+     "sub": "감속 실패 대처",
+     "side": "right-red",
+     "color": "#FF5B6B",
      "rect": [
       432,
       1040,
@@ -331,10 +510,13 @@
    "min_text_px": 22,
    "min_ratio": 6.41,
    "text_items": 13,
-   "icon_items": 6,
+   "icon_items": 7,
    "buttons": [
     {
-     "label": "도움 요청",
+     "label": "차가 멈췄어요",
+     "sub": "안내 끝내기",
+     "side": "left-neutral",
+     "color": "#3A3346",
      "rect": [
       24,
       1040,
@@ -344,7 +526,10 @@
      "h": 148
     },
     {
-     "label": "차가 멈췄어요",
+     "label": "도움 요청",
+     "sub": "받는 사람 확인",
+     "side": "right-red",
+     "color": "#FF5B6B",
      "rect": [
       432,
       1040,
@@ -363,12 +548,15 @@
     1212
    ],
    "min_text_px": 22,
-   "min_ratio": 6.31,
-   "text_items": 24,
-   "icon_items": 6,
+   "min_ratio": 6.41,
+   "text_items": 26,
+   "icon_items": 5,
    "buttons": [
     {
-     "label": "지금 보내기",
+     "label": "괜찮아요",
+     "sub": "보내지 않음",
+     "side": "left-neutral",
+     "color": "#3A3346",
      "rect": [
       24,
       1040,
@@ -378,7 +566,10 @@
      "h": 148
     },
     {
-     "label": "괜찮아요",
+     "label": "지금 보내기",
+     "sub": "기다리지 않고 바로",
+     "side": "right-red",
+     "color": "#FF5B6B",
      "rect": [
       432,
       1040,
@@ -398,11 +589,14 @@
    ],
    "min_text_px": 22,
    "min_ratio": 6.07,
-   "text_items": 29,
+   "text_items": 30,
    "icon_items": 17,
    "buttons": [
     {
      "label": "기록 보기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -413,6 +607,9 @@
     },
     {
      "label": "공유 중지",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#9FA4FF",
      "rect": [
       432,
       1092,
@@ -436,7 +633,10 @@
    "icon_items": 8,
    "buttons": [
     {
-     "label": "다음 단계",
+     "label": "그만하기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
       1092,
@@ -446,7 +646,10 @@
      "h": 96
     },
     {
-     "label": "그만하기",
+     "label": "다음 단계",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#5EEAD4",
      "rect": [
       432,
       1092,
@@ -466,55 +669,27 @@
    ],
    "min_text_px": 22,
    "min_ratio": 8.23,
-   "text_items": 30,
+   "text_items": 31,
    "icon_items": 9,
    "buttons": [
     {
+     "label": "내비에서 보기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
+     "rect": [
+      24,
+      1092,
+      408,
+      1188
+     ],
+     "h": 96
+    },
+    {
      "label": "경유지로 추가",
-     "rect": [
-      24,
-      1092,
-      408,
-      1188
-     ],
-     "h": 96
-    },
-    {
-     "label": "취소",
-     "rect": [
-      432,
-      1092,
-      816,
-      1188
-     ],
-     "h": 96
-    }
-   ],
-   "overlaps": 0
-  },
-  "p-manual": {
-   "file": "assets/v4/portrait/p-manual.png",
-   "size": [
-    840,
-    1212
-   ],
-   "min_text_px": 22,
-   "min_ratio": 5.81,
-   "text_items": 21,
-   "icon_items": 16,
-   "buttons": [
-    {
-     "label": "고른 증상 기록",
-     "rect": [
-      24,
-      1092,
-      408,
-      1188
-     ],
-     "h": 96
-    },
-    {
-     "label": "지금 도움 요청",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#FFC857",
      "rect": [
       432,
       1092,
@@ -539,6 +714,9 @@
    "buttons": [
     {
      "label": "지금 기록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -549,6 +727,9 @@
     },
     {
      "label": "도움이 필요해요",
+     "sub": null,
+     "side": "right-red",
+     "color": "#622230",
      "rect": [
       720,
       610,
@@ -573,6 +754,9 @@
    "buttons": [
     {
      "label": "지금 기록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -583,6 +767,9 @@
     },
     {
      "label": "도움이 필요해요",
+     "sub": null,
+     "side": "right-red",
+     "color": "#622230",
      "rect": [
       720,
       610,
@@ -602,38 +789,47 @@
    ],
    "min_text_px": 22,
    "min_ratio": 5.93,
-   "text_items": 13,
+   "text_items": 12,
    "icon_items": 7,
    "buttons": [
     {
      "label": "지금 기록",
+     "sub": "누른 순간의 차 상태를 남깁니다",
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       24,
-      196,
-      416,
+      120,
+      424,
       580
      ],
-     "h": 384
+     "h": 460
     },
     {
-     "label": "말로 기록",
+     "label": "말로 하기",
+     "sub": "누른 뒤 8초 동안 말을 듣습니다",
+     "side": "middle-neutral",
+     "color": "#19283D",
      "rect": [
       440,
-      196,
-      832,
+      120,
+      840,
       580
      ],
-     "h": 384
+     "h": 460
     },
     {
      "label": "도움이 필요해요",
+     "sub": "급한 상황을 고릅니다",
+     "side": "right-red",
+     "color": "#622230",
      "rect": [
       856,
-      196,
+      120,
       1256,
       580
      ],
-     "h": 384
+     "h": 460
     }
    ],
    "overlaps": 0
@@ -646,11 +842,14 @@
    ],
    "min_text_px": 22,
    "min_ratio": 4.55,
-   "text_items": 44,
-   "icon_items": 26,
+   "text_items": 42,
+   "icon_items": 27,
    "buttons": [
     {
-     "label": "정비소 들르기",
+     "label": "정차 후 자세히",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -660,7 +859,10 @@
      "h": 88
     },
     {
-     "label": "정차 후 자세히",
+     "label": "정비소 들르기",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#FFC857",
      "rect": [
       720,
       610,
@@ -679,12 +881,15 @@
     720
    ],
    "min_text_px": 22,
-   "min_ratio": 5.93,
-   "text_items": 37,
-   "icon_items": 22,
+   "min_ratio": 6.91,
+   "text_items": 39,
+   "icon_items": 24,
    "buttons": [
     {
      "label": "기록 끝내기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -695,6 +900,9 @@
     },
     {
      "label": "말로 메모",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#5EEAD4",
      "rect": [
       720,
       610,
@@ -713,12 +921,15 @@
     720
    ],
    "min_text_px": 22,
-   "min_ratio": 8.51,
-   "text_items": 30,
-   "icon_items": 13,
+   "min_ratio": 5.15,
+   "text_items": 29,
+   "icon_items": 17,
    "buttons": [
     {
-     "label": "정비소에 보여 주기",
+     "label": "기록 목록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -728,7 +939,10 @@
      "h": 88
     },
     {
-     "label": "기록 목록",
+     "label": "정비소에 보여 주기",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#5EEAD4",
      "rect": [
       720,
       610,
@@ -736,6 +950,126 @@
       698
      ],
      "h": 88
+    }
+   ],
+   "overlaps": 0
+  },
+  "ui-manual": {
+   "file": "assets/v4/landscape/ui-manual.png",
+   "size": [
+    1280,
+    720
+   ],
+   "min_text_px": 22,
+   "min_ratio": 5.81,
+   "text_items": 14,
+   "icon_items": 8,
+   "buttons": [
+    {
+     "label": "고른 증상 기록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
+     "rect": [
+      24,
+      608,
+      628,
+      704
+     ],
+     "h": 96
+    },
+    {
+     "label": "지금 도움 요청",
+     "sub": null,
+     "side": "right-red",
+     "color": "#622230",
+     "rect": [
+      652,
+      608,
+      1256,
+      704
+     ],
+     "h": 96
+    }
+   ],
+   "overlaps": 0
+  },
+  "ui-manual-parked": {
+   "file": "assets/v4/landscape/ui-manual-parked.png",
+   "size": [
+    1280,
+    720
+   ],
+   "min_text_px": 22,
+   "min_ratio": 5.81,
+   "text_items": 24,
+   "icon_items": 20,
+   "buttons": [
+    {
+     "label": "고른 증상 기록",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
+     "rect": [
+      160,
+      610,
+      696,
+      698
+     ],
+     "h": 88
+    },
+    {
+     "label": "지금 도움 요청",
+     "sub": null,
+     "side": "right-red",
+     "color": "#622230",
+     "rect": [
+      720,
+      610,
+      1256,
+      698
+     ],
+     "h": 88
+    }
+   ],
+   "overlaps": 0
+  },
+  "ui-confirm": {
+   "file": "assets/v4/landscape/ui-confirm.png",
+   "size": [
+    1280,
+    720
+   ],
+   "min_text_px": 22,
+   "min_ratio": 5.81,
+   "text_items": 15,
+   "icon_items": 7,
+   "buttons": [
+    {
+     "label": "괜찮아요",
+     "sub": "질문 닫기",
+     "side": "left-neutral",
+     "color": "#19283D",
+     "rect": [
+      24,
+      608,
+      628,
+      704
+     ],
+     "h": 96
+    },
+    {
+     "label": "안 멈춰요",
+     "sub": "감속 실패 대처",
+     "side": "right-red",
+     "color": "#FF5B6B",
+     "rect": [
+      652,
+      608,
+      1256,
+      704
+     ],
+     "h": 96
     }
    ],
    "overlaps": 0
@@ -749,10 +1083,13 @@
    "min_text_px": 22,
    "min_ratio": 6.41,
    "text_items": 12,
-   "icon_items": 6,
+   "icon_items": 7,
    "buttons": [
     {
-     "label": "멈추지 않아요",
+     "label": "괜찮아요",
+     "sub": "안내 끝내기",
+     "side": "left-neutral",
+     "color": "#3A3346",
      "rect": [
       24,
       608,
@@ -762,7 +1099,10 @@
      "h": 100
     },
     {
-     "label": "괜찮아요",
+     "label": "안 멈춰요",
+     "sub": "감속 실패 대처",
+     "side": "right-red",
+     "color": "#FF5B6B",
      "rect": [
       656,
       608,
@@ -783,10 +1123,13 @@
    "min_text_px": 22,
    "min_ratio": 6.41,
    "text_items": 12,
-   "icon_items": 6,
+   "icon_items": 7,
    "buttons": [
     {
-     "label": "도움 요청",
+     "label": "차가 멈췄어요",
+     "sub": "안내 끝내기",
+     "side": "left-neutral",
+     "color": "#3A3346",
      "rect": [
       24,
       608,
@@ -796,7 +1139,10 @@
      "h": 100
     },
     {
-     "label": "차가 멈췄어요",
+     "label": "도움 요청",
+     "sub": "받는 사람 확인",
+     "side": "right-red",
+     "color": "#FF5B6B",
      "rect": [
       656,
       608,
@@ -815,12 +1161,15 @@
     720
    ],
    "min_text_px": 22,
-   "min_ratio": 6.31,
-   "text_items": 24,
-   "icon_items": 6,
+   "min_ratio": 6.41,
+   "text_items": 26,
+   "icon_items": 5,
    "buttons": [
     {
-     "label": "지금 보내기",
+     "label": "괜찮아요",
+     "sub": "보내지 않음",
+     "side": "left-neutral",
+     "color": "#3A3346",
      "rect": [
       24,
       608,
@@ -830,7 +1179,10 @@
      "h": 100
     },
     {
-     "label": "괜찮아요",
+     "label": "지금 보내기",
+     "sub": "기다리지 않고 바로",
+     "side": "right-red",
+     "color": "#FF5B6B",
      "rect": [
       656,
       608,
@@ -850,11 +1202,14 @@
    ],
    "min_text_px": 22,
    "min_ratio": 6.07,
-   "text_items": 29,
+   "text_items": 32,
    "icon_items": 18,
    "buttons": [
     {
      "label": "기록 보기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -865,40 +1220,9 @@
     },
     {
      "label": "공유 중지",
-     "rect": [
-      720,
-      610,
-      1256,
-      698
-     ],
-     "h": 88
-    }
-   ],
-   "overlaps": 0
-  },
-  "ui-manual": {
-   "file": "assets/v4/landscape/ui-manual.png",
-   "size": [
-    1280,
-    720
-   ],
-   "min_text_px": 22,
-   "min_ratio": 5.81,
-   "text_items": 20,
-   "icon_items": 17,
-   "buttons": [
-    {
-     "label": "고른 증상 기록",
-     "rect": [
-      160,
-      610,
-      696,
-      698
-     ],
-     "h": 88
-    },
-    {
-     "label": "지금 도움 요청",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#9FA4FF",
      "rect": [
       720,
       610,
@@ -918,11 +1242,14 @@
    ],
    "min_text_px": 22,
    "min_ratio": 7.52,
-   "text_items": 38,
-   "icon_items": 17,
+   "text_items": 36,
+   "icon_items": 16,
    "buttons": [
     {
      "label": "확인했어요",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -933,6 +1260,9 @@
     },
     {
      "label": "정비소 들르기",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#FFC857",
      "rect": [
       720,
       610,
@@ -956,7 +1286,10 @@
    "icon_items": 9,
    "buttons": [
     {
-     "label": "다음 단계",
+     "label": "그만하기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -966,7 +1299,10 @@
      "h": 88
     },
     {
-     "label": "그만하기",
+     "label": "다음 단계",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#5EEAD4",
      "rect": [
       720,
       610,
@@ -990,7 +1326,10 @@
    "icon_items": 10,
    "buttons": [
     {
-     "label": "경유지로 추가",
+     "label": "내비에서 보기",
+     "sub": null,
+     "side": "left-neutral",
+     "color": "#19283D",
      "rect": [
       160,
       610,
@@ -1000,7 +1339,10 @@
      "h": 88
     },
     {
-     "label": "취소",
+     "label": "경유지로 추가",
+     "sub": null,
+     "side": "right-primary",
+     "color": "#FFC857",
      "rect": [
       720,
       610,
@@ -1027,6 +1369,16 @@
    ]
   },
   {
+   "fg": "#8C99AD",
+   "bg": "#19283D",
+   "ratio": 5.15,
+   "count": 4,
+   "screens": [
+    "p-pattern",
+    "ui-history"
+   ]
+  },
+  {
    "fg": "#4C9BFF",
    "bg": "#19283D",
    "ratio": 5.27,
@@ -1040,22 +1392,25 @@
    "fg": "#FF5B6B",
    "bg": "#2A1219",
    "ratio": 5.81,
-   "count": 6,
+   "count": 14,
    "screens": [
+    "p-confirm",
     "p-manual",
-    "ui-manual"
+    "p-manual-parked",
+    "ui-confirm",
+    "ui-manual",
+    "ui-manual-parked"
    ]
   },
   {
    "fg": "#8C99AD",
    "bg": "#121C2B",
    "ratio": 5.93,
-   "count": 10,
+   "count": 6,
    "screens": [
     "p-home-driving",
-    "p-record",
-    "ui-home-driving",
-    "ui-record"
+    "p-manual",
+    "ui-home-driving"
    ]
   },
   {
@@ -1069,24 +1424,16 @@
    ]
   },
   {
-   "fg": "#FF5B6B",
-   "bg": "#1B0B12",
-   "ratio": 6.31,
-   "count": 2,
-   "screens": [
-    "p-countdown",
-    "ui-countdown"
-   ]
-  },
-  {
    "fg": "#090E16",
    "bg": "#FF5B6B",
    "ratio": 6.41,
-   "count": 18,
+   "count": 24,
    "screens": [
+    "p-confirm",
     "p-countdown",
     "p-emergency",
     "p-stopping",
+    "ui-confirm",
     "ui-countdown",
     "ui-guidance",
     "ui-stopping"
@@ -1100,6 +1447,15 @@
    "screens": [
     "p-guardian",
     "ui-guardian"
+   ]
+  },
+  {
+   "fg": "#8C99AD",
+   "bg": "#090E16",
+   "ratio": 6.7,
+   "count": 1,
+   "screens": [
+    "ui-manual"
    ]
   },
   {
@@ -1136,7 +1492,7 @@
    "fg": "#9FA4FF",
    "bg": "#121C2B",
    "ratio": 7.52,
-   "count": 17,
+   "count": 19,
    "screens": [
     "p-check",
     "p-guardian",
@@ -1169,9 +1525,10 @@
    "fg": "#B8C5D8",
    "bg": "#30291C",
    "ratio": 8.23,
-   "count": 2,
+   "count": 5,
    "screens": [
     "p-service",
+    "p-warning-result",
     "ui-service"
    ]
   },
@@ -1179,7 +1536,7 @@
    "fg": "#FFC857",
    "bg": "#3A3220",
    "ratio": 8.24,
-   "count": 8,
+   "count": 4,
    "screens": [
     "p-service",
     "ui-service"
@@ -1209,14 +1566,15 @@
    "fg": "#B8C5D8",
    "bg": "#19283D",
    "ratio": 8.51,
-   "count": 41,
+   "count": 33,
    "screens": [
+    "p-home-driving",
     "p-pattern",
     "p-record",
     "p-service",
     "p-warning-find",
-    "p-warning-result",
     "ui-history",
+    "ui-home-driving",
     "ui-record",
     "ui-service",
     "ui-warning"
@@ -1260,16 +1618,16 @@
    "fg": "#FFC857",
    "bg": "#30291C",
    "ratio": 9.35,
-   "count": 44,
+   "count": 48,
    "screens": [
     "p-check",
-    "p-manual",
+    "p-manual-parked",
     "p-parts",
     "p-service",
     "p-warning-find",
     "p-warning-result",
     "ui-check",
-    "ui-manual",
+    "ui-manual-parked",
     "ui-parts",
     "ui-service",
     "ui-warning"
@@ -1291,14 +1649,12 @@
    "fg": "#FFC857",
    "bg": "#19283D",
    "ratio": 9.67,
-   "count": 13,
+   "count": 9,
    "screens": [
     "p-check",
     "p-guardian",
-    "p-service",
     "ui-check",
     "ui-guardian",
-    "ui-service",
     "ui-warning"
    ]
   },
@@ -1315,12 +1671,12 @@
    "fg": "#B8C5D8",
    "bg": "#121C2B",
    "ratio": 9.8,
-   "count": 210,
+   "count": 223,
    "screens": [
     "p-check",
     "p-guardian",
     "p-home",
-    "p-manual",
+    "p-manual-parked",
     "p-parts",
     "p-pattern",
     "p-practice",
@@ -1329,10 +1685,11 @@
     "p-warning-find",
     "p-warning-result",
     "ui-check",
+    "ui-confirm",
     "ui-guardian",
     "ui-history",
     "ui-home",
-    "ui-manual",
+    "ui-manual-parked",
     "ui-parts",
     "ui-practice",
     "ui-record",
@@ -1344,17 +1701,21 @@
    "fg": "#FFC857",
    "bg": "#2B2410",
    "ratio": 10.02,
-   "count": 22,
+   "count": 30,
    "screens": [
     "p-check",
+    "p-confirm",
     "p-countdown",
     "p-guardian",
     "p-home",
+    "p-pattern",
     "p-record",
     "p-warning-result",
     "ui-check",
+    "ui-confirm",
     "ui-countdown",
     "ui-guardian",
+    "ui-history",
     "ui-home",
     "ui-record",
     "ui-warning"
@@ -1364,28 +1725,34 @@
    "fg": "#B8C5D8",
    "bg": "#2A1219",
    "ratio": 10.02,
-   "count": 10,
+   "count": 6,
    "screens": [
     "p-countdown",
-    "p-emergency",
-    "p-stopping",
-    "ui-countdown",
-    "ui-guidance",
-    "ui-stopping"
+    "ui-countdown"
    ]
   },
   {
    "fg": "#5EEAD4",
    "bg": "#19283D",
    "ratio": 10.05,
-   "count": 34,
+   "count": 38,
    "screens": [
     "p-check",
     "p-guardian",
+    "p-home",
+    "p-home-driving",
+    "p-manual",
+    "p-manual-parked",
+    "p-parts",
     "p-pattern",
     "ui-check",
     "ui-guardian",
-    "ui-history"
+    "ui-history",
+    "ui-home",
+    "ui-home-driving",
+    "ui-manual",
+    "ui-manual-parked",
+    "ui-parts"
    ]
   },
   {
@@ -1396,18 +1763,6 @@
    "screens": [
     "p-record",
     "ui-record"
-   ]
-  },
-  {
-   "fg": "#B8C5D8",
-   "bg": "#0B1828",
-   "ratio": 10.22,
-   "count": 4,
-   "screens": [
-    "p-guardian",
-    "p-service",
-    "ui-guardian",
-    "ui-service"
    ]
   },
   {
@@ -1425,20 +1780,10 @@
    ]
   },
   {
-   "fg": "#5EEAD4",
-   "bg": "#112335",
-   "ratio": 10.79,
-   "count": 2,
-   "screens": [
-    "p-service",
-    "ui-service"
-   ]
-  },
-  {
    "fg": "#B8C5D8",
    "bg": "#1B0B12",
    "ratio": 10.89,
-   "count": 4,
+   "count": 2,
    "screens": [
     "p-countdown",
     "ui-countdown"
@@ -1448,13 +1793,15 @@
    "fg": "#B8C5D8",
    "bg": "#090E16",
    "ratio": 11.06,
-   "count": 32,
+   "count": 41,
    "screens": [
     "p-check",
+    "p-confirm",
     "p-guardian",
     "p-home",
     "p-home-driving",
     "p-manual",
+    "p-manual-parked",
     "p-parts",
     "p-pattern",
     "p-practice",
@@ -1463,11 +1810,13 @@
     "p-warning-find",
     "p-warning-result",
     "ui-check",
+    "ui-confirm",
     "ui-guardian",
     "ui-history",
     "ui-home",
     "ui-home-driving",
     "ui-manual",
+    "ui-manual-parked",
     "ui-parts",
     "ui-practice",
     "ui-record",
@@ -1479,33 +1828,48 @@
    "fg": "#FFC857",
    "bg": "#121C2B",
    "ratio": 11.13,
-   "count": 12,
+   "count": 17,
    "screens": [
     "p-guardian",
     "p-home",
+    "p-manual",
     "p-parts",
     "p-record",
     "p-warning-result",
     "ui-guardian",
     "ui-home",
+    "ui-manual",
     "ui-parts",
-    "ui-record"
+    "ui-record",
+    "ui-warning"
    ]
   },
   {
    "fg": "#F7FAFF",
    "bg": "#622230",
    "ratio": 11.21,
-   "count": 18,
+   "count": 22,
    "screens": [
     "p-home",
     "p-home-driving",
     "p-manual",
+    "p-manual-parked",
     "p-parts",
     "ui-home",
     "ui-home-driving",
     "ui-manual",
+    "ui-manual-parked",
     "ui-parts"
+   ]
+  },
+  {
+   "fg": "#FFC857",
+   "bg": "#2A1219",
+   "ratio": 11.39,
+   "count": 2,
+   "screens": [
+    "p-confirm",
+    "ui-confirm"
    ]
   },
   {
@@ -1526,26 +1890,29 @@
    "fg": "#5EEAD4",
    "bg": "#121C2B",
    "ratio": 11.57,
-   "count": 47,
+   "count": 70,
    "screens": [
     "p-check",
+    "p-confirm",
     "p-guardian",
     "p-home",
     "p-home-driving",
     "p-manual",
+    "p-manual-parked",
     "p-parts",
     "p-pattern",
     "p-practice",
     "p-record",
     "p-service",
     "p-warning-find",
-    "p-warning-result",
     "ui-check",
+    "ui-confirm",
     "ui-guardian",
     "ui-history",
     "ui-home",
     "ui-home-driving",
     "ui-manual",
+    "ui-manual-parked",
     "ui-practice",
     "ui-record",
     "ui-service"
@@ -1553,12 +1920,23 @@
   },
   {
    "fg": "#FFCAD1",
+   "bg": "#121C2B",
+   "ratio": 11.92,
+   "count": 1,
+   "screens": [
+    "ui-confirm"
+   ]
+  },
+  {
+   "fg": "#FFCAD1",
    "bg": "#2A1219",
    "ratio": 12.19,
-   "count": 14,
+   "count": 25,
    "screens": [
+    "p-confirm",
     "p-emergency",
     "p-stopping",
+    "ui-confirm",
     "ui-guidance",
     "ui-stopping"
    ]
@@ -1576,13 +1954,13 @@
    "fg": "#090E16",
    "bg": "#FFC857",
    "ratio": 12.57,
-   "count": 26,
+   "count": 22,
    "screens": [
-    "p-manual",
+    "p-check",
     "p-service",
     "p-warning-find",
     "p-warning-result",
-    "ui-manual",
+    "ui-check",
     "ui-service",
     "ui-warning"
    ]
@@ -1602,20 +1980,12 @@
    "fg": "#090E16",
    "bg": "#5EEAD4",
    "ratio": 13.07,
-   "count": 30,
+   "count": 12,
    "screens": [
-    "p-check",
-    "p-home",
-    "p-home-driving",
-    "p-parts",
     "p-pattern",
     "p-practice",
     "p-record",
-    "ui-check",
     "ui-history",
-    "ui-home",
-    "ui-home-driving",
-    "ui-parts",
     "ui-practice",
     "ui-record"
    ]
@@ -1636,11 +2006,15 @@
    "fg": "#F7FAFF",
    "bg": "#19283D",
    "ratio": 14.21,
-   "count": 126,
+   "count": 136,
    "screens": [
     "p-check",
+    "p-confirm",
     "p-guardian",
+    "p-home",
     "p-home-driving",
+    "p-manual",
+    "p-manual-parked",
     "p-parts",
     "p-pattern",
     "p-practice",
@@ -1649,9 +2023,13 @@
     "p-warning-find",
     "p-warning-result",
     "ui-check",
+    "ui-confirm",
     "ui-guardian",
     "ui-history",
+    "ui-home",
     "ui-home-driving",
+    "ui-manual",
+    "ui-manual-parked",
     "ui-parts",
     "ui-practice",
     "ui-record",
@@ -1671,25 +2049,17 @@
   },
   {
    "fg": "#F7FAFF",
-   "bg": "#112335",
-   "ratio": 15.26,
-   "count": 2,
-   "screens": [
-    "p-guardian",
-    "ui-guardian"
-   ]
-  },
-  {
-   "fg": "#F7FAFF",
    "bg": "#121C2B",
    "ratio": 16.36,
-   "count": 123,
+   "count": 164,
    "screens": [
     "p-check",
+    "p-confirm",
     "p-guardian",
     "p-home",
     "p-home-driving",
     "p-manual",
+    "p-manual-parked",
     "p-parts",
     "p-pattern",
     "p-practice",
@@ -1698,11 +2068,13 @@
     "p-warning-find",
     "p-warning-result",
     "ui-check",
+    "ui-confirm",
     "ui-guardian",
     "ui-history",
     "ui-home",
     "ui-home-driving",
     "ui-manual",
+    "ui-manual-parked",
     "ui-parts",
     "ui-practice",
     "ui-record",
@@ -1714,33 +2086,27 @@
    "fg": "#F7FAFF",
    "bg": "#2A1219",
    "ratio": 16.74,
-   "count": 26,
+   "count": 41,
    "screens": [
+    "p-confirm",
     "p-countdown",
     "p-emergency",
     "p-manual",
+    "p-manual-parked",
     "p-stopping",
+    "ui-confirm",
     "ui-countdown",
     "ui-guidance",
     "ui-manual",
+    "ui-manual-parked",
     "ui-stopping"
-   ]
-  },
-  {
-   "fg": "#F7FAFF",
-   "bg": "#0B1828",
-   "ratio": 17.08,
-   "count": 4,
-   "screens": [
-    "p-service",
-    "ui-service"
    ]
   },
   {
    "fg": "#F7FAFF",
    "bg": "#1B0B12",
    "ratio": 18.2,
-   "count": 9,
+   "count": 7,
    "screens": [
     "p-countdown",
     "p-emergency",
@@ -1754,13 +2120,15 @@
    "fg": "#F7FAFF",
    "bg": "#090E16",
    "ratio": 18.48,
-   "count": 42,
+   "count": 49,
    "screens": [
     "p-check",
+    "p-confirm",
     "p-guardian",
     "p-home",
     "p-home-driving",
     "p-manual",
+    "p-manual-parked",
     "p-parts",
     "p-pattern",
     "p-practice",
@@ -1769,11 +2137,13 @@
     "p-warning-find",
     "p-warning-result",
     "ui-check",
+    "ui-confirm",
     "ui-guardian",
     "ui-history",
     "ui-home",
     "ui-home-driving",
     "ui-manual",
+    "ui-manual-parked",
     "ui-parts",
     "ui-practice",
     "ui-record",
@@ -1906,7 +2276,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자 2명 준비",
+    "label": "보호자 2명 준비됨",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -2042,7 +2412,7 @@
    },
    {
     "kind": "text",
-    "label": "출발 전 점검에서 자세히 볼 수 있어요",
+    "label": "출발 전 점검에서 자세히 볼 수 있습니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -2052,17 +2422,17 @@
     "kind": "icon",
     "label": "rec",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
    },
    {
     "kind": "text",
     "label": "지금 기록",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
@@ -2204,7 +2574,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자 2명 준비",
+    "label": "보호자 2명 준비됨",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -2308,7 +2678,7 @@
    },
    {
     "kind": "icon",
-    "label": "tire",
+    "label": "wheel",
     "size": null,
     "fg": "#FFC857",
     "bg": "#121C2B",
@@ -2324,23 +2694,39 @@
    },
    {
     "kind": "icon",
-    "label": "activity",
+    "label": "audio-lines",
     "size": null,
     "fg": "#FFC857",
     "bg": "#30291C",
     "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "소음",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "icon",
+    "label": "activity",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
     "label": "떨림",
     "size": 22,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
-    "label": "tire",
+    "label": "steering",
     "size": null,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -2348,23 +2734,7 @@
    },
    {
     "kind": "text",
-    "label": "공기압 / 경고등",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "icon",
-    "label": "triangle-alert",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "파손 / 의심",
+    "label": "쏠림",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -2380,7 +2750,7 @@
    },
    {
     "kind": "text",
-    "label": "모르겠음",
+    "label": "잘 모르겠음",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -2390,17 +2760,17 @@
     "kind": "icon",
     "label": "rec",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
    },
    {
     "kind": "text",
     "label": "지금 기록",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
@@ -2453,14 +2823,6 @@
     "ratio": 16.36
    },
    {
-    "kind": "text",
-    "label": "자세한 화면은 차를 세운 뒤 열립니다",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#090E16",
-    "ratio": 11.06
-   },
-   {
     "kind": "icon",
     "label": "bluetooth",
     "size": null,
@@ -2486,7 +2848,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자 2명 준비",
+    "label": "보호자 2명 준비됨",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -2496,25 +2858,25 @@
     "kind": "icon",
     "label": "rec",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
    },
    {
     "kind": "text",
     "label": "지금 기록",
-    "size": 36,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "size": 38,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "누른 순간의 차량 상태를 남겨요",
+    "label": "누른 순간의 / 차 상태를 남깁니다",
     "size": 22,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#B8C5D8",
+    "bg": "#19283D",
+    "ratio": 8.51
    },
    {
     "kind": "icon",
@@ -2526,19 +2888,19 @@
    },
    {
     "kind": "text",
-    "label": "말로 기록",
-    "size": 36,
+    "label": "말로 하기",
+    "size": 38,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "버튼을 누른 뒤 말해 주세요",
+    "label": "누른 뒤 8초 동안 / 말을 듣습니다",
     "size": 22,
-    "fg": "#F7FAFF",
+    "fg": "#B8C5D8",
     "bg": "#19283D",
-    "ratio": 14.21
+    "ratio": 8.51
    },
    {
     "kind": "icon",
@@ -2550,15 +2912,15 @@
    },
    {
     "kind": "text",
-    "label": "도움이 필요해요",
-    "size": 36,
+    "label": "도움이 / 필요해요",
+    "size": 38,
     "fg": "#F7FAFF",
     "bg": "#622230",
     "ratio": 11.21
    },
    {
     "kind": "text",
-    "label": "상황을 고르거나 보호자에게 알려요",
+    "label": "급한 상황을 / 고릅니다",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#622230",
@@ -2574,7 +2936,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등 설명 · 점검 항목 · 설정은 정차 후에 열립니다",
+    "label": "경고등 자세한 설명 · 점검 · 설정은 정차 후에 열립니다",
     "size": 22,
     "fg": "#8C99AD",
     "bg": "#121C2B",
@@ -2976,22 +3338,6 @@
    },
    {
     "kind": "icon",
-    "label": "mic",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "말로 찾기",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "icon",
     "label": "search",
     "size": null,
     "fg": "#F7FAFF",
@@ -3005,6 +3351,22 @@
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "mic",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
+   },
+   {
+    "kind": "text",
+    "label": "말로 찾기",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
    }
   ],
   "p-warning-result": [
@@ -3089,24 +3451,8 @@
     "ratio": 9.8
    },
    {
-    "kind": "icon",
-    "label": "park",
-    "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#121C2B",
-    "ratio": 11.57
-   },
-   {
     "kind": "text",
-    "label": "정차 중",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "후보 2개를 찾았어요",
+    "label": "후보 2개를 찾았습니다",
     "size": 30,
     "fg": "#F7FAFF",
     "bg": "#090E16",
@@ -3178,7 +3524,7 @@
    },
    {
     "kind": "text",
-    "label": "고른 조건과 같아요",
+    "label": "고른 조건과 같습니다",
     "size": 22,
     "fg": "#5EEAD4",
     "bg": "#30291C",
@@ -3210,11 +3556,35 @@
    },
    {
     "kind": "text",
-    "label": "켜짐 방식이 달라요",
+    "label": "켜짐 방식이 다릅니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "wrench",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "가까운 정비소에 들르세요",
+    "size": 30,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "운행 판단",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#30291C",
+    "ratio": 8.23
    },
    {
     "kind": "text",
@@ -3234,7 +3604,7 @@
    },
    {
     "kind": "text",
-    "label": "공식 설명 요약",
+    "label": "설명 요약(설명서 기준)",
     "size": 22,
     "fg": "#FFC857",
     "bg": "#121C2B",
@@ -3250,43 +3620,11 @@
    },
    {
     "kind": "text",
-    "label": "지금 계속 가도 되나요",
-    "size": 24,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "바로 세우기",
-    "size": 24,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "정비소까지",
-    "size": 24,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "다음 점검",
-    "size": 24,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "속도를 줄이고 가까운 정비소에서 확인하세요",
+    "label": "주행 중에는 위의 운행 판단 한 줄만 보입니다",
     "size": 22,
-    "fg": "#F7FAFF",
+    "fg": "#B8C5D8",
     "bg": "#121C2B",
-    "ratio": 16.36
+    "ratio": 9.8
    },
    {
     "kind": "text",
@@ -3295,22 +3633,6 @@
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "wrench",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "정비소 들르기",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
    },
    {
     "kind": "icon",
@@ -3327,6 +3649,22 @@
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "wrench",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
+   },
+   {
+    "kind": "text",
+    "label": "정비소 들르기",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
    }
   ],
   "p-check": [
@@ -3580,59 +3918,35 @@
    },
    {
     "kind": "icon",
-    "label": "belt",
+    "label": "history",
     "size": null,
     "fg": "#5EEAD4",
-    "bg": "#19283D",
-    "ratio": 10.05
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
-    "label": "시험 입력",
-    "size": 22,
-    "fg": "#FFC857",
-    "bg": "#2B2410",
-    "ratio": 10.02
-   },
-   {
-    "kind": "text",
-    "label": "안전벨트",
+    "label": "끝나지 않은 기록 1건",
     "size": 26,
     "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "bg": "#121C2B",
+    "ratio": 16.36
    },
    {
     "kind": "text",
-    "label": "운전석 착용",
+    "label": "앞 타이어 끼익 소리 3번 · 정비 전",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "기록 보기 →",
     "size": 22,
     "fg": "#5EEAD4",
-    "bg": "#19283D",
-    "ratio": 10.05
-   },
-   {
-    "kind": "icon",
-    "label": "door",
-    "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#19283D",
-    "ratio": 10.05
-   },
-   {
-    "kind": "text",
-    "label": "도어",
-    "size": 26,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "모두 닫힘",
-    "size": 22,
-    "fg": "#5EEAD4",
-    "bg": "#19283D",
-    "ratio": 10.05
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
@@ -3660,7 +3974,7 @@
    },
    {
     "kind": "text",
-    "label": "엔진오일 교환까지 2,860km 남았어요",
+    "label": "정기 점검까지 2,860km 남았습니다",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -3700,7 +4014,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자 2명 수신 확인",
+    "label": "보호자 2명 준비됨",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -3708,7 +4022,7 @@
    },
    {
     "kind": "text",
-    "label": "시험 알림 받음",
+    "label": "연습 알림 받음",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -3718,33 +4032,33 @@
     "kind": "icon",
     "label": "circle-check",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
     "label": "확인했어요",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
     "label": "wrench",
     "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
    },
    {
     "kind": "text",
     "label": "정비소 들르기",
     "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
    }
   ],
   "p-record": [
@@ -3846,7 +4160,7 @@
    },
    {
     "kind": "text",
-    "label": "증상을 기록했어요",
+    "label": "증상을 기록했습니다",
     "size": 30,
     "fg": "#F7FAFF",
     "bg": "#090E16",
@@ -3854,7 +4168,7 @@
    },
    {
     "kind": "text",
-    "label": "차량 상태 스냅샷 시간표",
+    "label": "차량 상태 시간표",
     "size": 26,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -3862,7 +4176,15 @@
    },
    {
     "kind": "text",
-    "label": "21:00:12 기록 · 앞 20초와 뒤 10초",
+    "label": "차속 · 시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
+   },
+   {
+    "kind": "text",
+    "label": "08:42:15 기록 · 앞 20초와 뒤 10초",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -3886,19 +4208,11 @@
    },
    {
     "kind": "text",
-    "label": "72km/h",
+    "label": "시속 14km",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "시험 입력",
-    "size": 22,
-    "fg": "#FFC857",
-    "bg": "#2B2410",
-    "ratio": 10.02
    },
    {
     "kind": "icon",
@@ -3918,7 +4232,7 @@
    },
    {
     "kind": "text",
-    "label": "기록 전 밟음",
+    "label": "기록 순간 밟음",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -3942,7 +4256,7 @@
    },
    {
     "kind": "text",
-    "label": "조향각",
+    "label": "바퀴 방향",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -3950,7 +4264,7 @@
    },
    {
     "kind": "text",
-    "label": "오른쪽 12도",
+    "label": "거의 직진",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -3958,7 +4272,7 @@
    },
    {
     "kind": "graphic",
-    "label": "조향각 점",
+    "label": "바퀴 방향 점",
     "size": null,
     "fg": "#9FA4FF",
     "bg": "#16233A",
@@ -4022,6 +4336,70 @@
    },
    {
     "kind": "text",
+    "label": "함께 남긴 상태 · 공조 · 창문 · 와이퍼",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
+   },
+   {
+    "kind": "icon",
+    "label": "fan",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "에어컨 켜짐",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "window",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "창문 닫힘",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "wiper",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "와이퍼 꺼짐",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
     "label": "어떤 증상이었나요",
     "size": 24,
     "fg": "#F7FAFF",
@@ -4030,23 +4408,23 @@
    },
    {
     "kind": "icon",
-    "label": "activity",
+    "label": "mic",
     "size": null,
     "fg": "#5EEAD4",
-    "bg": "#1E3340",
-    "ratio": 8.86
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
-    "label": "떨림",
+    "label": "말로 메모: 앞 타이어 쪽 끼익 소리",
     "size": 22,
     "fg": "#5EEAD4",
-    "bg": "#1E3340",
-    "ratio": 8.86
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "icon",
-    "label": "audio-lines",
+    "label": "activity",
     "size": null,
     "fg": "#B8C5D8",
     "bg": "#19283D",
@@ -4054,11 +4432,27 @@
    },
    {
     "kind": "text",
-    "label": "소음",
+    "label": "떨림",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "audio-lines",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#1E3340",
+    "ratio": 8.86
+   },
+   {
+    "kind": "text",
+    "label": "소음",
+    "size": 22,
+    "fg": "#5EEAD4",
+    "bg": "#1E3340",
+    "ratio": 8.86
    },
    {
     "kind": "icon",
@@ -4094,7 +4488,7 @@
    },
    {
     "kind": "icon",
-    "label": "engine",
+    "label": "wheel",
     "size": null,
     "fg": "#B8C5D8",
     "bg": "#19283D",
@@ -4102,7 +4496,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "타이어",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -4118,67 +4512,43 @@
    },
    {
     "kind": "text",
-    "label": "기타",
+    "label": "잘 모르겠음",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
-   },
-   {
-    "kind": "icon",
-    "label": "lock",
-    "size": null,
-    "fg": "#8C99AD",
-    "bg": "#121C2B",
-    "ratio": 5.93
-   },
-   {
-    "kind": "text",
-    "label": "원본 녹음 · 영상",
-    "size": 24,
-    "fg": "#8C99AD",
-    "bg": "#121C2B",
-    "ratio": 5.93
-   },
-   {
-    "kind": "text",
-    "label": "향후 지원",
-    "size": 22,
-    "fg": "#8C99AD",
-    "bg": "#121C2B",
-    "ratio": 5.93
    },
    {
     "kind": "icon",
     "label": "circle-check",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
     "label": "기록 끝내기",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
     "label": "mic",
     "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
    },
    {
     "kind": "text",
     "label": "말로 메모",
     "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
    }
   ],
   "p-pattern": [
@@ -4288,7 +4658,7 @@
    },
    {
     "kind": "text",
-    "label": "앞 타이어 · 떨림",
+    "label": "앞 타이어 · 끼익 소리",
     "size": 30,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -4304,7 +4674,7 @@
    },
    {
     "kind": "text",
-    "label": "11월 2일 · 7일 · 12일",
+    "label": "11월 6일 · 9일 · 12일 · 메모 3건",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -4312,7 +4682,7 @@
    },
    {
     "kind": "text",
-    "label": "3번 모두 같았던 조건",
+    "label": "평소 주행보다 자주 겹친 조건",
     "size": 26,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -4336,75 +4706,51 @@
    },
    {
     "kind": "text",
-    "label": "시속 60~80km",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
+   },
+   {
+    "kind": "text",
+    "label": "시속 20km 아래",
     "size": 26,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "평소 18%",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#19283D",
+    "ratio": 8.51
    },
    {
     "kind": "graphic",
-    "label": "속도 구간 막대",
+    "label": "비교 막대 속도 평소 18%",
     "size": null,
-    "fg": "#5EEAD4",
+    "fg": "#8C99AD",
     "bg": "#19283D",
-    "ratio": 10.05
-   },
-   {
-    "kind": "text",
-    "label": "0",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "120",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
+    "ratio": 5.15
    },
    {
     "kind": "text",
     "label": "3번 중 3번",
     "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "icon",
-    "label": "steering",
-    "size": null,
     "fg": "#5EEAD4",
     "bg": "#19283D",
     "ratio": 10.05
    },
    {
-    "kind": "text",
-    "label": "조향",
-    "size": 22,
-    "fg": "#B8C5D8",
+    "kind": "graphic",
+    "label": "비교 막대 속도 3번 중 3번",
+    "size": null,
+    "fg": "#5EEAD4",
     "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "핸들을 돌리는 중",
-    "size": 26,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "3번 중 3번",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
+    "ratio": 10.05
    },
    {
     "kind": "icon",
@@ -4424,7 +4770,7 @@
    },
    {
     "kind": "text",
-    "label": "밟지 않음",
+    "label": "밟는 중",
     "size": 26,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -4432,15 +4778,31 @@
    },
    {
     "kind": "text",
-    "label": "3번 중 3번",
+    "label": "평소 12%",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#19283D",
     "ratio": 8.51
    },
    {
-    "kind": "icon",
-    "label": "road",
+    "kind": "graphic",
+    "label": "비교 막대 브레이크 평소 12%",
+    "size": null,
+    "fg": "#8C99AD",
+    "bg": "#19283D",
+    "ratio": 5.15
+   },
+   {
+    "kind": "text",
+    "label": "3번 중 3번",
+    "size": 22,
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
+   },
+   {
+    "kind": "graphic",
+    "label": "비교 막대 브레이크 3번 중 3번",
     "size": null,
     "fg": "#5EEAD4",
     "bg": "#19283D",
@@ -4448,51 +4810,67 @@
    },
    {
     "kind": "text",
-    "label": "주행거리",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "32,000km 넘은 뒤부터",
-    "size": 26,
+    "label": "소리 원인 후보에서 뺀 것",
+    "size": 24,
     "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "fan",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
-    "label": "3번 중 3번",
+    "label": "에어컨 · 1번만 켜짐",
     "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "window",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
-    "label": "원본 녹음이나 진동 분석이 아니라 기록 순간의 차량 신호입니다",
+    "label": "창문 · 평소처럼 닫힘",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "wiper",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "와이퍼 · 평소처럼 꺼짐",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "기록 순간의 차 신호를 평소 주행과 견준 자료입니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#090E16",
     "ratio": 11.06
-   },
-   {
-    "kind": "icon",
-    "label": "qr",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
-   },
-   {
-    "kind": "text",
-    "label": "정비소에 보여 주기",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
    },
    {
     "kind": "icon",
@@ -4509,6 +4887,724 @@
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "qr",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
+   },
+   {
+    "kind": "text",
+    "label": "정비소에 보여 주기",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
+   }
+  ],
+  "p-manual": [
+   {
+    "kind": "text",
+    "label": "플레오스 가드",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "설계 시안",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "car-front",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "주행 중",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "상황 선택",
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "급한 상황 · 누르면 바로 안내합니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "octagon-alert",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "안 멈춰요",
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "up",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "저절로 / 빨라져요",
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "crash",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "사고가 / 났어요",
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "증상 · 기록만 하고 보호자 알림은 묻습니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "activity",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#121C2B",
+    "ratio": 11.13
+   },
+   {
+    "kind": "text",
+    "label": "차체 떨림",
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "flame",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#121C2B",
+    "ratio": 11.13
+   },
+   {
+    "kind": "text",
+    "label": "타는 냄새",
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "lock",
+    "size": null,
+    "fg": "#8C99AD",
+    "bg": "#121C2B",
+    "ratio": 5.93
+   },
+   {
+    "kind": "text",
+    "label": "차를 세우면 12가지 상황을 모두 고를 수 있습니다",
+    "size": 22,
+    "fg": "#8C99AD",
+    "bg": "#121C2B",
+    "ratio": 5.93
+   },
+   {
+    "kind": "icon",
+    "label": "rec",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
+   },
+   {
+    "kind": "text",
+    "label": "고른 증상 기록",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "send",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#622230",
+    "ratio": 11.21
+   },
+   {
+    "kind": "text",
+    "label": "지금 도움 요청",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#622230",
+    "ratio": 11.21
+   }
+  ],
+  "p-manual-parked": [
+   {
+    "kind": "text",
+    "label": "플레오스 가드",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "설계 시안",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "engine",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "경고등 찾기",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "history",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "증상 기록",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "users",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "보호자 알림",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "wrench",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "정비소",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "circle-check",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "2개 선택 · 최대 3개",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "상황 선택",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "급한 상황 · 누르면 바로 안내합니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "octagon-alert",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "안 멈춰요",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "up",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "저절로 / 빨라져요",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "crash",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "사고가 / 났어요",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "증상 · 기록만 하고 보호자 알림은 묻습니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "activity",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "차체 떨림",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "steering",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "핸들 쏠림",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "audio-lines",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "이상한 소음",
+    "size": 24,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "icon",
+    "label": "flame",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "타는 냄새",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "pedal",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "페달 이상",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "wheel",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "타이어 이상",
+    "size": 24,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "icon",
+    "label": "trend",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "힘이 없어요",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "engine",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "경고등이 켜졌어요",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "circle-help",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "잘 모르겠음",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "rec",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
+   },
+   {
+    "kind": "text",
+    "label": "고른 증상 기록",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "send",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#622230",
+    "ratio": 11.21
+   },
+   {
+    "kind": "text",
+    "label": "지금 도움 요청",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#622230",
+    "ratio": 11.21
+   }
+  ],
+  "p-confirm": [
+   {
+    "kind": "text",
+    "label": "플레오스 가드",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "설계 시안",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "car-front",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "주행 중",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "volume-2",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "음성으로도 묻습니다",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "circle-help",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "확인 질문",
+    "size": 26,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
+    "kind": "text",
+    "label": "차가 멈추지 / 않나요?",
+    "size": 76,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "pedal",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#2A1219",
+    "ratio": 11.39
+   },
+   {
+    "kind": "text",
+    "label": "브레이크를 밟은 1초 동안 / 속도가 줄지 않았습니다",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "차속 · 시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
+   },
+   {
+    "kind": "icon",
+    "label": "mic",
+    "size": null,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
+    "kind": "text",
+    "label": "8초 동안 말로 하는 답도 듣습니다",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "앱은 운전자의 답을 들은 뒤에만 긴급 안내를 시작합니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "circle-check",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "괜찮아요",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "질문 닫기",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "octagon-alert",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "안 멈춰요",
+    "size": 30,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "감속 실패 대처",
+    "size": 22,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
    }
   ],
   "p-emergency": [
@@ -4530,7 +5626,7 @@
    },
    {
     "kind": "text",
-    "label": "원하지 않는 가속",
+    "label": "원치 않는 가속",
     "size": 26,
     "fg": "#F7FAFF",
     "bg": "#702132",
@@ -4585,6 +5681,14 @@
     "ratio": 18.2
    },
    {
+    "kind": "graphic",
+    "label": "문장 자리 점선",
+    "size": null,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
     "kind": "icon",
     "label": "volume-2",
     "size": null,
@@ -4594,7 +5698,7 @@
    },
    {
     "kind": "text",
-    "label": "음성 자막",
+    "label": "지금 나오는 음성 · 화면 문장",
     "size": 22,
     "fg": "#FFCAD1",
     "bg": "#2A1219",
@@ -4602,43 +5706,19 @@
    },
    {
     "kind": "text",
-    "label": "취급설명서 비상 절차를 음성으로 안내합니다",
+    "label": "문장 자리",
+    "size": 22,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
+    "kind": "text",
+    "label": "취급설명서 비상 절차 / (검토 후 확정 문장)",
     "size": 30,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
-   },
-   {
-    "kind": "text",
-    "label": "출처: 아반떼 취급설명서 비상 절차 · 문장 확인 전 예시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#2A1219",
-    "ratio": 10.02
-   },
-   {
-    "kind": "icon",
-    "label": "octagon-alert",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "멈추지 않아요",
-    "size": 30,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "감속 실패 대처",
-    "size": 22,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
    },
    {
     "kind": "icon",
@@ -4663,6 +5743,30 @@
     "fg": "#F7FAFF",
     "bg": "#3A3346",
     "ratio": 11.52
+   },
+   {
+    "kind": "icon",
+    "label": "octagon-alert",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "안 멈춰요",
+    "size": 30,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "감속 실패 대처",
+    "size": 22,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
    }
   ],
   "p-stopping": [
@@ -4732,11 +5836,19 @@
    },
    {
     "kind": "text",
-    "label": "차를 세우는 방법을 / 음성으로 안내합니다",
+    "label": "앞을 보세요 / 음성 안내를 따라 주세요",
     "size": 46,
     "fg": "#F7FAFF",
     "bg": "#1B0B12",
     "ratio": 18.2
+   },
+   {
+    "kind": "graphic",
+    "label": "문장 자리 점선",
+    "size": null,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
    },
    {
     "kind": "icon",
@@ -4748,7 +5860,7 @@
    },
    {
     "kind": "text",
-    "label": "음성 자막",
+    "label": "지금 나오는 음성 · 화면 문장",
     "size": 22,
     "fg": "#FFCAD1",
     "bg": "#2A1219",
@@ -4756,43 +5868,19 @@
    },
    {
     "kind": "text",
-    "label": "취급설명서의 비상 제동 절차를 읽습니다",
+    "label": "문장 자리",
+    "size": 22,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
+    "kind": "text",
+    "label": "취급설명서 비상 제동 절차 / (검토 후 확정 문장)",
     "size": 30,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
-   },
-   {
-    "kind": "text",
-    "label": "출처: 아반떼 취급설명서 비상 절차 · 문장 확인 전 예시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#2A1219",
-    "ratio": 10.02
-   },
-   {
-    "kind": "icon",
-    "label": "send",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "도움 요청",
-    "size": 30,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "보호자에게 알리기",
-    "size": 22,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
    },
    {
     "kind": "icon",
@@ -4817,6 +5905,30 @@
     "fg": "#F7FAFF",
     "bg": "#3A3346",
     "ratio": 11.52
+   },
+   {
+    "kind": "icon",
+    "label": "send",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "도움 요청",
+    "size": 30,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "받는 사람 확인",
+    "size": 22,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
    }
   ],
   "p-countdown": [
@@ -4838,7 +5950,7 @@
    },
    {
     "kind": "text",
-    "label": "보내기 전 10초 확인",
+    "label": "발송 확인(10초)",
     "size": 26,
     "fg": "#F7FAFF",
     "bg": "#702132",
@@ -4869,28 +5981,20 @@
     "ratio": 10.02
    },
    {
-    "kind": "graphic",
-    "label": "시간 고리",
-    "size": null,
-    "fg": "#FF5B6B",
-    "bg": "#1B0B12",
-    "ratio": 6.31
-   },
-   {
     "kind": "text",
     "label": "10",
-    "size": 112,
+    "size": 120,
     "fg": "#F7FAFF",
-    "bg": "#1B0B12",
-    "ratio": 18.2
+    "bg": "#2A1219",
+    "ratio": 16.74
    },
    {
     "kind": "text",
     "label": "초 뒤 보냅니다",
-    "size": 26,
-    "fg": "#B8C5D8",
-    "bg": "#1B0B12",
-    "ratio": 10.89
+    "size": 40,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
    },
    {
     "kind": "text",
@@ -4958,7 +6062,7 @@
    },
    {
     "kind": "text",
-    "label": "사건",
+    "label": "감지",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#2A1219",
@@ -4966,11 +6070,19 @@
    },
    {
     "kind": "text",
-    "label": "에어백 전개 신호 · 21:00:03",
+    "label": "에어백 전개 신호(운전석) · 21:00:03",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
    },
    {
     "kind": "text",
@@ -4990,7 +6102,7 @@
    },
    {
     "kind": "text",
-    "label": "차량",
+    "label": "차",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#2A1219",
@@ -4998,11 +6110,19 @@
    },
    {
     "kind": "text",
-    "label": "탑승 2명 · 안전벨트 2명 · 문 닫힘",
+    "label": "탑승 1명(운전석) · 안전벨트 착용 · 문 닫힘",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
    },
    {
     "kind": "text",
@@ -5011,30 +6131,6 @@
     "fg": "#B8C5D8",
     "bg": "#1B0B12",
     "ratio": 10.89
-   },
-   {
-    "kind": "icon",
-    "label": "send",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "지금 보내기",
-    "size": 30,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "기다리지 않고 바로",
-    "size": 22,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
    },
    {
     "kind": "icon",
@@ -5059,6 +6155,30 @@
     "fg": "#F7FAFF",
     "bg": "#3A3346",
     "ratio": 11.52
+   },
+   {
+    "kind": "icon",
+    "label": "send",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "지금 보내기",
+    "size": 30,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "기다리지 않고 바로",
+    "size": 22,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
    }
   ],
   "p-guardian": [
@@ -5208,7 +6328,7 @@
    },
    {
     "kind": "text",
-    "label": "열람함 · 21:01",
+    "label": "전달 · 열람 21:01 · 전화할게요",
     "size": 22,
     "fg": "#5EEAD4",
     "bg": "#19283D",
@@ -5240,7 +6360,7 @@
    },
    {
     "kind": "text",
-    "label": "문자로 다시 보냄 · 21:00:43",
+    "label": "문자로 다시 보냄 21:00:23",
     "size": 22,
     "fg": "#FFC857",
     "bg": "#19283D",
@@ -5248,7 +6368,7 @@
    },
    {
     "kind": "text",
-    "label": "상태는 접수됨 → 전달됨 → 열람함 순서로 바뀝니다",
+    "label": "상태는 접수 → 전달 → 열람 순서로 바뀝니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -5258,17 +6378,9 @@
     "kind": "icon",
     "label": "map-pin",
     "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#112335",
-    "ratio": 15.26
-   },
-   {
-    "kind": "text",
-    "label": "지도 예시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#0B1828",
-    "ratio": 10.22
+    "fg": "#9FA4FF",
+    "bg": "#121C2B",
+    "ratio": 7.52
    },
    {
     "kind": "text",
@@ -5281,7 +6393,7 @@
    {
     "kind": "text",
     "label": "21:00:01",
-    "size": 34,
+    "size": 36,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
     "ratio": 16.36
@@ -5289,6 +6401,22 @@
    {
     "kind": "text",
     "label": "차량 위치 · 휴대폰 위치는 따로 표시",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "주소: ○○시 ○○구 ○○대로 부근 (예시)",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "지도는 앱에 없고 보호자 휴대폰 페이지에서 봅니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -5304,7 +6432,7 @@
    },
    {
     "kind": "text",
-    "label": "사고 순간 차량 스냅샷",
+    "label": "사고 순간 차 상태",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -5328,7 +6456,7 @@
    },
    {
     "kind": "text",
-    "label": "탑승: 운전석 · 조수석",
+    "label": "탑승: 운전석 1명",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -5344,7 +6472,7 @@
    },
    {
     "kind": "text",
-    "label": "안전벨트: 2명 착용",
+    "label": "안전벨트: 운전석 착용",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -5392,7 +6520,7 @@
    },
    {
     "kind": "text",
-    "label": "도어: 운전석 열림 21:00:14",
+    "label": "문: 모두 닫힘",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -5402,33 +6530,33 @@
     "kind": "icon",
     "label": "history",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#9FA4FF",
-    "ratio": 8.5
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
     "label": "기록 보기",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#9FA4FF",
-    "ratio": 8.5
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
     "label": "pin-off",
     "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#9FA4FF",
+    "ratio": 8.5
    },
    {
     "kind": "text",
     "label": "공유 중지",
     "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#9FA4FF",
+    "ratio": 8.5
    }
   ],
   "p-practice": [
@@ -5570,7 +6698,7 @@
    },
    {
     "kind": "text",
-    "label": "브레이크 신호를 받았어요",
+    "label": "브레이크 신호를 받았습니다",
     "size": 26,
     "fg": "#5EEAD4",
     "bg": "#121C2B",
@@ -5583,22 +6711,6 @@
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "next",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
-   },
-   {
-    "kind": "text",
-    "label": "다음 단계",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
    },
    {
     "kind": "icon",
@@ -5615,6 +6727,22 @@
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "next",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
+   },
+   {
+    "kind": "text",
+    "label": "다음 단계",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
    }
   ],
   "p-service": [
@@ -5723,62 +6851,6 @@
     "ratio": 18.48
    },
    {
-    "kind": "graphic",
-    "label": "경로",
-    "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#112335",
-    "ratio": 10.79
-   },
-   {
-    "kind": "text",
-    "label": "A",
-    "size": 24,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "B",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#3A3220",
-    "ratio": 8.24
-   },
-   {
-    "kind": "text",
-    "label": "C",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#3A3220",
-    "ratio": 8.24
-   },
-   {
-    "kind": "text",
-    "label": "지금 위치",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#0B1828",
-    "ratio": 17.08
-   },
-   {
-    "kind": "text",
-    "label": "목적지",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#0B1828",
-    "ratio": 17.08
-   },
-   {
-    "kind": "text",
-    "label": "지도 예시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#0B1828",
-    "ratio": 10.22
-   },
-   {
     "kind": "icon",
     "label": "flag",
     "size": null,
@@ -5796,16 +6868,24 @@
    },
    {
     "kind": "text",
-    "label": "도착 21:36",
-    "size": 24,
+    "label": "고른 정비소를 지금 경로에 경유지로 넣습니다",
+    "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
    },
    {
     "kind": "text",
-    "label": "A",
+    "label": "후보 3곳 · 도착 예상 시각은 내비가 알려 준 값입니다",
     "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "text",
+    "label": "A",
+    "size": 24,
     "fg": "#090E16",
     "bg": "#FFC857",
     "ratio": 12.57
@@ -5813,22 +6893,14 @@
    {
     "kind": "text",
     "label": "정비소 A",
-    "size": 26,
+    "size": 28,
     "fg": "#F7FAFF",
     "bg": "#30291C",
     "ratio": 13.75
    },
    {
     "kind": "text",
-    "label": "+6분",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "text",
-    "label": "도착 21:42",
+    "label": "4.1km · 12분",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#30291C",
@@ -5836,8 +6908,24 @@
    },
    {
     "kind": "text",
-    "label": "B",
+    "label": "도착 예상",
     "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#30291C",
+    "ratio": 8.23
+   },
+   {
+    "kind": "text",
+    "label": "21:19",
+    "size": 36,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "B",
+    "size": 24,
     "fg": "#FFC857",
     "bg": "#3A3220",
     "ratio": 8.24
@@ -5845,22 +6933,14 @@
    {
     "kind": "text",
     "label": "정비소 B",
-    "size": 26,
+    "size": 28,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "+11분",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#19283D",
-    "ratio": 9.67
-   },
-   {
-    "kind": "text",
-    "label": "도착 21:47",
+    "label": "6.8km · 17분",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#19283D",
@@ -5868,8 +6948,24 @@
    },
    {
     "kind": "text",
-    "label": "C",
+    "label": "도착 예상",
     "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#19283D",
+    "ratio": 8.51
+   },
+   {
+    "kind": "text",
+    "label": "21:24",
+    "size": 36,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "C",
+    "size": 24,
     "fg": "#FFC857",
     "bg": "#3A3220",
     "ratio": 8.24
@@ -5877,26 +6973,82 @@
    {
     "kind": "text",
     "label": "정비소 C",
-    "size": 26,
+    "size": 28,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "+15분",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#19283D",
-    "ratio": 9.67
-   },
-   {
-    "kind": "text",
-    "label": "도착 21:51",
+    "label": "9.5km · 21분",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#19283D",
     "ratio": 8.51
+   },
+   {
+    "kind": "text",
+    "label": "도착 예상",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#19283D",
+    "ratio": 8.51
+   },
+   {
+    "kind": "text",
+    "label": "21:28",
+    "size": 36,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "navigation",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "지도는 옆 화면의 내비에서 봅니다",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "내비에서 보기를 누르면 고른 정비소를 내비에 띄웁니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "정비소 목록은 앱 안 자료입니다 (예시)",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "navigation",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "내비에서 보기",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
@@ -5913,320 +7065,6 @@
     "fg": "#090E16",
     "bg": "#FFC857",
     "ratio": 12.57
-   },
-   {
-    "kind": "icon",
-    "label": "close",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "취소",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   }
-  ],
-  "p-manual": [
-   {
-    "kind": "text",
-    "label": "플레오스 가드",
-    "size": 30,
-    "fg": "#F7FAFF",
-    "bg": "#090E16",
-    "ratio": 18.48
-   },
-   {
-    "kind": "text",
-    "label": "설계 시안",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#090E16",
-    "ratio": 11.06
-   },
-   {
-    "kind": "icon",
-    "label": "engine",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "경고등 찾기",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "history",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "증상 기록",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "users",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "보호자 알림",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "wrench",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "정비소",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "circle-check",
-    "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#121C2B",
-    "ratio": 11.57
-   },
-   {
-    "kind": "text",
-    "label": "2개 선택 · 최대 3개",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "상황 선택",
-    "size": 30,
-    "fg": "#F7FAFF",
-    "bg": "#090E16",
-    "ratio": 18.48
-   },
-   {
-    "kind": "text",
-    "label": "급한 상황은 바로 긴급 안내로 갑니다",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#090E16",
-    "ratio": 11.06
-   },
-   {
-    "kind": "icon",
-    "label": "octagon-alert",
-    "size": null,
-    "fg": "#FF5B6B",
-    "bg": "#2A1219",
-    "ratio": 5.81
-   },
-   {
-    "kind": "text",
-    "label": "안 멈춰요",
-    "size": 26,
-    "fg": "#F7FAFF",
-    "bg": "#2A1219",
-    "ratio": 16.74
-   },
-   {
-    "kind": "icon",
-    "label": "up",
-    "size": null,
-    "fg": "#FF5B6B",
-    "bg": "#2A1219",
-    "ratio": 5.81
-   },
-   {
-    "kind": "text",
-    "label": "저절로 / 빨라져요",
-    "size": 26,
-    "fg": "#F7FAFF",
-    "bg": "#2A1219",
-    "ratio": 16.74
-   },
-   {
-    "kind": "icon",
-    "label": "crash",
-    "size": null,
-    "fg": "#FF5B6B",
-    "bg": "#2A1219",
-    "ratio": 5.81
-   },
-   {
-    "kind": "text",
-    "label": "사고가 / 났어요",
-    "size": 26,
-    "fg": "#F7FAFF",
-    "bg": "#2A1219",
-    "ratio": 16.74
-   },
-   {
-    "kind": "text",
-    "label": "차가 이상해요 · 기록만 하고 알림은 묻습니다",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#090E16",
-    "ratio": 11.06
-   },
-   {
-    "kind": "icon",
-    "label": "activity",
-    "size": null,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "text",
-    "label": "차체 떨림",
-    "size": 28,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "icon",
-    "label": "audio-lines",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "이상한 소음",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "steering",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "핸들 쏠림",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "flame",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "타는 냄새",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "trend",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "힘이 없어요",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "tire",
-    "size": null,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "text",
-    "label": "타이어 이상",
-    "size": 28,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "icon",
-    "label": "rec",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "고른 증상 기록",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "icon",
-    "label": "lifebuoy",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#622230",
-    "ratio": 11.21
-   },
-   {
-    "kind": "text",
-    "label": "지금 도움 요청",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#622230",
-    "ratio": 11.21
    }
   ],
   "ui-home": [
@@ -6280,7 +7118,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -6296,7 +7134,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -6312,7 +7150,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -6424,7 +7262,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자 2명 준비",
+    "label": "보호자 2명 준비됨",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -6466,17 +7304,17 @@
     "kind": "icon",
     "label": "rec",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
    },
    {
     "kind": "text",
     "label": "지금 기록",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
@@ -6546,7 +7384,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -6562,7 +7400,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -6578,7 +7416,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -6642,7 +7480,7 @@
    },
    {
     "kind": "icon",
-    "label": "tire",
+    "label": "wheel",
     "size": null,
     "fg": "#FFC857",
     "bg": "#121C2B",
@@ -6666,23 +7504,39 @@
    },
    {
     "kind": "icon",
-    "label": "activity",
+    "label": "audio-lines",
     "size": null,
     "fg": "#FFC857",
     "bg": "#30291C",
     "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "소음",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "icon",
+    "label": "activity",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
     "label": "떨림",
     "size": 22,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
-    "label": "tire",
+    "label": "steering",
     "size": null,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -6690,23 +7544,7 @@
    },
    {
     "kind": "text",
-    "label": "공기압 / 경고등",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "icon",
-    "label": "triangle-alert",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "파손 / 의심",
+    "label": "쏠림",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -6722,7 +7560,7 @@
    },
    {
     "kind": "text",
-    "label": "모르겠음",
+    "label": "잘 / 모르겠음",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -6732,17 +7570,17 @@
     "kind": "icon",
     "label": "rec",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
    },
    {
     "kind": "text",
     "label": "지금 기록",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
@@ -6780,30 +7618,6 @@
    },
    {
     "kind": "icon",
-    "label": "car-front",
-    "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#121C2B",
-    "ratio": 11.57
-   },
-   {
-    "kind": "text",
-    "label": "주행 중",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "자세한 화면은 차를 세운 뒤 열립니다",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#090E16",
-    "ratio": 11.06
-   },
-   {
-    "kind": "icon",
     "label": "users",
     "size": null,
     "fg": "#9FA4FF",
@@ -6812,7 +7626,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자 2명 준비",
+    "label": "보호자 2명 준비됨",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -6836,27 +7650,43 @@
    },
    {
     "kind": "icon",
+    "label": "car-front",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "주행 중",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
     "label": "rec",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
    },
    {
     "kind": "text",
     "label": "지금 기록",
-    "size": 32,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "그 순간 차량 상태 저장",
+    "label": "누른 순간의 차 상태를 남깁니다",
     "size": 22,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#B8C5D8",
+    "bg": "#19283D",
+    "ratio": 8.51
    },
    {
     "kind": "icon",
@@ -6868,19 +7698,19 @@
    },
    {
     "kind": "text",
-    "label": "말로 기록",
-    "size": 32,
+    "label": "말로 하기",
+    "size": 34,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "누른 뒤 말하기",
+    "label": "누른 뒤 8초 동안 말을 듣습니다",
     "size": 22,
-    "fg": "#F7FAFF",
+    "fg": "#B8C5D8",
     "bg": "#19283D",
-    "ratio": 14.21
+    "ratio": 8.51
    },
    {
     "kind": "icon",
@@ -6893,14 +7723,14 @@
    {
     "kind": "text",
     "label": "도움이 필요해요",
-    "size": 32,
+    "size": 34,
     "fg": "#F7FAFF",
     "bg": "#622230",
     "ratio": 11.21
    },
    {
     "kind": "text",
-    "label": "상황 선택 · 보호자 알림",
+    "label": "급한 상황을 고릅니다",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#622230",
@@ -6916,7 +7746,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등 설명 · 점검 항목 · 설정은 정차 후에 열립니다",
+    "label": "경고등 자세한 설명 · 점검 · 설정은 정차 후에 열립니다",
     "size": 22,
     "fg": "#8C99AD",
     "bg": "#121C2B",
@@ -6974,7 +7804,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#FFC857",
     "bg": "#30291C",
@@ -6990,7 +7820,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -7006,7 +7836,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -7048,9 +7878,9 @@
     "kind": "icon",
     "label": "mic",
     "size": null,
-    "fg": "#F7FAFF",
+    "fg": "#FFC857",
     "bg": "#121C2B",
-    "ratio": 16.36
+    "ratio": 11.13
    },
    {
     "kind": "text",
@@ -7413,6 +8243,22 @@
     "ratio": 8.51
    },
    {
+    "kind": "icon",
+    "label": "wrench",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "가까운 정비소에 들르세요",
+    "size": 24,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
     "kind": "text",
     "label": "공기압이 많이 낮을 때 켜집니다. / 안전한 곳에 세운 뒤 확인하세요. / 맞춘 뒤에도 켜지면 점검받으세요.",
     "size": 22,
@@ -7422,51 +8268,11 @@
    },
    {
     "kind": "text",
-    "label": "지금 계속 가도 되나요",
+    "label": "계기판 안내와 다르면 / 차량 안내를 따르세요",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "바로 세우기",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "정비소까지",
-    "size": 22,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "다음 점검",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "icon",
-    "label": "wrench",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "정비소 들르기",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
    },
    {
     "kind": "icon",
@@ -7483,6 +8289,22 @@
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "wrench",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
+   },
+   {
+    "kind": "text",
+    "label": "정비소 들르기",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
    }
   ],
   "ui-record": [
@@ -7496,7 +8318,7 @@
    },
    {
     "kind": "text",
-    "label": "증상을 기록했어요",
+    "label": "증상을 기록했습니다",
     "size": 28,
     "fg": "#F7FAFF",
     "bg": "#090E16",
@@ -7552,7 +8374,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -7568,7 +8390,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#5EEAD4",
     "bg": "#1E3340",
@@ -7584,7 +8406,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -7608,7 +8430,7 @@
    },
    {
     "kind": "text",
-    "label": "차량 상태 스냅샷 시간표",
+    "label": "차량 상태 시간표",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -7616,7 +8438,15 @@
    },
    {
     "kind": "text",
-    "label": "21:00:12 · 앞 20초와 뒤 10초",
+    "label": "차속 · 시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
+   },
+   {
+    "kind": "text",
+    "label": "08:42:15 기록 · 앞 20초와 뒤 10초",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -7640,19 +8470,11 @@
    },
    {
     "kind": "text",
-    "label": "72km/h",
+    "label": "시속 14km",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "시험 입력",
-    "size": 22,
-    "fg": "#FFC857",
-    "bg": "#2B2410",
-    "ratio": 10.02
    },
    {
     "kind": "icon",
@@ -7672,7 +8494,7 @@
    },
    {
     "kind": "text",
-    "label": "기록 전 밟음",
+    "label": "기록 순간 밟음",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -7696,7 +8518,7 @@
    },
    {
     "kind": "text",
-    "label": "조향각",
+    "label": "바퀴 방향",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -7704,7 +8526,7 @@
    },
    {
     "kind": "text",
-    "label": "오른쪽 12도",
+    "label": "거의 직진",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -7712,7 +8534,7 @@
    },
    {
     "kind": "graphic",
-    "label": "조향각 점",
+    "label": "바퀴 방향 점",
     "size": null,
     "fg": "#9FA4FF",
     "bg": "#16233A",
@@ -7786,33 +8608,33 @@
     "kind": "icon",
     "label": "activity",
     "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#1E3340",
-    "ratio": 8.86
-   },
-   {
-    "kind": "text",
-    "label": "떨림",
-    "size": 22,
-    "fg": "#5EEAD4",
-    "bg": "#1E3340",
-    "ratio": 8.86
-   },
-   {
-    "kind": "icon",
-    "label": "audio-lines",
-    "size": null,
     "fg": "#B8C5D8",
     "bg": "#19283D",
     "ratio": 8.51
    },
    {
     "kind": "text",
-    "label": "소음",
+    "label": "떨림",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "audio-lines",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#1E3340",
+    "ratio": 8.86
+   },
+   {
+    "kind": "text",
+    "label": "소음",
+    "size": 22,
+    "fg": "#5EEAD4",
+    "bg": "#1E3340",
+    "ratio": 8.86
    },
    {
     "kind": "icon",
@@ -7848,7 +8670,7 @@
    },
    {
     "kind": "icon",
-    "label": "engine",
+    "label": "wheel",
     "size": null,
     "fg": "#B8C5D8",
     "bg": "#19283D",
@@ -7856,7 +8678,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "타이어",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
@@ -7872,39 +8694,31 @@
    },
    {
     "kind": "text",
-    "label": "기타",
+    "label": "잘 모르겠음",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
-    "kind": "icon",
-    "label": "lock",
-    "size": null,
-    "fg": "#8C99AD",
+    "kind": "text",
+    "label": "함께 남긴 상태",
+    "size": 22,
+    "fg": "#B8C5D8",
     "bg": "#121C2B",
-    "ratio": 5.93
+    "ratio": 9.8
    },
    {
     "kind": "text",
-    "label": "원본 녹음 · 영상",
+    "label": "시험 입력",
     "size": 22,
-    "fg": "#8C99AD",
-    "bg": "#121C2B",
-    "ratio": 5.93
-   },
-   {
-    "kind": "text",
-    "label": "향후 지원",
-    "size": 22,
-    "fg": "#8C99AD",
-    "bg": "#121C2B",
-    "ratio": 5.93
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
    },
    {
     "kind": "icon",
-    "label": "mic",
+    "label": "fan",
     "size": null,
     "fg": "#5EEAD4",
     "bg": "#121C2B",
@@ -7912,15 +8726,7 @@
    },
    {
     "kind": "text",
-    "label": "말로 메모",
-    "size": 22,
-    "fg": "#5EEAD4",
-    "bg": "#121C2B",
-    "ratio": 11.57
-   },
-   {
-    "kind": "text",
-    "label": "60km 넘으면 핸들이 떨려요",
+    "label": "에어컨 켜짐",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -7928,35 +8734,83 @@
    },
    {
     "kind": "icon",
-    "label": "circle-check",
+    "label": "window",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
-    "label": "기록 끝내기",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "label": "창문 닫힘",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "wiper",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "와이퍼 꺼짐",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
    },
    {
     "kind": "icon",
     "label": "mic",
     "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "말로 메모 / 앞 타이어 쪽 끼익 소리",
+    "size": 22,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "icon",
+    "label": "circle-check",
+    "size": null,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "말로 메모",
+    "label": "기록 끝내기",
     "size": 28,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "mic",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
+   },
+   {
+    "kind": "text",
+    "label": "말로 메모",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
    }
   ],
   "ui-history": [
@@ -8026,7 +8880,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -8042,7 +8896,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#5EEAD4",
     "bg": "#1E3340",
@@ -8058,7 +8912,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -8082,7 +8936,7 @@
    },
    {
     "kind": "text",
-    "label": "앞 타이어 · 떨림",
+    "label": "앞 타이어 · 끼익 소리",
     "size": 28,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -8098,7 +8952,7 @@
    },
    {
     "kind": "text",
-    "label": "11월 2일 · 7일 · 12일",
+    "label": "11월 6일 · 9일 · 12일",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -8106,7 +8960,7 @@
    },
    {
     "kind": "text",
-    "label": "기록 순간의 차량 신호를 / 묶은 자료입니다",
+    "label": "기록 순간의 차 신호를 / 평소 주행과 견준 자료입니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -8114,7 +8968,7 @@
    },
    {
     "kind": "text",
-    "label": "3번 모두 같았던 조건",
+    "label": "평소 주행보다 자주 겹친 조건",
     "size": 26,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -8138,75 +8992,51 @@
    },
    {
     "kind": "text",
-    "label": "시속 60~80km",
-    "size": 26,
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
+   },
+   {
+    "kind": "text",
+    "label": "시속 20km 아래",
+    "size": 24,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "평소 18%",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#19283D",
+    "ratio": 8.51
    },
    {
     "kind": "graphic",
-    "label": "속도 구간 막대",
+    "label": "비교 막대 속도 평소 18%",
     "size": null,
-    "fg": "#5EEAD4",
+    "fg": "#8C99AD",
     "bg": "#19283D",
-    "ratio": 10.05
-   },
-   {
-    "kind": "text",
-    "label": "0",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "120",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
+    "ratio": 5.15
    },
    {
     "kind": "text",
     "label": "3번 중 3번",
     "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "icon",
-    "label": "steering",
-    "size": null,
     "fg": "#5EEAD4",
     "bg": "#19283D",
     "ratio": 10.05
    },
    {
-    "kind": "text",
-    "label": "조향",
-    "size": 22,
-    "fg": "#B8C5D8",
+    "kind": "graphic",
+    "label": "비교 막대 속도 3번 중 3번",
+    "size": null,
+    "fg": "#5EEAD4",
     "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "핸들을 돌리는 중",
-    "size": 26,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "3번 중 3번",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
+    "ratio": 10.05
    },
    {
     "kind": "icon",
@@ -8226,23 +9056,39 @@
    },
    {
     "kind": "text",
-    "label": "밟지 않음",
-    "size": 26,
+    "label": "밟는 중",
+    "size": 24,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "3번 중 3번",
+    "label": "평소 12%",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#19283D",
     "ratio": 8.51
    },
    {
-    "kind": "icon",
-    "label": "road",
+    "kind": "graphic",
+    "label": "비교 막대 브레이크 평소 12%",
+    "size": null,
+    "fg": "#8C99AD",
+    "bg": "#19283D",
+    "ratio": 5.15
+   },
+   {
+    "kind": "text",
+    "label": "3번 중 3번",
+    "size": 22,
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
+   },
+   {
+    "kind": "graphic",
+    "label": "비교 막대 브레이크 3번 중 3번",
     "size": null,
     "fg": "#5EEAD4",
     "bg": "#19283D",
@@ -8250,43 +9096,59 @@
    },
    {
     "kind": "text",
-    "label": "주행거리",
+    "label": "소리 원인 후보에서 뺀 것",
     "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
-   },
-   {
-    "kind": "text",
-    "label": "32,000km 넘은 뒤부터",
-    "size": 26,
     "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "3번 중 3번",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#19283D",
-    "ratio": 8.51
+    "bg": "#121C2B",
+    "ratio": 16.36
    },
    {
     "kind": "icon",
-    "label": "qr",
+    "label": "fan",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
-    "label": "정비소에 보여 주기",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "label": "에어컨 · 1번만 켜짐",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "window",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "창문 · 평소처럼 닫힘",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "wiper",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "와이퍼 · 평소처럼 꺼짐",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
    },
    {
     "kind": "icon",
@@ -8303,6 +9165,732 @@
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "qr",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
+   },
+   {
+    "kind": "text",
+    "label": "정비소에 보여 주기",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
+   }
+  ],
+  "ui-manual": [
+   {
+    "kind": "text",
+    "label": "플레오스 가드",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "상황 선택",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "설계 시안",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "car-front",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "주행 중",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "급한 상황 · 누르면 바로 안내합니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "octagon-alert",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "안 멈춰요",
+    "size": 32,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "up",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "저절로 빨라져요",
+    "size": 32,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "crash",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "사고가 났어요",
+    "size": 32,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "증상 · 기록만 하고 보호자 알림은 묻습니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "text",
+    "label": "차를 세우면 12가지를 모두 고를 수 있습니다",
+    "size": 22,
+    "fg": "#8C99AD",
+    "bg": "#090E16",
+    "ratio": 6.7
+   },
+   {
+    "kind": "icon",
+    "label": "activity",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#121C2B",
+    "ratio": 11.13
+   },
+   {
+    "kind": "text",
+    "label": "차체 떨림",
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "flame",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#121C2B",
+    "ratio": 11.13
+   },
+   {
+    "kind": "text",
+    "label": "타는 냄새",
+    "size": 34,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "rec",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
+   },
+   {
+    "kind": "text",
+    "label": "고른 증상 기록",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "send",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#622230",
+    "ratio": 11.21
+   },
+   {
+    "kind": "text",
+    "label": "지금 도움 요청",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#622230",
+    "ratio": 11.21
+   }
+  ],
+  "ui-manual-parked": [
+   {
+    "kind": "text",
+    "label": "플레오스 가드",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "상황 선택",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "설계 시안",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "circle-check",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "2개 선택 · 최대 3개",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "home",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "홈",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "engine",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "경고등 / 찾기",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "history",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "증상 / 기록",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "users",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "보호자 / 알림",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "wrench",
+    "size": null,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "정비소",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "octagon-alert",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "안 멈춰요",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "up",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "저절로 빨라져요",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "crash",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "사고가 났어요",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "빨간 칸은 바로 안내 · 아래 증상은 기록만 하고 보호자 알림은 묻습니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "activity",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "차체 떨림",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "steering",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "핸들 쏠림",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "audio-lines",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "이상한 소음",
+    "size": 26,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "icon",
+    "label": "flame",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "타는 냄새",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "pedal",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "페달 이상",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "wheel",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "타이어 이상",
+    "size": 26,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "icon",
+    "label": "trend",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "힘이 없어요",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "engine",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "경고등이 켜졌어요",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "circle-help",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "잘 모르겠음",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "rec",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#19283D",
+    "ratio": 10.05
+   },
+   {
+    "kind": "text",
+    "label": "고른 증상 기록",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "send",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#622230",
+    "ratio": 11.21
+   },
+   {
+    "kind": "text",
+    "label": "지금 도움 요청",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#622230",
+    "ratio": 11.21
+   }
+  ],
+  "ui-confirm": [
+   {
+    "kind": "text",
+    "label": "플레오스 가드",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "확인 질문",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#090E16",
+    "ratio": 18.48
+   },
+   {
+    "kind": "text",
+    "label": "설계 시안",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#090E16",
+    "ratio": 11.06
+   },
+   {
+    "kind": "icon",
+    "label": "volume-2",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "음성으로도 묻습니다",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "car-front",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "주행 중",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "icon",
+    "label": "circle-help",
+    "size": null,
+    "fg": "#FF5B6B",
+    "bg": "#2A1219",
+    "ratio": 5.81
+   },
+   {
+    "kind": "text",
+    "label": "확인 질문",
+    "size": 24,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
+    "kind": "text",
+    "label": "차가 멈추지 않나요?",
+    "size": 68,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "icon",
+    "label": "pedal",
+    "size": null,
+    "fg": "#FFC857",
+    "bg": "#2A1219",
+    "ratio": 11.39
+   },
+   {
+    "kind": "text",
+    "label": "브레이크를 밟은 1초 동안 / 속도가 줄지 않았습니다",
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "차속 · 시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
+   },
+   {
+    "kind": "icon",
+    "label": "mic",
+    "size": null,
+    "fg": "#FFCAD1",
+    "bg": "#121C2B",
+    "ratio": 11.92
+   },
+   {
+    "kind": "text",
+    "label": "말로 하는 답도 / 8초 동안 듣습니다",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "앱은 운전자의 답을 / 들은 뒤에만 긴급 안내를 / 시작합니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "circle-check",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "괜찮아요",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "질문 닫기",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "octagon-alert",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "안 멈춰요",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "감속 실패 대처",
+    "size": 22,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
    }
   ],
   "ui-guidance": [
@@ -8316,7 +9904,7 @@
    },
    {
     "kind": "text",
-    "label": "긴급 안내 · 원하지 않는 가속",
+    "label": "긴급 안내 · 원치 않는 가속",
     "size": 34,
     "fg": "#F7FAFF",
     "bg": "#702132",
@@ -8371,6 +9959,14 @@
     "ratio": 18.2
    },
    {
+    "kind": "graphic",
+    "label": "문장 자리 점선",
+    "size": null,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
     "kind": "icon",
     "label": "volume-2",
     "size": null,
@@ -8380,7 +9976,7 @@
    },
    {
     "kind": "text",
-    "label": "음성 자막",
+    "label": "지금 나오는 음성 · 화면 문장",
     "size": 22,
     "fg": "#FFCAD1",
     "bg": "#2A1219",
@@ -8388,43 +9984,19 @@
    },
    {
     "kind": "text",
-    "label": "취급설명서 비상 절차를 / 음성으로 안내합니다",
+    "label": "문장 자리",
+    "size": 22,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
+    "kind": "text",
+    "label": "취급설명서 비상 절차 / (검토 후 확정 문장)",
     "size": 28,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
-   },
-   {
-    "kind": "text",
-    "label": "출처: 아반떼 취급설명서 · 확인 전 예시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#2A1219",
-    "ratio": 10.02
-   },
-   {
-    "kind": "icon",
-    "label": "octagon-alert",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "멈추지 않아요",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "감속 실패 대처",
-    "size": 22,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
    },
    {
     "kind": "icon",
@@ -8449,6 +10021,30 @@
     "fg": "#F7FAFF",
     "bg": "#3A3346",
     "ratio": 11.52
+   },
+   {
+    "kind": "icon",
+    "label": "octagon-alert",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "안 멈춰요",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "감속 실패 대처",
+    "size": 22,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
    }
   ],
   "ui-stopping": [
@@ -8510,11 +10106,19 @@
    },
    {
     "kind": "text",
-    "label": "차를 세우는 방법을 / 음성으로 안내합니다",
+    "label": "앞을 보세요 / 음성 안내를 따라 주세요",
     "size": 44,
     "fg": "#F7FAFF",
     "bg": "#1B0B12",
     "ratio": 18.2
+   },
+   {
+    "kind": "graphic",
+    "label": "문장 자리 점선",
+    "size": null,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
    },
    {
     "kind": "icon",
@@ -8526,7 +10130,7 @@
    },
    {
     "kind": "text",
-    "label": "음성 자막",
+    "label": "지금 나오는 음성 · 화면 문장",
     "size": 22,
     "fg": "#FFCAD1",
     "bg": "#2A1219",
@@ -8534,43 +10138,19 @@
    },
    {
     "kind": "text",
-    "label": "취급설명서의 비상 제동 절차를 / 음성으로 읽어 드립니다",
+    "label": "문장 자리",
+    "size": 22,
+    "fg": "#FFCAD1",
+    "bg": "#2A1219",
+    "ratio": 12.19
+   },
+   {
+    "kind": "text",
+    "label": "취급설명서 비상 제동 절차 / (검토 후 확정 문장)",
     "size": 28,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
-   },
-   {
-    "kind": "text",
-    "label": "출처: 아반떼 취급설명서 · 확인 전 예시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#2A1219",
-    "ratio": 10.02
-   },
-   {
-    "kind": "icon",
-    "label": "send",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "도움 요청",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "보호자에게 알리기",
-    "size": 22,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
    },
    {
     "kind": "icon",
@@ -8595,6 +10175,30 @@
     "fg": "#F7FAFF",
     "bg": "#3A3346",
     "ratio": 11.52
+   },
+   {
+    "kind": "icon",
+    "label": "send",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "도움 요청",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "받는 사람 확인",
+    "size": 22,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
    }
   ],
   "ui-countdown": [
@@ -8608,7 +10212,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자 알림 · 보내기 전 10초 확인",
+    "label": "보호자 알림 · 발송 확인(10초)",
     "size": 34,
     "fg": "#F7FAFF",
     "bg": "#702132",
@@ -8647,32 +10251,24 @@
     "ratio": 10.02
    },
    {
-    "kind": "graphic",
-    "label": "시간 고리",
-    "size": null,
-    "fg": "#FF5B6B",
-    "bg": "#1B0B12",
-    "ratio": 6.31
-   },
-   {
     "kind": "text",
     "label": "10",
-    "size": 96,
+    "size": 104,
     "fg": "#F7FAFF",
-    "bg": "#1B0B12",
-    "ratio": 18.2
+    "bg": "#2A1219",
+    "ratio": 16.74
    },
    {
     "kind": "text",
     "label": "초 뒤 보냅니다",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#1B0B12",
-    "ratio": 10.89
+    "size": 26,
+    "fg": "#F7FAFF",
+    "bg": "#2A1219",
+    "ratio": 16.74
    },
    {
     "kind": "text",
-    "label": "119에 자동 신고하지 않습니다",
+    "label": "119에 자동 신고하지 않습니다. / 필요하면 119에 직접 신고하세요",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#1B0B12",
@@ -8744,7 +10340,7 @@
    },
    {
     "kind": "text",
-    "label": "사건",
+    "label": "감지",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#2A1219",
@@ -8752,11 +10348,19 @@
    },
    {
     "kind": "text",
-    "label": "에어백 전개 신호 · 21:00:03",
+    "label": "에어백 전개 신호(운전석) · 21:00:03",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "시험 입력",
+    "size": 22,
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
    },
    {
     "kind": "text",
@@ -8776,7 +10380,7 @@
    },
    {
     "kind": "text",
-    "label": "차량",
+    "label": "차",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#2A1219",
@@ -8784,35 +10388,19 @@
    },
    {
     "kind": "text",
-    "label": "탑승 2명 · 안전벨트 2명 · 문 닫힘",
+    "label": "탑승 1명(운전석) · 안전벨트 착용 · 문 닫힘",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
    },
    {
-    "kind": "icon",
-    "label": "send",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
     "kind": "text",
-    "label": "지금 보내기",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
-   },
-   {
-    "kind": "text",
-    "label": "기다리지 않고 바로",
+    "label": "시험 입력",
     "size": 22,
-    "fg": "#090E16",
-    "bg": "#FF5B6B",
-    "ratio": 6.41
+    "fg": "#FFC857",
+    "bg": "#2B2410",
+    "ratio": 10.02
    },
    {
     "kind": "icon",
@@ -8837,6 +10425,30 @@
     "fg": "#F7FAFF",
     "bg": "#3A3346",
     "ratio": 11.52
+   },
+   {
+    "kind": "icon",
+    "label": "send",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "지금 보내기",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
+   },
+   {
+    "kind": "text",
+    "label": "기다리지 않고 바로",
+    "size": 22,
+    "fg": "#090E16",
+    "bg": "#FF5B6B",
+    "ratio": 6.41
    }
   ],
   "ui-guardian": [
@@ -8906,7 +10518,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -8922,7 +10534,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -8938,7 +10550,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#9FA4FF",
     "bg": "#262A4D",
@@ -8959,54 +10571,6 @@
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "map-pin",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#112335",
-    "ratio": 15.26
-   },
-   {
-    "kind": "text",
-    "label": "지도 예시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#0B1828",
-    "ratio": 10.22
-   },
-   {
-    "kind": "text",
-    "label": "위치 측정 시각",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "21:00:01",
-    "size": 30,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "차량 위치 · 휴대폰 위치는 따로 표시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "보호자 2명에게 위치를 보내는 중",
-    "size": 22,
-    "fg": "#9FA4FF",
-    "bg": "#121C2B",
-    "ratio": 7.52
    },
    {
     "kind": "text",
@@ -9035,7 +10599,7 @@
    {
     "kind": "text",
     "label": "보호자 1",
-    "size": 26,
+    "size": 24,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
@@ -9050,7 +10614,7 @@
    },
    {
     "kind": "text",
-    "label": "열람함 · 21:01",
+    "label": "전달 · 열람 21:01 · 전화할게요",
     "size": 22,
     "fg": "#5EEAD4",
     "bg": "#19283D",
@@ -9067,7 +10631,7 @@
    {
     "kind": "text",
     "label": "보호자 2",
-    "size": 26,
+    "size": 24,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
@@ -9082,15 +10646,71 @@
    },
    {
     "kind": "text",
-    "label": "문자로 다시 보냄 · 21:00:43",
+    "label": "문자로 다시 보냄 21:00:23",
     "size": 22,
     "fg": "#FFC857",
     "bg": "#19283D",
     "ratio": 9.67
    },
    {
+    "kind": "icon",
+    "label": "map-pin",
+    "size": null,
+    "fg": "#9FA4FF",
+    "bg": "#121C2B",
+    "ratio": 7.52
+   },
+   {
     "kind": "text",
-    "label": "사고 순간 차량 스냅샷",
+    "label": "위치 측정 시각",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "21:00:01",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "차량 · 휴대폰 위치 따로 표시",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "주소: ○○시 ○○구 ○○대로 부근 (예시)",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "지도는 보호자 휴대폰 페이지에서 봅니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "보호자 2명에게 위치를 보내는 중",
+    "size": 22,
+    "fg": "#9FA4FF",
+    "bg": "#121C2B",
+    "ratio": 7.52
+   },
+   {
+    "kind": "text",
+    "label": "사고 순간 차 상태",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -9105,6 +10725,22 @@
     "ratio": 9.8
    },
    {
+    "kind": "text",
+    "label": "21:00:03 기준",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "운전석 1명",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
     "kind": "icon",
     "label": "seat",
     "size": null,
@@ -9114,7 +10750,7 @@
    },
    {
     "kind": "text",
-    "label": "탑승: 운전석 · 조수석",
+    "label": "탑승: 운전석 1명",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -9130,7 +10766,7 @@
    },
    {
     "kind": "text",
-    "label": "안전벨트: 2명 착용",
+    "label": "안전벨트: 운전석 착용",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -9178,7 +10814,7 @@
    },
    {
     "kind": "text",
-    "label": "도어: 운전석 열림 21:00:14",
+    "label": "문: 모두 닫힘",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -9188,331 +10824,33 @@
     "kind": "icon",
     "label": "history",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#9FA4FF",
-    "ratio": 8.5
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
     "label": "기록 보기",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#9FA4FF",
-    "ratio": 8.5
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
     "label": "pin-off",
     "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#9FA4FF",
+    "ratio": 8.5
    },
    {
     "kind": "text",
     "label": "공유 중지",
     "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   }
-  ],
-  "ui-manual": [
-   {
-    "kind": "text",
-    "label": "플레오스 가드",
-    "size": 30,
-    "fg": "#F7FAFF",
-    "bg": "#090E16",
-    "ratio": 18.48
-   },
-   {
-    "kind": "text",
-    "label": "상황 선택",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#090E16",
-    "ratio": 18.48
-   },
-   {
-    "kind": "text",
-    "label": "설계 시안",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#090E16",
-    "ratio": 11.06
-   },
-   {
-    "kind": "icon",
-    "label": "circle-check",
-    "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#121C2B",
-    "ratio": 11.57
-   },
-   {
-    "kind": "text",
-    "label": "2개 선택 · 최대 3개",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "home",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "홈",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "engine",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "경고등",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "history",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "기록",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "users",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "보호자",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "wrench",
-    "size": null,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "text",
-    "label": "정비소",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#121C2B",
-    "ratio": 9.8
-   },
-   {
-    "kind": "icon",
-    "label": "octagon-alert",
-    "size": null,
-    "fg": "#FF5B6B",
-    "bg": "#2A1219",
-    "ratio": 5.81
-   },
-   {
-    "kind": "text",
-    "label": "안 멈춰요",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#2A1219",
-    "ratio": 16.74
-   },
-   {
-    "kind": "icon",
-    "label": "up",
-    "size": null,
-    "fg": "#FF5B6B",
-    "bg": "#2A1219",
-    "ratio": 5.81
-   },
-   {
-    "kind": "text",
-    "label": "저절로 빨라져요",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#2A1219",
-    "ratio": 16.74
-   },
-   {
-    "kind": "icon",
-    "label": "crash",
-    "size": null,
-    "fg": "#FF5B6B",
-    "bg": "#2A1219",
-    "ratio": 5.81
-   },
-   {
-    "kind": "text",
-    "label": "사고가 났어요",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#2A1219",
-    "ratio": 16.74
-   },
-   {
-    "kind": "icon",
-    "label": "activity",
-    "size": null,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "text",
-    "label": "차체 떨림",
-    "size": 28,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "icon",
-    "label": "audio-lines",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "이상한 소음",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "steering",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "핸들 쏠림",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "flame",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "타는 냄새",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "trend",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "text",
-    "label": "힘이 없어요",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#121C2B",
-    "ratio": 16.36
-   },
-   {
-    "kind": "icon",
-    "label": "tire",
-    "size": null,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "text",
-    "label": "타이어 이상",
-    "size": 28,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "icon",
-    "label": "rec",
-    "size": null,
     "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "고른 증상 기록",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "icon",
-    "label": "lifebuoy",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#622230",
-    "ratio": 11.21
-   },
-   {
-    "kind": "text",
-    "label": "지금 도움 요청",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#622230",
-    "ratio": 11.21
+    "bg": "#9FA4FF",
+    "ratio": 8.5
    }
   ],
   "ui-check": [
@@ -9582,7 +10920,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#FFC857",
     "bg": "#30291C",
@@ -9598,7 +10936,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -9614,7 +10952,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -9782,59 +11120,35 @@
    },
    {
     "kind": "icon",
-    "label": "belt",
+    "label": "history",
     "size": null,
     "fg": "#5EEAD4",
-    "bg": "#19283D",
-    "ratio": 10.05
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
-    "label": "시험 입력",
-    "size": 22,
-    "fg": "#FFC857",
-    "bg": "#2B2410",
-    "ratio": 10.02
-   },
-   {
-    "kind": "text",
-    "label": "안전벨트",
+    "label": "끝나지 않은 기록 1건",
     "size": 24,
     "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "bg": "#121C2B",
+    "ratio": 16.36
    },
    {
     "kind": "text",
-    "label": "운전석 착용",
+    "label": "앞 타이어 끼익 소리 3번 · 정비 전",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "기록 보기 →",
     "size": 22,
     "fg": "#5EEAD4",
-    "bg": "#19283D",
-    "ratio": 10.05
-   },
-   {
-    "kind": "icon",
-    "label": "door",
-    "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#19283D",
-    "ratio": 10.05
-   },
-   {
-    "kind": "text",
-    "label": "도어",
-    "size": 24,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "모두 닫힘",
-    "size": 22,
-    "fg": "#5EEAD4",
-    "bg": "#19283D",
-    "ratio": 10.05
+    "bg": "#121C2B",
+    "ratio": 11.57
    },
    {
     "kind": "text",
@@ -9862,7 +11176,7 @@
    },
    {
     "kind": "text",
-    "label": "엔진오일 교환까지 / 2,860km 남았어요",
+    "label": "정기 점검까지 / 2,860km 남았습니다",
     "size": 22,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -9910,7 +11224,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자 2명 수신 확인",
+    "label": "보호자 2명 준비됨",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -9918,7 +11232,7 @@
    },
    {
     "kind": "text",
-    "label": "시험 알림 받음",
+    "label": "연습 알림 받음",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -9928,33 +11242,33 @@
     "kind": "icon",
     "label": "circle-check",
     "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "text",
     "label": "확인했어요",
     "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
     "label": "wrench",
     "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
    },
    {
     "kind": "text",
     "label": "정비소 들르기",
     "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
+    "fg": "#090E16",
+    "bg": "#FFC857",
+    "ratio": 12.57
    }
   ],
   "ui-practice": [
@@ -10024,7 +11338,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -10040,7 +11354,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -10056,7 +11370,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -10112,7 +11426,7 @@
    },
    {
     "kind": "text",
-    "label": "브레이크 신호를 받았어요",
+    "label": "브레이크 신호를 받았습니다",
     "size": 24,
     "fg": "#5EEAD4",
     "bg": "#121C2B",
@@ -10136,22 +11450,6 @@
    },
    {
     "kind": "icon",
-    "label": "next",
-    "size": null,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
-   },
-   {
-    "kind": "text",
-    "label": "다음 단계",
-    "size": 28,
-    "fg": "#090E16",
-    "bg": "#5EEAD4",
-    "ratio": 13.07
-   },
-   {
-    "kind": "icon",
     "label": "close",
     "size": null,
     "fg": "#F7FAFF",
@@ -10165,6 +11463,22 @@
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "next",
+    "size": null,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
+   },
+   {
+    "kind": "text",
+    "label": "다음 단계",
+    "size": 28,
+    "fg": "#090E16",
+    "bg": "#5EEAD4",
+    "ratio": 13.07
    }
   ],
   "ui-service": [
@@ -10234,7 +11548,7 @@
    },
    {
     "kind": "text",
-    "label": "경고등",
+    "label": "경고등 / 찾기",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -10250,7 +11564,7 @@
    },
    {
     "kind": "text",
-    "label": "기록",
+    "label": "증상 / 기록",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -10266,7 +11580,7 @@
    },
    {
     "kind": "text",
-    "label": "보호자",
+    "label": "보호자 / 알림",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -10289,62 +11603,6 @@
     "ratio": 9.35
    },
    {
-    "kind": "graphic",
-    "label": "경로",
-    "size": null,
-    "fg": "#5EEAD4",
-    "bg": "#112335",
-    "ratio": 10.79
-   },
-   {
-    "kind": "text",
-    "label": "A",
-    "size": 24,
-    "fg": "#090E16",
-    "bg": "#FFC857",
-    "ratio": 12.57
-   },
-   {
-    "kind": "text",
-    "label": "B",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#3A3220",
-    "ratio": 8.24
-   },
-   {
-    "kind": "text",
-    "label": "C",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#3A3220",
-    "ratio": 8.24
-   },
-   {
-    "kind": "text",
-    "label": "지금 위치",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#0B1828",
-    "ratio": 17.08
-   },
-   {
-    "kind": "text",
-    "label": "목적지",
-    "size": 22,
-    "fg": "#F7FAFF",
-    "bg": "#0B1828",
-    "ratio": 17.08
-   },
-   {
-    "kind": "text",
-    "label": "지도 예시",
-    "size": 22,
-    "fg": "#B8C5D8",
-    "bg": "#0B1828",
-    "ratio": 10.22
-   },
-   {
     "kind": "icon",
     "label": "flag",
     "size": null,
@@ -10354,7 +11612,7 @@
    },
    {
     "kind": "text",
-    "label": "목적지는 그대로",
+    "label": "목적지는 그대로 둡니다",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -10362,7 +11620,7 @@
    },
    {
     "kind": "text",
-    "label": "도착 21:36",
+    "label": "고른 정비소를 지금 경로에 경유지로 넣습니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -10371,7 +11629,7 @@
    {
     "kind": "text",
     "label": "A",
-    "size": 22,
+    "size": 24,
     "fg": "#090E16",
     "bg": "#FFC857",
     "ratio": 12.57
@@ -10379,22 +11637,14 @@
    {
     "kind": "text",
     "label": "정비소 A",
-    "size": 24,
+    "size": 26,
     "fg": "#F7FAFF",
     "bg": "#30291C",
     "ratio": 13.75
    },
    {
     "kind": "text",
-    "label": "+6분",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#30291C",
-    "ratio": 9.35
-   },
-   {
-    "kind": "text",
-    "label": "도착 21:42",
+    "label": "4.1km · 12분",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#30291C",
@@ -10402,8 +11652,24 @@
    },
    {
     "kind": "text",
-    "label": "B",
+    "label": "도착 예상",
     "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#30291C",
+    "ratio": 8.23
+   },
+   {
+    "kind": "text",
+    "label": "21:19",
+    "size": 30,
+    "fg": "#FFC857",
+    "bg": "#30291C",
+    "ratio": 9.35
+   },
+   {
+    "kind": "text",
+    "label": "B",
+    "size": 24,
     "fg": "#FFC857",
     "bg": "#3A3220",
     "ratio": 8.24
@@ -10411,22 +11677,14 @@
    {
     "kind": "text",
     "label": "정비소 B",
-    "size": 24,
+    "size": 26,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "+11분",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#19283D",
-    "ratio": 9.67
-   },
-   {
-    "kind": "text",
-    "label": "도착 21:47",
+    "label": "6.8km · 17분",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#19283D",
@@ -10434,8 +11692,24 @@
    },
    {
     "kind": "text",
-    "label": "C",
+    "label": "도착 예상",
     "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#19283D",
+    "ratio": 8.51
+   },
+   {
+    "kind": "text",
+    "label": "21:24",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "C",
+    "size": 24,
     "fg": "#FFC857",
     "bg": "#3A3220",
     "ratio": 8.24
@@ -10443,22 +11717,14 @@
    {
     "kind": "text",
     "label": "정비소 C",
-    "size": 24,
+    "size": 26,
     "fg": "#F7FAFF",
     "bg": "#19283D",
     "ratio": 14.21
    },
    {
     "kind": "text",
-    "label": "+15분",
-    "size": 24,
-    "fg": "#FFC857",
-    "bg": "#19283D",
-    "ratio": 9.67
-   },
-   {
-    "kind": "text",
-    "label": "도착 21:51",
+    "label": "9.5km · 21분",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#19283D",
@@ -10466,11 +11732,75 @@
    },
    {
     "kind": "text",
-    "label": "정비소 목록은 앱 안 자료입니다 (예시)",
+    "label": "도착 예상",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#19283D",
+    "ratio": 8.51
+   },
+   {
+    "kind": "text",
+    "label": "21:28",
+    "size": 30,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "icon",
+    "label": "navigation",
+    "size": null,
+    "fg": "#5EEAD4",
+    "bg": "#121C2B",
+    "ratio": 11.57
+   },
+   {
+    "kind": "text",
+    "label": "지도는 옆 화면의 / 내비에서 봅니다",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "내비에서 보기를 누르면 / 고른 정비소를 내비에 / 띄웁니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
     "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "도착 예상 시각은 / 내비가 알려 준 값입니다",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "text",
+    "label": "정비소 목록은 앱 안 / 자료입니다 (예시)",
+    "size": 22,
+    "fg": "#B8C5D8",
+    "bg": "#121C2B",
+    "ratio": 9.8
+   },
+   {
+    "kind": "icon",
+    "label": "navigation",
+    "size": null,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
+   },
+   {
+    "kind": "text",
+    "label": "내비에서 보기",
+    "size": 28,
+    "fg": "#F7FAFF",
+    "bg": "#19283D",
+    "ratio": 14.21
    },
    {
     "kind": "icon",
@@ -10487,22 +11817,6 @@
     "fg": "#090E16",
     "bg": "#FFC857",
     "ratio": 12.57
-   },
-   {
-    "kind": "icon",
-    "label": "close",
-    "size": null,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
-   },
-   {
-    "kind": "text",
-    "label": "취소",
-    "size": 28,
-    "fg": "#F7FAFF",
-    "bg": "#19283D",
-    "ratio": 14.21
    }
   ]
  }

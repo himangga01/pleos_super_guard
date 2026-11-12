@@ -1,15 +1,16 @@
 {
-  "version": "5.0.0",
-  "previous_version": "4.0.0",
+  "version": "5.1.0",
+  "previous_version": "5.0.0",
   "app_name": "플레오스 가드",
   "status": "DESIGN_TOKENS_NOT_RUNTIME_VERIFIED",
   "runtime_usability_verified": false,
-  "history": "history/2026-11-12-v2.1/ui-tokens.json(v4.0.0), ui-tokens-prd-v2.json(v1.0.0, 그대로 보존)",
+  "history": "history/2026-11-12-v3.0/ui-tokens.json(v5.0.0), history/2026-11-12-v2.1/ui-tokens.json(v4.0.0), ui-tokens-prd-v2.json(v1.0.0, 그대로 보존)",
   "source_legend": {
     "PLEOS_OFFICIAL": "Pleos 디자인 가이드 원문 수치",
     "PLEOS_REVIEW": "Pleos 앱 심사·성능 가이드 원문 수치",
     "SELF_DEFINED": "플레오스 가드 자체 설계값. Pleos 기준이라고 쓰지 않는다",
-    "MARKET_SCREENSHOT_SPEC": "마켓 스크린샷 규격을 시안 기준으로 빌린 값. 실제 창 크기가 아니다"
+    "MARKET_SCREENSHOT_SPEC": "마켓 스크린샷 규격을 시안 기준으로 빌린 값. 실제 창 크기가 아니다",
+    "DECISIONS_R2": "2차 비판 결정(F1 버튼 자리, G 화면 문구표, B9·B10·B11). 자체 설계 결정이며 Pleos 기준이 아니다"
   },
   "official_limits": {
     "contrast_min": {
@@ -204,42 +205,83 @@
         "primary_actions"
       ],
       "tabs": [
-        "home",
         "warning_find",
         "record_now",
-        "guardian_status"
+        "guardian_status",
+        "service_stop"
       ],
       "primary_actions_parked": [
         "RECORD_NOW",
-        "SYMPTOM_SELECT"
+        "HELP_MENU"
       ],
       "primary_actions_fixed_bottom": true,
       "driving": {
-        "vehicle_area": "SMALL_OR_HIDDEN",
+        "vehicle_area": "HIDDEN",
         "context_panel": "HIDDEN",
         "top_tabs": "HIDDEN",
         "actions": [
           "RECORD_NOW",
-          "SYMPTOM_SELECT_5",
-          "GUARDIAN_ALERT"
+          "TALK",
+          "HELP_MENU"
         ],
-        "action_layout": "FULL_WIDTH_STACK"
+        "action_labels": [
+          "지금 기록",
+          "말로 하기",
+          "도움이 필요해요"
+        ],
+        "action_layout": "FULL_WIDTH_STACK",
+        "guardian_alert_button": false,
+        "note": "주행 중 홈은 큰 버튼 3개. 보호자에게 알리기 버튼은 홈에 두지 않고 '도움이 필요해요' → 상황 선택 → 받는 사람 확인으로만 간다(B9·D10). 경고등 찾기는 '말로 하기'로 들어간다(H1)."
       },
       "emergency": {
         "order": [
           "situation_band",
           "action_sentence",
           "still_image",
-          "stopped_buttons"
+          "bottom_buttons"
         ],
         "drop_first_when_short": "still_image",
-        "buttons_while_driving": 0,
-        "buttons_after_stop": [
-          "CAR_STOPPED",
-          "GUARDIAN_ALERT"
-        ],
-        "end_guidance_button": "OK_END_GUIDANCE",
-        "button_stack": "VERTICAL"
+        "buttons_while_driving": 2,
+        "button_stack": "HORIZONTAL",
+        "left_button": "NEUTRAL_END",
+        "right_button": "RED_HELP_OR_DECEL_FAILURE",
+        "screens": {
+          "confirm_prompt": {
+            "left": "OK_END",
+            "right": "NOT_STOPPING"
+          },
+          "unwanted_accel": {
+            "left": "OK_END_GUIDANCE",
+            "right": "NOT_STOPPING"
+          },
+          "decel_failure": {
+            "left": "CAR_STOPPED_END_GUIDANCE",
+            "right": "HELP_REQUEST"
+          },
+          "countdown": {
+            "left": "OK_DONT_SEND",
+            "right": "SEND_NOW"
+          }
+        },
+        "guardian_alert_button": false,
+        "source_line_while_driving": false,
+        "countdown_ring_while_driving": false
+      },
+      "tab_labels": {
+        "warning_find": "경고등 찾기",
+        "record_now": "증상 기록",
+        "guardian_status": "보호자 알림",
+        "service_stop": "정비소"
+      },
+      "home_entry": "LOGO",
+      "primary_actions_parked_sides": {
+        "left": "RECORD_NOW",
+        "right": "HELP_MENU"
+      },
+      "primary_action_labels": {
+        "RECORD_NOW": "지금 기록",
+        "HELP_MENU": "도움이 필요해요",
+        "TALK": "말로 하기"
       }
     },
     "landscape": {
@@ -306,17 +348,26 @@
         "home",
         "warning_find",
         "record_now",
-        "symptom_select",
-        "guardian_status"
+        "guardian_status",
+        "service_stop"
       ],
-      "note": "기존 승인 시안 구조(왼쪽 도크·가운데 차·오른쪽 맥락 패널). 12열 그리드는 쓰지 않는다."
+      "note": "기존 승인 시안 구조(왼쪽 도크·가운데 차·오른쪽 맥락 패널). 12열 그리드는 쓰지 않는다. 가운데에 지도를 그리지 않는다(B11).",
+      "dock_labels": {
+        "home": "홈",
+        "warning_find": "경고등 찾기",
+        "record_now": "증상 기록",
+        "guardian_status": "보호자 알림",
+        "service_stop": "정비소"
+      }
     }
   },
   "parity_rules": [
     "세로와 가로는 같은 기능과 같은 행동 버튼을 준다(기능 패리티). 배치만 다르다.",
     "창 크기·방향이 바뀌어도 고른 부위, 진행 중 안내 단계, 발송 확인 남은 시간을 유지한다.",
     "레터박스 없이 창을 채운다.",
-    "긴급 흐름에서 같은 자리 버튼은 같은 뜻이다. '보내지 않기·안내 끝내기' 같은 부정 행동은 모든 긴급 화면에서 같은 자리·같은 중립색이다.",
+    "버튼 자리는 앱 전체에서 같다(F1): 왼쪽 = 끝내기·취소·기록(중립색), 오른쪽 = 도움·보내기·감속 실패(빨강). 빨강이 아닌 화면의 오른쪽은 주 행동 색.",
+    "화면 문구는 screen_copy(G 화면 문구표)를 그대로 쓴다. 문서·그림·계약이 같은 문구를 인용한다.",
+    "앱 안에는 지도를 그리지 않는다(B11). 정비소는 목록과 '내비에서 보기', 보호자 상태는 위치 측정 시각·주소 문자만.",
     "시안이 없는 화면은 설계만 있는 상태이며 기능 차이가 아니다."
   ],
   "driving_mode": {
@@ -325,10 +376,11 @@
     "max_primary_actions": 3,
     "max_text_lines": 3,
     "max_menu_depth": 3,
-    "vehicle_illustration": "SMALL_OR_HIDDEN",
+    "vehicle_illustration": "HIDDEN",
     "foot_or_hand_motion_images": false,
     "system_fullscreen_popup": false,
-    "unknown_driving_state": "TREAT_AS_DRIVING"
+    "unknown_driving_state": "TREAT_AS_DRIVING",
+    "driving_situation_cards": 5
   },
   "animation": {
     "driving_motion_ms": 0,
@@ -530,10 +582,26 @@
   "screens": [
     {
       "id": "home",
-      "name_ko": "홈",
+      "name_ko": "홈(정차)",
       "feature": "-",
       "portrait_file": "p-home.png",
       "landscape_file": "ui-home.png",
+      "driving_access": "PARKED_ONLY",
+      "variant_files": {
+        "portrait": [
+          "p-parts.png"
+        ],
+        "landscape": [
+          "ui-parts.png"
+        ]
+      }
+    },
+    {
+      "id": "home_driving",
+      "name_ko": "홈(주행 중)",
+      "feature": "-",
+      "portrait_file": "p-home-driving.png",
+      "landscape_file": "ui-home-driving.png",
       "driving_access": "SIMPLIFIED"
     },
     {
@@ -557,16 +625,27 @@
       "name_ko": "점검 항목",
       "feature": "F1",
       "portrait_file": "p-check.png",
-      "landscape_file": null,
-      "driving_access": "SIMPLIFIED"
+      "landscape_file": "ui-check.png",
+      "driving_access": "PARKED_ONLY"
     },
     {
       "id": "predrive_check",
       "name_ko": "출발 전 점검",
       "feature": "F1",
       "portrait_file": "p-check.png",
-      "landscape_file": null,
-      "driving_access": "PARKED_ONLY"
+      "landscape_file": "ui-check.png",
+      "driving_access": "PARKED_ONLY",
+      "excludes": [
+        "SEATBELT",
+        "DOOR"
+      ],
+      "includes": [
+        "CHECK_ITEMS",
+        "MAINTENANCE_SCHEDULE",
+        "UNFINISHED_RECORDS",
+        "GUARDIAN_READINESS",
+        "PHONE_PAIRING_STATE"
+      ]
     },
     {
       "id": "record_now",
@@ -589,39 +668,59 @@
       "name_ko": "정비 노트",
       "feature": "F2",
       "portrait_file": null,
-      "landscape_file": "ui-history.png",
+      "landscape_file": null,
       "driving_access": "PARKED_ONLY"
     },
     {
       "id": "symptom_select",
       "name_ko": "상황 선택",
       "feature": "F3",
-      "portrait_file": null,
-      "landscape_file": null,
-      "driving_access": "SIMPLIFIED"
+      "portrait_file": "p-manual.png",
+      "landscape_file": "ui-manual.png",
+      "driving_access": "SIMPLIFIED",
+      "variant_files": {
+        "portrait": [
+          "p-manual-parked.png"
+        ],
+        "landscape": [
+          "ui-manual-parked.png"
+        ]
+      }
+    },
+    {
+      "id": "confirm_prompt",
+      "name_ko": "확인 질문",
+      "feature": "F3",
+      "portrait_file": "p-confirm.png",
+      "landscape_file": "ui-confirm.png",
+      "driving_access": "FULL",
+      "guidance_state": "CONFIRM_PROMPT"
     },
     {
       "id": "emergency_guidance",
-      "name_ko": "긴급 안내",
+      "name_ko": "원치 않는 가속 안내",
       "feature": "F3",
       "portrait_file": "p-emergency.png",
       "landscape_file": "ui-guidance.png",
-      "driving_access": "FULL"
+      "driving_access": "FULL",
+      "former_name_ko": "긴급 안내",
+      "guidance_state": "UNWANTED_ACCEL_GUIDE"
     },
     {
       "id": "decel_failure",
       "name_ko": "감속 실패 대처",
       "feature": "F3",
-      "portrait_file": "p-emergency.png",
-      "landscape_file": "ui-guidance.png",
-      "driving_access": "FULL"
+      "portrait_file": "p-stopping.png",
+      "landscape_file": "ui-stopping.png",
+      "driving_access": "FULL",
+      "guidance_state": "DECEL_FAILURE_GUIDE"
     },
     {
       "id": "practice",
       "name_ko": "비상 절차 미리 익히기",
       "feature": "F3",
       "portrait_file": "p-practice.png",
-      "landscape_file": null,
+      "landscape_file": "ui-practice.png",
       "driving_access": "PARKED_ONLY"
     },
     {
@@ -638,15 +737,17 @@
       "feature": "F4",
       "portrait_file": "p-guardian.png",
       "landscape_file": "ui-guardian.png",
-      "driving_access": "SIMPLIFIED"
+      "driving_access": "SIMPLIFIED",
+      "map": false
     },
     {
       "id": "service_stop",
       "name_ko": "정비소 들르기",
       "feature": "F5",
       "portrait_file": "p-service.png",
-      "landscape_file": null,
-      "driving_access": "SIMPLIFIED"
+      "landscape_file": "ui-service.png",
+      "driving_access": "SIMPLIFIED",
+      "map": false
     },
     {
       "id": "settings_consent",
@@ -675,40 +776,62 @@
   ],
   "mockup_files": {
     "portrait": [
-      "p-home.png",
-      "p-warning-find.png",
-      "p-warning-result.png",
       "p-check.png",
-      "p-record.png",
-      "p-pattern.png",
-      "p-emergency.png",
+      "p-confirm.png",
       "p-countdown.png",
+      "p-emergency.png",
       "p-guardian.png",
+      "p-home-driving.png",
+      "p-home.png",
+      "p-manual-parked.png",
+      "p-manual.png",
+      "p-parts.png",
+      "p-pattern.png",
       "p-practice.png",
-      "p-service.png"
+      "p-record.png",
+      "p-service.png",
+      "p-stopping.png",
+      "p-warning-find.png",
+      "p-warning-result.png"
     ],
     "landscape": [
-      "ui-home.png",
-      "ui-warning.png",
-      "ui-record.png",
-      "ui-guidance.png",
+      "ui-check.png",
+      "ui-confirm.png",
       "ui-countdown.png",
       "ui-guardian.png",
-      "ui-history.png"
+      "ui-guidance.png",
+      "ui-history.png",
+      "ui-home-driving.png",
+      "ui-home.png",
+      "ui-manual-parked.png",
+      "ui-manual.png",
+      "ui-parts.png",
+      "ui-practice.png",
+      "ui-record.png",
+      "ui-service.png",
+      "ui-stopping.png",
+      "ui-warning.png"
     ],
-    "note": "v4 시안 파일 이름. 세로 시안 11장, 가로 시안 7장."
+    "folder": "output/submission/assets/v4/portrait · landscape",
+    "note": "v4 시안 폴더의 실제 파일 목록(2026-11-12 확인). 세로 17장, 가로 16장."
   },
   "legacy_screen_map": {
     "home": "home",
     "parts": "home",
+    "home-driving": "home_driving",
     "warning": "warning_find",
     "record": "record_now",
     "manual": "symptom_select",
+    "confirm": "confirm_prompt",
     "guidance": "emergency_guidance",
+    "emergency": "emergency_guidance",
     "stopping": "decel_failure",
     "countdown": "countdown",
     "guardian": "guardian_status",
-    "history": "maintenance_note"
+    "history": "pattern",
+    "check": "predrive_check",
+    "practice": "practice",
+    "service": "service_stop"
   },
   "launch_asset": "output/submission/assets/pleos-guard-launch-outline.png",
   "launch_rule": "콜드 스타트 1회만 짧게. 주행 제한 중·긴급 복귀 때는 생략.",
@@ -717,5 +840,244 @@
     3587,
     8134,
     7162
-  ]
+  ],
+  "button_side_rule": {
+    "source": "DECISIONS_R2",
+    "applies": "APP_WIDE",
+    "left": {
+      "roles": [
+        "END",
+        "CANCEL",
+        "RECORD",
+        "SECONDARY"
+      ],
+      "color": "NEUTRAL",
+      "examples": [
+        "지금 기록",
+        "괜찮아요",
+        "차가 멈췄어요",
+        "기록 보기"
+      ]
+    },
+    "right": {
+      "roles": [
+        "HELP",
+        "SEND",
+        "DECEL_FAILURE"
+      ],
+      "color": "emergency",
+      "examples": [
+        "도움이 필요해요",
+        "지금 보내기",
+        "안 멈춰요",
+        "도움 요청"
+      ]
+    },
+    "right_when_not_red": "PRIMARY_ACTION_COLOR",
+    "red_only_for": [
+      "HELP",
+      "SEND",
+      "DECEL_FAILURE"
+    ],
+    "note": "일반 홈의 오른쪽 빨간 '도움이 필요해요'와 긴급 화면의 빨간 버튼이 같은 쪽(오른쪽)에 있다."
+  },
+  "in_app_map": false,
+  "screen_copy": [
+    {
+      "screen_id": "home",
+      "name_ko": "홈(정차)",
+      "top": "탭: 경고등 찾기 · 증상 기록 · 보호자 알림 · 정비소",
+      "left": {
+        "label": "지금 기록",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "도움이 필요해요",
+        "color": "emergency"
+      }
+    },
+    {
+      "screen_id": "home_driving",
+      "name_ko": "홈(주행 중)",
+      "top": "차 그림·탭 숨김, 큰 버튼 3개(가운데: 말로 하기)",
+      "left": {
+        "label": "지금 기록",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "도움이 필요해요",
+        "color": "emergency"
+      }
+    },
+    {
+      "screen_id": "symptom_select",
+      "name_ko": "상황 선택",
+      "top": "주행 중 5개(안 멈춰요 · 저절로 빨라져요 · 사고가 났어요 · 차체 떨림 · 타는 냄새), 정차 후 12개",
+      "left": {
+        "label": "고른 증상 기록",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "지금 도움 요청",
+        "color": "emergency"
+      }
+    },
+    {
+      "screen_id": "confirm_prompt",
+      "name_ko": "확인 질문",
+      "top": "차가 멈추지 않나요?",
+      "left": {
+        "label": "괜찮아요",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "안 멈춰요",
+        "color": "emergency"
+      }
+    },
+    {
+      "screen_id": "emergency_guidance",
+      "name_ko": "원치 않는 가속 안내",
+      "top": "앞을 보세요 · 음성 안내",
+      "left": {
+        "label": "괜찮아요(안내 끝내기)",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "안 멈춰요(감속 실패 대처)",
+        "color": "emergency"
+      }
+    },
+    {
+      "screen_id": "decel_failure",
+      "name_ko": "감속 실패 대처",
+      "top": "취급설명서 비상 제동 절차",
+      "left": {
+        "label": "차가 멈췄어요(안내 끝내기)",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "도움 요청",
+        "color": "emergency"
+      }
+    },
+    {
+      "screen_id": "countdown",
+      "name_ko": "발송 확인(10초)",
+      "top": "무엇을 감지했는지 · 받는 사람",
+      "left": {
+        "label": "괜찮아요(보내지 않음)",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "지금 보내기",
+        "color": "emergency"
+      }
+    },
+    {
+      "screen_id": "guardian_status",
+      "name_ko": "보호자 알림 상태",
+      "top": "보호자별 한 줄 상태 · 위치 측정 시각(지도 없음)",
+      "left": {
+        "label": "기록 보기",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "공유 중지",
+        "color": "PRIMARY_ACTION"
+      }
+    },
+    {
+      "screen_id": "warning_find",
+      "name_ko": "경고등 찾기",
+      "top": "색 → 모양 → 켜짐·깜박임",
+      "left": {
+        "label": "문구로 찾기",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "말로 찾기",
+        "color": "PRIMARY_ACTION"
+      }
+    },
+    {
+      "screen_id": "warning_detail",
+      "name_ko": "경고등 설명",
+      "top": "주행 중 한 줄 판단",
+      "left": {
+        "label": "정차 후 자세히",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "정비소 들르기",
+        "color": "PRIMARY_ACTION"
+      }
+    },
+    {
+      "screen_id": "predrive_check",
+      "name_ko": "출발 전 점검",
+      "top": "점검 항목(오일·브레이크액·워셔액·출력 저하) · 정비 일정 · 끝나지 않은 기록 · 보호자·휴대폰 준비",
+      "left": {
+        "label": "확인했어요",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "정비소 들르기",
+        "color": "PRIMARY_ACTION"
+      }
+    },
+    {
+      "screen_id": "record_now",
+      "name_ko": "지금 기록",
+      "top": "차량 상태 시간표",
+      "left": {
+        "label": "기록 끝내기",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "말로 메모",
+        "color": "PRIMARY_ACTION"
+      }
+    },
+    {
+      "screen_id": "pattern",
+      "name_ko": "재현 조건",
+      "top": "같은 증상 3회 · 평소보다 겹친 조건",
+      "left": {
+        "label": "기록 목록",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "정비소에 보여 주기",
+        "color": "PRIMARY_ACTION"
+      }
+    },
+    {
+      "screen_id": "practice",
+      "name_ko": "비상 절차 미리 익히기",
+      "top": "정차 중에만 · 단계 1/3",
+      "left": {
+        "label": "그만하기",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "다음 단계",
+        "color": "PRIMARY_ACTION"
+      }
+    },
+    {
+      "screen_id": "service_stop",
+      "name_ko": "정비소 들르기",
+      "top": "후보 목록 · 도착 예상 시각(지도 없음)",
+      "left": {
+        "label": "내비에서 보기",
+        "color": "NEUTRAL"
+      },
+      "right": {
+        "label": "경유지로 추가",
+        "color": "PRIMARY_ACTION"
+      }
+    }
+  ],
+  "screen_copy_source": "2차 비판 결정 G 화면 문구표(문서·그림·계약이 그대로 인용)"
 }
