@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""플레오스 가드 개발 계약 v3 정적 검사기 (python3 표준 라이브러리만).
+"""플레오스 가드 개발 계약 v3.1 정적 검사기 (python3 표준 라이브러리만).
 
 검사 항목
   1. JSON 파싱(현재 판·이력 판)
@@ -11,11 +11,13 @@
   7. ui-tokens 대비 재계산, 배치 영역 계산, 화면 목록 확인
   8. 개인 로컬 경로 문자열 검사
   9. (선택) --pg-host/--pg-port: 로컬 PostgreSQL에 새 DB를 만들어 DDL 실행과 제약 시험
+ 10. 2차 비판 결정(D1~D6·B·F·G·H) 반영 확인: 새 작업 18개, 새 enum ↔ SQL CHECK, 시안 폴더 실제 목록, G 화면 문구표, 새 인수 사례 주제
+ PRD와의 대조는 하지 않는다(계약 파일끼리만).
 
 사용
   python3 validate_contracts.py                 # 정적 검사, 결과를 표준 출력에 요약
-  python3 validate_contracts.py --write validation-2026-11-12-v3.json
-  python3 validate_contracts.py --pg-host /path/to/socketdir --pg-port 5432 --write ...
+  python3 validate_contracts.py --write validation-2026-11-12-v3.1.json
+  python3 validate_contracts.py --pg-host /path/to/socketdir --pg-port 5432 --write validation-2026-11-12-v3.1.json
 
 이 검사는 정적 검사입니다. 앱 빌드·실행, 서버 실행, 실제 발송, 실차 동작의 증거가 아닙니다.
 """
@@ -29,6 +31,10 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HISTORY = os.path.join("history", "2026-11-12-v2.1")
+HISTORY_V30 = os.path.join("history", "2026-11-12-v3.0")
+HISTORY_V30_FILES = ["api.openapi.json", "database.sql", "rules-lab.json", "ui-tokens.json", "acceptance-scenarios.json", "README.md", "validate_contracts.py", "validation-2026-11-12-v3.json"]
+ASSETS_V4 = os.path.join("..", "..", "..", "output", "submission", "assets", "v4")
+VERSIONS = {"openapi": "3.1.0", "rules": "2.1.0", "tokens": "5.1.0", "acceptance": "3.1.0", "contract": "3.1.0", "db": "v3.1"}
 CONTRACT_FILES = ["api.openapi.json", "database.sql", "rules-lab.json", "ui-tokens.json", "acceptance-scenarios.json"]
 HISTORY_FILES = ["api.openapi.json", "database.sql", "rules-lab.json", "ui-tokens.json", "acceptance-scenarios.json", "README.md", "validation-2026-11-12.json"]
 
@@ -48,7 +54,10 @@ DECISION_ENUMS = {
     "BodyArea": ["FRONT", "FRONT_LEFT_TIRE", "FRONT_RIGHT_TIRE", "REAR_LEFT_TIRE", "REAR_RIGHT_TIRE", "CABIN", "REAR", "UNDERBODY", "UNKNOWN"],
     "LocationSource": ["VEHICLE", "PHONE"],
 }
-DECISION_DRIVING5 = ["VIBRATION", "BURNING_SMELL", "TIRE_DAMAGE", "COLLISION", "UNKNOWN"]
+DECISION_DRIVING5 = ["VIBRATION", "BURNING_SMELL", "TIRE_DAMAGE", "COLLISION", "UNKNOWN"]  # 1차 9.1(이력). 2차 B9가 대신한다.
+# 2차 결정 B9: 주행 중 상황 선택 5개 = 긴급 3(안 멈춰요·저절로 빨라져요 → PEDAL_PROBLEM, 사고가 났어요 → COLLISION) + 증상 2
+R2_DRIVING_CHOICES = ["NOT_STOPPING", "SPEEDING_UP", "COLLISION", "VIBRATION", "BURNING_SMELL"]
+R2_DRIVING_SELECTABLE = ["VIBRATION", "BURNING_SMELL", "COLLISION", "PEDAL_PROBLEM"]
 DECISION_GUIDE_PATTERN = "^G_[A-Z_]+$"
 DECISION_LOCATION_FIELDS = ["latitude", "longitude", "measured_at", "received_at", "location_confidence", "location_source"]
 DECISION_SNAPSHOT_FIELDS = ["speed_mps", "brake_pressed", "steering_angle_deg", "turn_signal", "doors_open", "seat_occupied", "seatbelt_unbuckled", "airbag_deployed", "odometer_km", "fuel_or_soc_pct", "maintenance_flags"]
@@ -62,8 +71,32 @@ DECISION_PATHS = [
 ]
 DECISION_SCREENS = ["홈", "경고등 찾기", "경고등 설명", "점검 항목", "출발 전 점검", "지금 기록", "재현 조건", "정비 노트", "상황 선택", "긴급 안내",
                     "감속 실패 대처", "비상 절차 미리 익히기", "발송 확인(10초)", "보호자 알림 상태", "정비소 들르기", "설정·동의", "휴대폰 연결", "시연 모드"]
-PORTRAIT_FILES = ["p-home.png", "p-warning-find.png", "p-warning-result.png", "p-check.png", "p-record.png", "p-pattern.png", "p-emergency.png", "p-countdown.png", "p-guardian.png", "p-practice.png", "p-service.png"]
-LANDSCAPE_FILES = ["ui-home.png", "ui-warning.png", "ui-record.png", "ui-guidance.png", "ui-countdown.png", "ui-guardian.png", "ui-history.png"]
+# 2차 결정 G 화면 문구표 기준 화면 이름(1차 7장 18개 + 홈(주행 중)·확인 질문, '긴급 안내'는 '원치 않는 가속 안내')
+R2_SCREENS = ["홈(정차)", "홈(주행 중)", "경고등 찾기", "경고등 설명", "점검 항목", "출발 전 점검", "지금 기록", "재현 조건", "정비 노트", "상황 선택", "확인 질문",
+              "원치 않는 가속 안내", "감속 실패 대처", "비상 절차 미리 익히기", "발송 확인(10초)", "보호자 알림 상태", "정비소 들르기", "설정·동의", "휴대폰 연결", "시연 모드"]
+# G 화면 문구표(화면, 왼쪽 버튼, 오른쪽 버튼)
+R2_SCREEN_COPY = [
+    ("홈(정차)", "지금 기록", "도움이 필요해요"), ("홈(주행 중)", "지금 기록", "도움이 필요해요"), ("상황 선택", "고른 증상 기록", "지금 도움 요청"),
+    ("확인 질문", "괜찮아요", "안 멈춰요"), ("원치 않는 가속 안내", "괜찮아요(안내 끝내기)", "안 멈춰요(감속 실패 대처)"),
+    ("감속 실패 대처", "차가 멈췄어요(안내 끝내기)", "도움 요청"), ("발송 확인(10초)", "괜찮아요(보내지 않음)", "지금 보내기"),
+    ("보호자 알림 상태", "기록 보기", "공유 중지"), ("경고등 찾기", "문구로 찾기", "말로 찾기"), ("경고등 설명", "정차 후 자세히", "정비소 들르기"),
+    ("출발 전 점검", "확인했어요", "정비소 들르기"), ("지금 기록", "기록 끝내기", "말로 메모"), ("재현 조건", "기록 목록", "정비소에 보여 주기"),
+    ("비상 절차 미리 익히기", "그만하기", "다음 단계"), ("정비소 들르기", "내비에서 보기", "경유지로 추가"),
+]
+R2_RED_RIGHT = ["홈(정차)", "홈(주행 중)", "상황 선택", "확인 질문", "원치 않는 가속 안내", "감속 실패 대처", "발송 확인(10초)"]
+# 2차 결정으로 더한 작업(D1·D3·D5·D6·H7·H8)
+R2_PATHS = [
+    ("post", "/v1/shares/{shareId}/session"), ("post", "/v1/shares/{shareId}/session/verify"),
+    ("post", "/v1/driver-profiles"), ("get", "/v1/vehicles/{vehicleId}/driver-profiles"), ("put", "/v1/trips/{tripId}/driver"), ("post", "/v1/trips/{tripId}/end"),
+    ("post", "/v1/incidents/{incidentId}/location-sharing/stop"), ("post", "/v1/share-links/{linkId}/revoke"), ("delete", "/v1/guardians/{guardianId}"),
+    ("delete", "/v1/devices/{deviceId}"), ("delete", "/v1/me"),
+    ("post", "/v1/pairing/{pairingId}/vehicle-confirm"), ("post", "/v1/vehicles/{vehicleId}/ownership-transfers"),
+    ("post", "/v1/vehicles/{vehicleId}/ownership-transfers/{transferId}/cancel"), ("post", "/v1/time-sync"),
+    ("put", "/v1/driver-profiles/{driverProfileId}/arrival-alert"), ("post", "/v1/trips/{tripId}/arrival"), ("post", "/v1/service-checkins"),
+]
+R2_ACCEPTANCE_AREAS = {"guardian_session": "D1", "demo_mode": "D2", "trip": "D3", "open_alert": "D4", "deletion": "D5", "pairing": "D6", "ownership": "D6",
+                       "clock": "D6", "confirm_prompt": "F2", "voice_talk": "H1", "pattern": "H3", "arrival_alert": "H7", "service_checkin": "H8",
+                       "no_map": "B11", "predrive": "B10", "permission": "B4", "button_side": "F1"}
 DEMO_METHODS = ["VIRTUAL_CONSOLE", "TEST_INPUT", "MOCK_SERVER", "ADB", "MANUAL"]
 FUTURE_SIGNAL_WORDS = ["TELLTALE", "IMU", "GYRO", "ACCEL_PEDAL", "GEAR", "PARKING_BRAKE", "TIRE_PRESSURE", "IGNITION", "HAZARD", "IMPACT", "RAW_AUDIO", "VIDEO"]
 
@@ -118,6 +151,20 @@ ENUM_PAIRS = [
     ("/components/schemas/RecheckState", "maintenance_notes", "recheck_state", "equal"),
     ("/components/schemas/ClockConfidence", "notification_policies", "clock_confidence", "equal"),
     ("/components/schemas/ShareLinkScope", "share_links", "scope", "equal"),
+    # 2차 결정(D1~D6·H6~H8)
+    ("/components/schemas/DispatchMode", "notification_policies", "dispatch_mode", "equal"),
+    ("/components/schemas/DispatchMode", "deliveries", "dispatch_mode", "equal"),
+    ("/components/schemas/TripEndReason", "trips", "ended_reason", "equal"),
+    ("/components/schemas/ConsentScope", "consents", "scope", "equal"),
+    ("/components/schemas/DriverMode", "consents", "driver_mode", "equal"),
+    ("/components/schemas/DriverMode", "arrival_alert_settings", "driver_mode", "equal"),
+    ("/components/schemas/ShareSessionStage", "guardian_share_sessions", "stage", "equal"),
+    ("/components/schemas/TransferState", "ownership_transfers", "state", "equal"),
+    ("/components/schemas/TransferInitiator", "ownership_transfers", "initiated_by", "equal"),
+    ("/components/schemas/OwnershipTransferCreate/properties/reason", "ownership_transfers", "reason", "equal"),
+    ("/components/schemas/PairingRole", "device_pairings", "requested_role", "equal"),
+    ("/components/schemas/LocationPrecision", "location_disclosures", "location_precision", "equal"),
+    ("/components/schemas/CheckinDetection", "service_checkins", "detected_by", "equal"),
 ]
 REGEX_PAIRS = [
     ("/components/schemas/GuideId", "guide_bundles", "guide_id"),
@@ -269,6 +316,8 @@ def sv(inst, schema, root, where="$"):
         if "items" in schema:
             for i, x in enumerate(inst):
                 errs += sv(x, schema["items"], root, f"{where}[{i}]")
+        if "contains" in schema and not any(not sv(x, schema["contains"], root, where) for x in inst):
+            errs.append(f"{where}: contains no match")
     if isinstance(inst, str):
         if "minLength" in schema and len(inst) < schema["minLength"]:
             errs.append(f"{where}: minLength")
@@ -310,7 +359,7 @@ def sample_snapshot():
 def sample_incident():
     return {
         "client_incident_id": U[1], "vehicle_id": U[2], "device_id": U[3], "trip_id": U[4], "driver_profile_id": U[5], "driver_mode": "OWNER",
-        "occurred_at": T, "incident_trigger": "AIRBAG_DEPLOYED", "rule_profile_id": "pleos-care-lab-20261112-r2", "severity": "L3_URGENT",
+        "occurred_at": T, "incident_trigger": "AIRBAG_DEPLOYED", "rule_profile_id": "pleos-care-lab-20261112-r3", "severity": "L3_URGENT",
         "severity_reasons": ["NEW_AIRBAG_DEPLOYMENT"], "vehicle_snapshot": sample_snapshot(),
         "observations": [{"sequence": 0, "code": "AIRBAG_DEPLOYED", "area": "ROW_1_LEFT", "source": "TEST_INPUT", "quality": "TEST_INPUT",
                           "measured_at": None, "received_at": T, "freshness_basis": "ARRIVAL_ONLY", "unit": None, "value": True}],
@@ -320,9 +369,30 @@ def sample_incident():
         "driver_response": "NOT_REQUESTED",
         "notification": {"guardian_ids": [U[7]], "requested_state": "COUNTDOWN", "countdown_remaining_ms": 10000, "countdown_started_at": T,
                          "elapsed_ms_at_submit": 0, "clock_confidence": "SYNCHRONIZED", "clock_domain": "server-synced", "clock_error_bound_ms": 120,
-                         "cancel_action_id": None, "recipients_shown_at": None},
+                         "cancel_action_id": None, "recipients_shown_at": None, "clock_sync": {"offset_ms": -35, "rtt_ms": 180, "synced_at": T}},
+        "contains_test_input": True,
         "test_mode": True,
     }
+
+
+def real_snapshot():
+    """시험 입력이 하나도 없는 실제 값 스냅샷."""
+    sn = sample_snapshot()
+
+    def fix(v):
+        if isinstance(v, dict) and v.get("source") == "TEST_INPUT":
+            v["source"], v["quality"] = ("AAOS_PROPERTY", "OK") if v is sn["speed_mps"] else ("VEHICLE_SDK", "OK")
+        return v
+    for k, v in sn.items():
+        if isinstance(v, list):
+            for x in v:
+                fix(x)
+        elif isinstance(v, dict) and k == "maintenance_flags":
+            for x in v.values():
+                fix(x)
+        else:
+            fix(v)
+    return sn
 
 
 def mutate(obj, fn):
@@ -333,35 +403,55 @@ def mutate(obj, fn):
 
 def schema_examples():
     inc = sample_incident()
+    real = mutate(inc, lambda o: (o.update({"vehicle_snapshot": real_snapshot(), "test_mode": False, "contains_test_input": False}),
+                                  o["observations"][0].update({"source": "VEHICLE_SDK", "quality": "OK"})))
     mr = {"client_report_id": U[1], "symptoms": ["PULLING"], "body_area": "FRONT_LEFT_TIRE", "input_source": "USER_SELECTION", "memo_text": None,
           "selected_while_driving": False, "reported_stopped": None, "request_help": False, "selected_at": T}
     ge = {"client_event_id": U[1], "guide_id": "G_DECEL_FAILURE", "guide_version": 1, "step_id": "S1", "guidance_state": "DECEL_FAILURE_GUIDE",
           "entry": "USER_BUTTON", "occurred_at": T, "output": "AUDIO", "result": "STARTED", "error_code": None}
-    act = {"client_action_id": U[1], "expected_version": 1, "action": "CANCEL", "occurred_at": T, "recipients_shown_guardian_ids": []}
-    dl = {"delivery_id": U[1], "guardian_id": U[2], "guardian_display_name": "엄마", "channel": "SMS", "transport_group": "TEXT", "revision": 1,
-          "is_correction": False, "is_practice": False, "state": "DELIVERED", "accepted_at": T, "delivered_at": T, "opened_at": None, "fallback_deadline_at": None}
+    act = {"client_action_id": U[1], "expected_version": 1, "action": "CANCEL", "occurred_at": T, "recipients_shown_guardian_ids": [], "countdown_elapsed_ms": 4200}
+    dl = {"delivery_id": U[1], "guardian_id": U[2], "guardian_display_name": "딸", "channel": "SMS", "transport_group": "TEXT", "revision": 1,
+          "is_correction": False, "is_practice": False, "is_arrival": False, "dispatch_mode": "MOCK", "supersedes_delivery_id": None,
+          "state": "DELIVERED", "accepted_at": T, "delivered_at": T, "opened_at": None, "fallback_deadline_at": None}
     ack = {"incident_id": U[1], "version": 2, "accepted_at": T, "severity": "L3_URGENT", "notification_state": "SETTLED", "notification_outcome": "PARTIAL",
-           "notification_revision": 1, "release_at": T, "timing_uncertain": False, "test_mode": True, "related_incident_id": None}
+           "notification_revision": 1, "release_at": T, "timing_uncertain": False, "test_mode": True, "related_incident_id": None,
+           "alert_incident_id": U[1], "dispatch_mode": "MOCK", "server_time": T}
     step = {"step_id": "S1", "ordinal": 1, "text_lines": ["전자식 파킹 브레이크 스위치를 계속 당기세요"], "still_image_asset_id": "img-epb",
             "parked_animation_asset_id": None, "motion_while_driving": False, "tts_line_ids": ["L1"]}
-    tts = {"line_id": "L1", "text": "예시 문장", "preroll_silence_ms": 180, "audio_usage_candidates": ["USAGE_ASSISTANCE_NAVIGATION_GUIDANCE"]}
+    tts = {"line_id": "L1", "text": "예시 문장", "leading_pause_text": None, "bundled_audio_asset_id": None, "bundled_audio_preroll_silence_ms": None,
+           "audio_usage_candidates": ["USAGE_ASSISTANCE_NAVIGATION_GUIDANCE"]}
     obs = inc["observations"][0]
     help_inc = mutate(inc, lambda o: (o.update({"incident_trigger": "USER_HELP_REQUEST", "severity": "L3_URGENT"}),
                                       o["notification"].update({"requested_state": "RELEASED", "recipients_shown_at": T})))
+    consent = {"client_consent_id": U[1], "driver_profile_id": U[2], "subject_role": "DRIVER", "item": "LOCATION_SHARE_GUARDIAN", "granted": True,
+               "policy_version": "2026-11", "decided_at": T, "scope": "STANDING", "trip_id": None, "recorded_while_parked": True}
+    drv = {"client_change_id": U[1], "driver_profile_id": None, "driver_mode": "GUEST", "chip_answer": "SELECTED", "changed_while_parked": True, "occurred_at": T}
+    arrival = {"enabled": True, "guardian_ids": [U[3]], "updated_while_parked": True}
+    transfer = {"client_transfer_id": U[1], "initiated_by": "VEHICLE_SCREEN", "reason": "SALE", "requested_while_parked": True}
     return [
-        ("IncidentCreate", "에어백 COUNTDOWN", inc, True),
+        ("IncidentCreate", "에어백 COUNTDOWN(시험 입력, test_mode=true)", inc, True),
+        ("IncidentCreate", "실제 값만, test_mode=false", real, True),
         ("IncidentCreate", "USER_SYMPTOM이 COUNTDOWN 요청", mutate(inc, lambda o: o.update({"incident_trigger": "USER_SYMPTOM"})), False),
         ("IncidentCreate", "USER_HELP_REQUEST가 COUNTDOWN 요청", mutate(inc, lambda o: o.update({"incident_trigger": "USER_HELP_REQUEST"})), False),
         ("IncidentCreate", "도움 요청 RELEASED(받는 사람 확인)", help_inc, True),
         ("IncidentCreate", "도움 요청 RELEASED인데 recipients_shown_at 없음", mutate(help_inc, lambda o: o["notification"].update({"recipients_shown_at": None})), False),
-        ("IncidentCreate", "TEST_INPUT 차속인데 test_mode=false", mutate(inc, lambda o: o.update({"test_mode": False})), False),
+        ("IncidentCreate", "TEST_INPUT 차속인데 test_mode=false", mutate(inc, lambda o: o.update({"test_mode": False, "contains_test_input": False})), False),
+        ("IncidentCreate", "D2: 에어백만 시험 입력인데 test_mode=false", mutate(real, lambda o: o["vehicle_snapshot"]["airbag_deployed"][0].update({"source": "TEST_INPUT", "quality": "TEST_INPUT"})), False),
+        ("IncidentCreate", "D2: 워셔액만 시험 입력인데 test_mode=false", mutate(real, lambda o: o["vehicle_snapshot"]["maintenance_flags"]["washer_fluid_low"].update({"source": "TEST_INPUT", "quality": "TEST_INPUT"})), False),
+        ("IncidentCreate", "D2: 관측만 시험 입력인데 test_mode=false", mutate(real, lambda o: o["observations"][0].update({"source": "TEST_INPUT", "quality": "TEST_INPUT"})), False),
+        ("IncidentCreate", "D2: contains_test_input=true인데 test_mode=false", mutate(real, lambda o: o.update({"contains_test_input": True})), False),
+        ("IncidentCreate", "D6: SYNCHRONIZED인데 clock_sync 없음", mutate(inc, lambda o: o["notification"].update({"clock_sync": None})), False),
+        ("IncidentCreate", "D6: clock_sync 왕복 1,500ms", mutate(inc, lambda o: o["notification"]["clock_sync"].update({"rtt_ms": 1500})), False),
         ("IncidentCreate", "옛 trigger 필드", mutate(inc, lambda o: o.update({"trigger": "AIRBAG_DEPLOYED"})), False),
         ("Location", "accuracy_m 추가", mutate(inc["location"], lambda o: o.update({"accuracy_m": 25})), False),
         ("Location", "위도 91", mutate(inc["location"], lambda o: o.update({"latitude": 91})), False),
         ("Location", "좌표 한쪽만", mutate(inc["location"], lambda o: o.update({"longitude": None, "quality": "UNAVAILABLE"})), False),
         ("ManualReport", "정차 중 PULLING", mr, True),
-        ("ManualReport", "주행 중 PULLING(큰 카드 5개 밖)", mutate(mr, lambda o: o.update({"selected_while_driving": True})), False),
-        ("ManualReport", "주행 중 VIBRATION", mutate(mr, lambda o: o.update({"selected_while_driving": True, "symptoms": ["VIBRATION"]})), True),
+        ("ManualReport", "주행 중 카드 PULLING(5개 밖)", mutate(mr, lambda o: o.update({"selected_while_driving": True})), False),
+        ("ManualReport", "주행 중 카드 VIBRATION(차체 떨림)", mutate(mr, lambda o: o.update({"selected_while_driving": True, "symptoms": ["VIBRATION"]})), True),
+        ("ManualReport", "B9: 주행 중 카드 PEDAL_PROBLEM(안 멈춰요)", mutate(mr, lambda o: o.update({"selected_while_driving": True, "symptoms": ["PEDAL_PROBLEM"]})), True),
+        ("ManualReport", "B9: 주행 중 카드 TIRE_DAMAGE(1차 5개였으나 제외)", mutate(mr, lambda o: o.update({"selected_while_driving": True, "symptoms": ["TIRE_DAMAGE"]})), False),
+        ("ManualReport", "H1: 주행 중 말로 하기 PULLING", mutate(mr, lambda o: o.update({"selected_while_driving": True, "input_source": "STT", "memo_text": "쏠려요"})), True),
         ("ManualReport", "옛 이름 SHAKE", mutate(mr, lambda o: o.update({"symptoms": ["SHAKE"]})), False),
         ("ManualReport", "증상 4개", mutate(mr, lambda o: o.update({"symptoms": ["NOISE", "PULLING", "VIBRATION", "UNKNOWN"]})), False),
         ("ManualReport", "옛 부위 FRONT_TIRE", mutate(mr, lambda o: o.update({"body_area": "FRONT_TIRE"})), False),
@@ -375,17 +465,42 @@ def schema_examples():
         ("Delivery", "문자 전달", dl, True),
         ("Delivery", "SMS인데 transport_group KAKAO", mutate(dl, lambda o: o.update({"transport_group": "KAKAO"})), False),
         ("Delivery", "옛 상태 QUEUED", mutate(dl, lambda o: o.update({"state": "QUEUED"})), False),
+        ("Delivery", "D2: 발송 방식 이름 밖", mutate(dl, lambda o: o.update({"dispatch_mode": "LIVE"})), False),
         ("IncidentAck", "SETTLED/PARTIAL", ack, True),
         ("IncidentAck", "SETTLED인데 outcome 없음", mutate(ack, lambda o: o.update({"notification_outcome": None})), False),
         ("IncidentAck", "RELEASED인데 outcome 있음", mutate(ack, lambda o: o.update({"notification_state": "RELEASED"})), False),
+        ("IncidentAck", "D4: alert_incident_id 빠짐", mutate(ack, lambda o: o.pop("alert_incident_id")), False),
         ("GuideStep", "정지 그림 단계", step, True),
         ("GuideStep", "주행 중 움직임 true", mutate(step, lambda o: o.update({"motion_while_driving": True})), False),
         ("GuideStep", "글 4줄", mutate(step, lambda o: o.update({"text_lines": ["가", "나", "다", "라"]})), False),
-        ("TtsLine", "무음 180ms", tts, True),
-        ("TtsLine", "무음 100ms", mutate(tts, lambda o: o.update({"preroll_silence_ms": 100})), False),
+        ("TtsLine", "TTS 문장(무음 값 없음)", tts, True),
+        ("TtsLine", "B5: 잘림 대비 쉼표 문구", mutate(tts, lambda o: o.update({"leading_pause_text": "자,"})), True),
+        ("TtsLine", "B5: 앱 음원 없이 무음 180ms", mutate(tts, lambda o: o.update({"bundled_audio_preroll_silence_ms": 180})), False),
+        ("TtsLine", "앱 고정 음원 무음 180ms", mutate(tts, lambda o: o.update({"bundled_audio_asset_id": "a-epb", "bundled_audio_preroll_silence_ms": 180})), True),
+        ("TtsLine", "앱 고정 음원 무음 100ms", mutate(tts, lambda o: o.update({"bundled_audio_asset_id": "a-epb", "bundled_audio_preroll_silence_ms": 100})), False),
+        ("TtsLine", "옛 preroll_silence_ms", mutate(tts, lambda o: o.update({"preroll_silence_ms": 180})), False),
         ("TtsLine", "EMERGENCY 용도", mutate(tts, lambda o: o.update({"audio_usage_candidates": ["USAGE_EMERGENCY"]})), False),
         ("Observation", "TEST_INPUT인데 quality OK", mutate(obs, lambda o: o.update({"quality": "OK"})), False),
         ("Observation", "경고등 상태 코드", mutate(obs, lambda o: o.update({"code": "TELLTALE_STATE"})), False),
+        ("Observation", "H3: 풍량 관측", mutate(obs, lambda o: o.update({"code": "CLIMATE_FAN_SPEED", "source": "VEHICLE_SDK", "quality": "OK", "value": 3, "area": "ROW_1_LEFT"})), True),
+        ("ConsentRequest", "정차 중 상시 위치 동의", consent, True),
+        ("ConsentRequest", "D3: 이번 trip 동의인데 trip_id 없음", mutate(consent, lambda o: o.update({"scope": "TRIP"})), False),
+        ("ConsentRequest", "D3: 위치 동의를 주행 중 기록", mutate(consent, lambda o: o.update({"recorded_while_parked": False})), False),
+        ("ConsentRequest", "D3: 위치 동의 철회는 주행 중에도", mutate(consent, lambda o: o.update({"granted": False, "recorded_while_parked": False})), True),
+        ("TripDriverChange", "정차 중 게스트 지정", drv, True),
+        ("TripDriverChange", "D3: 주행 중 운전자 변경", mutate(drv, lambda o: o.update({"changed_while_parked": False})), False),
+        ("TripDriverChange", "D3: OWNER인데 프로필 없음", mutate(drv, lambda o: o.update({"driver_mode": "OWNER"})), False),
+        ("TripEndRequest", "D3: 기기가 LONG_PARKED로 종료", {"client_end_id": U[1], "reason": "LONG_PARKED", "ended_at": T}, False),
+        ("PairingVehicleConfirm", "D6: 주행 중 차 화면 확인", {"decision": "ACCEPT", "shown_phone_label_masked": "010-****-1234", "confirmed_while_parked": False, "occurred_at": T}, False),
+        ("GuardianShareSessionVerify", "D1: 번호 뒷자리 5자리", {"share_session_id": U[1], "token": "t" * 20, "phone_last4": "12345"}, False),
+        ("GuardianShareSessionVerify", "D1: 번호 뒷자리 4자리", {"share_session_id": U[1], "token": "t" * 20, "phone_last4": "1234"}, True),
+        ("ArrivalAlertSettingUpdate", "H7: 받는 사람 1명 켜기", arrival, True),
+        ("ArrivalAlertSettingUpdate", "H7: 받는 사람 없이 켜기", mutate(arrival, lambda o: o.update({"guardian_ids": []})), False),
+        ("TripArrivalReport", "H7: 도착 알림에 위치 포함", {"client_arrival_id": U[1], "arrived_at": T, "trigger": "NAVI_DESTINATION_ARRIVED", "includes_location": True}, False),
+        ("OwnershipTransferCreate", "D6: 차 화면 시작(정차 중)", transfer, True),
+        ("OwnershipTransferCreate", "D6: 차 화면 시작(주행 중)", mutate(transfer, lambda o: o.update({"requested_while_parked": False})), False),
+        ("ServiceCheckinCreate", "H8: 좌표를 담은 체크인", {"client_checkin_id": U[1], "vehicle_id": U[2], "trip_id": None, "shop_ref": "poi-1", "shop_display_name": "블루핸즈",
+                                                      "detected_by": "FUSED_PROXIMITY_ENTER", "arrived_at": T, "detected_while_parked": True, "latitude": 37.5}, False),
     ]
 
 
