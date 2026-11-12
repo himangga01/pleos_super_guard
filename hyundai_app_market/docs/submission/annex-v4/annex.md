@@ -236,7 +236,7 @@ Pleos 화면은 앱 영역에 앱을 두 개까지 나란히 둘 수 있고, 두
 - "지금 기록"을 한 번 누르면 누른 시각 앞 30초와 뒤 60초 동안 받은 차량 값을 시간표로 묶습니다. 이를 위해 차량 앱은 최근 값을 기기 안에 잠시만 보관합니다. 화면은 누른 시각 앞 20초와 뒤 10초를 먼저 보여 줍니다. 주행 중에는 아무것도 묻지 않고 짧은 음성으로 저장을 알립니다.
 - 차를 세우면 어떤 증상이었는지 묻습니다. 운전자는 떨림·소음·쏠림·냄새·타이어·잘 모르겠음 같은 증상을 고르고, 짧은 메모를 말이나 글로 덧붙입니다. 부위는 홈의 아반떼 그림(앞부분·앞 타이어·실내·뒤쪽)에서 고르고, 모르면 비워 둡니다.
 - 운전자가 고른 증상과 차량 값은 출처를 나눠 저장합니다. 정비사는 "운전자 선택"과 "차량 SDK" 값을 구별해 봅니다.
-- 재현 조건 카드: 같은 부위·같은 증상이 세 번 이상 쌓이면 만듭니다. 후보 조건은 차속 구간(20km/h 단위), 브레이크 밟음, 조향 방향, 방향지시등, 출발 뒤 경과 시간, 공조 바람 세기, 창문 열림, 와이퍼 상태입니다. 앱은 주행 중 차량 상태를 일정한 간격으로 가볍게 남겨 평소 비율을 구하고, 이 증상 때 평소보다 유난히 겹친 조건만 보여 줍니다. 모든 기록에 같은 조건은 "공통", 일부에만 있는 조건은 "자주"로 씁니다. 주행거리처럼 늘 쌓이는 값은 조건에서 뺍니다.
+- 재현 조건 카드: 같은 부위·같은 증상이 세 번 이상 쌓이면 만듭니다. 후보 조건은 차속 구간(20km/h 단위), 브레이크 밟음, 조향 방향, 방향지시등, 출발 뒤 경과 시간, 공조 바람 세기, 창문 열림, 와이퍼 상태입니다. 앱은 주행 중 차량 상태를 60초에 한 번 가볍게 남겨 평소 비율을 구하고, 세 번 중 두 번 이상 나타났으며 평소 비율의 1.5배 이상인 조건만 보여 줍니다. 모든 기록에 같은 조건은 "공통", 일부에만 있는 조건은 "자주"로 씁니다. 주행거리처럼 늘 쌓이는 값은 조건에서 뺍니다.
 - 소리 용의자 지우기 [시연]: 기록 순간의 공조 바람 세기, 에어컨, 창문 열림, 와이퍼 상태를 함께 남깁니다. 이 값이 평소와 같았으면 재현 조건 카드에 "소리 원인 후보에서 뺀 것"으로 적어, 정비사가 공조 소리나 차 밖 소리를 먼저 가려내게 합니다.
 - 정비 노트에는 운전자가 정비소에서 들은 결과와 다음 점검 주행거리를 남깁니다. 주행거리가 500km 늘면 정차 중에 "같은 증상이 다시 있었나요?"를 묻습니다. "아니요"면 기록을 정비 완료로 닫고, "다시 있어요"면 같은 기록에 이어 붙입니다.
 
@@ -571,7 +571,7 @@ Vehicle SDK 2.3.2에서는 차속 리스너가 빠졌습니다. Pleos 개발자 
 | 화면 표시 | 품질(`quality`) | 뜻 |
 |---|---|---|
 | 값 그대로 | OK | 정상으로 받은 값 |
-| 오래된 값 | STALE | 주기적으로 오는 값이 3,000ms 넘게 끊김 |
+| 오래된 값 | STALE | 주기적으로 오는 값이 3,000ms 넘게 끊김, 위치는 측정 뒤 60초가 지남 |
 | 확인 불가 | UNAVAILABLE | 서비스 연결이 끊기거나 값이 오지 않음 |
 | 권한 없음 | PERMISSION_DENIED | 권한이 없음 |
 | 이 차에서 확인 불가 | NOT_SUPPORTED | 이 차가 지원하지 않음 |
@@ -653,7 +653,7 @@ Vehicle SDK 2.3.2에서는 차속 리스너가 빠졌습니다. Pleos 개발자 
 | 실패 | FAILED | 발송사가 실패를 알렸습니다. |
 | 취소 | CANCELLED | 발송 전에 취소됐습니다. |
 
-전달 상태는 보호자마다, 그리고 알림톡(KAKAO)과 문자(TEXT) 묶음마다 따로 둡니다. 화면은 보호자 한 명당 한 줄로 보여 줍니다. 대표 사례에서는 "보호자 1 · 알림톡 전달됨 · 21:01 열람 · 전화할게요", "보호자 2 · 알림톡 미확인 → 21:00:23 문자 전달됨"입니다. 열람은 상태가 아닙니다. 보호자가 번호 뒷자리를 확인하고 페이지를 열면 열람 시각(`opened_at`)을 따로 기록합니다.
+전달 상태는 보호자마다, 그리고 알림톡(KAKAO)과 문자(TEXT) 묶음마다 따로 둡니다. 화면은 보호자 한 명당 한 줄로 보여 줍니다. 대표 사례에서는 "보호자 1 · 알림톡 전달됨 · 21:01 열람 · 전화할게요", "보호자 2 · 알림톡 미확인 → 21:00:23 문자 전달됨"입니다. 열람은 상태가 아닙니다. 보호자가 링크를 열어 1단계 화면(무슨 일·시각·먼저 할 일)을 받으면 열람 시각(`opened_at`)을 따로 기록하고, 위치와 상태는 번호 뒷자리를 확인한 2단계에서 보여 줍니다. 링크 미리보기 접근은 열람으로 세지 않습니다.
 
 ### 7.3 10초의 뜻
 
@@ -689,7 +689,7 @@ Vehicle SDK 2.3.2에서는 차속 리스너가 빠졌습니다. Pleos 개발자 
 
 ## 8. 데이터와 API 설계 요약 {nobreak}
 
-이 장은 저장소의 설계 파일(요청 시 제공)인 서버 API 정의, 데이터베이스 정의, 판정 설정값, 인수 시나리오를 요약합니다. 현재 판은 서버 API 59개 작업(OpenAPI 3.1.0), 데이터베이스 36개 테이블(v3.1), 인수 시나리오 133개(3.1.0)이며, 정적 검사 560개를 통과했습니다. 앱과 서버를 실행한 결과는 아닙니다.
+이 장은 저장소의 설계 파일(요청 시 제공)인 서버 API 정의, 데이터베이스 정의, 판정 설정값, 인수 시나리오를 요약합니다. 현재 판(계약 v3.1)은 서버 API 경로 56개·작업 59개·스키마 171개(OpenAPI 3.1.0), 데이터베이스 테이블 36개(v3.1), 판정 설정 rules-lab 2.1.0, 화면 토큰 ui-tokens 5.1.0, 인수 시나리오 133개(3.1.0)이며, 설계 파일끼리 맞춰 보는 정적 검사를 통과(PASS)했습니다. 앱과 서버를 실행한 결과는 아닙니다. 이 별첨의 이름과 숫자는 설계 파일과 같고, 설계 파일에 아직 없는 것은 "계약 미반영(향후)"으로 표시합니다.
 
 ### 8.1 핵심 열거형
 
@@ -706,22 +706,22 @@ Vehicle SDK 2.3.2에서는 차속 리스너가 빠졌습니다. Pleos 개발자 
 | 안내 묶음 `guide_id` | `G_`로 시작하는 문자열(예: G_UNWANTED_ACCEL, G_DECEL_FAILURE, G_STOP_SAFE), 정수 `version`, 문자열 `step_id` |
 | 알림·전달·긴급 안내 상태 | 7장의 `policy_state`, `delivery_state`, `guidance_state` 표와 같습니다. |
 
-주행 중 큰 카드 가운데 "안 멈춰요"와 "저절로 빨라져요"는 증상이 아니라 긴급 안내(G_DECEL_FAILURE, G_UNWANTED_ACCEL)로 바로 들어가는 입구입니다.
+주행 중 큰 카드 가운데 "안 멈춰요"와 "저절로 빨라져요"는 증상 카드가 아니라 긴급 안내(G_DECEL_FAILURE, G_UNWANTED_ACCEL)로 바로 들어가는 입구이며, 기록에는 PEDAL_PROBLEM으로 남깁니다. 그래서 주행 중 카드로 저장되는 증상 값은 VIBRATION, BURNING_SMELL, COLLISION, PEDAL_PROBLEM 네 가지입니다.
 
 표: 수동 증상의 기본 등급과 안내(설계값, 시험으로 조정)
 | 증상(화면 이름) | 값 | 최소 등급 | 주행 중 · 기본 안내 |
 |---|---|---|---|
-| 떨림(차체 떨림) | VIBRATION | L2 | 큰 카드 · G_STOP_SAFE(안전한 곳에 세우고 확인) |
-| 냄새(타는 냄새) | BURNING_SMELL | L2 | 큰 카드 · G_STOP_SAFE |
-| 사고(사고가 났어요) | COLLISION | L3 | 큰 카드(긴급) · 발송 전 확인 10초 |
-| 타이어 | TIRE_DAMAGE | L2 | 정차 후 · G_STOP_SAFE |
-| 잘 모르겠음 | UNKNOWN | L1 | 정차 후 · 기록, 다시 묻기 |
-| 쏠림 | PULLING | L2 | 정차 후 · G_STOP_SAFE |
-| 소음 | NOISE | L1 | 정차 후 · 기록 |
-| 페달 이상 | PEDAL_PROBLEM | L2 | 정차 후 · 주행 중에는 "안 멈춰요"·"저절로 빨라져요" 카드 |
-| 출력 저하 | POWER_LOSS | L2 | 정차 후 · G_STOP_SAFE |
+| 떨림(차체 떨림) | VIBRATION | L2 | 큰 카드 · G_VIBRATION_STOP(안전한 곳에 세우고 확인) |
+| 냄새(타는 냄새) | BURNING_SMELL | L2 | 큰 카드 · G_SMELL_STOP |
+| 사고(사고가 났어요) | COLLISION | L3 | 큰 카드(긴급) · G_COLLISION, 발송 전 확인 10초 |
+| 타이어 | TIRE_DAMAGE | L2 | 정차 후 · G_TIRE_STOP |
+| 잘 모르겠음 | UNKNOWN | L1 | 정차 후 · G_UNKNOWN_CHECK(기록, 다시 묻기) |
+| 쏠림 | PULLING | L2 | 정차 후 · G_PULLING_STOP |
+| 소음 | NOISE | L1 | 정차 후 · G_NOISE_CHECK(기록) |
+| 페달 이상 | PEDAL_PROBLEM | L2 | 정차 후 · G_PEDAL_CHECK. 주행 중에는 "안 멈춰요"·"저절로 빨라져요" 카드의 기록값 |
+| 출력 저하 | POWER_LOSS | L2 | 정차 후 · G_POWER_LOSS |
 
-- 안내 묶음은 `guide_bundles` 테이블에 판 단위로 저장합니다. 열은 `guide_id`, `version`, `vehicle_profile_id`, `availability`, `source_manual_ref`(취급설명서 출처), `steps_json`(단계와 그림), `tts_lines_json`(읽을 문장)입니다. 문장을 고치면 이전 판을 남겨 두고 새 판을 만듭니다.
+- 안내 묶음은 `guide_bundles` 테이블에 판 단위로 저장합니다. 주요 열은 `guide_id`, `version`, `vehicle_profile_id`, `guide_kind`(WARNING·EMERGENCY·SYMPTOM), `availability`, `source_manual_ref`(취급설명서 출처), `steps_json`(단계와 그림), `tts_lines_json`(읽을 문장), 검토자·검토일(`reviewed_by`, `reviewed_at`)입니다. 문장을 고치면 이전 판을 남겨 두고 새 판을 만듭니다. 묶음 서명 필드는 계약 미반영(향후)입니다.
 
 ### 8.2 차량 스냅샷과 위치
 
@@ -736,12 +736,14 @@ Vehicle SDK 2.3.2에서는 차속 리스너가 빠졌습니다. Pleos 개발자 
 | seatbelt_unbuckled[], airbag_deployed[] | 안전벨트를 매지 않은 좌석, 에어백이 전개된 좌석 영역 | Seat, Safety |
 | odometer_km, fuel_or_soc_pct | 누적 주행거리(km), 연료 또는 배터리 잔량(%) | Odometer, Fuel, EvBattery |
 | maintenance_flags | engine_oil, brake_fluid, washer_fluid_low, power_down_warning | Safety |
-| 공조·창문·와이퍼, 출발 뒤 경과 시간 | 바람 세기와 에어컨, 창문 위치, 와이퍼 상태, 주행 시작 뒤 초 | HVAC, Window, Wiper, 앱 |
-| (모든 값 공통) | quality, received_at | 앱 |
+| climate_ac_on, climate_fan_speed | 에어컨 켜짐, 바람 세기(단계) | HVAC |
+| window_open_max_pct, wiper_state | 가장 많이 열린 창문(%), 와이퍼 상태(OFF, ON, OTHER, SERVICE) | Window, Wiper |
+| trip_elapsed_s | 출발 뒤 경과 시간(초). 앱이 주행 시작 시각으로 계산 | 앱 |
+| (모든 값 공통) | value, quality, received_at, source | 앱 |
 
 위치는 아래 필드로 저장합니다. 오차 반경은 저장하지 않습니다.
 
-- `latitude`, `longitude`(위도·경도), `measured_at`(SDK가 준 측정 시각), `received_at`(앱이 받은 시각), `location_source`(VEHICLE 또는 PHONE)
+- `latitude`, `longitude`(위도·경도), `measured_at`(SDK가 준 측정 시각), `received_at`(앱이 받은 시각), `location_source`(VEHICLE 또는 PHONE), `quality`(측정 뒤 60초가 지나면 STALE)
 - `location_confidence`: SDK가 준 confidence 원값. 뜻이 공개되지 않아 미터로 바꾸지 않습니다.
 
 ### 8.3 서버 API 목록 요약
@@ -749,16 +751,17 @@ Vehicle SDK 2.3.2에서는 차속 리스너가 빠졌습니다. Pleos 개발자 
 표: 서버 API 묶음(모든 /v1 경로는 이 앱이 만드는 서버 API이며, Pleos나 카카오가 제공하는 경로가 아닙니다)
 | 묶음과 하는 일 | 대표 경로 |
 |---|---|
-| 차량·기기: 차량 등록(차대번호는 해시로만 저장), 휴대폰 QR 연결(차 화면 확인 버튼), 출발 준비 | POST /v1/vehicles, POST /v1/pairing/qr, POST /v1/pairing/confirm, POST /v1/trips |
-| 사건: 생성, 목록, 조회, 관측값·위치·수동 보고 추가 | POST /v1/incidents, GET /v1/incidents, GET /v1/incidents/{id}, POST /v1/incidents/{id}/observations |
-| 첨부: 사진 등 분할 업로드 | POST /v1/incidents/{id}/assets, PATCH /v1/uploads/{id} |
-| 알림: 운전자 행동, 전달 상태, 정정 알림 | POST /v1/incidents/{id}/actions, GET /v1/incidents/{id}/deliveries, POST /v1/incidents/{id}/corrections |
-| 보호자: 등록, 번호 인증, 연습 알림, 빠른 답 | POST /v1/guardians, POST /v1/guardians/{id}/verify, POST /v1/guardians/{id}/practice-alert, POST /v1/guardian-replies |
-| 동의와 위치 제공 기록 | POST /v1/consents, GET /v1/consents, GET /v1/location-disclosures |
-| 공유: 보호자 열람, 정비사 24시간 요약 | GET /v1/shares/{shareId}, POST /v1/incidents/{id}/share-links |
-| 안내와 정비 | GET /v1/guide-bundles/{guide_id}, POST /v1/maintenance-notes, GET /v1/symptom-patterns |
-| 설계 보강 | 이번 운전자 지정·변경, 주행 종료, 보호자 링크를 보호자 세션으로 바꾸기, 공유 중지, 보호자 탈퇴, 기기 연결 해제, 계정 삭제, 휴대폰 소유자 이전, 서버 시각 응답 |
+| 차량·기기: 차량 등록(차대번호는 해시로만 저장), QR 만들기, 휴대폰 연결 요청, 차 화면 확인 버튼, 출발 준비 | POST /v1/vehicles, POST /v1/pairing/qr, POST /v1/pairing/confirm, POST /v1/pairing/{pairingId}/vehicle-confirm, POST /v1/trips |
+| 사건: 생성, 목록, 조회, 관측값·위치·수동 보고 추가 | POST /v1/incidents, GET /v1/incidents, GET /v1/incidents/{incidentId}, POST /v1/incidents/{incidentId}/observations |
+| 첨부: 사진 등 분할 업로드 | POST /v1/incidents/{incidentId}/assets, PATCH /v1/uploads/{uploadId} |
+| 알림: 운전자 행동, 전달 상태, 정정 알림 | POST /v1/incidents/{incidentId}/actions, GET /v1/incidents/{incidentId}/deliveries, POST /v1/incidents/{incidentId}/corrections |
+| 보호자: 등록, 번호 인증, 연습 알림, 빠른 답, 삭제·탈퇴 | POST /v1/guardians, POST /v1/guardians/{guardianId}/verify, POST /v1/guardians/{guardianId}/practice-alert, POST /v1/guardian-replies, DELETE /v1/guardians/{guardianId} |
+| 보호자 링크 2단계 열람 | POST /v1/shares/{shareId}/session, POST /v1/shares/{shareId}/session/verify, GET /v1/shares/{shareId} |
+| 동의, 위치 제공 기록, 이번 사건 위치 공유 중지 | POST /v1/consents, GET /v1/location-disclosures, POST /v1/incidents/{incidentId}/location-sharing/stop |
+| 정비사 24시간 요약, 안내와 정비 | POST /v1/incidents/{incidentId}/share-links, POST /v1/share-links/{linkId}/revoke, GET /v1/guide-bundles/{guide_id}, POST /v1/maintenance-notes, GET /v1/symptom-patterns, POST /v1/service-checkins |
+| 이번 운전자와 주행, 계정·기기·소유자, 서버 시각 | PUT /v1/trips/{tripId}/driver, POST /v1/trips/{tripId}/end, POST /v1/trips/{tripId}/arrival, DELETE /v1/devices/{deviceId}, DELETE /v1/me, POST /v1/vehicles/{vehicleId}/ownership-transfers, POST /v1/time-sync |
 
+- 위 표는 작업 59개 가운데 대표 작업이며, 경로와 매개변수 이름은 설계 파일과 같습니다. 보호자 공유 링크만 따로 철회하는 작업과 보호자 인증 번호 다시 받기는 계약 미반영(향후)이며, 지금은 동의 철회와 보호자 삭제로 열린 링크를 닫습니다.
 - 생성 요청에는 멱등 키(같은 요청을 한 번만 처리하게 하는 번호)를 붙입니다. 202 응답은 접수만 뜻하고, 409 응답은 버전 충돌입니다. 취소와 발송이 겹치면 먼저 처리한 쪽을 따르고, 이미 보냈다면 정정 절차를 안내합니다.
 - 시험 입력이 섞인 사건은 서버가 실제 발송을 막고 모의 발송만 합니다.
 
@@ -808,7 +811,7 @@ Vehicle SDK 2.3.2에서는 차속 리스너가 빠졌습니다. Pleos 개발자 
 - 보호자 링크와 정비 공유 링크는 24시간 뒤 만료되고, 운전자가 언제든 철회할 수 있습니다.
 - 운전자는 공유 중지, 보호자 연결 끊기, 휴대폰 연결 해제, 계정 삭제를 직접 할 수 있습니다. 보호자도 스스로 탈퇴할 수 있습니다.
 - 운전자가 동의를 철회하면 해당 자료를 쓰는 경로를 바로 끊고 저장된 자료를 지웁니다. 위치 제공 기록은 9.4의 규칙을 따릅니다.
-- 앱 이용 통계는 별도 동의를 받고, 계정과 연결하지 않은 설치 번호로 하루 단위 사용 여부만 셉니다. 거부해도 기능은 그대로 씁니다. 통계는 자체 서버에서만 셉니다.
+- 앱 이용 통계는 별도 동의를 받고, 계정과 연결하지 않은 설치 번호로 하루 단위 사용 여부만 셉니다. 거부해도 기능은 그대로 씁니다. 통계는 자체 서버에서만 셉니다. 이용 통계 동의 항목과 수집 작업은 계약 미반영(향후)입니다.
 
 ### 9.6 공유 차량
 

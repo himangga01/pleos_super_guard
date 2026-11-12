@@ -4,7 +4,7 @@
 - 대상: **Pleos 탑재 차량 전용 앱**입니다. 차량 앱이 주제품이고, 안드로이드 휴대폰 앱은 같은 차량을 돕는 보조 앱입니다.
 - 문서 상태: 개발 착수용 제품 요구사항과 인터페이스 설계입니다. 앱과 서버는 아직 구현하지 않았습니다. 센서 수신, 메시지 발송, 화면 사용성, 안전 효과도 시험하지 않았습니다.
 - 이전 판: [PRD v4.0](integrated-vehicle-care-2026-11-12-prd-v4.0.md), [PRD v3](integrated-vehicle-care-2026-11-12-prd-v3.md), [PRD v2](integrated-vehicle-care-2026-11-12-prd-v2.md), [통합 기획 v1](integrated-vehicle-care-2026-11-12-plan-v1.md). 바뀐 점은 [부록 A](#부록-a-변경-요약)에 있습니다. v4.1은 2차 비판 검토의 결정(사실 오류 수정, 대표 사례 한 벌, 화면 문구 기준표, 사업성 산식, 계약 보강, 새 아이디어 H1~H8)을 반영한 판입니다.
-- 개발 계약: [API](../specs/vehicle-care/api.openapi.json), [DB](../specs/vehicle-care/database.sql), [개발용 판정 설정 rules-lab](../specs/vehicle-care/rules-lab.json), [UI 토큰](../specs/vehicle-care/ui-tokens.json), [인수 시나리오](../specs/vehicle-care/acceptance-scenarios.json). 5.2절의 고정 이름을 계약과 똑같이 씁니다. v4.1에서 새로 생긴 이름(5.7절의 보강 API, 5.12절 목록)은 계약 v3.1과 ui-tokens 5.1.0에 같은 이름으로 넣는 중입니다. 계약 파일에 들어가기 전까지는 이 문서의 이름이 기준입니다.
+- 개발 계약: [API](../specs/vehicle-care/api.openapi.json), [DB](../specs/vehicle-care/database.sql), [개발용 판정 설정 rules-lab](../specs/vehicle-care/rules-lab.json), [UI 토큰](../specs/vehicle-care/ui-tokens.json), [인수 시나리오](../specs/vehicle-care/acceptance-scenarios.json). 5.2절의 고정 이름을 계약과 똑같이 씁니다. 기준 판은 **계약 v3.1**입니다: OpenAPI 3.1.0(경로 56개·작업 59개·스키마 171개), DB v3.1(테이블 36개), rules-lab 2.1.0, ui-tokens 5.1.0, 인수 시나리오 3.1.0(133개). 계약 파일끼리의 정적 검사는 PASS입니다(앱·서버 실행 증거가 아님). 이름이나 숫자가 다르면 계약 파일이 기준입니다. 계약에 아직 없는 이름은 "계약 미반영(향후)"으로 표시하고 5.12절에 모읍니다.
 - 화면 상세: [화면 설계 v4](ux-v4-section.md)(작성 중). 버튼 이름과 자리는 이 문서 4.13절 **화면 문구 기준표**가 기준이며, 화면 설계·시안·계약이 같은 문구를 씁니다. 시안은 [세로](../../output/submission/assets/v4/portrait/)와 [가로](../../output/submission/assets/v4/landscape/) 폴더, 도표는 [도표](../../output/submission/assets/v4/diagrams/) 폴더에 있습니다. v4.0 시안은 4.13절과 다른 버튼 자리가 남아 있어 다시 그릴 대상입니다(4.8절).
 - SDK 근거: [SDK 종합 리뷰](pleos-sdk-review.md), [안전 기능 상세](../sdk/vehicle-safety-capabilities.md). 두 문서에 남은 "경고등 단발 조회 가능", "핸들 회전각" 서술은 아직 정정 전입니다. 신호 판단은 이 문서 2.3절을 따릅니다.
 - [PRD v2 확인 기록](integrated-vehicle-care-prd-2026-11-12-evidence.json)은 v2 시점 기록입니다. v4를 검증한 자료가 아닙니다.
@@ -147,7 +147,7 @@ N1~N12는 v4.0에서, H1~H8은 v4.1에서 새로 넣은 기능의 번호입니�
 | 1단계 높음 | 15만 대 × 15% × 30% | 약 6,750명 |
 | 2030년 확대 | 약 2천만 대 × 설치율 1% × 월 활성 20% | 약 4만 명 |
 
-**Retention 가설(가정).** 설치 7일 뒤(D7) 35%, 30일 뒤(D30) 20%, 3개월 뒤(M3) 15%입니다. D7은 설치 다음 날부터 센 7~13일째, D30은 28~34일째, M3는 설치 뒤 세 번째 달에 활성 행동(경고등 찾기, 기록, 점검 확인, 정비 노트 등)을 한 번 이상 한 설치의 비율입니다(자체 정의). 측정은 App Market 입점 뒤 이용 통계에 동의한 사용자로 합니다. 이용 통계 동의 항목과 수집 API는 계약 보강 대상입니다(5.12절).
+**Retention 가설(가정).** 설치 7일 뒤(D7) 35%, 30일 뒤(D30) 20%, 3개월 뒤(M3) 15%입니다. D7은 설치 다음 날부터 센 7~13일째, D30은 28~34일째, M3는 설치 뒤 세 번째 달에 활성 행동(경고등 찾기, 기록, 점검 확인, 정비 노트 등)을 한 번 이상 한 설치의 비율입니다(자체 정의). 측정은 App Market 입점 뒤 이용 통계에 동의한 사용자로 합니다. 이용 통계 동의 항목과 수집 API는 계약 미반영(향후)입니다(5.12절).
 
 **다시 여는 계기.** 앱이 시동과 함께 저절로 열린다고 가정하지 않습니다. 앱을 열면 홈 맨 위에 할 일 카드(출발 전 점검, 주 1회 경고등 익히기, 500km 재발 확인, 보호자 미인증)가 있습니다. 사용자가 켠 경우에만 정차 중 하루 한 번 시스템 알림으로 할 일을 알립니다. 앱이 뒤에서 계속 실행될 수 있는지는 확인 필요입니다(2.6절).
 
@@ -215,7 +215,7 @@ flowchart LR
 
 - **판단의 권위는 차량입니다.** 안내 상태, 화면, 음성은 차량 앱이 정하고 서버 응답을 기다리지 않습니다. 서버는 같은 rules-lab 판(`rule_profile_id`)으로 위험 등급을 다시 계산하지만, 그 값으로 발송 여부(`requested_state`)를 바꾸지 않습니다. 발송 범위는 계기(`incident_trigger`)로만 정합니다(5.2절). 두 값이 다르면 시간표에 불일치를 남기고 보호자 화면의 우선순위 표시에만 씁니다. 운전자가 발송 확인을 본 적 없는 알림이 서버에서 열리지 않게 하기 위해서입니다.
 - **기기 안 저널을 먼저 씁니다.** 사건, 행동, 안내 출력은 차량 안 저널에 먼저 기록합니다. 서버 전송은 저널을 뒤따릅니다. 인터넷이 없어도 경고등 찾기·긴급 안내·기록은 같은 화면으로 동작합니다.
-- **콘텐츠 팩은 APK에 넣어 배포합니다.** 서버는 서명(`signature`, `signing_key_id`)과 해시가 맞는 갱신만 내려 줍니다. 공개키는 APK에 고정합니다. 차량은 묶음 목록(manifest)에서 바뀐 묶음만 받습니다.
+- **콘텐츠 팩은 APK에 넣어 배포합니다.** 서버는 해시(계약 `content_sha256`)가 맞는 갱신만 내려 주고, 차량은 `GET /v1/guide-bundles/{guide_id}`(`getGuideBundle`)로 묶음을 받습니다. 공개키는 APK에 고정합니다. 서명 필드(`signature`, `signing_key_id`)와 묶음 목록(manifest) API는 계약 미반영(향후)입니다(5.12절).
 - **신호 수신을 막지 않습니다.** 화면 갱신, 저장, 네트워크, 발송은 신호 수신 스레드와 분리합니다.
 - **차량과 휴대폰은 직접 연결하지 않습니다.** 서버를 거칩니다(2.7절).
 
@@ -249,9 +249,9 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 | 브레이크 밟음 | `Brake.getCurrentBrakePedalStatus`, `registerBrakePedalStatus`(`CAR_DRIVE`, normal). 참·거짓·null | 변화 알림형, 측정 시각 없음 | 확인 질문, 미리 익히기, 스냅샷 | [시연: Virtual Console] Brake Pedal 0~100% |
 | 앞바퀴 조향각 | `SteeringWheel.getCurrentSteeringWheelAngle`, `registerSteeringWheelAngle`(`CAR_DRIVE`, normal). 도, 왼쪽 음수. 핸들 회전각이 아닙니다. | 확인 필요(AAOS 표준은 주기형, SDK는 주기 인자 없음). 에뮬레이터에서 정함 | 쏠림 기록, 재현 조건 | [시연: Virtual Console] Steering Angle(카드는 핸들 각도 표기, 값 대응 확인) |
 | 주행거리 | `Odometer.getCurrentDistanceDriven`(km), `registerDistanceDriven`(`CAR_DRIVE`) | 확인 필요(AAOS 표준은 주기형) | 스냅샷, 재발 확인(재현 조건에는 쓰지 않음) | [시연: Virtual Console] Odometer |
-| 이번 주행 시간 | `Odometer.getTripCurrentDrivingTime`, `registerTripCurrentDrivingTime`(`CAR_DRIVE`, normal). 분 단위 | 변화 알림형(확인 필요) | 재현 조건의 "출발 뒤 경과 시간" | 카드 없음 → 주행 제한이 처음 켜진 시각으로 앱이 셈 |
-| 공조(에어컨·풍량·성에 제거) | `HVAC.getHvacAcState`, `getHvacFanSpeed`, `getHvacDefrosterState`와 각 register(`CAR_CLIMATE`, normal). 읽기만 하고 제어하지 않음 | 변화 알림형 | 소리 용의자 지우기(H3), 재현 조건 후보 | [시연: Virtual Console] Air Conditioning·Fan Speed·Defroster |
-| 창문·와이퍼 | `Window.getCurrentWindowPosition`, `registerWindowPosition`, `Wiper.getCurrentWiperState`, `registerWiperState`(`CAR_WINDOWS`, normal) | 변화 알림형 | 소리 용의자 지우기(H3), 재현 조건 후보 | 창문 [시연: Virtual Console] Window Position, 와이퍼는 카드가 스위치 방식이라 SDK 값 대응 확인 뒤(안 되면 [시연: 시험 입력]) |
+| 출발 뒤 경과 시간 | 앱이 trip 시작 시각(`trips.started_at`)으로 계산해 스냅샷 `trip_elapsed_s`(초)에 넣음(계약 v3.1). SDK `Odometer.getTripCurrentDrivingTime`(`CAR_DRIVE`, normal, 분 단위)은 계약 미반영(향후) | 앱 계산 | 재현 조건의 "출발 뒤 경과 시간"(`TRIP_ELAPSED`) | 신호 카드 필요 없음 |
+| 공조(에어컨·풍량) | `HVAC.getHvacAcState`, `getHvacFanSpeed`와 각 register(`CAR_CLIMATE`, normal). 신호 코드 `CLIMATE_AC`·`CLIMATE_FAN_SPEED`. 읽기만 하고 제어하지 않음. 성에 제거(`getHvacDefrosterState`)는 계약 미반영(향후) | 변화 알림형 | 소리 용의자 지우기(H3), 재현 조건 후보 | [시연: Virtual Console] Air Conditioning·Fan Speed |
+| 창문·와이퍼 | `Window.getCurrentWindowPosition`, `registerWindowPosition`, `Wiper.getCurrentWiperState`, `registerWiperState`(`CAR_WINDOWS`, normal). 신호 코드 `WINDOW_POSITION`·`WIPER_STATE` | 변화 알림형 | 소리 용의자 지우기(H3), 재현 조건 후보 | 창문 [시연: Virtual Console] Window Position, 와이퍼는 카드가 스위치 방식이라 SDK 값 대응 확인 뒤(안 되면 [시연: 시험 입력]) |
 | 방향지시등 | `TurnSignal.getCurrentTurnSignalState`, `registerTurnSignalState`(`CAR_LIGHTS`) | 변화 알림형 | 재현 조건 | [시연: Virtual Console] Turn Signal |
 | 도어 | `Door.getCurrentDoorPosition`, `registerDoorPosition`(`CAR_DOORS`, 후드·트렁크 포함) | 변화 알림형 | 점검 항목, 사고 스냅샷, 이번 운전자 | [시연: Virtual Console] Door Position·Trunk |
 | 좌석 점유·안전벨트 | `Seat.getCurrentSeatOccupancy`, `getCurrentSeatBeltBuckledState`(`CAR_SEATS`, normal, 참 = 체결), `Safety.hasSeatBeltNotBuckledWarning`(`CAR_SAFETY`, normal, 참 = 미체결 경고) | 변화 알림형 | 사고 스냅샷(`Seat` 체결 상태), 점검 항목(`Safety` 경고) | 좌석 점유 [시연: Virtual Console], 안전벨트 [시연: 시험 입력] |
@@ -309,7 +309,7 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 | 차속 구독 | 유지 | 유지 | 유지 | 중지 |
 | 음성 인식 | 버튼을 한 번 누른 뒤·앱이 물은 뒤만 | 같음 | 같음 | 중지 |
 | 음성 안내 | 허용 | 허용. 화면을 강제로 앞으로 가져오지 않음 | 허용 | 앱이 직접 재생하는 고정 음원은 멈추고 오디오 포커스 반납, TTS는 `stop()` |
-| 서버 상태 확인 | 진행 중 사건만: 2초 간격 60초, 그 뒤 10초 간격(rules-lab `performance.server_poll_*`). `SETTLED`·`EXPIRED`·`CANCELLED`가 되면 멈추고, 10분 뒤에는 화면을 열 때만 확인(자체) | 같음 | 같음 | 중지 |
+| 서버 상태 확인 | 진행 중 사건만: 2초 간격 60초, 그 뒤 10초 간격(rules-lab `performance.server_poll_*`). `SETTLED`·`EXPIRED`·`CANCELLED` 등이 되면 멈추고(`server_poll_stop_on`), 10분(`server_poll_max_active_ms`) 뒤에는 화면을 열 때만 확인(자체) | 같음 | 같음 | 중지 |
 | 화면 움직임 | 주행 중 없음 | 중지 | 허용 | 중지 |
 
 - 시동 꺼짐(Suspend) 진입을 일반 앱이 알아채는 공개 경로는 확인되지 않았습니다. AAOS `CarPowerManager`는 signature 권한이라 쓸 수 없습니다. 화면 꺼짐과 Activity·서비스 수명 이벤트로 근사하며, 이 방법은 미검증입니다(6.13절 문의 항목).
@@ -319,9 +319,9 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 ### 2.7 차량과 휴대폰의 연결
 
 - **두 APK입니다.** FusedLocation AAR이 `android.hardware.type.automotive`를 필수로 넣기 때문에 차량 APK는 휴대폰에 설치되지 않습니다(공식). 공통 순수 Kotlin 모듈만 나눠 씁니다.
-- **정차 중 QR 한 번으로 연결하고, 차 화면에서 한 번 더 확인합니다.** 차량 화면이 일회용 코드가 담긴 QR(5분 만료, 자체)을 보여 줍니다. 휴대폰 앱이 읽어 서버에 보내면(`POST /v1/pairing/qr`), 차 화면에 "이 휴대폰(가린 번호)을 소유자로 연결할까요?"가 뜹니다. 차 안에서 [연결]을 눌러야 확정됩니다(`POST /v1/pairing/confirm`). 먼저 찍은 사람(동승자·대리기사·정비소 직원)이 소유자가 되는 문제를 막기 위해서입니다. 두 번째 이후 휴대폰은 등록 운전자(`REGISTERED_DRIVER`)로만 연결합니다. 차를 팔거나 넘길 때는 소유자 이전 절차(현재 소유자의 해제 → 새 소유자의 QR 연결과 차 안 확인)를 씁니다. 블루투스 직접 연결은 가정하지 않습니다. 에뮬레이터의 블루투스 동글 연동도 종료됐습니다. QR 화면은 주행 제한 `NO_SETUP`에 걸리므로 정차 중에만 엽니다. 차 화면의 연결 상태 아이콘은 블루투스가 아니라 휴대폰 아이콘과 "휴대폰 앱 연결됨(서버)"으로 표시합니다.
-- **출발 준비를 두 기기가 나눕니다.** `POST /v1/trips`가 만든 `trip_id`를 차량과 휴대폰이 함께 씁니다. 열린 trip의 운전자가 이번 운전자와 다르면 이전 trip을 닫고 새 trip을 만듭니다. trip은 종료 API(`POST /v1/trips/{tripId}/end`)로 끝내고, 시동 종료로 보이는 상태나 오랜 정차(초안 6시간, 자체)가 지나면 서버가 자동으로 끝냅니다(3.4.12절).
-- **시간은 서버 시각으로 맞춥니다.** 서버 응답에 밀리초 단위 서버 시각(`server_time`)을 넣고, 차량은 왕복 시간을 함께 재서 시계 오차를 추정합니다. 서버는 차량이 보낸 시계 상태를 그대로 믿지 않고 다시 검사합니다(3.4.3절).
+- **정차 중 QR 한 번으로 연결하고, 차 화면에서 한 번 더 확인합니다.** 차량이 `POST /v1/pairing/qr`(`createPairingQr`)로 일회용 코드가 담긴 QR(5분 만료, 자체)을 만들어 보여 줍니다. 휴대폰 앱이 읽어 `POST /v1/pairing/confirm`(`confirmPairing`)으로 보내면, 차 화면에 "이 휴대폰(가린 번호)을 연결할까요?"(rules-lab `pairing.vehicle_confirm_prompt`)가 뜹니다. 차 안에서 [연결]을 눌러야(`POST /v1/pairing/{pairingId}/vehicle-confirm`, `confirmPairingOnVehicle`) `CONFIRMED`로 확정됩니다. 먼저 찍은 사람(동승자·대리기사·정비소 직원)이 소유자가 되는 문제를 막기 위해서입니다. 두 번째 이후 휴대폰은 등록 운전자(`REGISTERED_DRIVER`)로만 연결합니다. 차를 팔거나 넘길 때는 소유자 이전 절차(`POST /v1/vehicles/{vehicleId}/ownership-transfers`, `startOwnershipTransfer`: 현재 소유자나 차 화면이 시작 → 새 소유자의 QR 연결과 차 안 확인 → 새 등록. 이전 기록은 옮기지 않음)를 씁니다. 블루투스 직접 연결은 가정하지 않습니다. 에뮬레이터의 블루투스 동글 연동도 종료됐습니다. QR 화면은 주행 제한 `NO_SETUP`에 걸리므로 정차 중에만 엽니다. 차 화면의 연결 상태 아이콘은 블루투스가 아니라 휴대폰 아이콘과 "휴대폰 앱 연결됨(서버)"으로 표시합니다.
+- **출발 준비를 두 기기가 나눕니다.** `POST /v1/trips`가 만든 `trip_id`를 차량과 휴대폰이 함께 씁니다. 열린 trip의 운전자가 이번 운전자와 다르면 이전 trip을 닫고 새 trip을 만듭니다. trip은 종료 API(`POST /v1/trips/{tripId}/end`, `endTrip`)로 끝내고, 시동 종료로 보이는 상태, 오랜 정차(초안 6시간, `LONG_PARKED`), 기기 연락 끊김(초안 2시간, `DEVICE_SILENT`)이면 서버가 자동으로 끝냅니다(rules-lab `trip`, 3.4.12절).
+- **시간은 서버 시각으로 맞춥니다.** 차량은 `POST /v1/time-sync`(`syncServerTime`)의 서버 시각과 왕복 시간으로 시계 오차를 추정합니다. 사건·행동·trip 응답에도 밀리초 단위 서버 시각(`server_time`)이 있습니다. 서버는 차량이 보낸 시계 상태를 그대로 믿지 않고 다시 검사합니다(3.4.3절).
 
 | 상황 | 휴대폰이 아는 것 | 휴대폰이 하는 일 |
 | --- | --- | --- |
@@ -342,14 +342,14 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 - 자리: 주행 중 홈의 가운데 큰 버튼 "말로 하기"입니다. 정차 중에는 화면마다 말 버튼(경고등 찾기의 "말로 찾기", 지금 기록의 "말로 메모")이 같은 일을 합니다.
 - 듣는 방식: 버튼을 **한 번 누르면** 한 문장(최대 8초)만 듣습니다. 말이 끝났다는 신호(`onEndedRecognition`)가 오거나 8초가 지나면 `stop()`합니다. 누르고 있는 동안 듣는 방식은 쓰지 않습니다. 손을 화면에 붙잡아 두기 때문입니다. 늘 듣는 음성 인식도 없습니다. 음성으로 긴급 안내를 시작할 때도 먼저 이 버튼을 누릅니다. 음성 안내가 나오는 동안에는 듣지 않습니다.
-- 나누는 규칙: SpeechToText 기기 안 모드의 결과 문자열에 단순 규칙을 적용합니다. LLM과 외부 음성 인식은 쓰지 않습니다(자체, rules-lab `voice_intent_rules` 제안).
+- 나누는 규칙: SpeechToText 기기 안 모드의 결과 문자열에 단순 규칙을 적용합니다. LLM과 외부 음성 인식은 쓰지 않습니다(자체, rules-lab `voice.routes`·`voice.route_priority`).
 
 | 순서 | 들은 말 | 보내는 곳 |
 | --- | --- | --- |
 | 1 | 짧은 말이 긴급 낱말과 그대로 맞음: "안 멈춰" | 감속 실패 대처(`DECEL_FAILURE_GUIDE`) |
 | 1 | 짧은 말이 긴급 낱말과 그대로 맞음: "빨라져" | 원치 않는 가속 안내(`UNWANTED_ACCEL_GUIDE`) |
 | 2 | 긴 문장 속에 긴급 낱말이 있음(예: "브레이크 밟을 때 안 멈춰서 끽 소리가 나요") | 바로 시작하지 않고 "긴급 안내를 시작할까요?"로 한 번 되묻습니다. 왼쪽 [괜찮아요](기록 메모로 저장), 오른쪽은 들은 낱말에 맞는 [안 멈춰요] 또는 [저절로 빨라져요] |
-| 3 | "도움", "사고" | 받는 사람 확인 화면(`help_confirm`). 받는 사람을 보여 준 뒤 "보내기"를 눌러야 보냅니다. 음성 오인식이 자동 발송으로 이어지지 않게 하기 위해서입니다. |
+| 3 | "도움", "사고" | 받는 사람 확인 화면(안내 상태 `HELP_CONFIRM`). 받는 사람을 보여 준 뒤 "보내기"를 눌러야 보냅니다. 음성 오인식이 자동 발송으로 이어지지 않게 하기 위해서입니다. |
 | 4 | 색·모양 낱말(예: "주황색 타이어 모양") | 경고등 찾기(주행 중 규칙, 3.1.1절) |
 | 5 | 그 밖의 말 | 지금 기록과 기록 메모(3.2.1절) |
 
@@ -379,12 +379,12 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 #### 3.1.3 경고등 설명 [시연]
 
-- 도감 범위는 지원 차량 설명서의 경고등·표시등·계기판 문구 전체입니다. 전수 대조 결과 `expected_count`, `imported_count`, `reviewed_count`, `coverage_checked_at`을 보관합니다. 검토하지 않은 항목을 "수록 완료"로 표시하지 않습니다.
-- 경고등 설명은 `guide_kind = WARNING`인 안내 묶음(`guide_bundles`)입니다. 항목마다 `telltale_type`(공개 열거형 `TelltaleType`의 상수 이름), `warning_color`, `warning_shape_key`, `blink_pattern`, `mobility_action`을 둡니다. 대응 상수가 없는 계기판 문구는 `telltale_type`을 비워 둡니다. `guide_id`는 `G_` 규칙을 따릅니다(예: `G_WARN_TPMS`).
+- 도감 범위는 지원 차량 설명서의 경고등·표시등·계기판 문구 전체입니다. 전수 대조 결과 `expected_count`, `imported_count`, `reviewed_count`, `coverage_checked_at`을 보관합니다(이 네 필드는 계약 미반영(향후)). 검토하지 않은 항목을 "수록 완료"로 표시하지 않습니다.
+- 경고등 설명은 `guide_kind = WARNING`인 안내 묶음(`guide_bundles`)입니다. 항목마다 `telltale_type`(공개 열거형 `TelltaleType`의 상수 이름), `warning_color`, `warning_shape_key`, `blink_pattern`, `mobility_action`을 둡니다. 대응 상수가 없는 계기판 문구는 `telltale_type`을 비워 둡니다. `guide_id`는 계약 정규식 `^G_[A-Z_]+$`를 따릅니다(예: `G_WARN_TPMS`). 경고등 묶음 이름 규칙 `G_WARN_<TelltaleType>`은 계약 미반영(향후)입니다(5.12절).
 - 화면 순서: 운행 판단 띠 → 공식 의미 → 지금 할 일 → 관련 증상 → 출처(설명서 절·판·확인일). 아래 버튼은 왼쪽 "정차 후 자세히", 오른쪽 "정비소 들르기"입니다(4.13절). 이 경고를 기록에 남기는 일은 "본 시각 메모"가 자동으로 합니다.
 - 운행 판단은 누를 수 없는 아이콘과 한 줄 배지(예: "정비소까지 천천히 · 설명서 기준")로 보여 줍니다. 고르는 버튼처럼 보이는 세 칸 막대는 주 1회 익히기 카드(3.1.6절)에만 씁니다.
 - 엔진·변속 계통 경고에는 "블루링크 가입 차량은 차량 진단 상담을 받을 수 있습니다" 한 줄을 정차 후 화면에 둡니다(1.5절).
-- 운행 판단 `mobility_action`은 `STOP_SAFE`(안전하게 정차), `SLOW_CHECK`(천천히 이동해 점검), `CAUTION`(주의), `UNKNOWN`(근거 없음)입니다. 공식 근거가 없으면 "계속 운행 가능"으로 채우지 않고 `UNKNOWN`입니다. 방향지시등·전조등 같은 정상 작동 표시등이 고장처럼 보이지 않도록 `NORMAL_OPERATION`(정상 작동 표시) 값을 추가할 것을 제안합니다(계약 반영 필요, 5.12절).
+- 운행 판단 `mobility_action`은 `STOP_SAFE`(안전하게 정차), `SLOW_CHECK`(천천히 이동해 점검), `CAUTION`(주의), `UNKNOWN`(근거 없음)입니다. 공식 근거가 없으면 "계속 운행 가능"으로 채우지 않고 `UNKNOWN`입니다. 방향지시등·전조등 같은 정상 작동 표시등이 고장처럼 보이지 않도록 `NORMAL_OPERATION`(정상 작동 표시) 값을 추가할 것을 제안합니다(계약 미반영(향후), 5.12절).
 - 제품에는 `availability = VERIFIED`인 설명만 보입니다. 시연 모드에서는 `DRAFT_DEMO`를 "검토 전 예시" 표시와 함께 보여 줍니다. 이 차의 자료가 없으면 `UNAVAILABLE`입니다.
 - 공식 설명서가 정한 점등 의미와 조건만 씁니다. 경고등 하나로 고장 부품이나 원인을 확정하지 않습니다. 경고등이 켜졌다고 사고나 에어백 전개로 바꾸지 않습니다.
 - 여러 안내가 겹치면 운행 중단이 필요한 검토된 조건을 먼저 보여 줍니다. 서로 반대되는 조작을 차례로 읽지 않습니다.
@@ -399,7 +399,7 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 | `PARKING_BRAKE` | 주차 브레이크·브레이크액 계통 표시 | 정차 중 체결과 주행 중 이상을 나눕니다. | 브레이크액 공개 신호(3.1.4)와 연결합니다. |
 | `ABS` | ABS 단독, 또는 브레이크 표시와 함께 켜짐 | 단독·동반 각각 | |
 | `AIRBAG` | 에어백 계통 경고 | 설명서 값 | 에어백 전개 신호와 다른 항목입니다. |
-| `TURN_SIGNAL_LEFT` | 왼쪽 방향지시등 작동 | `NORMAL_OPERATION`(제안) | 정상 작동 표시등입니다. |
+| `TURN_SIGNAL_LEFT` | 왼쪽 방향지시등 작동 | `NORMAL_OPERATION`(제안, 계약 미반영) | 정상 작동 표시등입니다. |
 
 #### 3.1.4 차가 알려 준 점검 항목(N1) [시연: 도어는 Virtual Console, 나머지는 시험 입력]
 
@@ -416,7 +416,7 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 | 연료·배터리 낮음 | `LOW_FUEL`, `LOW_EV_BATTERY` | |
 | 에어백 사용 가능 상태 이상 | `AIRBAG` | 설명서 대조 전에는 후보만 |
 
-- 값이 바뀌면 ① 경고등 찾기를 열 때 해당 후보를 맨 앞에 두고, ② 점검 기록(`incident_trigger = VEHICLE_MAINTENANCE_SIGNAL`, `L1_RECORD`)을 남깁니다. ③ 주행 중에는 기본으로 음성을 내지 않고 정차 뒤 카드로 보여 줍니다. 설명서가 즉시 조치를 요구하는 항목(예: 브레이크액, 출력 저하. 설명서 확인 전)만 허용 목록에 넣어 짧은 음성 한 번을 냅니다(자체, rules-lab `driving_voice_allowlist` 제안). ④ 정차 뒤 설명과 정비소 들르기로 잇습니다.
+- 값이 바뀌면 ① 경고등 찾기를 열 때 해당 후보를 맨 앞에 두고, ② 점검 기록(`incident_trigger = VEHICLE_MAINTENANCE_SIGNAL`, `L1_RECORD`)을 남깁니다. ③ 주행 중에는 기본으로 음성을 내지 않고 정차 뒤 카드로 보여 줍니다. 설명서가 즉시 조치를 요구하는 항목(예: 브레이크액, 출력 저하. 설명서 확인 전)만 허용 목록에 넣어 짧은 음성 한 번을 냅니다(자체, 허용 목록 키는 계약 미반영(향후)). ④ 정차 뒤 설명과 정비소 들르기로 잇습니다.
 - 문구는 "경고등이 켜졌습니다"가 아니라 "차가 ○○ 신호를 보냈습니다. 계기판에 같은 표시가 있나요?"로 씁니다.
 - 이 차가 지원하지 않는 신호는 "이 차에서 확인 불가"로 표시합니다.
 
@@ -463,7 +463,7 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 #### 3.2.2a 소리 용의자 지우기(H3) [시연: 공조·창문은 Virtual Console, 와이퍼는 확인 뒤 또는 시험 입력]
 
-- 지금 기록 순간의 스냅샷에 공조(에어컨 작동, 풍량, 성에 제거), 창문 열림 정도, 와이퍼 동작 상태를 함께 남깁니다(`CAR_CLIMATE`·`CAR_WINDOWS`, normal, 읽기만). 이번 주행 시간(출발 뒤 경과 시간)도 남깁니다.
+- 지금 기록 순간의 스냅샷에 공조(에어컨 작동 `climate_ac_on`, 풍량 `climate_fan_speed`), 창문 열림 정도(`window_open_max_pct`), 와이퍼 동작 상태(`wiper_state`)를 함께 남깁니다(`CAR_CLIMATE`·`CAR_WINDOWS`, normal, 읽기만, rules-lab `symptom_patterns.sound_suspects`). 출발 뒤 경과 시간(`trip_elapsed_s`)도 남깁니다. 성에 제거 값은 계약 미반영(향후)입니다.
 - 재현 조건 카드는 겹친 조건과 함께 "관계없어 보이는 것"도 한 줄로 보여 줍니다. 예: "에어컨: 켜짐 1번 · 꺼짐 2번 → 에어컨 소리는 아닌 듯", "창문: 3번 모두 닫힘 → 바람 소리는 아닌 듯". 원인을 단정하지 않고, 정비사가 용의자를 지우는 자료로만 씁니다.
 - 이 차가 신호를 지원하지 않으면 그 칸은 "이 차에서 확인 불가"입니다.
 
@@ -477,13 +477,13 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 | `PULLING` | 쏠림 | 아니요 | `L2_CHECK` | `G_PULLING_STOP` |
 | `NOISE` | 소음 | 아니요 | `L1_RECORD` | `G_NOISE_CHECK` |
 | `BURNING_SMELL` | 타는 냄새 | 예 | `L2_CHECK` | `G_SMELL_STOP` |
-| `PEDAL_PROBLEM` | 페달 이상 | 아니요 | `L2_CHECK` | `G_PEDAL_CHECK` |
+| `PEDAL_PROBLEM` | 페달 이상 | 아니요(긴급 줄 2개의 기록값) | `L2_CHECK` | `G_PEDAL_CHECK` |
 | `TIRE_DAMAGE` | 타이어 | 아니요 | `L2_CHECK` | `G_TIRE_STOP` |
 | `COLLISION` | 사고(긴급 줄: 사고가 났어요) | 예(긴급 줄) | `L3_URGENT` | `G_COLLISION` |
 | `POWER_LOSS` | 출력 저하 | 아니요 | `L2_CHECK` | `G_POWER_LOSS` |
 | `UNKNOWN` | 잘 모르겠음 | 아니요 | `L1_RECORD` | `G_UNKNOWN_CHECK` |
 
-- 주행 중 고를 수 있는 증상 값은 `VIBRATION`·`BURNING_SMELL`·`COLLISION` 3개입니다. 긴급 줄의 "안 멈춰요"·"저절로 빨라져요"는 증상이 아니라 안내 상태로 갑니다. 주행 중 카드에 없는 증상(타이어, 잘 모르겠음 등)은 "말로 하기"나 "지금 기록"으로 남기고 정차 뒤 고릅니다.
+- 주행 중 카드로 저장할 수 있는 증상 값은 `VIBRATION`·`BURNING_SMELL`·`COLLISION`·`PEDAL_PROBLEM` 4개입니다(rules-lab `symptoms.driving_selectable_symptoms`). 긴급 줄의 "안 멈춰요"·"저절로 빨라져요"는 증상 카드가 아니라 안내 상태(`DECEL_FAILURE_GUIDE`·`UNWANTED_ACCEL_GUIDE`)를 열고, 기록에는 `PEDAL_PROBLEM`으로 남깁니다(`symptoms.emergency_choice_records`). 주행 중 카드에 없는 증상(타이어, 잘 모르겠음 등)은 "말로 하기"나 "지금 기록"으로 남기고 정차 뒤 고릅니다.
 - 정차 중 증상 카드의 "사고"를 골라 "고른 증상 기록"을 눌러도 긴급 줄의 "사고가 났어요"와 같이 발송 확인(10초)으로 갑니다.
 - `PEDAL_PROBLEM`은 "평소와 다르다"는 기록용 증상입니다. 차가 멈추지 않거나 저절로 빨라지는 긴급 상황은 상황 선택 맨 위 긴급 줄로 갑니다. 뜻은 고정입니다. "안 멈춰요" → 감속 실패 대처(`DECEL_FAILURE_GUIDE`), "저절로 빨라져요" → 원치 않는 가속 안내(`UNWANTED_ACCEL_GUIDE`)입니다. 페달 이상을 고르면 두 긴급 선택지를 다시 보여 줍니다(rules-lab `pedal_problem_emergency_choices`). 그래서 v3의 `STOPPING_FAILED`·`UNWANTED_ACCEL`은 증상 값이 아니라 안내 상태(3.3.3절)입니다.
 - `POWER_LOSS`(힘이 떨어지거나 시동이 꺼짐)는 한 곳에만 있습니다.
@@ -505,18 +505,18 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 #### 3.2.4 증상 재현 조건 카드(N2) [시연]
 
 - 조건: 같은 증상이 3번 이상 기록되면 만듭니다(rules-lab `symptom_patterns.minimum_occurrences`).
-- 계산은 단순 규칙입니다. LLM을 쓰지 않습니다. 기록마다 조건을 범주로 바꿉니다. 후보 조건은 속도 구간(20km/h 단위, rules-lab `speed_bucket_kmh`, 후진 음수는 절댓값), 브레이크 밟음(예·아니요·모름), 조향 방향(왼쪽·직진·오른쪽, 기준 ±5°, 자체), 방향지시등, 출발 뒤 경과 시간(10분 단위, 자체), 공조 작동, 창문 열림, 와이퍼 동작입니다. **주행거리와 누적 값은 조건으로 쓰지 않습니다.** 최근 기록은 늘 "주행거리 3만km 넘은 뒤"처럼 같아 아무것도 말하지 않기 때문입니다.
-- **평소 주행과 견줍니다(기준선).** 주행 중 앱은 신호 원본 흐름을 저장하지 않고, 같은 범주에 머문 시간만 1초 단위로 셉니다. 카드에는 증상 기록의 3분의 2 이상에서 나타났고, 평소 주행에서 그 조건이 차지한 비율보다 뚜렷이 높은 조건만 보여 줍니다(초안: 0.3 이상 높음, 자체, rules-lab `symptom_patterns.baseline_*` 제안). 평소 기록이 모자라면(초안 30분 미만) "평소 주행 자료가 아직 적습니다"를 붙입니다.
+- 계산은 단순 규칙입니다. LLM을 쓰지 않습니다. 기록마다 조건을 범주로 바꿉니다. 후보 조건(rules-lab `symptom_patterns.baseline_comparison.candidate_conditions`: `SPEED_BUCKET`, `BRAKE_PEDAL`, `STEERING_SIDE`, `TURN_SIGNAL`, `TRIP_ELAPSED`, `CLIMATE_AC`, `CLIMATE_FAN`, `WINDOW_OPEN`, `WIPER`)은 속도 구간(20km/h 단위, `speed_bucket_kmh`, 후진 음수는 절댓값), 브레이크 밟음(예·아니요·모름), 조향 방향(왼쪽·직진·오른쪽·섞임, 기준 ±5°, `steering_side_threshold_deg`), 방향지시등, 출발 뒤 경과 시간(0·5·15·30·60분 경계, `trip_elapsed_buckets_min`), 공조 작동, 풍량, 창문 열림, 와이퍼 동작입니다. **주행거리와 누적 값은 조건으로 쓰지 않습니다**(`excluded_cumulative`: `ODOMETER`·`FUEL_PERCENT`·`EV_SOC`). 최근 기록은 늘 "주행거리 3만km 넘은 뒤"처럼 같아 아무것도 말하지 않기 때문입니다.
+- **평소 주행과 견줍니다(기준선).** 주행 중 앱은 신호 원본 흐름을 저장하지 않고, 같은 운전자의 평소 주행 표본을 60초마다 한 번 범주로만 남깁니다(rules-lab `symptom_patterns.baseline_comparison.baseline_sampling_interval_s = 60`). 카드에는 증상 기록의 3분의 2 이상에서 나타났고, 평소 주행 비율의 1.5배 이상인 조건만 보여 줍니다(`show_rule`, `minimum_lift = 1.5`, 자체 시작값). 평소 표본이 30개(30분) 미만이면(`baseline_min_samples = 30`) "평소 주행 자료가 아직 적습니다"를 붙입니다.
 - 출력 예(대표 사례): "같은 증상 3번 · 평소보다 겹친 조건: 시속 20km 아래에서 브레이크를 밟을 때(소리 난 3번 모두, 평소 주행보다 뚜렷이 많음)", "관계없어 보이는 것: 에어컨, 창문(3.2.2a절)". 원인은 쓰지 않습니다.
 - 품질이 `OK`가 아닌 값은 세지 않습니다. 시연 모드에서는 `TEST_INPUT` 값도 세고, 그 조건 줄과 카드에 [시험 입력]을 붙입니다.
-- 카드는 차량 엔진 하나로 계산하므로 오프라인에서도 보입니다. 서버는 차량이 만든 카드를 `rule_profile_id`와 함께 보관만 합니다. 서버 사본(`GET /v1/symptom-patterns`)은 운전자(`driver_profile_id`)별로 묶고 시험 사건을 걸러 냅니다. 다른 가족의 기록이 정비사 요약에 섞이지 않게 하기 위해서입니다.
+- 카드는 차량 엔진 하나로 계산하므로 오프라인에서도 보입니다. 서버는 차량이 만든 카드를 `rule_profile_id`와 함께 보관만 합니다. 서버 사본(`GET /v1/symptom-patterns`, `listSymptomPatterns`)은 운전자(`driver_profile_id`)별로 묶고 시험 사건을 걸러 냅니다. 다른 가족의 기록이 정비사 요약에 섞이지 않게 하기 위해서입니다.
 - 화면 버튼은 왼쪽 "기록 목록", 오른쪽 "정비소에 보여 주기"입니다(4.13절).
 
 #### 3.2.5 정비 노트와 재발 확인(N6) [시연]
 
-- 정차 중 기록에 정비 결과를 남깁니다. 정비 날짜, 정비소(선택), 한 일(고르기와 짧은 메모), 그때 주행거리(Odometer 자동)입니다. `POST /v1/maintenance-notes`.
+- 정차 중 기록에 정비 결과를 남깁니다. 정비 날짜, 정비소(선택), 한 일(고르기와 짧은 메모), 그때 주행거리(Odometer 자동)입니다. `POST /v1/maintenance-notes`(`createMaintenanceNote`).
 - 정비소 도착 체크인(H8, 3.5.1b절)으로 들어오면 정비 날짜·정비소·도착 때 주행거리가 미리 채워진 초안이 열립니다.
-- 정비 뒤 500km를 넘긴 첫 정차 때 "정비 뒤 같은 증상이 있었나요?"(대표 사례: "앞 타이어 쪽 끼익 소리가 다시 있었나요?")라고 묻습니다(rules-lab `maintenance.recheck_distance_km`). 질문은 앱을 열었을 때 홈 맨 위 할 일 카드로 보입니다. 답은 `POST /v1/maintenance-notes/{noteId}/recheck`입니다. "예"면 같은 기록을 다시 열고 정비사 공유 요약을 준비합니다. "아니요"면 "해결 확인"으로 닫습니다. "나중에"도 고를 수 있습니다.
+- 정비 뒤 500km를 넘긴 첫 정차 때 "정비 뒤 같은 증상이 있었나요?"(대표 사례: "앞 타이어 쪽 끼익 소리가 다시 있었나요?")라고 묻습니다(rules-lab `maintenance.recheck_distance_km`). 질문은 앱을 열었을 때 홈 맨 위 할 일 카드로 보입니다. 답은 `POST /v1/maintenance-notes/{noteId}/recheck`(`answerMaintenanceRecheck`)입니다. "예"면 같은 기록을 다시 열고 정비사 공유 요약을 준비합니다. "아니요"면 "해결 확인"으로 닫습니다. "나중에"도 고를 수 있습니다.
 - 주행거리를 읽을 수 없는 차는 14일 뒤에 묻습니다(자체).
 - 정비 주기는 앱이 정하지 않습니다.
 
@@ -547,7 +547,7 @@ v3의 `modules/signal-analysis`(진동 분석)는 [향후]로 옮겼습니다.
 
 - 급가속 후보(이동 속력 1.0m/s 이상, 가속도 2.5m/s² 이상이 700ms 이상)만으로는 화면·음성을 내지 않고 기록만 합니다(rules-lab `candidate_output_without_prompt = NONE`). 고속도로 합류 같은 정상 가속도 이 값을 넘을 수 있습니다.
 - 확인 질문은 다음이 모두 맞을 때만 띄웁니다. 주행 중(이동 속력 1.0m/s 이상), 브레이크 밟음이 참인 상태에서 **1,000ms** 동안 속력 감소 0.5m/s 미만, 차속 품질 `OK`(시연 모드는 `TEST_INPUT`)입니다. 브레이크 값은 이 계산 동안 1초 간격 get 조회로 다시 확인합니다(rules-lab `guidance.confirm_prompt_conditions`, `reconfirm_get_interval_ms_during_guidance`). 인수 시나리오도 같은 1,000ms를 씁니다(v4.0 6.10절의 600ms는 잘못이었습니다).
-- **반복 억제:** 같은 주행에서 확인 질문은 5분에 최대 1번입니다(자체, rules-lab `guidance.confirm_prompt_cooldown_ms = 300000` 제안). 내리막에서 가볍게 밟거나 페달 위에 발을 올려 두는 습관처럼, 조건이 정상 운전에서도 맞을 수 있기 때문입니다. 운전자가 "괜찮아요"로 답했거나 응답이 없었던 직후에도 같은 억제 시간을 씁니다.
+- **반복 억제:** 같은 주행에서 확인 질문은 5분에 최대 1번입니다(자체, rules-lab `guidance.confirm_prompt_suppression`: 키 `trip_id`, `window_ms = 300000`, `max_prompts_per_window = 1`). 내리막에서 가볍게 밟거나 페달 위에 발을 올려 두는 습관처럼, 조건이 정상 운전에서도 맞을 수 있기 때문입니다. 운전자가 "괜찮아요"로 답했거나 응답이 없었던 직후에도 같은 억제 시간을 씁니다.
 - 정차 출발 직후와 저속 구간에서는 질문을 띄우지 않고 기록만 합니다. PMSA가 작동하는 구간이기 때문입니다. 구간 값은 대상 차량의 PMSA 조건을 확인한 뒤 rules-lab에서 정합니다(6.13절).
 - 차속이 없으면(에뮬레이터 기본 상태, `CAR_SPEED` 거부) 확인 질문 조건이 꺼지고 직접 보고만 동작합니다. 화면을 상황 선택으로 자동 전환하지 않습니다. 상단 상태 칩만 "속도 확인 불가"로 바꿉니다.
 - 질문 화면(`confirm_prompt`)은 한 줄 "차가 멈추지 않나요?", 음성 1회, **왼쪽 [괜찮아요](중립), 오른쪽 [안 멈춰요](빨강)**입니다. 질문 뒤 8초 동안만 "안 멈춰"·"괜찮아" 두 말을 듣습니다(rules-lab `performance.app_question_listen_window_ms`). 8초 동안 응답이 없으면 질문을 닫고 기록만 남깁니다(자체).
@@ -607,13 +607,13 @@ stateDiagram-v2
 
 #### 3.3.4 안내 묶음 `guide_bundles`
 
-- 테이블: `guide_bundles(guide_id, version, vehicle_profile_id, availability, source_manual_ref, steps_json, tts_lines_json)`에 계약이 `guide_kind`(`WARNING`·`EMERGENCY`·`SYMPTOM`), `title`, 경고등 항목 필드, `content_sha256`, 검토자·검토일을 더했습니다. v4.1은 `signature`, `signing_key_id`를 더 넣습니다(계약 반영 필요). 단계마다 `step_id`, 행동 문장(3줄 이하), 정지 그림(주행 중 최대 1장), 정차용 설명 애니메이션(선택), 주행 중 움직임 여부가 있습니다.
+- 테이블: `guide_bundles(guide_id, version, vehicle_profile_id, availability, source_manual_ref, steps_json, tts_lines_json)`에 계약이 `guide_kind`(`WARNING`·`EMERGENCY`·`SYMPTOM`), `title`, 경고등 항목 필드, `content_sha256`, 검토자·검토일(`reviewed_by`, `reviewed_at`)을 더했습니다. 서명 필드 `signature`, `signing_key_id`는 계약 미반영(향후)입니다. 단계마다 `step_id`, 행동 문장(3줄 이하), 정지 그림(주행 중 최대 1장), 정차용 설명 애니메이션(선택), 주행 중 움직임 여부가 있습니다.
 - 상태별 묶음: `UNWANTED_ACCEL_GUIDE` → `G_UNWANTED_ACCEL`, `DECEL_FAILURE_GUIDE` → `G_DECEL_FAILURE`, `STOPPED_REVIEW` → `G_STOP_SAFE`(정차 후 할 일 카드 포함), `HELP_CONFIRM` → `G_HELP_REQUEST`(rules-lab `guide_id_by_state`).
 - 화면과 음성은 `guide_id + version + step_id`를 함께 씁니다.
 - 제품에서는 `VERIFIED`만 재생합니다. `DRAFT_DEMO`는 시연 모드에서만 "검토 전 예시"와 함께 씁니다. 묶음이 없거나 `UNAVAILABLE`이면 검토된 일반 문장 `G_STOP_SAFE`("안전한 곳에 세우고, 필요하면 119에 신고하세요")만 씁니다.
 - 출처 표시: 정차 중 화면 아래에 "출처: ○○ 취급설명서 ○절(판·확인일)"을 둡니다. 주행 중에는 감속 실패 대처 화면을 포함해 모든 긴급 화면에서 숨깁니다.
-- 콘텐츠 팩으로 APK에 넣습니다. 갱신은 차량 프로필별 묶음 목록(`GET /v1/guide-packs/{vehicle_profile_id}/manifest`, 계약 반영 필요)에서 바뀐 묶음만 `GET /v1/guide-bundles/{guide_id}`로 받습니다. APK에 고정한 공개키로 서명을 확인하기 전에는 활성화하지 않습니다.
-- 음성 앞부분 잘림: TTS SDK는 오디오 데이터를 앱에 주지 않으므로 앱이 음성 앞에 무음을 넣을 수 없습니다(6.4절). 에뮬레이터에서 앞부분이 잘리는지 확인하고, 잘리면 안내 문장 앞에 짧은 쉼표 문구(`lead_in_text`)를 둡니다.
+- 콘텐츠 팩으로 APK에 넣습니다. 갱신은 `GET /v1/guide-bundles/{guide_id}`(`getGuideBundle`)로 받고, 경고등 설명 목록은 `GET /v1/vehicles/{vehicleId}/warning-guides`(`listVerifiedWarningGuides`)로 받습니다. 차량 프로필별 묶음 목록(manifest) API는 계약 미반영(향후)입니다. 해시(`content_sha256`)를 확인하기 전에는 활성화하지 않고, 서명 확인은 서명 필드가 계약에 들어간 뒤 더합니다.
+- 음성 앞부분 잘림: TTS SDK는 오디오 데이터를 앱에 주지 않으므로 앱이 음성 앞에 무음을 넣을 수 없습니다(6.4절). 에뮬레이터에서 앞부분이 잘리는지 확인하고, 잘리면 안내 문장 앞에 짧은 쉼표 문구(`TtsLine.leading_pause_text`, 12자 이하)를 둡니다.
 
 예시(시연용 초안). 문장은 현대 공식 취급설명서 CE1/2024 비상 제동 절에서 옮겼고, 대상 차량 설명서로 다시 확인해야 합니다. [CE1/2024 비상 제동](https://ownersmanual.hyundai.com/full_webhelp/CE1/2024/ko_KR/iddb9b77f2061.html)
 
@@ -633,15 +633,16 @@ stateDiagram-v2
      "motion_while_driving": false, "tts_line_ids": ["epb_pull_1"]}
   ],
   "tts_lines": [
-    {"line_id": "epb_pull_1", "lead_in_text": null,
+    {"line_id": "epb_pull_1", "leading_pause_text": null,
+     "bundled_audio_asset_id": null, "bundled_audio_preroll_silence_ms": null,
      "audio_usage_candidates": ["USAGE_ASSISTANCE_NAVIGATION_GUIDANCE", "USAGE_ALARM"],
      "text": "주행 중 브레이크 페달에 문제가 생길 경우 전자식 파킹 브레이크 스위치를 당겨 비상 제동을 할 수 있습니다."}
   ],
-  "content_sha256": "(콘텐츠 해시)",
-  "signature": "(서명)",
-  "signing_key_id": "guide-pack-key-example"
+  "content_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
 }
 ```
+
+- 예시의 필드는 계약 `GuideBundle`·`GuideStep`·`TtsLine`과 같습니다(`content_sha256`의 0은 가상 값). 서명 필드(`signature`, `signing_key_id`)는 계약에 없어 예시에서 뺐습니다(계약 미반영(향후)).
 
 - 이 예시 음성은 공백 포함 60자로, 읽는 데 7~9초가 걸립니다(가정). "설명서 문장 그대로"와 "주행 중 짧은 문장"이 부딪히는 문제는 설계에서 정할 항목입니다(6.13절). 정하기 전까지는 원문을 바꾸지 않습니다.
 
@@ -652,7 +653,7 @@ stateDiagram-v2
 - 공간이 부족할 때 지키는 순서: 행동 문장 > 음성 > 버튼 > 그림. 그림부터 뺍니다.
 - 발 이동 사진, 화살표, 실사 발 그림을 쓰지 않습니다. 페달 그림과 설명 애니메이션은 미리 익히기 화면(3.3.7)에만 둡니다.
 - **버튼 자리 규칙(앱 전체).** 왼쪽은 늘 끝내기·취소·기록(중립색), 오른쪽은 늘 도움·보내기·감속 실패(빨강)입니다. 일반 홈의 오른쪽 빨간 "도움이 필요해요"와 같은 쪽입니다. 그래서 홈 → 상황 선택 → 긴급 안내 → 받는 사람 확인으로 넘어가도 손가락이 닿는 자리의 뜻이 바뀌지 않습니다. 오른쪽을 연달아 누르면 더 많은 도움으로 가고, 왼쪽을 누르면 언제나 끝납니다. 보호자에게 실제로 보내는 버튼은 발송 확인의 "지금 보내기"와 받는 사람 확인의 "보내기"뿐이며, 둘 다 받는 사람을 보여 준 화면에 있습니다.
-- 상태가 바뀐 직후 0.5~0.7초는 터치를 받지 않습니다(자체 시험값). 새 상황은 화면보다 음성으로 먼저 알립니다.
+- 상태가 바뀐 직후 0.5초는 터치를 받지 않습니다(자체 시작값 500ms, rules-lab `guidance.input_guard_ms_after_emergency_transition`, 0.7초까지 시험). 새 상황은 화면보다 음성으로 먼저 알립니다.
 - 긴급 화면은 앱 창 안에서만 바꿉니다. 시스템 전체 화면 팝업을 쓰지 않고 주행 정보 화면을 가리지 않습니다.
 - 앱이 뒤에 있으면 화면을 강제로 앞으로 가져오지 않습니다. 음성 1회와 시스템 알림 1개를 냅니다.
 - 첫 음성·화면은 직접 보고 뒤 1초 안을 목표로 합니다(자체). 판단, 음성 시작, 실제 화면 표시를 따로 잽니다.
@@ -746,15 +747,15 @@ stateDiagram-v2
   - 시계 오차가 500ms 안으로 확인되면(`SYNCHRONIZED`) `release_at = min(accepted_at + r, countdown_started_at + 10초)`입니다.
   - 같은 부팅의 경과 시간만 확인되면(`MONOTONIC_ONLY`) `accepted_at + r`입니다.
   - 둘 다 확인되지 않으면(`UNKNOWN`) 이미 지난 확인 시간을 새로 주지 않고 "확인 시간 불명"(`timing_uncertain = true`)으로 바로 해제합니다.
-- **시계 오차 재기(자체).** 서버는 모든 응답에 밀리초 단위 `server_time`을 넣습니다. 차량은 요청을 보낸 시각과 응답을 받은 시각, `server_time`으로 오차와 왕복 시간을 추정하고 `clock_error_bound_ms`로 보냅니다. 서버는 이 값을 그대로 믿지 않습니다. `|countdown_started_at + elapsed_ms_at_submit − accepted_at|`가 `clock_error_bound_ms + 최대 왕복 시간`보다 크면 `MONOTONIC_ONLY`로 낮춥니다. 차량 시계가 늦은데 "동기화됨"이라고 보내 확인 시간이 줄어드는 일을 막기 위해서입니다.
-- 늦게 도착한 취소: 화면은 서버 확정 전까지 "취소 요청 중"입니다. 취소 행동에도 시계 영역과 경과 시간을 넣고, 서버가 그 값으로 판정합니다. 취소 시각이 `release_at` 전이고 발송사에 아직 제출하지 않았으면 취소를 인정합니다. 발송사 제출은 `release_at` 직후에 일어나므로, `release_at` 뒤에 도착한 취소는 "이미 보냈습니다 · 정정 보내기"로 처리합니다.
+- **시계 오차 재기(자체).** 차량은 `POST /v1/time-sync`(`syncServerTime`)를 불러 보낸 시각·받은 시각과 서버 시각으로 오차와 왕복 시간을 재고, 그 표본을 `notification.clock_sync`(`offset_ms`, `rtt_ms`, `synced_at`)와 `clock_error_bound_ms`로 보냅니다. 왕복 1,000ms 이하이고 표본이 10분 안일 때만 `SYNCHRONIZED`를 인정합니다(rules-lab `time_sync`). 사건·행동 응답에도 밀리초 단위 `server_time`이 있습니다. 서버는 차량 값을 그대로 믿지 않습니다. `|countdown_started_at + elapsed_ms_at_submit − accepted_at|`가 `clock_error_bound_ms + rtt_ms`보다 크면 `MONOTONIC_ONLY`로 낮춥니다. 차량 시계가 늦은데 "동기화됨"이라고 보내 확인 시간이 줄어드는 일을 막기 위해서입니다.
+- 늦게 도착한 취소: 화면은 서버 확정 전까지 "취소 요청 중"입니다. 취소 행동에도 경과 시간(`countdown_elapsed_ms`)을 넣고, 서버가 그 값으로 판정합니다(취소 행동의 시계 영역 필드는 계약 미반영(향후)). 취소 시각이 `release_at` 전이고 발송사에 아직 제출하지 않았으면 취소를 인정합니다. 발송사 제출은 `release_at` 직후에 일어나므로, `release_at` 뒤에 도착한 취소는 "이미 보냈습니다 · 정정 보내기"로 처리합니다.
 - 등급이 올라가도 마감 시각을 뒤로 미루지 않습니다. 오프라인에서 취소하면 첫 동기화 때 취소 행동을 같은 트랜잭션으로 보냅니다.
 - 오프라인이 길어 발송이 오래 늦어진 경우(예: 지하 주차장에서 몇 시간 뒤 연결)의 처리, 즉 상한을 두고 다시 물을지는 미결정입니다(6.13절).
 
 #### 3.4.4 지금 도움 요청
 
 - 진입: 상황 선택의 오른쪽 "지금 도움 요청", 감속 실패 대처의 오른쪽 "도움 요청", 정차 후 확인의 오른쪽 "보호자에게 알리기", 보호자 탭, "말로 하기"의 "도움"·"사고"입니다. 홈에는 "도움이 필요해요"(상황 선택을 엶)만 두고 이 기능을 직접 두지 않습니다. 주행 중 홈과 긴급 화면에 "보호자에게 알리기" 버튼을 따로 두지 않습니다.
-- 받는 사람 확인 화면(`help_confirm`): 보호자 이름 목록, 보낼 내용 요약(상황, 위치 측정 시각), "보호자에게 보냅니다(119 신고 아님)" 안내, **왼쪽 "보내지 않기"**, **오른쪽 "보내기"**입니다. 발송 확인과 같은 배치에서 타이머만 뺍니다. "보내기"는 `REQUEST_HELP` 행동이며 정책은 바로 `RELEASED`가 됩니다.
+- 받는 사람 확인 화면(안내 상태 `HELP_CONFIRM`. 화면 ID `help_confirm`은 계약 미반영): 보호자 이름 목록, 보낼 내용 요약(상황, 위치 측정 시각), "보호자에게 보냅니다(119 신고 아님)" 안내, **왼쪽 "보내지 않기"**, **오른쪽 "보내기"**입니다. 발송 확인과 같은 배치에서 타이머만 뺍니다. "보내기"는 `REQUEST_HELP` 행동이며 정책은 바로 `RELEASED`가 됩니다.
 
 #### 3.4.5 알림 상태와 행동
 
@@ -800,7 +801,7 @@ stateDiagram-v2
 | 10초 응답 없음 | 없음 | `COUNTDOWN` → `RELEASED` | `NO_RESPONSE` |
 | 주행 중 수동 증상 | 없음 | `RECORD_ONLY` | `NOT_REQUESTED` |
 
-정정 알림의 내용은 `POST /v1/incidents/{id}/corrections`로 보냅니다. 행동 기록에는 `RESPOND_SAFE` 또는 `SEND_CORRECTION`이 남습니다.
+정정 알림의 내용은 `POST /v1/incidents/{incidentId}/corrections`(`sendCorrection`)로 보냅니다. 행동 기록에는 `RESPOND_SAFE` 또는 `SEND_CORRECTION`이 남습니다.
 
 #### 3.4.6 알림톡 우선·문자 전환(서버 담당)
 
@@ -810,7 +811,7 @@ stateDiagram-v2
 - 실패가 확인되면 1초 안에 문자 작업을 만듭니다(목표). 같은 채널 재시도는 접수되지 않았음이 확실한 일시 오류(예: 429·503)에만 합니다. 처음을 포함해 최대 3번, 1초·3초 뒤입니다(rules-lab `max_channel_attempts`, `backoff_ms`). 접수 여부를 모르면 재발송하지 않고 결과부터 조회합니다.
 - 문자는 EUC-KR 90바이트 이하면 SMS, 넘으면 LMS(제목 40바이트, 본문 2,000바이트)입니다. SMS와 LMS는 `TEXT` 한 그룹입니다.
 - 일반 알림톡 경로를 씁니다. 인증 문구용 `/auth/messages`는 사고 안내에 쓰지 않습니다. 연동 후보는 NHN Cloud 알림톡 v2.3·SMS v3.0입니다. 발송사 키는 서버 비밀 저장소에만 두고 차량·휴대폰에 넣지 않습니다. [카카오 알림톡 안내](https://kakaobusiness.gitbook.io/main/ad/infotalk), [NHN 알림톡 API](https://docs.nhncloud.com/ko/Notification/KakaoTalk%20Bizmessage/ko/alimtalk-api-guide/), [NHN 문자 API](https://docs.nhncloud.com/ko/Notification/SMS/ko/api-guide/)
-- 발송사의 처리 완료 상태를 "읽음"으로 쓰지 않습니다. 열람은 인증된 보호자 페이지의 `opened_at`만 씁니다. 메신저 링크 미리보기의 접근은 열람이 아닙니다.
+- 발송사의 처리 완료 상태를 "읽음"으로 쓰지 않습니다. 열람은 보호자 링크 1단계 요청(`openGuardianShareSession`) 때 기록하는 `opened_at`만 씁니다(rules-lab `guardian_share_session.opened_at_recorded_on = STEP1_POST`). 메신저 링크 미리보기의 접근은 열람이 아닙니다.
 - 알림톡이 늦게 도착하면 두 채널이 모두 도착할 수 있습니다. 같은 사건 번호로 구분합니다. 종단 간 정확히 한 번 전달을 보장하지 않습니다.
 - 공모전 시연은 모의 발송기를 씁니다. 실제 발송은 출시 조건입니다(1.9절).
 - 대표 사례 흐름: 21:00:13 두 보호자에게 알림톡 제출 → 보호자 1(딸)은 전달 확인(`DELIVERED`) → 21:01 보호자 페이지 열람(`opened_at`) → 빠른 답 "전화할게요". 보호자 2(아들)는 21:00:23까지 전달을 확인하지 못해 `DELIVERY_UNCONFIRMED`로 두고 문자로 다시 보냅니다.
@@ -851,7 +852,7 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 
 #### 3.4.7 메시지 템플릿(심사 제출 초안)
 
-승인 완료본이 아닙니다. 위치가 없으면 위치 변수를 "위치 확인 중"으로 채우고 변수를 지우지 않습니다.
+승인 완료본이 아닙니다. 위치가 없으면 위치 변수를 "위치 확인 중"으로 채우고 변수를 지우지 않습니다. 템플릿 코드 `CARE_EVENT_V1`·`CARE_PRACTICE_V1`과 변수 이름은 계약 미반영(향후)입니다. 계약 rules-lab에는 정정 `CARE_UPDATE_V1`, 도착 `CARE_ARRIVAL_V1`, 보호자 첫 줄 문장(`notification.guardian_first_line`)만 있습니다.
 
 ```text
 [플레오스 가드]#{test_label}
@@ -874,19 +875,19 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 - 짧은 SMS: `[플레오스 가드]#{test_label} #{situation} 확인: #{map_url}`. 치환 뒤 90바이트를 넘으면 LMS로 바꿉니다. 주소를 잘라 완전한 정보처럼 보내지 않습니다.
 - 정정 `CARE_UPDATE_V1`: `[플레오스 가드]#{test_label} #{occurred_at} 알림 정정: #{update_reason}. 확인: #{map_url}`. 예: "운전자가 괜찮다고 알렸습니다."
 - 연습 `CARE_PRACTICE_V1`: `[플레오스 가드] [연습] #{driver_label} 님이 보호자로 등록했습니다. 실제 알림은 이 이름으로 옵니다. 확인: #{map_url}`. 연습 알림의 링크는 사건이 없는 "연습 보기 페이지"를 가리키고 위치를 담지 않습니다. 이 알림은 번호 확인과 수신 동의를 마친 보호자에게만 보냅니다.
-- 도착 알림 `CARE_ARRIVAL_V1`(H7, 기본 꺼짐): `[플레오스 가드] #{driver_label} 님 차가 #{place_label}에 도착했어요 · #{arrived_at}`. 좌표와 경로를 넣지 않습니다(3.4.14절).
+- 도착 알림 `CARE_ARRIVAL_V1`(H7, 기본 꺼짐): `[플레오스 가드] #{driver_label} 님 차가 잘 도착했어요 · #{arrived_at}`. 장소 이름·좌표·경로를 넣지 않습니다(rules-lab `notification.arrival_alert.message`, `includes_destination_name = false`, `includes_location = false`, 3.4.14절).
 
 #### 3.4.8 보호자 경험(N11) [설계]
 
-- **등록 순서:** ① 운전자(또는 소유자 휴대폰)가 보호자 번호를 등록합니다(`POST /v1/guardians`). ② 보호자는 초대 문자에서 번호를 확인하고 수신에 동의합니다(`POST /v1/guardians/{id}/verify`). ③ 그 뒤에 연습 알림을 한 번 받습니다. 연습 알림에서 동의하는 순서가 아닙니다. 보호자는 운전자마다 최대 3명이며 모두 무료입니다.
-- **초대·동의 화면:** 누가 등록했는지, 어떤 때 알림이 오는지, 연습 알림 미리 보기, 동의·거절을 보여 줍니다. 인증 번호를 다시 받는 기능(`POST /v1/guardians/{id}/resend-otp`, 계약 보강)과 번호별 하루 초대 한도, "다시 받지 않기"(수신 거부)를 둡니다.
-- **연습 알림:** 번호 확인과 수신 동의를 마친 직후 한 번 보냅니다(`POST /v1/guardians/{id}/practice-alert`). 발신 이름과 모양을 익히고 실제 수신을 확인합니다. 보호자당 하루 1번까지이며 위치를 넣지 않습니다.
+- **등록 순서:** ① 운전자(또는 소유자 휴대폰)가 보호자 번호를 등록합니다(`POST /v1/guardians`, `registerGuardian`). ② 보호자는 초대 문자에서 번호를 확인하고(`POST /v1/guardians/{guardianId}/verify`, `verifyGuardianPhone`) 수신에 동의합니다(`PUT /v1/guardians/{guardianId}/consent`, `updateVerifiedGuardianConsent`). ③ 그 뒤에 연습 알림을 한 번 받습니다. 연습 알림에서 동의하는 순서가 아닙니다. 보호자는 운전자마다 최대 3명이며 모두 무료입니다.
+- **초대·동의 화면:** 누가 등록했는지, 어떤 때 알림이 오는지, 연습 알림 미리 보기, 동의·거절을 보여 줍니다. 인증 번호를 다시 받는 기능(API는 계약 미반영(향후))과 번호별 하루 초대 한도, "다시 받지 않기"(수신 거부)를 둡니다.
+- **연습 알림:** 번호 확인과 수신 동의를 마친 직후 한 번 보냅니다(`POST /v1/guardians/{guardianId}/practice-alert`, `sendGuardianPracticeAlert`). 발신 이름과 모양을 익히고 실제 수신을 확인합니다. 보호자당 하루 1번까지이며 위치를 넣지 않습니다.
 - **알림 페이지 2단계 열람(H5) [설계]:** 링크 토큰은 URL 경로나 쿼리가 아니라 조각(`#`)에 둡니다. Pleos 보안 가이드는 토큰을 URL 경로·쿼리에 넣지 말라고 합니다.
-  - 1단계(링크 열기): 메시지에 이미 있는 내용(상황, 먼저 할 일, 발생 시각)만 보입니다. 위치와 상태는 보이지 않습니다.
-  - 2단계(휴대폰 번호 뒷자리 확인): 보호자가 자기 번호 뒷자리 4자리를 넣으면, 서버가 조각 토큰과 함께 확인해 보호자 세션으로 바꿔 줍니다(보호자 세션 교환 API `POST /v1/shares/{shareId}/session`, 계약 v3.1 보강). 그 뒤 지도와 위치 측정 시각·출처, 운전자 응답, 사고 순간 차량 스냅샷, 빠른 답 버튼이 보입니다. 5번 틀리면 15분 잠급니다(rules-lab `guardian_otp`의 잠금 값을 씀). 보호자 세션의 수명은 공유 링크 수명(24시간)을 넘지 않습니다.
+  - 1단계(링크 열기): 보호자 웹이 조각 토큰을 본문으로 보내면(`POST /v1/shares/{shareId}/session`, `openGuardianShareSession`) 메시지에 이미 있는 내용(상황, 먼저 할 일, 발생 시각)만 보입니다. 위치와 상태는 보이지 않습니다. 이때 열람 시각 `opened_at`을 기록합니다.
+  - 2단계(휴대폰 번호 뒷자리 확인): 보호자가 자기 번호 뒷자리 4자리를 넣으면(`POST /v1/shares/{shareId}/session/verify`, `verifyGuardianShareSession`), 서버가 조각 토큰과 함께 확인해 보호자 세션(`guardianSession`)으로 바꿔 줍니다. 그 뒤 지도와 위치 측정 시각·출처, 운전자 응답, 사고 순간 차량 스냅샷, 빠른 답 버튼이 보입니다. 5번 틀리면 15분 잠급니다(rules-lab `guardian_share_session.max_failed_attempts = 5`, `lock_ms = 900000`). 보호자 세션의 수명은 공유 링크 수명(24시간)을 넘지 않습니다.
   - 토큰 없이 공유 번호만으로 요청하면 401입니다. 메신저 링크 미리보기 봇은 토큰을 바꾸지 못하므로 열람(`opened_at`)으로 세지 않습니다.
   - 알림톡 버튼 링크와 문자 단축 링크에서 조각(`#`)이 보존되는지는 발송사에 확인합니다(확인 필요).
-- **알림 페이지 구성:** 맨 위 "먼저 할 일", 상황(추정), 지도(보호자 웹의 서버·웹 기능)와 위치 측정 시각·출처, 운전자 응답, 사고 순간 차량 스냅샷, 빠른 답 버튼 "확인했어요"·"전화할게요"(`SEEN`·`WILL_CALL`), 끝난 알림과 정정 표시입니다. 빠른 답은 `POST /v1/guardian-replies`입니다.
+- **알림 페이지 구성:** 맨 위 "먼저 할 일", 상황(추정), 지도(보호자 웹의 서버·웹 기능)와 위치 측정 시각·출처, 운전자 응답, 사고 순간 차량 스냅샷, 빠른 답 버튼 "확인했어요"·"전화할게요"(`SEEN`·`WILL_CALL`), 끝난 알림과 정정 표시입니다. 빠른 답은 `POST /v1/guardian-replies`(`postGuardianReply`)입니다.
 - **빠른 답 전달:** 정차 중에는 차 화면의 보호자 알림 상태에 한 줄로 보이고 짧은 음성 1회("보호자가 확인했어요")를 냅니다. 주행 중에는 화면 한 줄만 바꾸고 소리를 내지 않습니다.
 - 보호자는 다른 보호자의 전달 상태를 볼 수 없습니다. 보호자는 위치를 요청할 수 없고, 운전자 쪽에서 보낸 위치만 봅니다. 차량 마이크·카메라를 켤 수 없습니다.
 - 에뮬레이터 시연은 모의 서버와 PC 브라우저로 합니다.
@@ -908,14 +909,14 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 
 #### 3.4.11 위치 제공 동의·기록·알림(N10) [설계]
 
-- **운전자 동의:** 항목별로 받고 철회할 수 있습니다(`POST·GET /v1/consents`). 항목은 `TERMS`, `PRIVACY_POLICY`, `LOCATION_COLLECT`, `LOCATION_SHARE_GUARDIAN`, `SPEECH_TEXT_STORE`, `PHONE_PAIRING`, `MAINTENANCE_SHARE`입니다. 보호자의 수신 동의와 따로 둡니다.
-- **보낼 때마다 알림:** 운전자 화면의 시간표와 휴대폰에 "21:00:13 보호자 2명(딸, 아들)에게 위치를 보냈습니다"를 남깁니다. 짧은 음성은 사건마다 첫 1번만 내고, 같은 사건의 위치 갱신·보호자 페이지 열람은 시간표에만 남깁니다(rules-lab `privacy.disclosure_notify_dedupe` 제안).
-- **제공 기록:** 받는 사람, 시각, 목적, 채널, 무엇을 줬는지(주소만·좌표·위치 없음)를 남깁니다(`GET /v1/location-disclosures`). 위치 없이 보낸 알림은 제공 기록으로 남기지 않습니다. 좌표를 지운 뒤에도 기록은 보관합니다. 보호자를 삭제하거나 운전자가 탈퇴하면 기록을 지우지 않고 받는 사람 이름·번호를 가린 사본으로 익명화합니다. 보관 기간은 법 확인 뒤 정합니다.
+- **운전자 동의:** 항목별로 받고 철회할 수 있습니다(`POST·GET /v1/consents`, `recordConsent`·`listConsents`). 항목은 `TERMS`, `PRIVACY_POLICY`, `LOCATION_COLLECT`, `LOCATION_SHARE_GUARDIAN`, `SPEECH_TEXT_STORE`, `PHONE_PAIRING`, `MAINTENANCE_SHARE`입니다. 보호자의 수신 동의와 따로 둡니다.
+- **보낼 때마다 알림:** 운전자 화면의 시간표와 휴대폰에 "21:00:13 보호자 2명(딸, 아들)에게 위치를 보냈습니다"를 남깁니다. 짧은 음성은 사건마다 첫 1번만 내고, 같은 사건의 위치 갱신·보호자 페이지 열람은 시간표에만 남깁니다(rules-lab `privacy.disclosure_notify_dedupe = PER_INCIDENT_RECIPIENT_REVISION`, `disclosure_voice_notice = FIRST_PER_INCIDENT_ONLY`).
+- **제공 기록:** 받는 사람, 시각, 목적(`purpose`), 채널, 무엇을 줬는지(`location_precision`: `ADDRESS`·`COORDINATES`·`NONE`)를 남깁니다(`GET /v1/location-disclosures`, `listLocationDisclosures`). 도착 알림처럼 위치 없이 보낸 알림은 `NONE`으로 남깁니다(rules-lab `notification.arrival_alert.disclosure_record`). 좌표를 지운 뒤에도 기록은 보관합니다. 보호자를 삭제하거나 운전자가 탈퇴하면 기록을 지우지 않고 받는 사람 이름·번호를 가린 사본으로 익명화합니다. 보관 기간은 법 확인 뒤 정합니다.
 - **내 위치 영수증함(H6) [설계]:** 운전자는 휴대폰 앱과 정차 중 차 화면의 설정에서 "언제, 누구에게, 무엇이" 갔는지 목록으로 봅니다. 목록의 사건마다 "이번 사건 위치 공유 멈추기"를 누를 수 있습니다.
 - **공유 중지와 동의 철회는 다른 기능입니다.**
-  - "이번 사건 위치 공유 멈추기"(보호자 알림 상태의 "공유 중지"): 그 사건의 위치 갱신만 지금 멈춥니다. 동의는 그대로라 다음 사고 때 보호자 알림은 정상으로 갑니다. API는 `POST /v1/incidents/{incidentId}/location-sharing/stop`(계약 v3.1 보강)입니다.
+  - "이번 사건 위치 공유 멈추기"(보호자 알림 상태의 "공유 중지"): 그 사건의 위치 갱신만 지금 멈춥니다. 동의는 그대로라 다음 사고 때 보호자 알림은 정상으로 갑니다. API는 `POST /v1/incidents/{incidentId}/location-sharing/stop`(`stopIncidentLocationSharing`)입니다.
   - 사건 뒤 위치 갱신은 운전자의 공유 중지 또는 정한 시간(1시간, rules-lab `post_incident_location_stream_max_ms`) 가운데 먼저 오는 때 멈춥니다.
-  - 공유 링크 철회: 보호자 공유는 `POST /v1/shares/{shareId}/revoke`, 정비사 링크는 `POST /v1/share-links/{linkId}/revoke`(계약 v3.1 보강)입니다.
+  - 공유 링크 철회: 정비사 링크는 `POST /v1/share-links/{linkId}/revoke`(`revokeMaintenanceShareLink`)입니다. 보호자 공유 링크만 따로 철회하는 API는 계약 미반영(향후)이며, 지금은 위치 공유 중지(`stopIncidentLocationSharing`), 동의 철회 때 열린 공유 무효화(rules-lab `privacy.consent_withdrawal_revokes_open_shares`), 보호자 삭제(`DELETE /v1/guardians/{guardianId}`, `removeGuardian`)로 닫습니다.
   - "앞으로 위치 보내지 않기"(동의 철회, `POST /v1/consents`의 `granted = false`): 열린 공유 링크를 바로 무효로 하고, 대기 중 발송을 취소합니다. 그 뒤 사건은 `BLOCKED_NO_CONSENT`입니다. 화면에서 두 버튼의 문구를 다르게 씁니다.
 - 앱의 "보호자"는 운전자가 등록한 가족입니다. 위치정보법의 보호의무자와 다른 개념입니다(법 해석은 확인 필요).
 - 위치 필드는 5.3절을 따릅니다. 미터 정확도는 없습니다.
@@ -924,8 +925,8 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 #### 3.4.12 공유 차량과 이번 운전자 [설계]
 
 - 정차 중 운전석 점유나 문 열림·닫힘 뒤 "이번 운전자: (최근 운전자) / 다른 가족 / 게스트" 칩을 한 번 보여 줍니다. 운전자는 `driver_profiles`에 둡니다.
-- 계약 보강(v3.1): 운전자 프로필 만들기·목록(`POST /v1/driver-profiles`, `GET /v1/vehicles/{vehicleId}/driver-profiles`), 이번 운전자 지정·변경(`PUT /v1/trips/{tripId}/driver`), trip 종료(`POST /v1/trips/{tripId}/end`)입니다. 열린 trip의 운전자가 요청과 다르면 서버는 이전 trip을 닫고 새 trip을 만듭니다.
-- trip 자동 종료: 시동 종료로 보이는 상태(2.6절)나 오랜 정차(초안 6시간, 자체)가 지나면 서버가 trip을 닫습니다. 이전 운전자의 자동 위치 발송 설정이 다음 운전자에게 이어지지 않게 하기 위해서입니다.
+- 계약 v3.1: 운전자 프로필 만들기·목록(`POST /v1/driver-profiles` `createDriverProfile`, `GET /v1/vehicles/{vehicleId}/driver-profiles` `listVehicleDriverProfiles`), 이번 운전자 지정·변경(`PUT /v1/trips/{tripId}/driver`, `setTripDriver`), trip 종료(`POST /v1/trips/{tripId}/end`, `endTrip`)입니다. 열린 trip의 운전자가 요청과 다르면 서버는 이전 trip을 `DRIVER_CHANGED`로 닫고 새 trip을 만듭니다.
+- trip 자동 종료: 시동 종료로 보이는 상태(2.6절), 오랜 정차(초안 6시간, `LONG_PARKED`), 기기 연락 끊김(초안 2시간, `DEVICE_SILENT`)이면 서버가 trip을 닫습니다(종료 이유 `ended_reason`). 이전 운전자의 자동 위치 발송 설정이 다음 운전자에게 이어지지 않게 하기 위해서입니다.
 - 칩에 답이 없을 때의 기본값은 미상(`UNKNOWN`, 자동 위치 발송 꺼짐)으로 둡니다. 편의와 기본 보호의 균형이라 사용자 결정 항목입니다(6.13절).
 - 기록과 보호자 목록은 운전자별입니다. `driver_mode`는 `OWNER`, `REGISTERED_DRIVER`, `GUEST`, `UNKNOWN`입니다.
 - 게스트와 미상은 위치 자동 발송이 기본으로 꺼져 있습니다(`BLOCKED_NO_CONSENT`). 동의는 정차 중에만 받고, 게스트 동의는 그 사건에만 씁니다(3.4.1절).
@@ -950,7 +951,7 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 #### 3.4.14 도착 알림(H7) [설계, 기본 꺼짐·사용자 결정 항목]
 
 - 운전자가 출발 전 점검 카드나 설정에서 "오늘 도착 알림"을 켠 경우에만 동작합니다. 기본은 꺼짐입니다.
-- 내비 목적지 도착 이벤트(`onDestinationArrived`)를 받고 정차가 확인되면 보호자에게 "아버지 님 차가 목적지에 도착했어요 · (도착 시각)" 한 줄을 보냅니다(`CARE_ARRIVAL_V1`). 좌표와 경로는 넣지 않습니다.
+- 내비 목적지 도착 이벤트(`onDestinationArrived`)를 받고 정차가 확인되면 차량이 `POST /v1/trips/{tripId}/arrival`(`reportTripArrival`)로 알리고, 서버가 보호자에게 "아버지 님 차가 잘 도착했어요 · (도착 시각)" 한 줄을 보냅니다(`CARE_ARRIVAL_V1`). 장소 이름·좌표·경로는 넣지 않습니다. 켜고 끄기는 `PUT /v1/driver-profiles/{driverProfileId}/arrival-alert`(`updateArrivalAlertSetting`)입니다.
 - 보낼 때마다 위치 제공 기록(3.4.11절)에 남기고 운전자에게 알립니다. 보호자는 받지 않도록 끌 수 있습니다.
 - 자동 발송 범위를 사고 밖으로 넓히는 기능입니다. 그래서 켤지, 어떤 장소에서 보낼지는 사용자 결정 항목으로 HANDOFF에 기록합니다(6.13절). 늦게 도착할 때 묻는 확장 기능은 넣지 않습니다.
 - 에뮬레이터 내비의 도착 이벤트는 확인 필요입니다. 안 되면 시연 모드의 시험 입력 "도착"으로 보여 줍니다.
@@ -979,12 +980,12 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 
 - 정비소를 경유지나 목적지로 넣었다면, FusedLocation 근접 알림(`addProximityAlert`)으로 그 정비소 영역에 들어온 것을 알아챕니다. 내비 경유지 도착 이벤트(`onWayPointArrived`)가 오면 함께 씁니다.
 - 정차가 확인되면 "정비소에 도착했어요. 정비사에게 보여 줄 기록 1건" 카드와 재현 조건 카드를 바로 보여 줍니다. 정비 노트 초안(도착 시각, 주행거리 자동)도 만들어 두어 500km 재발 확인(N6)의 시작점이 됩니다.
-- 근접 알림 영역은 차 안에서만 쓰고 서버로 보내지 않습니다. 에뮬레이터에서 근접 알림·도착 이벤트가 오지 않으면 "도착했어요" 버튼으로 같은 흐름을 보여 줍니다.
+- 체크인은 좌표 없이 정비소 참조만 `POST /v1/service-checkins`(`recordServiceCheckin`)로 남깁니다. 근접 알림 영역은 차 안에서만 쓰고 서버로 보내지 않습니다. 에뮬레이터에서 근접 알림·도착 이벤트가 오지 않으면 "도착했어요" 버튼으로 같은 흐름을 보여 줍니다.
 
 #### 3.5.2 정비 자료 공유 링크 [설계]
 
-- 정차 중 차 화면에 정비사용 요약(시간표, 재현 조건 카드, 소리 용의자 지우기, 문진, 정비 노트)을 보여 줍니다. QR로 24시간 읽기 전용 링크도 만듭니다(`POST /v1/incidents/{id}/share-links`, 열기는 `POST /v1/share-links/{linkId}/view`). 링크 토큰은 URL 조각에 둡니다.
-- 보호자 공유와 다른 권한을 씁니다. 위치와 음성 문장은 기본으로 빼고, 링크는 철회할 수 있습니다(`POST /v1/share-links/{linkId}/revoke`, 계약 v3.1 보강). 요약에는 그 기록을 남긴 운전자의 기록만 담습니다.
+- 정차 중 차 화면에 정비사용 요약(시간표, 재현 조건 카드, 소리 용의자 지우기, 문진, 정비 노트)을 보여 줍니다. QR로 24시간 읽기 전용 링크도 만듭니다(`POST /v1/incidents/{incidentId}/share-links` `createMaintenanceShareLink`, 열기는 `POST /v1/share-links/{linkId}/view` `viewMaintenanceShareLink`). 링크 토큰은 URL 조각에 둡니다.
+- 보호자 공유와 다른 권한을 씁니다. 위치와 음성 문장은 기본으로 빼고, 링크는 철회할 수 있습니다(`POST /v1/share-links/{linkId}/revoke`, `revokeMaintenanceShareLink`). 요약에는 그 기록을 남긴 운전자의 기록만 담습니다.
 
 #### 3.5.3 비상 제동 뒤 점검 권유 [시연]
 
@@ -1005,7 +1006,7 @@ X-NC-API-IDEMPOTENCY-KEY: {delivery_id}
 ### 3.7 F0 시연 모드(N9) [시연]
 
 - **시험 입력 재생기:** JSON 각본으로 차속·에어백·안전벨트·오일·와이퍼·도착처럼 Virtual Console에 카드가 없는 신호를 실제와 같은 어댑터에 넣습니다. 신호마다 `source = TEST_INPUT`, `quality = TEST_INPUT`이고 화면의 그 값 옆에 [시험 입력] 배지를 붙입니다. 재현 조건 카드의 속도 줄, 발송 확인의 안전벨트·에어백 줄처럼 시험 입력에서 나온 값에도 배지를 빠뜨리지 않습니다.
-- **시험 입력 우선순위:** 시험 입력을 켠 신호는 실제 구독 값(예: 에뮬레이터가 보내는 차속 0m/s)을 화면과 판단에 쓰지 않습니다(신호 단위, rules-lab `demo_mode.test_input_overrides_live = PER_SIGNAL` 제안).
+- **시험 입력 우선순위:** 시험 입력을 켠 신호는 실제 구독 값(예: 에뮬레이터가 보내는 차속 0m/s)을 화면과 판단에 쓰지 않습니다(신호 단위, rules-lab `demo_mode.test_input_overrides_live = PER_SIGNAL`).
 - **발송 금지:** 시험 입력이 하나라도 섞인 사건은 `test_mode = true`로 서버에 보내고, 서버는 모의 발송기로만 보냅니다. 시험 입력인데 `test_mode = false`인 요청은 422로 거부합니다(D2).
 - **모의 서버:** OpenAPI 계약을 그대로 구현한 앱 안 모의 백엔드입니다. 실제 서버는 같은 계약으로 바꿔 끼웁니다.
 - **모의 발송기:** 알림톡 성공·실패·응답 유실·전달 미확인을 정해진 순서로 재현합니다. 대표 사례(보호자 1 전달·열람, 보호자 2 전달 미확인 → 21:00:23 문자)를 기본 각본으로 둡니다. 보호자 화면은 PC 브라우저나 같은 에뮬레이터 화면으로 보여 줍니다.
@@ -1187,36 +1188,37 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 
 ### 4.8 화면 목록과 ID
 
-화면 ID는 화면 코드, `ui-tokens.json`의 `screens`, rules-lab, 인수 시나리오에 같이 씁니다. v3의 P0~P9와 C01~C08, 옛 `screens` 10개 이름(`parts`, `manual`, `stopping` 등)은 쓰지 않습니다(옛 이름 대응은 ui-tokens `legacy_screen_map`). 시안 파일은 실제 v4 폴더(세로 15장, 가로 14장) 기준입니다. ui-tokens 5.1.0은 이 목록과 같은 파일 이름을 씁니다.
+화면 ID는 화면 코드, `ui-tokens.json`의 `screens`, rules-lab, 인수 시나리오에 같이 씁니다. v3의 P0~P9와 C01~C08, 옛 `screens` 10개 이름(`parts`, `manual`, `stopping` 등)은 쓰지 않습니다(옛 이름 대응은 ui-tokens `legacy_screen_map`). 시안 파일은 실제 v4 폴더(세로 17장, 가로 16장) 기준이며 ui-tokens 5.1.0 `mockup_files`와 같습니다.
 
 | ID | 화면 이름 | 기능 | 세로 시안(`portrait/`) | 가로 시안(`landscape/`) | 주행 중 |
 | --- | --- | --- | --- | --- | --- |
-| `home` | 홈(정차 중 · 부위 선택 · 주행 중) | 공통 | p-home, p-parts, p-home-driving | ui-home, ui-parts, ui-home-driving | 주행 중 홈으로 바뀝니다(상태 칩 하나, 큰 버튼 3개: 지금 기록 · 말로 하기 · 도움이 필요해요). |
+| `home` | 홈(정차 중 · 부위 선택) | 공통 | p-home, p-parts | ui-home, ui-parts | 주행 중에는 `home_driving`으로 바뀝니다. |
+| `home_driving` | 홈(주행 중) | 공통 | p-home-driving | ui-home-driving | 상태 칩 하나, 큰 버튼 3개(`RECORD_NOW`·`TALK`·`HELP_MENU`: 지금 기록 · 말로 하기 · 도움이 필요해요) |
 | `warning_find` | 경고등 찾기 | F1 | p-warning-find | ui-warning(왼쪽) | 말로만(말로 하기). 세 번 누르기와 문구 입력은 정차 중 |
 | `warning_detail` | 경고등 설명 | F1 | p-warning-result | ui-warning(오른쪽) | 한 줄 판단과 짧은 음성. 상세는 정차 후 |
 | `check_items` | 점검 항목 | F1 | (p-check 틀의 목록, 별도 시안 없음) | (ui-check 틀) | 목록은 정차 중. 허용 목록 항목만 짧은 음성 1회 |
 | `predrive_check` | 출발 전 점검 | F1 | p-check | ui-check | 정차 중만 |
 | `record_now` | 지금 기록(차량 상태 시간표) | F2 | p-record | ui-record | 버튼 한 번과 "기록했습니다" 음성 |
 | `pattern` | 재현 조건 | F2 | p-pattern | ui-history | 정차 중만 |
-| `history` | 기록 목록 | F2 | — | — | 정차 중만 |
+| `history` | 기록 목록. 화면 ID 계약 미반영 | F2 | — | — | 정차 중만 |
 | `maintenance_note` | 정비 노트 · 재발 확인 | F2 | — | — | 정차 중만 |
-| `symptom_select` | 상황 선택 | F2·F3 | p-manual(정차) | ui-manual(정차) | 긴급 줄 3개 + 증상 2개, 모두 5개(3.3.6절). 주행 중 시안은 그릴 예정 |
-| `confirm_prompt` | 확인 질문 | F3 | p-confirm(그릴 예정) | ui-confirm(그릴 예정) | 한 줄과 버튼 2개, 음성 1회 |
+| `symptom_select` | 상황 선택 | F2·F3 | p-manual(주행 중), p-manual-parked(정차) | ui-manual(주행 중), ui-manual-parked(정차) | 긴급 줄 3개 + 증상 2개, 모두 5개(3.3.6절) |
+| `confirm_prompt` | 확인 질문 | F3 | p-confirm | ui-confirm | 한 줄과 버튼 2개, 음성 1회 |
 | `emergency_guidance` | 원치 않는 가속 안내 | F3 | p-emergency | ui-guidance | 정지 그림(최대 1장)과 음성 |
 | `decel_failure` | 감속 실패 대처 | F3 | p-stopping | ui-stopping | 정지 그림(최대 1장)과 음성. 출처 줄 숨김 |
-| `stopped_review` | 정차 후 확인(정차 후 할 일 카드 포함) | F3·F4 | — | — | 버튼 2개만 |
+| `stopped_review` | 정차 후 확인(정차 후 할 일 카드 포함). 화면 ID 계약 미반영 | F3·F4 | — | — | 버튼 2개만 |
 | `practice` | 비상 절차 미리 익히기 | F3 | p-practice | ui-practice | 열리지 않음 |
 | `countdown` | 발송 확인(10초) | F4 | p-countdown | ui-countdown | 숫자(고리 없음)와 음성, 주행 중 변형(3.3.5절) |
-| `help_confirm` | 받는 사람 확인 | F4 | — | — | 한 줄과 버튼 2개 |
+| `help_confirm` | 받는 사람 확인. 화면 ID 계약 미반영 | F4 | — | — | 한 줄과 버튼 2개 |
 | `guardian_status` | 보호자 알림 상태 | F4 | p-guardian | ui-guardian | 보호자별 상태 한 줄 |
-| `location_receipts` | 내 위치 영수증함(H6) | F4 | — | — | 정차 중만 |
+| `location_receipts` | 내 위치 영수증함(H6). 화면 ID 계약 미반영 | F4 | — | — | 정차 중만 |
 | `service_stop` | 정비소 들르기 | F5 | p-service | ui-service | 후보 한 번 누르기와 버튼 2개. 지도 없음 |
 | `settings_consent` | 설정·동의 | 공통 | — | — | 정차 중만 |
 | `phone_pairing` | 휴대폰 연결 | F6 | — | — | 정차 중만 |
 | `demo_mode` | 시연 모드 | F0 | — | — | 정차 중만 |
 
-- `confirm_prompt`, `help_confirm`, `stopped_review`, `history`, `location_receipts`는 이 문서가 정한 화면 ID이며 계약 v3.1·ui-tokens 5.1.0에 같은 이름으로 넣습니다(5.12절). 받는 사람 확인은 발송 확인과 같은 배치에서 타이머만 뺍니다.
-- 시안이 없는 화면(위 다섯 화면, 정비 노트, 설정·동의, 휴대폰 연결, 시연 모드, 첫 실행 준비, 이번 운전자 칩, 오류·빈 상태, 보호자 웹 페이지, 휴대폰 앱 화면)은 흐름도(4.10절)에만 있고 시안은 설계 예정입니다.
+- `help_confirm`, `stopped_review`, `history`, `location_receipts`는 이 문서가 정한 화면 ID이며 ui-tokens 5.1.0 `screens`에는 없습니다(계약 미반영(향후), 5.12절. `history`는 ui-tokens `legacy_screen_map`에서 `pattern`을 가리킴). `home_driving`·`confirm_prompt`는 ui-tokens에 있습니다. 받는 사람 확인은 발송 확인과 같은 배치에서 타이머만 뺍니다.
+- 시안이 없는 화면(위 네 화면, 정비 노트, 설정·동의, 휴대폰 연결, 시연 모드, 첫 실행 준비, 이번 운전자 칩, 오류·빈 상태, 보호자 웹 페이지, 휴대폰 앱 화면)은 흐름도(4.10절)에만 있고 시안은 설계 예정입니다.
 - **v4.0 시안에서 4.13절과 다른 곳(다시 그릴 대상).**
 
 | 시안 | 고칠 점 |
@@ -1392,9 +1394,9 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 | `delivery_state` | `PENDING`, `ACCEPTED`, `SUBMISSION_UNKNOWN`, `DELIVERED`, `DELIVERY_UNCONFIRMED`, `FAILED`, `CANCELLED`(+`transport_group`: `KAKAO`·`TEXT`). 열람은 `opened_at` |
 | `action` | `SEND_NOW`, `CANCEL`, `RESPOND_SAFE`, `SEND_CORRECTION`, `REQUEST_HELP`, `END_GUIDANCE` |
 | `guidance_state` | `OBSERVING`, `CONFIRM_PROMPT`, `UNWANTED_ACCEL_GUIDE`, `DECEL_FAILURE_GUIDE`, `MANUAL_SELECTION`, `HELP_CONFIRM`, `STOPPED_REVIEW`, `ENDED` |
-| `symptom` | `VIBRATION`, `PULLING`, `NOISE`, `BURNING_SMELL`, `PEDAL_PROBLEM`, `TIRE_DAMAGE`, `COLLISION`, `POWER_LOSS`, `UNKNOWN`. 주행 중 고를 수 있는 증상 3개: `VIBRATION`·`BURNING_SMELL`·`COLLISION`(긴급 줄 "사고가 났어요"). 주행 중 카드는 이 3개와 긴급 선택 2개(안 멈춰요 → `DECEL_FAILURE_GUIDE`, 저절로 빨라져요 → `UNWANTED_ACCEL_GUIDE`)를 합쳐 5개입니다. v4.0의 주행 중 5개(`TIRE_DAMAGE`·`UNKNOWN` 포함)를 바꿨습니다. |
+| `symptom` | `VIBRATION`, `PULLING`, `NOISE`, `BURNING_SMELL`, `PEDAL_PROBLEM`, `TIRE_DAMAGE`, `COLLISION`, `POWER_LOSS`, `UNKNOWN`. 주행 중 카드는 5개입니다(rules-lab `symptoms.driving_choice_order`: `NOT_STOPPING` 안 멈춰요 → `DECEL_FAILURE_GUIDE`, `SPEEDING_UP` 저절로 빨라져요 → `UNWANTED_ACCEL_GUIDE`, `COLLISION` 사고가 났어요, `VIBRATION` 차체 떨림, `BURNING_SMELL` 타는 냄새). 주행 중 카드로 저장할 수 있는 증상 값은 `VIBRATION`·`BURNING_SMELL`·`COLLISION`·`PEDAL_PROBLEM` 4개이며, 두 긴급 선택은 `PEDAL_PROBLEM`으로 기록합니다(`driving_selectable_symptoms`, `emergency_choice_records`). v4.0의 주행 중 5개(`TIRE_DAMAGE`·`UNKNOWN` 포함)를 바꿨습니다. |
 | `body_area` | `FRONT`, `FRONT_LEFT_TIRE`, `FRONT_RIGHT_TIRE`, `REAR_LEFT_TIRE`, `REAR_RIGHT_TIRE`, `CABIN`, `REAR`, `UNDERBODY`, `UNKNOWN` |
-| `guide_id` | 문자열 `G_[A-Z_]+`(예: `G_UNWANTED_ACCEL`, `G_DECEL_FAILURE`, `G_STOP_SAFE`), `version` 정수, `step_id` 문자열 |
+| `guide_id` | 문자열 `^G_[A-Z_]+$`(예: `G_UNWANTED_ACCEL`, `G_DECEL_FAILURE`, `G_STOP_SAFE`, `G_HELP_REQUEST`), `version` 정수, `step_id` 문자열 |
 
 위 표 밖에서 계약이 정한 주요 열거형은 다음과 같습니다. 이 문서도 같은 이름을 씁니다.
 
@@ -1405,9 +1407,16 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 | `driver_mode` | `OWNER`, `REGISTERED_DRIVER`, `GUEST`, `UNKNOWN` |
 | `freshness_basis` | `SOURCE_TIMESTAMP`, `ARRIVAL_ONLY`, `POLLED_STATE` |
 | `clock_confidence` | `SYNCHRONIZED`, `MONOTONIC_ONLY`, `UNKNOWN` |
-| `mobility_action` | `STOP_SAFE`, `SLOW_CHECK`, `CAUTION`, `UNKNOWN`(`NORMAL_OPERATION` 추가 제안) |
+| `mobility_action` | `STOP_SAFE`, `SLOW_CHECK`, `CAUTION`, `UNKNOWN`(`NORMAL_OPERATION`은 계약 미반영(향후)) |
 | `location_source` | `VEHICLE`, `PHONE` |
-| 신호 코드 `code` | `VEHICLE_SPEED`, `BRAKE_PEDAL`, `STEERING_ANGLE`, `TURN_SIGNAL`, `DOOR_POSITION`, `SEAT_OCCUPANCY`, `SEATBELT_UNBUCKLED`, `AIRBAG_DEPLOYED`, `ODOMETER`, `FUEL_PERCENT`, `EV_SOC`, `ENGINE_OIL_LEVEL`, `BRAKE_FLUID_LEVEL`, `WASHER_FLUID_LOW`, `POWER_DOWN_WARNING`, `LOCATION`, `UX_RESTRICTION`, `WARNING_USER_SELECTED`, `STT_TEXT`. v4.1 추가(계약 v3.1): `TRIP_DRIVING_TIME`, `HVAC_AC_ON`, `HVAC_FAN_SPEED`, `HVAC_DEFROSTER`, `WINDOW_POSITION`, `WIPER_STATE` |
+| 신호 코드 `code`(23개) | `VEHICLE_SPEED`, `BRAKE_PEDAL`, `STEERING_ANGLE`, `TURN_SIGNAL`, `DOOR_POSITION`, `SEAT_OCCUPANCY`, `SEATBELT_UNBUCKLED`, `AIRBAG_DEPLOYED`, `ODOMETER`, `FUEL_PERCENT`, `EV_SOC`, `ENGINE_OIL_LEVEL`, `BRAKE_FLUID_LEVEL`, `WASHER_FLUID_LOW`, `POWER_DOWN_WARNING`, `LOCATION`, `UX_RESTRICTION`, `WARNING_USER_SELECTED`, `STT_TEXT`. v4.1 추가(계약 v3.1): `CLIMATE_AC`, `CLIMATE_FAN_SPEED`, `WINDOW_POSITION`, `WIPER_STATE`. 출발 뒤 경과 시간은 신호가 아니라 스냅샷 `trip_elapsed_s`(앱 계산)이고, 성에 제거 신호는 계약 미반영(향후)입니다. |
+| `ended_reason`(trip 종료 이유) | `USER_ENDED`, `DRIVER_CHANGED`, `IGNITION_OFF`, `LONG_PARKED`, `DEVICE_SILENT`, `OWNERSHIP_TRANSFER` |
+| 연결 상태·역할 | `PairingState`: `PENDING`, `AWAITING_VEHICLE_CONFIRM`, `CONFIRMED`, `REJECTED`, `EXPIRED`, `REVOKED`. `PairingRole`(`device_pairings.requested_role`): `OWNER`, `REGISTERED_DRIVER` |
+| `location_precision`(제공 기록) | `ADDRESS`, `COORDINATES`, `NONE` |
+| 동의 범위 `scope` | `STANDING`, `TRIP`(게스트·미상은 이번 trip만, 정차 중에만) |
+| `dispatch_mode` | `REAL`, `MOCK`(시험 입력이 하나라도 섞인 사건은 `MOCK`만) |
+| 보호자 세션 `stage` | `PHONE_CHECK_REQUIRED`, `VERIFIED`, `LOCKED`, `EXPIRED` |
+| 재현 조건 후보 `ConditionKey` | `SPEED_BUCKET`, `BRAKE_PEDAL`, `STEERING_SIDE`, `TURN_SIGNAL`, `TRIP_ELAPSED`, `CLIMATE_AC`, `CLIMATE_FAN`, `WINDOW_OPEN`, `WIPER` |
 
 발송 범위는 `incident_trigger`로 정합니다. `AIRBAG_DEPLOYED`·`USER_COLLISION`만 `COUNTDOWN`, `USER_HELP_REQUEST`는 받는 사람 확인 뒤 `RELEASED`, 나머지는 `RECORD_ONLY`입니다.
 
@@ -1429,8 +1438,8 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
 ```
 
 - `location_confidence`는 원값 그대로 저장합니다. 미터로 바꾸거나 화면·메시지에 "정확도"로 표시하지 않습니다.
-- `measured_at`은 SDK `timestampMillis`를 바꾼 값입니다. 기준 시계(epoch인지 부팅 기준인지)가 문서에 없으므로 화면에는 받은 시각도 함께 둡니다(확인 필요). 해석이 틀려도 되돌릴 수 있게 SDK 원값을 `location_fix_raw_ms`로 함께 저장합니다(계약 v3.1 보강).
-- 위치의 나이: FusedLocation은 위치가 없으면 콜백을 보내지 않으므로, 서비스 연결만 보고 마지막 위치를 현재 위치로 보지 않습니다. 받은 시각 기준으로 60초(자체, 주행 중)를 넘으면 `STALE`로 보고 화면·메시지에 "마지막 측정 21:00:01(N분 전)"을 씁니다(6.2절).
+- `measured_at`은 SDK `timestampMillis`를 바꾼 값입니다. 기준 시계(epoch인지 부팅 기준인지)가 문서에 없으므로 화면에는 받은 시각도 함께 둡니다(확인 필요). 해석이 틀려도 되돌릴 수 있게 SDK 원값을 함께 저장하려는 필드(`location_fix_raw_ms`)는 계약 미반영(향후)입니다.
+- 위치의 나이: FusedLocation은 위치가 없으면 콜백을 보내지 않으므로, 서비스 연결만 보고 마지막 위치를 현재 위치로 보지 않습니다. 측정 시각(없으면 받은 시각) 기준으로 60초(자체, rules-lab `signal_validity.location_fix.stale_after_ms = 60000`)를 넘으면 `STALE`로 보고 화면·메시지에 "마지막 측정 21:00:01(N분 전)"을 씁니다(6.2절).
 - 휴대폰 위치는 `location_source = PHONE`입니다. 좌표가 없으면 `latitude`·`longitude`를 함께 `null`로 둡니다. 좌표는 지도·주소 변환 때 경도·위도 순서를 확인합니다.
 - 주소는 내비 탑재 차량이면 NaviHelper `getCurrentLocationInfo`의 주소를 먼저 쓰고, 없으면 서버가 카카오 로컬 좌표→주소 변환을 씁니다(`x` = 경도, `y` = 위도). 좌표를 외부 서비스에 보내는 처리 위탁 고지는 확인 필요입니다. [카카오 로컬](https://developers.kakao.com/docs/ko/local/dev-guide)
 
@@ -1443,8 +1452,8 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
   "brake_pressed":      {"value": true, "quality": "OK", "received_at": "2026-11-12T12:00:02.800Z", "source": "VEHICLE_SDK"},
   "steering_angle_deg": {"value": -4.0, "quality": "OK", "received_at": "2026-11-12T12:00:02Z", "source": "VEHICLE_SDK"},
   "turn_signal":        {"value": "OFF", "quality": "OK", "received_at": "2026-11-12T11:59:40Z", "source": "VEHICLE_SDK"},
-  "doors_open":         [{"area": "ROW_1_LEFT", "value": false, "raw_position": 0, "quality": "OK", "received_at": "2026-11-12T11:50:00Z", "source": "VEHICLE_SDK"},
-                         {"area": "ROW_1_RIGHT", "value": false, "raw_position": 0, "quality": "OK", "received_at": "2026-11-12T11:50:00Z", "source": "VEHICLE_SDK"}],
+  "doors_open":         [{"area": "ROW_1_LEFT", "value": false, "quality": "OK", "received_at": "2026-11-12T11:50:00Z", "source": "VEHICLE_SDK"},
+                         {"area": "ROW_1_RIGHT", "value": false, "quality": "OK", "received_at": "2026-11-12T11:50:00Z", "source": "VEHICLE_SDK"}],
   "seat_occupied":      [{"area": "ROW_1_LEFT", "value": true, "quality": "OK", "received_at": "2026-11-12T11:50:00Z", "source": "VEHICLE_SDK"},
                          {"area": "ROW_1_RIGHT", "value": false, "quality": "OK", "received_at": "2026-11-12T11:50:00Z", "source": "VEHICLE_SDK"}],
   "seatbelt_unbuckled": [{"area": "ROW_1_LEFT", "value": false, "quality": "TEST_INPUT", "received_at": "2026-11-12T11:50:00Z", "source": "TEST_INPUT"}],
@@ -1457,22 +1466,19 @@ Pleos는 `screenOrientation`을 정하지 않으면 세로 한 창으로 실행�
     "washer_fluid_low":   {"value": true, "quality": "TEST_INPUT", "received_at": "2026-11-12T11:50:00Z", "source": "TEST_INPUT"},
     "power_down_warning": {"value": false, "quality": "TEST_INPUT", "received_at": "2026-11-12T11:50:00Z", "source": "TEST_INPUT"}
   },
-  "cabin_context": {
-    "trip_driving_time_min": {"value": 38, "quality": "OK", "received_at": "2026-11-12T12:00:00Z", "source": "VEHICLE_SDK"},
-    "hvac_ac_on":            {"value": false, "quality": "OK", "received_at": "2026-11-12T11:40:00Z", "source": "VEHICLE_SDK"},
-    "hvac_fan_speed":        {"value": 2, "quality": "OK", "received_at": "2026-11-12T11:40:00Z", "source": "VEHICLE_SDK"},
-    "hvac_defroster_on":     {"value": false, "quality": "OK", "received_at": "2026-11-12T11:40:00Z", "source": "VEHICLE_SDK"},
-    "window_open_max_pct":   {"value": 0, "quality": "OK", "received_at": "2026-11-12T11:40:00Z", "source": "VEHICLE_SDK"},
-    "wiper_state":           {"value": null, "quality": "NOT_SUPPORTED", "received_at": null, "source": "VEHICLE_SDK"}
-  }
+  "climate_ac_on":       {"value": false, "quality": "OK", "received_at": "2026-11-12T11:40:00Z", "source": "VEHICLE_SDK"},
+  "climate_fan_speed":   {"value": 2, "quality": "OK", "received_at": "2026-11-12T11:40:00Z", "source": "VEHICLE_SDK"},
+  "window_open_max_pct": {"value": 0, "quality": "OK", "received_at": "2026-11-12T11:40:00Z", "source": "VEHICLE_SDK"},
+  "wiper_state":         {"value": null, "quality": "NOT_SUPPORTED", "received_at": null, "source": "VEHICLE_SDK"},
+  "trip_elapsed_s":      2280
 }
 ```
 
-- 좌석·도어 영역 이름은 SDK의 `SeatValue`·`DoorValue`(예: `ROW_1_LEFT`, `HOOD`, `REAR`)를 씁니다. 오일 상태는 SDK `OilLevelState`(`LOW`, `HIGH`, `NORMAL`, `ERROR`, `CRITICALLY_LOW`)입니다.
+- 좌석·도어 영역 이름은 계약 `SeatArea`·`DoorArea`(SDK `SeatValue`·`DoorValue`의 이름, 예: `ROW_1_LEFT`, `HOOD`, `REAR`)를 씁니다. 오일 상태는 계약·SDK `OilLevelState`(`LOW`, `HIGH`, `NORMAL`, `ERROR`, `CRITICALLY_LOW`)입니다.
 - `brake_pressed`의 `null`은 거짓이 아닙니다. `airbag_deployed`는 등록 직후 첫 값을 기준값으로 보고 새로 참이 된 것만 전개로 봅니다.
 - `seatbelt_unbuckled`는 `Seat` 체결 상태와 좌석 점유에서 계산합니다(점유 참 그리고 체결 거짓). 빈 좌석은 항목을 두지 않습니다. `Safety` 미체결 경고는 스냅샷에 넣지 않고 점검 항목(N1)에만 씁니다.
-- `doors_open`의 `raw_position`은 SDK 원값이고, `value`는 `raw_position > 범위 최솟값`입니다(2.3절).
-- `cabin_context`는 v4.1에서 더한 묶음(H3, 재현 조건 후보)입니다. 계약 v3.1에 같은 이름으로 넣습니다. 지원하지 않는 값은 `NOT_SUPPORTED`이며 0이나 거짓으로 채우지 않습니다.
+- `doors_open[].value`는 SDK 원값이 영역 범위 최솟값보다 크면 참입니다(2.3절). 원값 필드(`raw_position`)는 계약 미반영(향후)이라 예시에 넣지 않습니다.
+- 공조·창문·와이퍼(`climate_ac_on`, `climate_fan_speed`, `window_open_max_pct`, `wiper_state`)와 출발 뒤 경과 시간(`trip_elapsed_s`, 초, 앱이 trip `started_at`으로 계산)은 v4.1에서 더한 선택 값(H3·B12, 재현 조건 후보)이며 계약 v3.1 `VehicleSnapshot`과 같은 이름입니다. v4.1 초안의 묶음 이름 `cabin_context`와 성에 제거 값은 쓰지 않습니다. 지원하지 않는 값은 `NOT_SUPPORTED`이며 0이나 거짓으로 채우지 않습니다.
 - 후진하면 `speed_mps`가 음수입니다. 재현 조건의 속도 구간은 절댓값으로 셉니다.
 
 ### 5.4 신호 수신 레코드(관측 한 건)
@@ -1516,7 +1522,7 @@ Content-Type: application/json
   "driver_mode": "OWNER",
   "occurred_at": "2026-11-12T12:00:03Z",
   "incident_trigger": "AIRBAG_DEPLOYED",
-  "rule_profile_id": "pleos-care-lab-20261112-r2",
+  "rule_profile_id": "pleos-care-lab-20261112-r3",
   "severity": "L3_URGENT",
   "severity_reasons": ["NEW_AIRBAG_DEPLOYMENT"],
   "vehicle_snapshot": {"...": "5.3절 형식"},
@@ -1531,9 +1537,11 @@ Content-Type: application/json
     "guardian_ids": [], "requested_state": "COUNTDOWN", "countdown_remaining_ms": 10000,
     "countdown_started_at": "2026-11-12T12:00:03Z", "elapsed_ms_at_submit": 0,
     "clock_confidence": "SYNCHRONIZED", "clock_domain": "ivi-boot-example", "clock_error_bound_ms": 100,
-    "cancel_action_id": null, "recipients_shown_at": null
+    "cancel_action_id": null, "recipients_shown_at": null,
+    "clock_sync": {"offset_ms": -40, "rtt_ms": 120, "synced_at": "2026-11-12T11:59:30Z"}
   },
-  "test_mode": true
+  "test_mode": true,
+  "contains_test_input": true
 }
 ```
 
@@ -1550,17 +1558,19 @@ Content-Type: application/json
   "release_at": "2026-11-12T12:00:13Z",
   "timing_uncertain": false,
   "test_mode": true,
-  "related_incident_id": null
+  "related_incident_id": null,
+  "alert_incident_id": "00000000-0000-4000-8000-000000000101",
+  "dispatch_mode": "MOCK"
 }
 ```
 
-- 이 예시는 대표 사례입니다. 21:00:03 KST(12:00:03Z)에 확인을 시작해 `release_at`이 21:00:13 KST(12:00:13Z)입니다. 에어백이 시험 입력이므로 `test_mode = true`이며 모의 발송만 합니다. 시험 입력인데 `test_mode = false`로 보내면 서버가 422로 거부합니다.
-- 모든 응답에는 밀리초 단위 `server_time`이 있습니다. 차량은 이 값과 왕복 시간으로 시계 오차를 잽니다(3.4.3절).
-- 수동 보고 `manual_report`는 `symptoms[]`(1~3개), `body_area`, `input_source`(`USER_SELECTION`·`STT`), `memo_text`(말로 남긴 문장), `selected_while_driving`, `reported_stopped`, `request_help`, `selected_at`을 담습니다. 주행 중 고른 증상은 `VIBRATION`·`BURNING_SMELL`·`COLLISION`만 허용합니다.
+- 이 예시는 대표 사례입니다. 21:00:03 KST(12:00:03Z)에 확인을 시작해 `release_at`이 21:00:13 KST(12:00:13Z)입니다. 에어백이 시험 입력이므로 `test_mode = true`·`contains_test_input = true`이고 응답의 `dispatch_mode`는 `MOCK`입니다(모의 발송만). 시험 입력인데 `test_mode = false`로 보내면 서버가 422(`TEST_INPUT_IN_REAL_INCIDENT`)로 거부합니다. 스스로 알림을 가진 사건이므로 `alert_incident_id`는 자기 `incident_id`입니다.
+- 사건·행동·trip 응답(`IncidentAck`, `IncidentView`, `ActionResult`, `TripView`, `LocationSharingStopResult`)에는 밀리초 단위 `server_time`이 있습니다. 시계 오차는 `POST /v1/time-sync`(`syncServerTime`)로 재고 그 표본을 `notification.clock_sync`에 넣습니다. 표본이 없거나 오래되면 서버는 `SYNCHRONIZED`를 인정하지 않습니다(3.4.3절).
+- 수동 보고 `manual_report`는 `client_report_id`, `symptoms[]`(1~3개), `body_area`, `input_source`(`USER_SELECTION`·`STT`), `memo_text`(말로 남긴 문장), `selected_while_driving`, `reported_stopped`, `request_help`, `selected_at`을 담습니다. 주행 중 카드로 고른 증상(`input_source = USER_SELECTION`)은 `VIBRATION`·`BURNING_SMELL`·`COLLISION`·`PEDAL_PROBLEM`만 허용합니다(말로 하기 `STT`는 제한 없음).
 - "지금 도움 요청"은 `requested_state = RELEASED`이며 받는 사람을 보여 준 시각 `recipients_shown_at`과 보호자 ID가 반드시 있어야 합니다.
 - 근거가 없으면 `severity`는 `null`입니다. 기본값 `L1_RECORD`로 채우지 않습니다.
 - 보호자 ID를 비우면 서버가 운전자의 등록 정책에서 대상을 정합니다. 활성 대상이 없어도 사건은 저장하고 `BLOCKED_NO_RECIPIENT`로 표시합니다.
-- 추가 관측·안내 이력은 `POST /v1/incidents/{id}/observations`로 묶어 보냅니다. 같은 요청 ID로 다른 내용을 보내면 `409`입니다.
+- 추가 관측·안내 이력은 `POST /v1/incidents/{incidentId}/observations`(`appendObservationBatch`)로 묶어 보냅니다. 같은 요청 ID로 다른 내용을 보내면 `409`입니다.
 
 | 응답 | 뜻과 기기 처리 |
 | --- | --- |
@@ -1577,14 +1587,14 @@ Content-Type: application/json
 | --- | --- | --- |
 | `app_users` | UUID, 생성·삭제 시각 | 계정 주체 |
 | `vehicle_profiles` | 모델·연식·동력·사양·Pleos 탑재 검토 | 검토 전 프로필을 실제 지원으로 켜지 않습니다. |
-| `vehicles` | UUID, owner_id, VIN 해시, 번호 암호문 | `POST /v1/vehicles`로 등록합니다. |
-| `devices` | UUID, 소유자, 차량, IVI·PHONE, 연결·해제 시각 | 해제하면 차량 기록 삭제 명령을 보냅니다. |
+| `vehicles` | UUID, `owner_id`, 프로필, VIN 해시(`vin_hash`)·키 판, 표시 이름 | `POST /v1/vehicles`(`registerVehicle`)로 등록합니다. 활성 차량 사이에서 VIN 해시는 고유합니다(`vehicles_active_vin`). 차량 번호 암호문은 계약 미반영(향후)입니다. |
+| `devices` | UUID, 소유자, 차량, `device_role`(IVI·PHONE), 연결·해제 시각, `wipe_requested_at`·`wipe_confirmed_at` | 해제(`unpairDevice`)하면 차량 기록 삭제 명령을 보냅니다. |
 | `guardians` | UUID, 등록한 운전자, 번호 암호문·해시, 인증·동의·철회 시각, 키 판 | 전화번호 원문을 발송 로그에 반복 저장하지 않습니다. |
-| `vehicle_guardians` | 운전자 프로필, 보호자, 순서 | 운전자별 보호자 연결입니다. 운전자마다 최대 3명입니다(계약의 5명을 3명으로 맞춤, 5.12절). |
+| `vehicle_guardians` | 운전자 프로필, 차량, 보호자, 순서 `slot`, 범위, 활성 | 운전자별 보호자 연결입니다. 운전자마다 최대 3명입니다(`slot BETWEEN 1 AND 3`, rules-lab `notification.guardian_limit = 3`). |
 | `guide_bundles` | `guide_id`, `version`, `vehicle_profile_id`, `guide_kind`, `availability`, `source_manual_ref`, `steps_json`, `tts_lines_json`, 경고등 항목 필드, `content_sha256`, 검토자·검토일 | 경고등 설명·긴급 안내·증상 안내를 함께 둡니다. `VERIFIED`는 검토자·검토일이 있어야 합니다. |
 | `rule_profiles` | 판정 설정 식별값 | 실험 설정과 운영 승인을 나눕니다. |
 | `diagnostic_mappings` | 차량별 고장 코드 매핑 | [향후]용입니다. |
-| `incidents` | UUID, client ID, 소유자·차량, `trip_id`, `driver_profile_id`, `driver_mode`, `incident_trigger`, `severity`, 응답, `vehicle_snapshot`, version, 관련 사건 | client ID는 소유자 범위에서 고유합니다. |
+| `incidents` | UUID, client ID, 소유자·차량, `trip_id`, `driver_profile_id`, `driver_mode`, `incident_trigger`, `lifecycle`, `severity`, 응답, `vehicle_snapshot`, version, `test_mode`·`contains_test_input`, 관련 사건(`related_incident_id`) | client ID는 소유자 범위에서 고유합니다. 스냅샷·관측에 시험 입력이 있으면 `test_mode`여야 합니다. |
 | `observations` | 사건, sequence, `code`, 영역, `source`, `quality`, `measured_at`, `received_at`, `freshness_basis`, 값 | 결측과 출처도 보관합니다. Vehicle SDK 값은 `measured_at`이 없습니다. |
 | `observation_batches`, `guidance_events` | 배치 ID·요청 해시, 실제 음성·화면 출력과 단계 | 중복과 내용 변경을 구분합니다. |
 | `manual_reports` | 사건, `symptoms[]`, `body_area`, 입력 출처, 말 메모, 고른 시각, 주행 중 여부 | 센서 관측과 따로 둡니다. |
@@ -1592,66 +1602,74 @@ Content-Type: application/json
 | `incident_locations` | 사건, 5.3절 위치 필드, 주소 상태 | 위도·경도는 함께 있거나 함께 없습니다. |
 | `evidence_assets` | 사건, 채널, 객체 키, 바이트, SHA-256 | 해시 확인 전 보관 완료로 표시하지 않습니다. |
 | `upload_sessions`, `upload_chunks` | 업로드 허가·기한·offset, 조각 위치·길이·해시 | 재개와 충돌을 처리합니다. |
-| `notification_policies` | 사건, 차량, `trip_id`, `policy_state`, `outcome`, `release_at`, version | 취소·발송 선점의 권위 행입니다. |
-| `deliveries` | 사건, 보호자, `transport_group`, 실제 채널, revision, `delivery_state`, `opened_at` | (사건, 보호자, 그룹, revision) 고유입니다. |
+| `notification_policies` | 사건, 차량, `trip_id`, `state`(`policy_state` 값), `outcome`, `dispatch_mode`, `release_at`, `alert_window_ends_at`·`alert_window_closed_at`, version | 취소·발송 선점의 권위 행입니다. |
+| `deliveries` | 사건, 보호자, `transport_group`, 실제 채널, revision, `state`(`delivery_state` 값), `dispatch_mode`, `supersedes_delivery_id`, `opened_at` | (사건, 보호자, 그룹, revision) 고유입니다. |
 | `outbox_jobs` | dedupe_key, 종류, 실행 시각, 선점 기한 | DB 트랜잭션으로 만듭니다. |
 | `share_grants` | 해시한 토큰, 받는 보호자, 사건, 만료·철회 | 보호자 공유 전용입니다. 정비사 공유는 `share_links`로 나눕니다. |
 
 v4에서 새로 생긴 테이블(계약 DDL과 같은 이름): `driver_profiles`(이번 운전자), `device_pairings`(QR 연결), `trips`(출발 준비), `guardian_verifications`(번호 인증), `consents`(운전자 동의), `share_links`(정비사 24시간 링크), `guardian_replies`(빠른 답), `location_disclosures`(위치 제공 기록), `maintenance_notes`(정비 노트). 재현 조건 카드는 차량이 계산하고 서버는 차량이 만든 카드를 보관만 합니다(3.2.4절).
 
-v4.1에서 계약 v3.1에 더할 구조(이름은 계약에서 확정):
-- 차량 소유자 이력(`vehicle_owners`: 차량, 사용자, 시작·끝). 소유자 이전을 위해 다른 표의 복합 외래키에서 `owner_id`를 떼어 냅니다. VIN 해시는 고유 제약으로 막지 않고 "같은 차일 수 있음" 신호로만 쓰며, 충돌하면 차 안 확인과 이전 소유자 해제로 넘깁니다. `vin_sha256`은 가명정보로 다룹니다(개인정보 해당 여부 확인 필요).
-- `device_pairings`에 차 화면 확인 시각(`car_confirmed_at`)과 연결 역할(소유자·등록 운전자).
-- 보호자 세션(`guardian_share_sessions`: 공유, 세션 해시, 만료, 번호 뒷자리 확인 실패 횟수·잠금).
-- `trips`에 운전자 변경 이력과 종료 이유(`ended_reason`: 운전자 종료·운전자 변경·자동 종료).
-- `devices`에 `wipe_requested_at`, `wipe_confirmed_at`. 작업 종류에 계정 파기, 음성 문장 파기, 기기 기록 삭제.
-- `location_disclosures`의 보호자·운전자 외래키를 `ON DELETE SET NULL`로 바꾸고, 받는 사람을 가린 사본(`recipient_label_masked`, `recipient_phone_hmac`)과 `location_precision`(`ADDRESS`·`COORDINATES`), `location_id`를 둡니다. 탈퇴·삭제 뒤에도 "언제, 누구에게"는 익명화된 기록으로 남습니다.
-- `deliveries`에 정정 순서(`supersedes_delivery_id`), `notification_policies`에 열린 알림 시간 창 끝(`open_window_ends_at`)과 알림을 가진 사건(`alert_incident_id`).
-- `guide_bundles`에 `signature`, `signing_key_id`.
+계약 v3.1에서 더한 구조(DB v3.1 테이블 36개 = v3의 32개 + 새 테이블 4개 `ownership_transfers`, `guardian_share_sessions`, `arrival_alert_settings`, `service_checkins`):
+- 소유자 이전(`ownership_transfers`: `from_vehicle_id`, `to_vehicle_id`, `initiated_by`(`CURRENT_OWNER`·`VEHICLE_SCREEN`), `state`, 이의 기간 끝 `objection_window_ends_at`). 이전은 `owner_id`를 바꾸지 않고 새 소유자의 새 차량 등록을 만들며 이전 기록을 옮기지 않습니다(rules-lab `ownership_transfer`). VIN 해시는 활성 차량 사이에서 고유하고(`vehicles_active_vin`), 충돌하면 `VIN_ALREADY_REGISTERED`로 알리고 차 화면 이전 요청으로 넘깁니다(`vin_conflict_path`). v4.1 초안의 소유자 이력 표(`vehicle_owners`)는 쓰지 않습니다. `vin_hash`는 가명정보로 다룹니다(개인정보 해당 여부 확인 필요).
+- `device_pairings`에 휴대폰 확인 시각(`phone_confirmed_at`), 차 화면 확인 시각(`vehicle_confirmed_at`), 연결 역할(`requested_role`: `OWNER`·`REGISTERED_DRIVER`), 소유자 이전 연결(`transfer_id`). `CONFIRMED`는 차 화면 확인이 있어야 합니다.
+- 보호자 세션(`guardian_share_sessions`: `share_id`, `stage`, `attempt_count`(최대 5), `session_token_hash`, `locked_until`, `expires_at`(24시간 이하), `verified_at`).
+- `trips`에 종료 이유(`ended_reason`: `USER_ENDED`·`DRIVER_CHANGED`·`IGNITION_OFF`·`LONG_PARKED`·`DEVICE_SILENT`·`OWNERSHIP_TRANSFER`), `last_device_seen_at`, 게스트·미상이면 꺼지는 `auto_location_send_enabled`, 도착(`arrived_at`, `arrival_alert_sent_at`). 운전자가 바뀌면 이전 trip을 `DRIVER_CHANGED`로 닫고 새 trip을 만듭니다(운전자 변경 이력 표는 따로 없음).
+- `devices`에 `wipe_requested_at`, `wipe_confirmed_at`. 작업 종류(`outbox_jobs.job_type`)에 `PURGE_ACCOUNT`, `PURGE_GUARDIAN`, `PURGE_SPEECH_TEXT`, `DEVICE_WIPE`, `ANONYMIZE_DISCLOSURES`, `TRIP_AUTO_END`, `ALERT_WINDOW_CLOSE`, `ARRIVAL_ALERT_SUBMIT`, `TRANSFER_EXPIRE`.
+- `location_disclosures`의 보호자·운전자 외래키는 `ON DELETE SET NULL`이고, 받는 사람을 가린 사본(`recipient_label_masked`), `location_precision`(`ADDRESS`·`COORDINATES`·`NONE`), `location_id`, `anonymized_at`을 둡니다. 탈퇴·삭제 뒤에도 "언제, 누구에게"는 익명화된 기록으로 남습니다. 번호 해시 사본(`recipient_phone_hmac`)은 계약 미반영(향후)입니다.
+- `deliveries`에 정정 순서(`supersedes_delivery_id`)와 `dispatch_mode`, `notification_policies`에 열린 알림 시간 창(`alert_window_ends_at`, `alert_window_closed_at`, `alert_generation`)과 `dispatch_mode`. 알림을 가진 사건은 DB 열이 아니라 `incidents.related_incident_id`와 API 응답의 `alert_incident_id`로 나타냅니다.
+- 도착 알림 설정(`arrival_alert_settings`: 운전자 프로필별 `enabled` 기본 꺼짐, `guardian_ids`)과 정비소 도착 체크인(`service_checkins`: 정비소 참조·이름, `detected_by`, 좌표 없음).
+- `guide_bundles`의 서명 필드(`signature`, `signing_key_id`)는 계약 미반영(향후)입니다.
 
 외래키만으로 권한이 끝나지 않습니다. 모든 차량·사건·보호자 조회에서 소유·공유 권한을 검사합니다. 전화번호 복호화는 발송 작업에만 허용하고 접근 이력을 남깁니다.
 
 ### 5.7 API
 
-| 구분 | 경로 | 용도 |
-| --- | --- | --- |
-| 유지 | `POST /v1/incidents`, `GET /v1/incidents/{id}` | 사건 생성·조회 |
-| 유지 | `POST /v1/incidents/{id}/actions` | 운전자 행동(5.2절 `action`) |
-| 유지 | `POST /v1/incidents/{id}/observations`, `/manual-reports`, `/locations`, `GET …/locations/latest`, `GET …/timeline` | 관측·수동 보고·위치·시간표 |
-| 유지 | `POST /v1/incidents/{id}/assets`, `…/assets/{assetId}/complete`, `HEAD·PATCH /v1/uploads/{uploadId}`, `POST /v1/uploads/{uploadId}/renew` | 증거 분할 업로드 |
-| 유지 | `GET /v1/incidents/{id}/deliveries` | 전달 상태(소유자만) |
-| 유지 | `GET /v1/shares/{shareId}`, `POST /v1/shares/{shareId}/ack`, 첨부 다운로드 | 보호자 공유 열람 |
-| 유지 | `PUT /v1/vehicles/{vehicleId}/capabilities`, `GET /v1/vehicles/{vehicleId}/warning-guides` | 지원 상태 보고, 도감 목록(시연 모드는 `DRAFT_DEMO` 포함) |
-| 추가 | `POST /v1/vehicles` | 차량 등록·VIN 해시 |
-| 추가 | `GET /v1/incidents` | 기록 목록 |
-| 추가 | `POST /v1/trips` | 출발 준비, 두 기기 공유 |
-| 추가 | `POST /v1/pairing/qr`, `POST /v1/pairing/confirm` | 휴대폰 연결 |
-| 추가 | `POST /v1/guardians`, `POST /v1/guardians/{id}/verify`, `POST /v1/guardians/{id}/practice-alert` | 보호자 등록·인증·연습 알림 |
-| 추가 | `POST /v1/consents`, `GET /v1/consents` | 운전자 위치 제공 동의 등 |
-| 추가 | `GET /v1/location-disclosures` | 위치 제공 기록 |
-| 추가 | `POST /v1/incidents/{id}/share-links`, `POST /v1/share-links/{linkId}/view` | 정비사 24시간 요약 만들기·열기 |
-| 추가 | `POST /v1/incidents/{id}/corrections` | 정정 알림 |
-| 추가 | `POST /v1/guardian-replies` | 보호자 빠른 답 |
-| 추가 | `GET /v1/guide-bundles/{guide_id}` | 안내 묶음 갱신 |
-| 추가 | `POST /v1/maintenance-notes`, `POST /v1/maintenance-notes/{noteId}/recheck` | 정비 노트, 500km 재발 확인 답 |
-| 추가 | `GET /v1/symptom-patterns` | 재현 조건 카드(운전자별, 시험 사건 제외) |
-| v4.1 보강(D1) | `POST /v1/shares/{shareId}/session` | 보호자 세션 교환. 조각 토큰과 휴대폰 번호 뒷자리를 확인해 `guardianSession`을 줍니다(2단계 열람, H5). |
-| v4.1 보강(D3) | `POST /v1/driver-profiles`, `GET /v1/vehicles/{vehicleId}/driver-profiles` | 운전자 프로필 만들기, 차량 칩용 목록(표시 이름만) |
-| v4.1 보강(D3) | `PUT /v1/trips/{tripId}/driver`, `POST /v1/trips/{tripId}/end` | 이번 운전자 지정·변경, trip 종료. 서버의 자동 종료(시동 종료로 보이는 상태·오랜 정차)도 같은 종료 이유를 남깁니다. |
-| v4.1 보강(D5) | `POST /v1/incidents/{incidentId}/location-sharing/stop` | 이번 사건 위치 공유 중지. 동의는 그대로 |
-| v4.1 보강(D5) | `POST /v1/shares/{shareId}/revoke`, `POST /v1/share-links/{linkId}/revoke` | 보호자 공유·정비사 링크 철회 |
-| v4.1 보강(D5) | `DELETE /v1/guardians/{guardianId}` | 보호자 삭제(운전자) 또는 보호자 탈퇴(보호자 본인). 제공 기록은 익명화해 남김 |
-| v4.1 보강(D5) | `DELETE /v1/devices/{deviceId}` | 기기 연결 해제. 서명된 차량 기록 삭제 명령을 보냅니다. |
-| v4.1 보강(D5) | `DELETE /v1/me` | 계정 삭제. 72시간 안에 파기하고 제공 기록은 익명화 |
-| v4.1 보강(D6) | `POST /v1/vehicles/{vehicleId}/ownership-transfer` | 소유자 이전(현재 소유자 해제 → 새 소유자 QR 연결과 차 안 확인) |
-| v4.1 보강 | `POST /v1/guardians/{id}/resend-otp` | 보호자 인증 번호 다시 받기 |
-| v4.1 보강 | `GET /v1/guide-packs/{vehicle_profile_id}/manifest` | 안내 묶음 목록(묶음별 `guide_id`·`version`·`content_sha256`) |
+계약 v3.1 OpenAPI 3.1.0의 작업 59개(경로 56개)를 모두 적습니다. 경로 매개변수 이름은 계약과 같습니다(`{incidentId}`, `{guardianId}` 등). 구분은 계약 README의 구분(유지·정리 22, 9.4 추가 17, 보강 2, 2차 결정 18)입니다.
 
-- 보호자 목록 `GET /v1/vehicles/{vehicleId}/guardians`와 보호자 수신 동의 `PUT /v1/guardians/{id}/consent`는 유지합니다. 보호자 등록은 `POST /v1/guardians`로 옮겼습니다.
-- `POST /v1/pairing/confirm`은 휴대폰이 아니라 차 화면의 [연결] 확인으로만 성공합니다(2.7절). 두 번째 이후 휴대폰은 등록 운전자로 연결합니다.
-- 모든 응답에 밀리초 단위 `server_time`을 넣습니다(D6).
+| 구분 | 방식·경로 | operationId | 용도 |
+| --- | --- | --- | --- |
+| 유지 | `POST /v1/incidents`, `GET /v1/incidents/{incidentId}` | `createIncident`, `getIncident` | 사건 생성·조회 |
+| 유지 | `POST /v1/incidents/{incidentId}/actions` | `applyIncidentAction` | 운전자 행동(5.2절 `action`) |
+| 유지 | `POST /v1/incidents/{incidentId}/observations`, `…/manual-reports`, `…/locations`, `GET …/locations/latest`, `GET …/timeline` | `appendObservationBatch`, `appendManualReport`, `appendIncidentLocation`, `getLatestAuthorizedLocation`, `getAuthorizedIncidentTimeline` | 관측·수동 보고·위치·시간표 |
+| 유지 | `POST /v1/incidents/{incidentId}/assets`, `POST …/assets/{assetId}/complete`, `GET …/assets/{assetId}/download`, `HEAD`·`PATCH /v1/uploads/{uploadId}`, `POST /v1/uploads/{uploadId}/renew` | `prepareEvidenceUpload`, `completeEvidenceUpload`, `getOwnerEvidenceDownload`, `getUploadOffset`, `appendUploadChunk`, `renewAuthorizedUpload` | 증거 분할 업로드·소유자 다운로드 |
+| 유지 | `GET /v1/incidents/{incidentId}/deliveries` | `getIncidentDeliveries` | 전달 상태(차량 기기·소유자) |
+| 유지 | `GET /v1/shares/{shareId}`, `POST /v1/shares/{shareId}/ack`, `GET /v1/shares/{shareId}/assets/{assetId}/download` | `getAuthenticatedGuardianProjection`, `acknowledgeAuthenticatedView`, `getConsentedGuardianEvidenceDownload` | 보호자 공유 열람(2단계 확인 뒤) |
+| 유지 | `PUT /v1/vehicles/{vehicleId}/capabilities`, `GET /v1/vehicles/{vehicleId}/warning-guides` | `reportCapabilitySnapshot`, `listVerifiedWarningGuides` | 지원 상태 보고, 도감 목록(시연 모드는 `DRAFT_DEMO` 포함) |
+| 유지 | `GET /v1/vehicles/{vehicleId}/guardians`, `PUT /v1/guardians/{guardianId}/consent` | `listVehicleGuardians`, `updateVerifiedGuardianConsent` | 보호자 목록, 보호자 수신 동의 |
+| 9.4 추가 | `POST /v1/vehicles` | `registerVehicle` | 차량 등록·VIN 해시 |
+| 9.4 추가 | `GET /v1/incidents` | `listIncidents` | 기록 목록 |
+| 9.4 추가 | `POST /v1/trips` | `startTrip` | 출발 준비, 두 기기 공유 |
+| 9.4 추가 | `POST /v1/pairing/qr`, `POST /v1/pairing/confirm` | `createPairingQr`(차량), `confirmPairing`(휴대폰) | QR 만들기, 휴대폰 쪽 연결 요청 |
+| 9.4 추가 | `POST /v1/guardians`, `POST /v1/guardians/{guardianId}/verify`, `POST /v1/guardians/{guardianId}/practice-alert` | `registerGuardian`, `verifyGuardianPhone`, `sendGuardianPracticeAlert` | 보호자 등록·번호 인증·연습 알림 |
+| 9.4 추가 | `POST /v1/consents`, `GET /v1/consents` | `recordConsent`, `listConsents` | 운전자 위치 제공 동의 등 |
+| 9.4 추가 | `GET /v1/location-disclosures` | `listLocationDisclosures` | 위치 제공 기록(내 위치 영수증함) |
+| 9.4 추가·보강 | `POST /v1/incidents/{incidentId}/share-links`, `POST /v1/share-links/{linkId}/view` | `createMaintenanceShareLink`, `viewMaintenanceShareLink` | 정비사 24시간 요약 만들기·열기 |
+| 9.4 추가 | `POST /v1/incidents/{incidentId}/corrections` | `sendCorrection` | 정정 알림 |
+| 9.4 추가 | `POST /v1/guardian-replies` | `postGuardianReply` | 보호자 빠른 답 |
+| 9.4 추가 | `GET /v1/guide-bundles/{guide_id}` | `getGuideBundle` | 안내 묶음 갱신 |
+| 9.4 추가·보강 | `POST /v1/maintenance-notes`, `POST /v1/maintenance-notes/{noteId}/recheck` | `createMaintenanceNote`, `answerMaintenanceRecheck` | 정비 노트, 500km 재발 확인 답 |
+| 9.4 추가 | `GET /v1/symptom-patterns` | `listSymptomPatterns` | 재현 조건 카드(운전자별, 시험 사건 제외) |
+| 2차(D1·H5) | `POST /v1/shares/{shareId}/session`, `POST /v1/shares/{shareId}/session/verify` | `openGuardianShareSession`, `verifyGuardianShareSession` | 보호자 링크 2단계 열람. 1단계는 조각 토큰을 본문으로 보내 무슨 일·시각·먼저 할 일만 받고(`opened_at` 기록), 2단계는 휴대폰 번호 끝 4자리 확인 뒤 `guardianSession`을 받음(5회 틀리면 15분 잠금) |
+| 2차(D3) | `POST /v1/driver-profiles`, `GET /v1/vehicles/{vehicleId}/driver-profiles` | `createDriverProfile`, `listVehicleDriverProfiles` | 운전자 프로필 만들기, 차량 칩용 목록(표시 이름만) |
+| 2차(D3) | `PUT /v1/trips/{tripId}/driver`, `POST /v1/trips/{tripId}/end` | `setTripDriver`, `endTrip` | 이번 운전자 지정·변경, trip 종료. 서버 자동 종료(`LONG_PARKED`·`DEVICE_SILENT`)도 같은 `ended_reason`을 남김 |
+| 2차(D5) | `POST /v1/incidents/{incidentId}/location-sharing/stop` | `stopIncidentLocationSharing` | 이번 사건 위치 공유 중지. 동의는 그대로 |
+| 2차(D5) | `POST /v1/share-links/{linkId}/revoke` | `revokeMaintenanceShareLink` | 정비사 링크 철회 |
+| 2차(D5) | `DELETE /v1/guardians/{guardianId}` | `removeGuardian` | 보호자 삭제(운전자) 또는 보호자 탈퇴(보호자 본인). 제공 기록은 익명화해 남김 |
+| 2차(D5) | `DELETE /v1/devices/{deviceId}` | `unpairDevice` | 기기 연결 해제. 차량 기록 삭제 명령을 보냄 |
+| 2차(D5) | `DELETE /v1/me` | `deleteAccount` | 계정 삭제. 72시간 안에 파기하고 제공 기록은 익명화 |
+| 2차(D6) | `POST /v1/pairing/{pairingId}/vehicle-confirm` | `confirmPairingOnVehicle` | 차 화면 [연결] 확인. 이것이 있어야 `CONFIRMED` |
+| 2차(D6) | `POST /v1/vehicles/{vehicleId}/ownership-transfers`, `POST /v1/vehicles/{vehicleId}/ownership-transfers/{transferId}/cancel` | `startOwnershipTransfer`, `cancelOwnershipTransfer` | 소유자 이전 시작·취소(새 등록, 이전 기록은 옮기지 않음) |
+| 2차(D6) | `POST /v1/time-sync` | `syncServerTime` | 서버 시각 응답으로 시계 오차 재기 |
+| 2차(H7) | `PUT /v1/driver-profiles/{driverProfileId}/arrival-alert`, `POST /v1/trips/{tripId}/arrival` | `updateArrivalAlertSetting`, `reportTripArrival` | 도착 알림 설정(기본 꺼짐), 목적지 도착 보고(장소 없음) |
+| 2차(H8) | `POST /v1/service-checkins` | `recordServiceCheckin` | 정비소 도착 체크인(좌표를 서버로 보내지 않음) |
+
+계약 미반영(향후) API: 보호자 공유 링크만 따로 철회(제안 `POST /v1/shares/{shareId}/revoke`), 보호자 인증 번호 다시 받기(제안 `POST /v1/guardians/{guardianId}/resend-otp`), 차량 프로필별 안내 묶음 목록(제안 `GET /v1/guide-packs/{vehicle_profile_id}/manifest`), 이용 통계 수집. 계약에 넣기 전에는 구현 기준이 아닙니다(5.12절).
+
+- 보호자 등록은 `POST /v1/guardians`(`registerGuardian`)입니다. 보호자 목록과 수신 동의는 위 "유지" 줄의 작업을 씁니다.
+- 휴대폰의 `POST /v1/pairing/confirm`(`confirmPairing`)만으로는 연결이 끝나지 않고 `AWAITING_VEHICLE_CONFIRM`에 머뭅니다. 차 화면의 [연결](`confirmPairingOnVehicle`)이 있어야 `CONFIRMED`입니다(2.7절). 두 번째 이후 휴대폰은 등록 운전자(`REGISTERED_DRIVER`)로 연결합니다.
+- 사건·행동·trip·위치 공유 중지 응답에는 밀리초 단위 `server_time`이 있고, 시계 표본은 `syncServerTime`으로 잽니다(D6).
 - 인증은 `deviceSession`(차량·휴대폰의 사건 쓰기), `ownerSession`(조회·보호자·공유 관리), `guardianSession`(공유 읽기)으로 나눕니다.
-- 권한 규칙(계약 v3.1에서 작업마다 표로 둠): 사건 행동·정정·위치 공유 중지는 차량 기기(그 trip 중) 또는 그 사건 운전자 본인의 휴대폰만 합니다. 전달 상태는 소유자와 차량 기기(그 trip)가 읽습니다. 차량 화면이 보호자 알림 상태를 보여야 하기 때문입니다. 시간표와 원본 다운로드는 그 사건 운전자와, 운전자가 허락한 경우의 소유자만 읽습니다. 차량 기기의 목록 조회는 지금 trip 운전자의 기록으로 제한합니다.
+- 권한 규칙(계약 v3.1 작업마다 `x-authz`와 README 작업 표, 다른 계정은 403 `DRIVER_MISMATCH`): 사건 행동·정정·위치 공유 중지는 차량 기기(그 trip 중) 또는 그 사건 운전자 본인의 휴대폰만 합니다. 전달 상태는 소유자와 차량 기기(그 trip)가 읽습니다. 차량 화면이 보호자 알림 상태를 보여야 하기 때문입니다. 시간표와 원본 다운로드는 그 사건 운전자와, 운전자가 허락한 경우의 소유자만 읽습니다. 차량 기기의 목록 조회는 지금 trip 운전자의 기록으로 제한합니다.
 - 업로드는 이 앱의 4MiB offset 방식입니다. `HEAD`로 현재 offset을 보고 `PATCH`에 `Upload-Offset`, `Upload-Chunk-SHA256`, 바이너리를 보냅니다. 마지막 조각을 빼고 4MiB입니다. 같은 offset·길이·해시의 재시도는 현재 offset을 돌려주고 내용이 다르면 `409`입니다. 허가는 15분이며 갱신해도 offset을 0으로 돌리지 않습니다. 표준 tus나 S3 multipart라고 부르지 않습니다.
 
 ### 5.8 앱 상태
@@ -1662,7 +1680,7 @@ v4.1에서 계약 v3.1에 더할 구조(이름은 계약에서 확정):
 AppState
   vehicle_session:     UNBOUND / READY / DEGRADED / DISCONNECTED
   driving_state:       RESTRICTED / UNRESTRICTED / UNKNOWN(→ RESTRICTED처럼 처리)
-  signals[signal_id]:  quality(5.2절)
+  signals[code, area]: quality(5.2절)
   guidance:            guidance_state(5.2절)
   notification:        policy_state + deliveries[guardian_id][transport_group]
   incident_lifecycle:  OPEN / MONITORING / RESOLVED / ARCHIVED
@@ -1680,8 +1698,8 @@ AppState
 4. 취소: 정책 version을 비교해 `COUNTDOWN`·`RELEASED`의 미선점 작업만 원자적으로 취소합니다. 늦게 도착한 취소는 3.4.3절 규칙을 따릅니다.
 5. 발송사 호출 전후: 전달 행을 저장 → 외부 호출 → 발송사 요청 ID와 수신자 순번 기록. 중간에 다시 시작되면 결과부터 조회합니다.
 6. 문자 전환: `(사건, 보호자, transport_group, revision)` 고유 제약과 작업 중복 키로 한 작업만 만듭니다.
-7. 같은 차량의 열린 알림 하나: "열린 알림"은 `COUNTDOWN`·`RELEASED`·`DISPATCHING`이면서 알림을 연 뒤 시간 창(초안 2시간, 자체) 안에 있는 알림입니다. 같은 차량에는 열린 알림을 하나만 둡니다. 시간 창이 지난 알림은 발송 결과를 기다리더라도 새 사고의 알림을 막지 않습니다. 정정 알림은 이 제약의 예외입니다.
-8. 두 기기의 같은 사고: 묶기 시간 창(초안 2분, 자체, rules-lab `cross_device_merge_window_ms`) 안에 같은 차량의 열린 알림이 있으면 새 사건을 관련 사건으로 묶습니다. 결과는 셋으로 고정합니다. 창 안이고 같은 등급 이하이면 관련 사건 기록만 남기고 메시지를 보내지 않습니다. 창 안이고 더 높은 등급이면 기존 알림의 새 판("추가 정보")으로 보냅니다. 창 밖이면 독립 알림입니다. 응답에는 실제 알림을 가진 사건(`alert_incident_id`)을 함께 돌려주고, 차량은 행동을 그 사건으로 보냅니다. 묶인 사건에서 "괜찮아요(보내지 않음)"를 누르면 묶인 열린 알림 전체를 멈춥니다. 불확실한 연결은 화면에 표시하고 원본을 자동으로 지워 합치지 않습니다.
+7. 같은 차량의 열린 알림 하나: "열린 알림"은 `COUNTDOWN`·`RELEASED`·`DISPATCHING`이면서 알림을 연 뒤 시간 창(초안 2시간, 자체, rules-lab `notification.open_alert_window_ms = 7200000`) 안에 있는 알림입니다. DB는 `alert_window_closed_at IS NULL`인 행에만 부분 고유 인덱스 `one_open_alert_per_vehicle`을 겁니다. 같은 차량에는 열린 알림을 하나만 둡니다. 시간 창이 지난 알림은 발송 결과를 기다리더라도 새 사고의 알림을 막지 않습니다. 정정 알림은 이 제약의 예외입니다.
+8. 두 기기의 같은 사고: 묶기 시간 창(초안 2분, 자체, rules-lab `cross_device_merge_window_ms`) 안에 같은 차량의 열린 알림이 있으면 새 사건을 관련 사건으로 묶습니다. 결과는 셋으로 고정합니다. 창 안이고 같은 등급 이하이면 관련 사건 기록만 남기고 메시지를 보내지 않습니다. 창 안이고 더 높은 등급이면 기존 알림의 새 판("추가 정보")으로 보냅니다. 창 밖이면 독립 알림입니다. 응답에는 실제 알림을 가진 사건(`alert_incident_id`)을 함께 돌려주고, 차량은 행동을 그 사건으로 보냅니다. 묶인 사건에서 "괜찮아요(보내지 않음)"를 누르면 묶인 열린 알림 전체를 멈추고, 멈춘 사건 목록을 `cancelled_incident_ids`로 돌려줍니다. 불확실한 연결은 화면에 표시하고 원본을 자동으로 지워 합치지 않습니다.
 9. 멱등 키: `Idempotency-Key`는 본문의 `client_*_id`와 같아야 하며 다르면 400입니다. 범위는 (세션 주체, 작업), 보관은 오프라인 재전송을 생각해 7일입니다(자체).
 
 ### 5.10 보관·공유·삭제
@@ -1693,11 +1711,11 @@ AppState
 | 위치 좌표 | 30일 |
 | 차량 기기 안 기록 | 30일. 고정 기록은 서버 해시 확인과 사용자 동의 뒤에만 줄입니다. |
 | 사건 뒤 위치 갱신 | 최대 1시간 또는 운전자의 공유 중지 |
-| 보호자 공유 링크·정비사 링크 | 24시간, 철회 가능 |
+| 보호자 공유 링크·정비사 링크 | 24시간. 정비사 링크는 `revokeMaintenanceShareLink`로 철회, 보호자 링크는 동의 철회·보호자 삭제로 무효(별도 철회 API는 계약 미반영) |
 | 위치 제공 기록 | 좌표 삭제 뒤에도 보관. 보호자 삭제·탈퇴 뒤에는 삭제 대신 받는 사람을 가린 익명 기록으로 보관. 기간은 법 확인 뒤 |
 | 탈퇴 뒤 파기 | 72시간 안(`DELETE /v1/me`) |
 
-- 이 값들은 rules-lab의 보관 절(`retention`)에 넣어 서버 작업이 집행합니다(계약 v3.1 보강). 음성 인식 문장 7일은 사건이 남아 있어도 문장만 지우는 작업으로 지킵니다.
+- 이 값들은 rules-lab `retention`에 있고 서버 작업(`outbox_jobs.job_type`의 `PURGE_INCIDENT`, `PURGE_SPEECH_TEXT`, `PURGE_ACCOUNT`, `PURGE_GUARDIAN`, `DEVICE_WIPE`, `ANONYMIZE_DISCLOSURES`)이 집행합니다. 음성 인식 문장 7일은 사건이 남아 있어도 문장만 지우는 작업으로 지킵니다.
 - 동의를 철회하면 활용 경로를 바로 끊고 저장된 해당 자료를 지웁니다(Pleos 심사 요구). 위치 제공 기록과 동의 기록은 따로 보관합니다.
 - 차량 사용자가 바뀌거나 기기를 해제하면(`DELETE /v1/devices/{deviceId}`) 서버가 서명한 삭제 명령으로 차량 기록과 토큰을 지웁니다. 차량은 명령의 출처와 무결성을 확인한 뒤 실행하고, 실행 결과를 서버에 알립니다.
 - 공유 중지(이번 사건 위치)와 동의 철회(앞으로 위치)는 다른 API입니다(3.4.11절).
@@ -1733,36 +1751,56 @@ AppState
 
 | 구분 | v4.0 | v4.1 |
 | --- | --- | --- |
-| 주행 중 증상 | `VIBRATION`·`BURNING_SMELL`·`TIRE_DAMAGE`·`COLLISION`·`UNKNOWN`(5개) | `VIBRATION`·`BURNING_SMELL`·`COLLISION`(3개) + 긴급 선택 2개 = 카드 5개 |
+| 주행 중 증상 | `VIBRATION`·`BURNING_SMELL`·`TIRE_DAMAGE`·`COLLISION`·`UNKNOWN`(5개) | 카드 5개(긴급 3 + 증상 2). 저장 값은 `VIBRATION`·`BURNING_SMELL`·`COLLISION`·`PEDAL_PROBLEM`(긴급 선택 2개의 기록값) |
 | 확인 질문 답 | [네]/[아니요], 네 → 원치 않는 가속 안내 | [괜찮아요]/[안 멈춰요], 안 멈춰요 → 감속 실패 대처 |
 | 긴급 버튼 자리 | 왼쪽 빨강(더 많은 도움), 오른쪽 중립(끝내기) | 왼쪽 중립(끝내기·취소·기록), 오른쪽 빨강(도움·보내기·감속 실패), 앱 전체 |
 | 원치 않는 가속 안내의 감속 실패 버튼 | 멈추지 않아요 | 안 멈춰요 |
 | 감속 실패 "차가 멈췄어요" | 늘 `STOPPED_REVIEW` | 정차 확인이면 `STOPPED_REVIEW`, 아니면 `ENDED` |
 | 주행 중 홈 가운데 버튼 | 말로 기록 | 말로 하기(H1) |
 | 음성 듣기 | 누르고 말하기 | 한 번 누른 뒤 한 문장(최대 8초) |
-| TTS 선행 무음 | `preroll_silence_ms` 180 | 앱이 넣을 수 없음. `lead_in_text`(필요할 때 쉼표 문구) |
+| TTS 선행 무음 | `preroll_silence_ms` 180 | 앱이 넣을 수 없음. `leading_pause_text`(필요할 때 쉼표 문구). 앱 고정 음원에만 `bundled_audio_preroll_silence_ms` 150~200 |
 | 발송 시각 식 | `server_received_at` | `accepted_at`, 응답마다 `server_time` |
 | 출발 전 점검 | 시안에 안전벨트·문 칸 | 안전벨트·문 삭제, 끝나지 않은 기록 추가 |
 | 재현 조건 | 주행거리 범위 포함, 증상 순간만 셈 | 주행거리 제외, 평소 주행과 견줌, 출발 뒤 경과 시간·공조·창문·와이퍼 후보 |
 | 정비소 들르기 | 앱 안 지도, "+6분" | 지도 없음, 도착 예상 시각, 내비에서 보기 |
-| 보호자 수 | 계약 최대 5명, 무료 1명 | 최대 3명, 모두 무료 |
+| 보호자 수 | 계약 최대 5명, 무료 1명 | 최대 3명, 모두 무료(rules-lab `guardian_limit = 3`) |
+
+**v4.1 초안 → 계약 v3.1 이름 대응(이번 대조에서 계약 이름으로 바꾼 것).**
+
+| 구분 | v4.1 초안 | 계약 v3.1 |
+| --- | --- | --- |
+| 신호 코드 | `HVAC_AC_ON`, `HVAC_FAN_SPEED`, `HVAC_DEFROSTER`, `TRIP_DRIVING_TIME` | `CLIMATE_AC`, `CLIMATE_FAN_SPEED`, (성에 제거 계약 미반영), 신호 대신 스냅샷 `trip_elapsed_s` |
+| 스냅샷 필드 | `cabin_context.{trip_driving_time_min, hvac_ac_on, hvac_fan_speed, hvac_defroster_on, window_open_max_pct, wiper_state}` | `trip_elapsed_s`(초), `climate_ac_on`, `climate_fan_speed`, `window_open_max_pct`, `wiper_state`(묶음 없이 `vehicle_snapshot` 바로 아래) |
+| 안내 묶음 | `tts_lines[].lead_in_text` | `TtsLine.leading_pause_text` |
+| rules-lab | `guidance.confirm_prompt_cooldown_ms` | `guidance.confirm_prompt_suppression.window_ms`(300000) |
+| rules-lab | `voice_intent_rules` | `voice.routes`, `voice.route_priority` |
+| rules-lab | `symptom_patterns.baseline_*`(0.3 이상 높음) | `symptom_patterns.baseline_comparison.*`(`show_rule`, `minimum_lift = 1.5`, `baseline_min_samples = 30`) |
+| rules-lab | 보호자 링크 잠금에 `guardian_otp` 값 사용 | `guardian_share_session.max_failed_attempts`·`lock_ms` |
+| DB | `device_pairings.car_confirmed_at` | `device_pairings.vehicle_confirmed_at`(+ `phone_confirmed_at`, `requested_role`) |
+| DB | `notification_policies.open_window_ends_at` | `notification_policies.alert_window_ends_at`, `alert_window_closed_at` |
+| DB | `vehicle_owners`(소유자 이력) | `ownership_transfers`(새 등록 방식) |
+| DB | `notification_policies.policy_state`, `deliveries.delivery_state` 열 | 열 이름 `state`(값은 `PolicyState`·`DeliveryState`) |
+| API | `POST /v1/vehicles/{vehicleId}/ownership-transfer` | `POST /v1/vehicles/{vehicleId}/ownership-transfers`(`startOwnershipTransfer`), `…/{transferId}/cancel` |
+| API | 보호자 세션 교환 1개 | `openGuardianShareSession`(1단계) + `verifyGuardianShareSession`(2단계) |
+| API | `POST /v1/pairing/confirm`이 차 화면 확인 | 휴대폰 `confirmPairing` + 차 화면 `confirmPairingOnVehicle` |
+| ui-tokens | 주행 중 홈 `HELP_ENTRY`, 화면 `home`에 주행 중 포함 | `HELP_MENU`, 별도 화면 `home_driving` |
+| 도착 알림 문구 | `#{place_label}에 도착했어요` | "잘 도착했어요"(장소 이름 없음) |
 
 ### 5.12 계약 맞춤 확인 목록
 
-이 문서가 쓰는 이름 가운데 2026-11-12 현재 계약 파일(OpenAPI 3.0.0, DB v3, rules-lab 2.0.0, ui-tokens 5.0.0, 인수 3.0.0)에 아직 없는 것입니다. v4.1 이름은 계약 v3.1·ui-tokens 5.1.0에 같은 이름으로 넣는 중입니다. 계약 작업에서 이름이 바뀌면 이 문서를 함께 고칩니다.
+2026-11-12 계약 v3.1(OpenAPI 3.1.0, DB v3.1, rules-lab 2.1.0, ui-tokens 5.1.0, 인수 시나리오 3.1.0)과 이 문서의 API 경로·operationId·스키마·테이블·열·열거형·rules-lab 키를 대조했습니다. 계약에 있는 이름은 계약대로 고쳤고(5.11절 "v4.1 초안 → 계약 v3.1" 표), 계약에 아직 없는 것은 아래뿐입니다. 모두 "계약 미반영(향후)"이며, 계약에 넣기 전에는 구현 기준이 아닙니다. 계약에 넣을 때 이름이 바뀌면 이 문서를 함께 고칩니다.
 
-- **열거형 값:** `mobility_action`의 `NORMAL_OPERATION`(정상 작동 표시등). 신호 코드 `TRIP_DRIVING_TIME`, `HVAC_AC_ON`, `HVAC_FAN_SPEED`, `HVAC_DEFROSTER`, `WINDOW_POSITION`, `WIPER_STATE`. trip 종료 이유. 연결 역할(소유자·등록 운전자). 제공 기록의 `location_precision`. 이용 통계 동의 항목(후보 `USAGE_STATS`, 1.7절).
-- **주행 중 증상 3개(B9):** 인수 시나리오의 주행 중 5개(`TIRE_DAMAGE`·`UNKNOWN` 포함)를 고칩니다.
-- **화면 ID:** `confirm_prompt`(확인 질문), `help_confirm`(받는 사람 확인), `stopped_review`(정차 후 확인), `history`(기록 목록), `location_receipts`(내 위치 영수증함). ui-tokens 5.1.0의 시안 목록은 실제 v4 폴더(세로 15·가로 14)와 같게 하고, 주행 중 홈 버튼은 `RECORD_NOW`·`TALK`·`HELP_ENTRY`(지금 기록·말로 하기·도움이 필요해요)로 하며 주행 중 홈과 긴급 화면에서 `GUARDIAN_ALERT`를 뺍니다(인수 T71도 같이). 버튼 자리는 4.13절을 따릅니다.
-- **API(5.7절 v4.1 보강):** 보호자 세션 교환, 운전자 프로필, 이번 운전자 지정, trip 종료, 위치 공유 중지, 공유·링크 철회, 보호자 삭제·탈퇴, 기기 연결 해제, 계정 삭제, 소유자 이전, 인증 번호 다시 받기, 안내 묶음 목록. 모든 응답의 `server_time`. 응답의 `alert_incident_id`. 작업마다 권한 표.
-- **필드:** `location_fix_raw_ms`, `cabin_context`, `doors_open[].raw_position`, `guide_bundles.signature`·`signing_key_id`, `tts_lines[].lead_in_text`, 취소 행동의 시계 영역·경과 시간.
-- **경고등 안내 묶음 이름 규칙** `G_WARN_<telltale_type>`. 공개 열거형 `TelltaleType`에는 숫자가 든 이름(예: `H2_LEAK`)이 있으므로 `guide_id` 정규식을 `G_[A-Z0-9_]+`로 넓힐지 계약에서 정합니다.
-- **rules-lab 값(자체):** 재현 조건의 조향 기준 ±5°와 "3분의 2" 규칙, 평소 주행 기준선(`symptom_patterns.baseline_*`: 0.3 이상 높음, 평소 자료 30분), 출발 뒤 경과 시간 10분 단위, 확인 질문 반복 억제 `guidance.confirm_prompt_cooldown_ms = 300000`, PMSA 무음 구간, 말로 하기 나누기 규칙 `voice_intent_rules`, 주행 중 경고등 결과 `MOST_CONSERVATIVE_ACTION`, 점검 항목 주행 중 음성 허용 목록 `driving_voice_allowlist`, 위치 나이 60초, 열린 알림 시간 창 2시간, trip 자동 종료 6시간, 시험 입력 우선순위 `demo_mode.test_input_overrides_live`, 제공 기록 알림 묶기 `privacy.disclosure_notify_dedupe`, 보관 절 `retention`(5.10절), 서버 확인 중지 상태·10분 상한, 정차 중 CPU 25%, 미리 익히기 진입 3초·종료 음성 정지 0.25초, 정비 재발 확인의 날짜 대체(14일), 중복 탭 병합 300ms, 성능 강등 표시 위치. 차속 권한 보호 수준은 "dangerous"(AOSP)로, `STT_SERVICE`·`TTS_SERVICE`는 "문서·바이너리에 없음"으로 적습니다. 음성 듣기 이름은 "누르고 있기"로 읽히지 않게 정합니다(예: 한 번 누르기).
-- **인수 시나리오 값:** 확인 질문의 브레이크 조건은 1,000ms(T97의 600ms를 고침). 추가할 사례는 6.10절에 있습니다.
-- **메시지 템플릿** 코드 `CARE_EVENT_V1`·`CARE_UPDATE_V1`·`CARE_PRACTICE_V1`·`CARE_ARRIVAL_V1`(H7)과 변수(`test_label`, `driver_label`, `situation`, `guardian_todo`, `driver_response`, `occupant_summary`, `address`, `position_time`, `location_source`, `map_url`, `update_reason`, `place_label`, `arrived_at`). rules-lab에는 정정 템플릿 코드와 보호자 첫 줄 문장만 있습니다.
-- **앱 상태 이름** `driving_state`·`phone_link`(5.8절).
-- **보호자 수 상한:** 계약의 운전자당 5명을 3명으로 맞춥니다(1.7절).
-- **확인 질문 응답 대기 8초**는 rules-lab의 `performance.app_question_listen_window_ms: 8000`과 같은 값입니다(v4.0 목록에서 "없음"으로 적은 것을 고침).
+- **열거형 값:** `mobility_action`의 `NORMAL_OPERATION`(정상 작동 표시등). 이용 통계 동의 항목(후보 `USAGE_STATS`, 1.7절). 공조 성에 제거 신호(`getHvacDefrosterState`).
+- **화면 ID:** `help_confirm`(받는 사람 확인), `stopped_review`(정차 후 확인), `history`(기록 목록), `location_receipts`(내 위치 영수증함). ui-tokens 5.1.0 `screens`에는 없습니다(`history`는 `legacy_screen_map`에서 `pattern`을 가리킴). 같은 단계의 안내 상태 `HELP_CONFIRM`·`STOPPED_REVIEW`는 계약에 있습니다.
+- **API:** 보호자 공유 링크만 따로 철회, 보호자 인증 번호 다시 받기, 차량 프로필별 안내 묶음 목록(manifest), 이용 통계 수집(5.7절 표 아래).
+- **필드:** `location_fix_raw_ms`(위치 SDK 원값), `doors_open[].raw_position`(문 SDK 원값), `guide_bundles.signature`·`signing_key_id`(안내 묶음 서명), `location_disclosures.recipient_phone_hmac`, 차량 번호 암호문, 취소 행동의 시계 영역(경과 시간은 `countdown_elapsed_ms`로 있음), 경고등 도감 전수 대조 값(`expected_count`·`imported_count`·`reviewed_count`·`coverage_checked_at`).
+- **이름 규칙:** 경고등 안내 묶음 `G_WARN_<TelltaleType>`. 계약 `guide_id` 정규식은 `^G_[A-Z_]+$`라 숫자가 든 `TelltaleType`(예: `H2_LEAK`)은 담을 수 없습니다. `G_[A-Z0-9_]+`로 넓힐지는 계약에서 정합니다.
+- **rules-lab 값(자체):** 점검 항목의 주행 중 음성 허용 목록(후보 키 `driving_voice_allowlist`), 주행 중 경고등 결과 `MOST_CONSERVATIVE_ACTION`, PMSA 무음 구간, 미리 익히기 진입 3초, 정비 재발 확인의 날짜 대체(14일), 중복 탭 병합 300ms, 성능 강등 표시 위치, `TTS_SERVICE`의 보호 수준 기록(`STT_SERVICE`는 `signal_catalog`에 "미기재"로 있음).
+- **메시지 템플릿:** 코드 `CARE_EVENT_V1`·`CARE_PRACTICE_V1`과 변수(`test_label`, `driver_label`, `situation`, `guardian_todo`, `driver_response`, `occupant_summary`, `address`, `position_time`, `location_source`, `map_url`, `update_reason`, `arrived_at`). rules-lab에는 정정 `CARE_UPDATE_V1`, 도착 `CARE_ARRIVAL_V1`, 보호자 첫 줄 문장(`guardian_first_line`)만 있습니다.
+- **앱 상태 이름:** `vehicle_session`·`driving_state`·`phone_link`(5.8절). `incident_lifecycle`의 값은 계약 `Lifecycle`(`incidents.lifecycle`)과 같습니다.
+- **계약 안에 남은 차이(계약 쪽 정리 대상):** 보호자 상한은 `vehicle_guardians.slot BETWEEN 1 AND 3`과 rules-lab `guardian_limit = 3`인데, DB `notification_policies.recipient_guardian_ids`·`arrival_alert_settings.guardian_ids`의 CHECK는 아직 5명 이하이고 `vehicle_guardians` 주석과 README 검사 설명에 "5명"이 남았습니다. 이 문서는 3명을 씁니다.
+
+v4.1 초안 목록에 있던 나머지(trip 종료 이유, 연결 역할, `location_precision`, `cabin_context` 계열 값(다른 이름으로), 보강 API(보호자 세션 교환·운전자 프로필·이번 운전자·trip 종료·위치 공유 중지·정비사 링크 철회·보호자 삭제·기기 해제·계정 삭제·소유자 이전), `alert_incident_id`, 작업별 권한 표, 확인 질문 반복 억제, 말로 하기 나누기, 평소 대비 기준선, 위치 나이 60초, 열린 알림 2시간, trip 자동 종료 6시간, 시험 입력 우선순위, 제공 기록 알림 묶기, 보관 절, 정차 중 CPU 25%, 서버 확인 중지 상태·10분 상한, 미리 익히기 종료 음성 정지 0.25초, 주행 중 증상 카드, T97의 1,000ms, 보호자 3명, 확인 질문 응답 대기 8초)는 계약 v3.1에 들어갔습니다.
 
 ## 6. 예외 처리 및 안전 규제 대응 방안
 
@@ -1779,7 +1817,7 @@ AppState
 | 주기형(차속) | 측정 시각 기준 3,000ms 안의 값 | 3,000ms 이상이면 `STALE`(3,000ms 포함). 이전 값은 "마지막 값"으로만 표시합니다. |
 | 변화 알림형(브레이크·도어·좌석·에어백·공조·창문 등) | 서비스가 연결돼 있고 마지막으로 받은 값이 있으면 그 값이 현재 값. "마지막 수신 시각"과 "서비스 연결 상태"를 함께 기록 | 서비스 끊김·등록 실패는 `UNAVAILABLE`. 확인 질문 조건을 계산하는 동안에는 1초 간격 get 조회로 값을 다시 확인하고, 조회가 3,000ms 안에 성공하지 않으면 `UNAVAILABLE`입니다. |
 | 갱신 방식 확인 필요(조향각·주행거리) | AAOS 표준은 주기형이지만 Vehicle SDK는 주기 인자가 없음. 에뮬레이터에서 값을 그대로 둔 채 콜백 횟수를 세어 정함 | 정하기 전에는 변화 알림형 규칙을 쓰고, 기록에 "갱신 방식 미확인"을 남깁니다. |
-| 위치(나이 기준) | 받은 시각 기준 60초 안의 값(자체, 주행 중). 위치가 없으면 콜백이 오지 않으므로 서비스 연결만으로 판단하지 않음 | 60초를 넘으면 `STALE`, "마지막 측정 HH:MM(N분 전)" 표시. `getLastKnownLocation` 값은 `POLLED_STATE`와 "마지막 측정" 표시 |
+| 위치(나이 기준) | 측정 시각(없으면 받은 시각) 기준 60초 안의 값(자체, rules-lab `signal_validity.location_fix`). 위치가 없으면 콜백이 오지 않으므로 서비스 연결만으로 판단하지 않음 | 60초를 넘으면 `STALE`, "마지막 측정 HH:MM(N분 전)" 표시. `getLastKnownLocation` 값은 `POLLED_STATE`와 "마지막 측정" 표시 |
 | 권한 없음 | — | `PERMISSION_DENIED`, "권한 없음" 표시 |
 | 이 차가 지원하지 않음 | — | `NOT_SUPPORTED`, "이 차에서 확인 불가" |
 | 시험 입력 | 시연 모드에서만 | `TEST_INPUT`, [시험 입력] 배지 |
@@ -1800,7 +1838,7 @@ AppState
 - TTS SDK는 합성한 오디오 데이터를 앱에 주지 않고, SDK 안에 오디오 포커스를 요청하는 코드도 없습니다(공식 바이너리 확인). 합성과 재생은 Pleos 음성 서비스가 합니다. 공개 메서드는 `setAudioAttributes`, `speak`, `stop`, `setLocale`, `setSpeakerType`, `setAudioZoneId`입니다.
 - 기본 출력 용도는 미디어(MEDIA)라 음악과 같은 취급을 받습니다. `setAudioAttributes`로 안내 용도를 정합니다. 내비 안내 용도와 알람 용도를 에뮬레이터에서 비교 시험해 하나를 고릅니다. 긴급(EMERGENCY) 용도는 일반 앱이 쓸 수 없습니다.
 - **오디오 포커스는 앱이 Android `AudioManager`로 직접 요청하고 반납합니다.** 안내 직전에 고른 용도로 포커스를 요청하고, 안내가 끝나면 반납합니다. 포커스를 잃으면(Gleo 호출, 걸려 온 전화) TTS를 `stop()`합니다.
-- **선행 무음.** Pleos 가이드는 음성 앞 150~200ms 무음을 오디오 데이터에 넣으라고 권합니다. 그러나 TTS SDK는 오디오 데이터를 주지 않아 앱이 무음을 넣을 수 없습니다. 그래서 에뮬레이터에서 음성 앞부분이 잘리는지 확인하고, 잘리면 안내 문장 앞에 짧은 쉼표 문구(`lead_in_text`)를 둡니다. 음성 서비스가 선행 무음을 처리하는지는 Pleos에 묻습니다(6.13절).
+- **선행 무음.** Pleos 가이드는 음성 앞 150~200ms 무음을 오디오 데이터에 넣으라고 권합니다. 그러나 TTS SDK는 오디오 데이터를 주지 않아 앱이 무음을 넣을 수 없습니다. 그래서 에뮬레이터에서 음성 앞부분이 잘리는지 확인하고, 잘리면 안내 문장 앞에 짧은 쉼표 문구(`leading_pause_text`)를 둡니다. 음성 서비스가 선행 무음을 처리하는지는 Pleos에 묻습니다(6.13절).
 - 앱 안 우선순위는 정지 안내 > 도움 요청 확인 > 경고 설명 > 기록 안내입니다. 상위 안내가 오면 `stop()` → 멈춤 확인 → `speak()` 순서입니다.
 - Gleo가 불리면 즉시 멈추고 포커스를 반납합니다. Gleo가 끝나면 현재 단계를 처음부터 다시 말합니다.
 - 전화가 걸려 오면(예: 보호자가 "먼저 전화해 보세요"를 보고 건 전화) 앱 음성을 바로 멈춥니다. 통화 중에는 말하지 않고 화면으로만 알립니다. 통화가 끝나면 진행 중인 긴급 안내의 현재 단계를 처음부터 다시 읽습니다. 포커스를 얻지 못해도 화면으로만 알리고 기록합니다.
@@ -1839,7 +1877,7 @@ AppState
 | 항목 | 목표 | 지위 |
 | --- | --- | --- |
 | 주행 중 앱 전체 CPU | 5% 미만 | Pleos 공식 |
-| 정차 중 CPU | 25% 이하(rules-lab 반영 필요) | Pleos 공식 |
+| 정차 중 CPU | 25% 이하(rules-lab `performance.parked_cpu_budget_pct_max`) | Pleos 공식 |
 | RAM | 400MB 이하 | Pleos 공식 |
 | 실행·콘텐츠 로드 | 10초 이내 | Pleos 심사 |
 | 버튼 반응 / 터치 효과 | 2초 이내 / 0.25초 이하 | Pleos 심사·디자인 원칙 |
@@ -1850,9 +1888,9 @@ AppState
 | 상시 음성 인식 | 없음. 사건이 없는 주행에서 인식 세션 0회 | 자체 |
 | 발송 전 확인 타이머 | 앱 재시작·창 변경 뒤에도 같은 `release_at` | 자체 |
 
-- 신호는 변화 알림형 구독을 쓰고 상시 분석을 하지 않습니다. 차속은 10Hz를 요청하고, 재현 조건 기준선은 범주별 머문 시간을 1초 단위로 세기만 합니다. 화면 움직임은 주행 중 없습니다.
+- 신호는 변화 알림형 구독을 쓰고 상시 분석을 하지 않습니다. 차속은 10Hz를 요청하고, 재현 조건 기준선은 60초마다 범주 표본 하나만 남깁니다(rules-lab `performance.baseline_sampling_interval_s`). 화면 움직임은 주행 중 없습니다.
 - CPU는 앱 프로세스 CPU 시간 ÷ 경과 시간 ÷ 코어 수로, 10초 창마다 잽니다(자체).
-- 서버 상태 확인은 `SETTLED`·`EXPIRED`·`CANCELLED`·`RECORD_ONLY`가 되면 멈추고, 10분이 지나면 화면을 열 때만 합니다(자체).
+- 서버 상태 확인은 `SETTLED`·`EXPIRED`·`CANCELLED`·`RECORD_ONLY`·`BLOCKED_NO_RECIPIENT`·`BLOCKED_NO_CONSENT`가 되면 멈추고(rules-lab `performance.server_poll_stop_on`), 10분(`server_poll_max_active_ms`)이 지나면 화면을 열 때만 합니다(자체).
 - 예산을 10초 넘게 넘으면 한 단계씩 줄입니다(rules-lab `performance.degrade_ladder`). `FULL` → `REDUCE_SIGNAL_RECONFIRM`(get 재확인 간격을 늘림) → `SNAPSHOT_ON_EVENT_ONLY`(평소 시간표 보관을 멈추고 기록을 누를 때만 스냅샷) → `MANUAL_ONLY`(자동 확인 질문을 끄고 직접 알림만). 줄이면 "분석 축소"를 표시합니다. 이미지 캐시 해제와 재현 조건 계산을 정차 뒤로 미루는 일은 첫 단계 전에 합니다(자체).
 - 위 값은 개발 목표이며 측정 결과가 아닙니다. 에뮬레이터 수치는 실차 성능이 아닙니다.
 
@@ -1909,7 +1947,7 @@ AppState
 
 ### 6.10 인수 시나리오 연결
 
-[인수 시나리오](../specs/vehicle-care/acceptance-scenarios.json)는 아래 동작을 모두 덮어야 합니다. 시나리오 ID는 계약 파일을 따릅니다.
+[인수 시나리오](../specs/vehicle-care/acceptance-scenarios.json)는 아래 동작을 모두 덮어야 합니다. 시나리오 ID는 계약 파일을 따릅니다. 계약 3.1.0은 133개(시연 69·설계 56·향후 8, T01~T133)이며, 구현 뒤 실행할 사례이지 통과한 앱 시험이 아닙니다. 확인 질문의 브레이크 조건은 T97, 주행 중 상황 선택 5개는 T99, 주행 중 홈 버튼 3개는 T71에 있습니다.
 
 - **안전·HMI:** 브레이크 참 1,000ms와 그동안 감속 0.5m/s 미만, 사용자 알림 없음 → 감속 실패 안내 없음, 확인 질문만(v4.0의 600ms를 rules-lab 값으로 고침). 브레이크 참 600ms → 아무 출력 없음. 같은 주행에서 5분 안에 조건이 다시 맞음 → 질문 없음. 확인 질문에 "안 멈춰요" → `DECEL_FAILURE_GUIDE`, "괜찮아요" → `ENDED`. 급가속 후보만 → 화면·음성 0건. 주행 상태 미상 → 주행 중 화면, 긴급 음성 가능. 상태 전환 뒤 0.5초 안 터치 무시. 주행 중 수동 L2 → 카운트다운 없음, `NOT_REQUESTED`. "괜찮아요(안내 끝내기)" → `ENDED`, 기록 유지. 감속 실패 진입 3초 뒤 "차가 멈췄어요(안내 끝내기)", 정차 미확인 → `ENDED`, 정차 후 확인·119 음성 없음. 차속 `OK` 0이 3초(D단) → `STOPPED_REVIEW` 버튼 2개. 홈 → 상황 선택 → 긴급 안내 → 받는 사람 확인을 같은 자리로 1초 간격 연달아 누름 → 버튼 자리 규칙(4.13절)대로 동작. 미리 익히기 중 주행 제한 켜짐 → 0.25초 안 음성 정지·화면 닫힘.
 - **말로 하기:** 짧은 말 "안 멈춰" → 감속 실패 대처. "브레이크 밟을 때 안 멈춰서 끽" → 긴급 시작 없음, 되묻기 1회. "주황색 타이어 모양" → 경고등 한 줄 판단. "도움" → 받는 사람 확인(자동 발송 없음). 사건 없는 30분 주행 → 음성 인식 0회.
@@ -1941,7 +1979,7 @@ AppState
 ### 6.12 공식 조건·설계값·미확인 항목
 
 - **공식 원문으로 확인한 것:** Pleos의 화면 모델·디자인 원칙·주행 제한·성능·오디오·보안·심사 기준, Vehicle SDK 2.3.2의 권한·콜백·예외 동작, FusedLocation의 필드, NaviHelper의 공개 메서드, Android 차량 속성, 카카오 템플릿 조건, NHN 알림톡·문자 API와 길이 규격, 카카오 좌표→주소 경로. API가 있다는 것은 계정별 사용 승인이나 실제 성공을 뜻하지 않습니다.
-- **이 문서가 정한 값:** 80dp·24dp·22sp, 세로 840×1212px와 가로 1280×720dp 시안, 색 토큰, 버튼 자리 규칙(4.13절), 발송 전 확인 10초, 주기형 신선도 3,000ms, 위치 나이 60초, 확인 질문 조건과 5분 반복 억제, 재현 조건 3회와 평소 대비 0.3, 재발 확인 500km, 열린 알림 시간 창 2시간, trip 자동 종료 6시간, 보관 기간 초안, 성능 강등 순서, API·DB 구조, 사업성 가정 값. 임계값과 등급은 제조사 인증값이 아닙니다.
+- **이 문서가 정한 값:** 80dp·24dp·22sp, 세로 840×1212px와 가로 1280×720dp 시안, 색 토큰, 버튼 자리 규칙(4.13절), 발송 전 확인 10초, 주기형 신선도 3,000ms, 위치 나이 60초, 확인 질문 조건과 5분 반복 억제, 재현 조건 3회와 평소 대비 1.5배, 재발 확인 500km, 열린 알림 시간 창 2시간, trip 자동 종료 6시간, 보관 기간 초안, 성능 강등 순서, API·DB 구조, 사업성 가정 값. 임계값과 등급은 제조사 인증값이 아닙니다.
 - **아직 확인할 것:** 대상 차량 프로필과 설명서 전체 목록(원치 않는 가속 절이 있는지 포함), 대상 차량의 신호 지원·권한·주기(조향각·주행거리의 갱신 방식), AAOS 차속 경로의 공모전 허용과 Pleos 빌드에서 `CAR_SPEED`의 보호 수준, 주행 중 긴급 안내의 허용 범위, 서비스 형태의 백그라운드 구독, 일반 앱의 Suspend 감지 방법, TTS 출력 용도와 음성 앞부분 잘림, `TTS_SERVICE`·`STT_SERVICE`의 보호 수준, `confidence`와 `timestampMillis`의 의미, 에뮬레이터 위치·근접 알림·내비 동작(경유지, 도착 이벤트, 옆 창 표시), 와이퍼 카드와 SDK 값의 대응, 알림톡·문자 링크의 조각(`#`) 보존, Pleos 차량의 블루링크 제공 범위, 카카오 템플릿 승인과 계약, 위치정보법 요건. 이 항목을 가짜 API나 임의 수치로 채우지 않습니다.
 
 ### 6.13 미해결 질문
@@ -1982,7 +2020,7 @@ AppState
 - 경고등 모양 그림의 권리 확인 방법.
 - PMSA 무음 구간 값(확인 질문을 띄우지 않는 저속 구간).
 - 제출 APK에 시연 모드를 넣는 방식.
-- v4.0 시안·도표를 4.13절과 3.3.3절 기준으로 다시 그리기(4.8절 표), 새 시안 p-confirm·ui-confirm과 주행 중 상황 선택.
+- v4.0 시안·도표를 4.13절과 3.3.3절 기준으로 다시 그리기(4.8절 표). 확인 질문(p-confirm·ui-confirm)과 정차 중 상황 선택(p-manual-parked·ui-manual-parked) 시안은 v4 폴더에 있습니다(ui-tokens 5.1.0).
 - 보류한 아이디어: 첫 7일 "내 차 익히기" 코스(주 1회 경고등 익히기와 겹침), CCP 다이얼 조작(Pre-installed 앱 필수 항목이라 일반 앱은 선택), 렌터카 반납 증상 체크(법인 단계).
 
 ## 부록 A. 변경 요약
@@ -1993,16 +2031,16 @@ v4.0 원문은 [바이트가 같은 사본](integrated-vehicle-care-2026-11-12-p
 
 | 장 | v4.0 | v4.1 |
 | --- | --- | --- |
-| 머리말 | 화면 문구 기준 없음, 예시 숫자가 문서마다 다름 | 4.13절 화면 문구 기준표와 1.3.1절 대표 사례 한 벌을 기준으로 지정. 계약 v3.1·ui-tokens 5.1.0 반영 중임을 표시 |
+| 머리말 | 화면 문구 기준 없음, 예시 숫자가 문서마다 다름 | 4.13절 화면 문구 기준표와 1.3.1절 대표 사례 한 벌을 기준으로 지정. 계약 v3.1·ui-tokens 5.1.0을 기준 판으로 표시 |
 | 1장 | 한 줄 정의 "보호자에게", 기능표 N1~N12, 블루링크는 SOS만 비교, MAU 1단계 5%×40%·확대 30%·6만 명, "가족 보호자 플랜", 출처 "보도", 지도 금지 없음 | 공식 양식 1번과 같은 한 줄 정의. 새 아이디어 H1~H8과 등급(도착 알림은 기본 꺼짐·사용자 결정). 대표 사례 표. 블루링크 차량 진단 비교 추가(대신하지 않고 상담 전 뜻·할 일, 경고 없는 증상 기록, 가족 연락을 맡음). 1단계 = 더 뉴 그랜저+디 올 뉴 아반떼, 15만×10%×20% ≈ 3,000명, 낮음 600명·높음 6,750명, 2030년 2천만×1%×20% ≈ 4만 명, 판매량 대리값 이유, 보호자 알림 무료(최대 3명), 재방문 계기, 시장 문장(뉴스룸 「…차량 관리 등 다양한 앱 서비스를 지속 확대할 계획」)과 현대자동차 보도자료(2026.8.5) 출처. 지도를 그리지 않음 |
-| 2장 | "공개 SDK" 표현과 AAOS 차속 혼용, NaviHelper 권한 뭉뚱그림, 지원 안 함도 `SecurityException`처럼 서술, `CAR_SPEED`(확인 필요), Suspend 반납을 이미 되는 일처럼 서술 | "공개 SDK 5종과 Pleos 개발자 FAQ가 안내하는 AAOS 차속 경로"로 통일. `NAVI_ROUTE_SEARCH`(경로·경유지)·`NAVI_ROUTE`·`NAVI_CUSTOM_MAP` 구분. 권한 없음(`SecurityException`)과 지원 안 함(Capability) 분리. `CAR_SPEED` dangerous, 거부 시 차속 없이 동작. 공조·창문·와이퍼·이번 주행 시간 신호와 `CAR_CLIMATE`·`CAR_WINDOWS` 추가. Suspend 감지 확인 필요. 서버 재계산 등급이 발송을 바꾸지 않음. 안내 묶음 서명. QR 차 화면 확인·소유자 이전, trip 종료, 서버 시각 동기화 |
+| 2장 | "공개 SDK" 표현과 AAOS 차속 혼용, NaviHelper 권한 뭉뚱그림, 지원 안 함도 `SecurityException`처럼 서술, `CAR_SPEED`(확인 필요), Suspend 반납을 이미 되는 일처럼 서술 | "공개 SDK 5종과 Pleos 개발자 FAQ가 안내하는 AAOS 차속 경로"로 통일. `NAVI_ROUTE_SEARCH`(경로·경유지)·`NAVI_ROUTE`·`NAVI_CUSTOM_MAP` 구분. 권한 없음(`SecurityException`)과 지원 안 함(Capability) 분리. `CAR_SPEED` dangerous, 거부 시 차속 없이 동작. 공조·창문·와이퍼 신호, 출발 뒤 경과 시간(앱 계산)과 `CAR_CLIMATE`·`CAR_WINDOWS` 추가. Suspend 감지 확인 필요. 서버 재계산 등급이 발송을 바꾸지 않음. 안내 묶음 서명. QR 차 화면 확인·소유자 이전, trip 종료, 서버 시각 동기화 |
 | 3장 공통·F1 | 주행 중 경고등 찾기 범위가 문서마다 다름, 출발 전 점검에 안전벨트·문이 섞일 여지 | 말로 하기 버튼 하나(H1)와 나누는 규칙. 주행 중 경고등은 말로만, 가장 보수적 판단. 운행 판단은 누를 수 없는 배지. 출발 전 점검에서 안전벨트·문 삭제, 끝나지 않은 기록 추가. 점검 항목의 주행 중 음성은 허용 목록만 |
 | 3장 F2 | 재현 조건이 증상 순간만 세고 주행거리 포함 | 평소 주행과 견주는 기준선, 주행거리 제외, 출발 뒤 경과 시간·공조·창문·와이퍼 후보. 소리 용의자 지우기(H3). 서버는 차량 카드를 보관만 하고 운전자별로 묶음 |
 | 3장 F3 | 확인 질문 [네]/[아니요]와 "네 → 원치 않는 가속", 긴급 화면 왼쪽 빨강, "멈추지 않아요", 감속 실패의 끝내기가 늘 정차 후 확인, 반복 억제 없음 | "안 멈춰요 = 감속 실패 대처", "저절로 빨라져요 = 원치 않는 가속 안내"로 고정. 확인 질문 [괜찮아요]/[안 멈춰요], 5분에 최대 1번. 앱 전체 버튼 자리 규칙(왼쪽 중립, 오른쪽 빨강). 감속 실패를 잘못 시작했으면 `ENDED`. 정지 그림 최대 1장, 주행 중 출처 줄 없음, 음성 자막은 실제 음성. 주행 중 상황 선택 5개(긴급 3+차체 떨림·타는 냄새), 정차 12개. 정차 후 할 일 카드(H4). 119 안내 위치 원칙. 통화 뒤 다시 읽기 |
 | 3장 F4 | 발송 확인 왼쪽 "지금 보내기", 게스트는 그 자리 동의, 시험 입력 차속만 발송 금지, 정정 순서·공유 중지 API 없음, 예시 숫자 제각각 | 발송 확인 왼쪽 "괜찮아요(보내지 않음)"·오른쪽 "지금 보내기". 게스트 동의는 정차 중·사건 한정. 시험 입력이 하나라도 섞이면 모의 발송만. `BLOCKED_*`에서 나가는 전이. 정정이 이전 판 문자 전환을 취소. 보호자 등록 순서(번호 확인·동의 → 연습 알림), 2단계 열람(H5)과 보호자 세션 교환. 공유 중지와 동의 철회 분리, 내 위치 영수증함(H6), 제공 기록 익명화. 이번 운전자 지정·trip 종료. 도착 알림(H7). 메시지·상태 예시를 대표 사례 값으로 |
 | 3장 F5·F6·F0 | 앱 안 지도와 "+6분", `requestRouteWithWaypoints`를 경유지 추가처럼 설명, 휴대폰이 알림을 이어받는 듯한 표현 | `addWaypoint`(지금 경로에 경유지 추가)와 `requestRouteWithWaypoints`(새 경로) 구분, 도착 예상 시각만, "내비에서 보기"(H2 내비 옆 동반 창), 정비소 도착 체크인(H8). 휴대폰은 상태를 이어 봄. 사진은 운전자 비교, 자동 인식은 [향후]. 시험 입력 우선순위와 발송 금지 |
 | 4장 | 긴급 흐름만의 "같은 자리 같은 뜻", 주행 중 가운데 버튼 "말로 기록", 시안 대응표만 | 4.13절 화면 문구 기준표 신설. 앱 전체 버튼 자리 규칙. 내비 옆 세로 창. 화면 ID 추가(`confirm_prompt`, `help_confirm`, `stopped_review`, `history`, `location_receipts`). 다시 그릴 시안 목록. 메뉴 흐름·용어 사전·아이콘 규칙 갱신 |
-| 5장 | 주행 중 증상 5개, 예시 시각 12:00:00, 보강 API 없음, 열린 알림 제약에 시간 창 없음 | 주행 중 증상 3개. 위치·스냅샷·요청 예시를 대표 사례 시각으로. `cabin_context`, `location_fix_raw_ms`, 안전벨트·도어 계산 규칙. 보강 API(보호자 세션 교환, 운전자 프로필·이번 운전자, trip 종료, 공유 중지, 링크 철회, 보호자 삭제·탈퇴, 기기 해제, 계정 삭제, 소유자 이전, 인증 번호 재발송, 안내 묶음 목록)와 권한 규칙. 열린 알림 2시간 창·정정 예외·묶기 결과 고정. 보관 집행. v4.0→v4.1 이름 대응. 계약 맞춤 목록 갱신 |
+| 5장 | 주행 중 증상 5개, 예시 시각 12:00:00, 보강 API 없음, 열린 알림 제약에 시간 창 없음 | 주행 중 카드 5개(저장 증상 4개). 위치·스냅샷·요청 예시를 대표 사례 시각과 계약 v3.1 필드로. 공조·창문·와이퍼·출발 뒤 경과 시간 스냅샷 필드, 안전벨트·도어 계산 규칙. 계약 v3.1 API 59개 작업 표(보호자 세션 2단계, 운전자 프로필·이번 운전자, trip 종료, 공유 중지, 정비사 링크 철회, 보호자 삭제·탈퇴, 기기 해제, 계정 삭제, QR 차 화면 확인, 소유자 이전, 서버 시각, 도착 알림, 정비소 체크인)와 권한 규칙. 열린 알림 2시간 창·정정 예외·묶기 결과 고정. 보관 집행. v4.0→v4.1·v4.1 초안→계약 v3.1 이름 대응. 계약 미반영 목록(5.12절) |
 | 6장 | 위치를 변화 알림형으로 취급, 음성 앞 무음을 앱이 넣는다고 서술, 시연 각본이 별첨과 다름, T97 600ms | 위치 나이 60초 규칙. TTS는 오디오 데이터·포커스 코드를 주지 않음, 포커스는 앱이 `AudioManager`로 직접, 앞부분 잘림은 쉼표 문구로 대응. 대표 사례 시연 각본(확인 질문 장면 추가, 지도 없음, 2단계 열람). 인수 시나리오 1,000ms와 새 사례. SDK 연결 확인 단계. 사용자 결정·Pleos 문의·설계 항목 갱신 |
 
 ### A.2 v3 → v4
@@ -2031,6 +2069,6 @@ v3에 있던 내부 모순(296×144 대 349×132dp, 64dp 대 80dp, 12열, 정의
 | PRD v2 | 2026-11-12 | 요청한 여섯 장 구조, 진동 분석·수동 선택·다중 채널 통지 상세화. [원문](integrated-vehicle-care-2026-11-12-prd-v2.md), [확인 기록](integrated-vehicle-care-prd-2026-11-12-evidence.json) |
 | PRD v3 | 2026-11-12 | 4장 UI를 새 시각 체계로 다시 씀. 나머지 장은 v2와 거의 같음. [원문](integrated-vehicle-care-2026-11-12-prd-v3.md) |
 | PRD v4.0 | 2026-11-12 | 1차 비판 검토(공모전 규정, SDK 실현성, 안전·HMI, UX, 사업성, 아키텍처·보안·개인정보, 문서 품질, 새 아이디어)와 결정 사항을 반영해 여섯 장을 다시 씀. v3 원문은 바이트가 같은 사본으로 보존. 계약 파일은 같은 고정 이름으로 따로 고침. 이번 작업에서 앱·서버 구현, 에뮬레이터·실차 실행, 실제 메시지 발송, 외부 웹 조회는 하지 않음. [원문](integrated-vehicle-care-2026-11-12-prd-v4.0.md) |
-| PRD v4.1 | 2026-11-12 | 2차 비판 검토 결정을 반영함. SDK 사실 오류(NaviHelper 권한, 경유지 API, 권한 없음과 지원 안 함, `CAR_SPEED` 보호 수준, TTS 무음·오디오 포커스·Suspend, 음성 듣기 방식) 수정, 대표 사례 한 벌과 화면 문구 기준표(4.13절), 버튼 자리 규칙, 확인 질문 반복 억제, 감속 실패 잘못 시작 종료, 사업성 산식, 블루링크 차량 진단 비교, 계약 보강 이름(계약 v3.1과 같은 이름), 새 아이디어 H1~H8. v4.0 원문은 바이트가 같은 사본으로 보존. 이번 작업은 문서 수정이며 앱·서버 구현, 에뮬레이터·실차 실행, 실제 메시지 발송, 외부 웹 조회는 하지 않음. 시장·SDK 사실은 메인 세션이 앞서 확인한 결정 기록을 따름 |
+| PRD v4.1 | 2026-11-12 | 2차 비판 검토 결정을 반영함. SDK 사실 오류(NaviHelper 권한, 경유지 API, 권한 없음과 지원 안 함, `CAR_SPEED` 보호 수준, TTS 무음·오디오 포커스·Suspend, 음성 듣기 방식) 수정, 대표 사례 한 벌과 화면 문구 기준표(4.13절), 버튼 자리 규칙, 확인 질문 반복 억제, 감속 실패 잘못 시작 종료, 사업성 산식, 블루링크 차량 진단 비교, 계약 보강 이름(계약 v3.1과 같은 이름), 새 아이디어 H1~H8. 같은 날 계약 v3.1(OpenAPI 3.1.0 경로 56개·작업 59개·스키마 171개, DB v3.1 테이블 36개, rules-lab 2.1.0, ui-tokens 5.1.0, 인수 시나리오 133개)과 API 경로·operationId·테이블·열·열거형·rules-lab 키·숫자를 대조해 계약 이름으로 맞추고, 계약에 없는 이름은 "계약 미반영(향후)"으로 표시함(5.11·5.12절). v4.0 원문은 바이트가 같은 사본으로 보존. 이번 작업은 문서 수정이며 앱·서버 구현, 에뮬레이터·실차 실행, 실제 메시지 발송, 외부 웹 조회는 하지 않음. 시장·SDK 사실은 메인 세션이 앞서 확인한 결정 기록을 따름 |
 
 후속 작업은 이 문서, 계약 파일, [화면 설계 v4](ux-v4-section.md), [SDK 상세](../sdk/vehicle-safety-capabilities.md)를 먼저 읽고 새 증거나 결정이 생기면 함께 고칩니다. 공통 안내는 [AGENTS.md](../../AGENTS.md)에 있습니다.
