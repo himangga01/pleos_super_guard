@@ -37,6 +37,22 @@ from docx.oxml import OxmlElement  # noqa: E402
 from docx.oxml.ns import qn  # noqa: E402
 from docx.enum.text import WD_ALIGN_PARAGRAPH  # noqa: E402
 
+def _picture(doc, path, caption, width=17.2):
+    """build_documents.picture 와 같지만 'ui-' 이름을 assets/final/ 로 바꾸지 않습니다(v4 그림을 그대로 사용)."""
+    path = Path(path)
+    assert path.exists(), f'그림 없음: {path}'
+    p = doc.add_paragraph()
+    p.paragraph_format.keep_with_next = True
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.add_run().add_picture(str(path), width=Cm(width))
+    bd.FIGURES[id(doc)] = bd.FIGURES.get(id(doc), 0) + 1
+    caption = re.sub(r'^그림\s+\d+\.\s*', '', caption)
+    cp = doc.add_paragraph(style='Caption')
+    bd.inline(cp, f'그림 {bd.FIGURES[id(doc)]}. ' + caption, 9)
+
+
+bd.picture = _picture
+
 W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
 NS = {'w': W, 'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'}
 OFFICIAL_NAME = '01_공식양식_플레오스가드'
@@ -252,6 +268,16 @@ def fix_settings(docx: Path):
         st.remove(uf)
     parts['word/settings.xml'] = E.tostring(st, xml_declaration=True, encoding='UTF-8', standalone=True)
     rt = E.fromstring(parts['word/document.xml'])
+    # restyle 이 캡션의 '다음 문단과 함께'를 지우므로 표 제목(표 N.)에는 다시 넣습니다.
+    for p in rt.findall('.//w:body/w:p', NS):
+        t = ''.join(p.xpath('.//w:t/text()', namespaces=NS))
+        if re.match(r'^표 \d+\. ', t):
+            pp = p.find('w:pPr', NS)
+            if pp is None:
+                pp = E.Element(qn('w:pPr'))
+                p.insert(0, pp)
+            if pp.find('w:keepNext', NS) is None:
+                E.SubElement(pp, qn('w:keepNext'))
     for r in rt.findall('.//w:hyperlink//w:r', NS):
         rp = r.find('w:rPr', NS)
         if rp is None:

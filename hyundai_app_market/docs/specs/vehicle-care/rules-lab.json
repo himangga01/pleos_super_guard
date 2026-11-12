@@ -1,131 +1,894 @@
 {
-  "schema_version": "1.0.0",
-  "profile_id": "pleos-care-lab-20261112",
+  "schema_version": "2.0.0",
+  "profile_id": "pleos-care-lab-20261112-r2",
+  "previous_profile_id": "pleos-care-lab-20261112",
+  "contract_version": "3.0.0",
   "classification": "ENGINEERING_STARTING_VALUES_NOT_VALIDATED_SAFETY_THRESHOLDS",
-  "deployment": {"mode": "LAB", "production_motion_model_approved": false, "synthetic_input_label_required": true},
-  "freshness": {
-    "fallback_after_ms": 3000,
-    "urgent_speed_max_age_ms": 500,
-    "urgent_brake_max_age_ms": 500,
-    "imu_max_gap_ms": 50,
-    "max_interpolation_gap_ms": 10,
-    "cross_stream_max_skew_ms": 100,
-    "automatic_recovery_hold_ms": 5000,
-    "clock_future_tolerance_ms": 100,
-    "minimum_valid_coverage_ratio": 0.95
+  "note": "개발용 시작값입니다. 제조사·실차 검증값이 아니며 앱이 차를 제어하지 않습니다. 이전 판은 history/2026-11-12-v2.1/rules-lab.json에 그대로 있습니다.",
+  "deployment": {
+    "mode": "LAB",
+    "production_motion_model_approved": false,
+    "test_input_label_required": true,
+    "test_input_label": "[시험 입력]",
+    "test_message_label": "[시험]",
+    "real_dispatch_enabled_in_demo": false
   },
-  "vibration": {
-    "sample_rate_hz": 200,
-    "minimum_sample_rate_hz": 160,
-    "anti_aliasing_required": true,
-    "fft_size": 512,
-    "hop_samples": 128,
-    "window": "HANN",
-    "gravity_removal": "APPROVED_LINEAR_ACCELERATION_OR_CALIBRATED_HIGH_PASS_0_7_HZ",
-    "standard_gravity_m_s2": 9.80665,
-    "baseline_bin_speed_kmh": 10,
-    "baseline_min_valid_seconds_per_bin": 60,
-    "baseline_multiplier": 3.0,
-    "evidence_windows_required": 3,
-    "evidence_window_count": 5,
-    "reset_evidence_on_invalid_window": true,
-    "release_window_count": 10,
-    "cooldown_ms": 30000,
-    "bands": [
-      {"id": "BODY_1_5", "low_hz": 1.0, "high_hz": 5.0, "absolute_rms_g": 0.08},
-      {"id": "WHEEL_5_20", "low_hz": 5.0, "high_hz": 20.0, "absolute_rms_g": 0.06},
-      {"id": "POWERTRAIN_20_80", "low_hz": 20.0, "high_hz": 80.0, "absolute_rms_g": 0.04}
+  "signal_catalog": [
+    {
+      "code": "VEHICLE_SPEED",
+      "api": "AAOS CarPropertyManager PERF_VEHICLE_SPEED(Pleos FAQ 안내 경로. Vehicle SDK 2.3.2 VehicleSpeedListener 삭제)",
+      "permission": "android.car.permission.CAR_SPEED",
+      "protection_level": "dangerous(미검증)",
+      "delivery_kind": "PERIODIC",
+      "unit": "m/s",
+      "source": "AAOS_PROPERTY",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "note": "Virtual Console에 차속 카드가 없어 시연은 시험 입력 재생기로 하고 [시험 입력]을 표시한다."
+    },
+    {
+      "code": "BRAKE_PEDAL",
+      "api": "Vehicle Brake.getCurrentBrakePedalStatus / registerBrakePedalStatus",
+      "permission": "pleos.car.permission.CAR_DRIVE",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "boolean",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "note": "밟음 여부만. 압력·페달 %는 없다."
+    },
+    {
+      "code": "STEERING_ANGLE",
+      "api": "Vehicle SteeringWheel.getCurrentSteeringWheelAngle / registerSteeringWheelAngle",
+      "permission": "pleos.car.permission.CAR_DRIVE",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "deg",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "note": "앞바퀴 조향각(왼쪽 음수). 핸들 회전각이 아니다."
+    },
+    {
+      "code": "TURN_SIGNAL",
+      "api": "Vehicle TurnSignal.getCurrentTurnSignalState / registerTurnSignalState",
+      "permission": "pleos.car.permission.CAR_LIGHTS",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "enum OFF|LEFT|RIGHT",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE"
+    },
+    {
+      "code": "DOOR_POSITION",
+      "api": "Vehicle Door.getCurrentDoorPosition / registerDoorPosition(DoorArea)",
+      "permission": "pleos.car.permission.CAR_DOORS",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "open boolean(영역별)",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "note": "AVD는 영역별 미지원이 있을 수 있어 capability 결과를 따른다."
+    },
+    {
+      "code": "SEAT_OCCUPANCY",
+      "api": "Vehicle Seat.getCurrentSeatOccupancy / registerSeatOccupancy(SeatArea)",
+      "permission": "pleos.car.permission.CAR_SEATS",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "boolean(영역별)",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE",
+      "note": "구현이 value==1을 true로 바꾸므로 VC 값과 의미를 시연 전에 맞춘다."
+    },
+    {
+      "code": "SEATBELT_UNBUCKLED",
+      "api": "Vehicle Safety.hasSeatBeltNotBuckledWarning / registerSeatBeltNotBuckledWarning(SeatArea)",
+      "permission": "pleos.car.permission.CAR_SAFETY",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "boolean(영역별)",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT"
+    },
+    {
+      "code": "AIRBAG_DEPLOYED",
+      "api": "Vehicle Safety.hasSeatAirbagBeenDeployed / registerSeatAirbagDeployed(SeatArea)",
+      "permission": "pleos.car.permission.CAR_SAFETY",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "boolean(영역별)",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT",
+      "note": "콜백에 영역 인자가 없어 영역마다 리스너를 둔다. 등록 직후 첫 값은 기준값."
+    },
+    {
+      "code": "ODOMETER",
+      "api": "Vehicle Odometer.getCurrentDistanceDriven / registerDistanceDriven",
+      "permission": "pleos.car.permission.CAR_DRIVE",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "km",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE"
+    },
+    {
+      "code": "FUEL_PERCENT",
+      "api": "Vehicle Fuel.getFuelPercent / registerFuelPercent",
+      "permission": "pleos.car.permission.CAR_ENERGY",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "%",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT"
+    },
+    {
+      "code": "EV_SOC",
+      "api": "Vehicle EvBattery.getEvBatteryStateOfCharge / registerEvBatteryStateOfCharge",
+      "permission": "pleos.car.permission.CAR_ENERGY",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "%",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "VIRTUAL_CONSOLE"
+    },
+    {
+      "code": "ENGINE_OIL_LEVEL",
+      "api": "Vehicle Safety.getEngineOilLevelState / registerEngineOilLevelState",
+      "permission": "pleos.car.permission.CAR_SAFETY",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "OilLevelState",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT"
+    },
+    {
+      "code": "BRAKE_FLUID_LEVEL",
+      "api": "Vehicle Safety.getBrakeFluidLevelState / registerBrakeFluidLevelState",
+      "permission": "pleos.car.permission.CAR_SAFETY",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "OilLevelState",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT"
+    },
+    {
+      "code": "WASHER_FLUID_LOW",
+      "api": "Vehicle Safety.hasLowWasherFluidWarning",
+      "permission": "pleos.car.permission.CAR_SAFETY",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "boolean",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT"
+    },
+    {
+      "code": "POWER_DOWN_WARNING",
+      "api": "Vehicle Safety.hasPowerDownWarningIndicator / registerPowerDownWarningIndicator",
+      "permission": "pleos.car.permission.CAR_SAFETY",
+      "protection_level": "normal",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "boolean",
+      "source": "VEHICLE_SDK",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "TEST_INPUT"
+    },
+    {
+      "code": "LOCATION",
+      "api": "FusedLocation registerFusedLocationCallback / getLastKnownLocation",
+      "permission": "pleos.car.permission.FUSED_LOCATION",
+      "protection_level": "dangerous(런타임 허용 필요)",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "deg(lat,lng) + confidence 원값",
+      "source": "FUSED_LOCATION",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "note": "미터 정확도 없음. 측정 시각을 함께 표시한다. 에뮬레이터 위치 설정으로 시연."
+    },
+    {
+      "code": "UX_RESTRICTION",
+      "api": "AAOS CarUxRestrictionsManager.registerListener",
+      "permission": "(플랫폼 주행 제한 수신)",
+      "protection_level": "-",
+      "delivery_kind": "ON_CHANGE",
+      "unit": "CarUxRestrictions",
+      "source": "AAOS_PROPERTY",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "ADB",
+      "note": "adb shell cmd hmg_car_service --service drivingstate driving_regulation on|off"
+    },
+    {
+      "code": "WARNING_USER_SELECTED",
+      "api": "앱 화면(경고등 찾기에서 사용자가 고른 항목)",
+      "permission": "-",
+      "protection_level": "-",
+      "delivery_kind": "ON_REQUEST",
+      "unit": "guide_id",
+      "source": "USER_SELECTION",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "note": "경고등 상태를 읽은 값이 아니다."
+    },
+    {
+      "code": "STT_TEXT",
+      "api": "SpeechToText 3.3.1 request() / ResultListener.onUpdated(stt, completed)",
+      "permission": "pleos.car.permission.STT_SERVICE",
+      "protection_level": "normal",
+      "delivery_kind": "ON_REQUEST",
+      "unit": "string",
+      "source": "STT",
+      "availability": "DRAFT_DEMO",
+      "demo_method": "MANUAL",
+      "note": "누르고 말하기 또는 앱 질문 뒤에만. 상시 청취 없음."
+    }
+  ],
+  "signal_validity": {
+    "periodic": {
+      "applies_to": [
+        "VEHICLE_SPEED"
+      ],
+      "freshness_ms": 3000,
+      "stale_quality": "STALE",
+      "boundary": "INCLUSIVE_AT_3000",
+      "note": "주기형 신호 신선도 3초. 차속처럼 주기적으로 오는 값이 3,000ms 넘게 끊기면 오래된 값."
+    },
+    "on_change": {
+      "applies_to": [
+        "BRAKE_PEDAL",
+        "STEERING_ANGLE",
+        "TURN_SIGNAL",
+        "DOOR_POSITION",
+        "SEAT_OCCUPANCY",
+        "SEATBELT_UNBUCKLED",
+        "AIRBAG_DEPLOYED",
+        "ODOMETER",
+        "FUEL_PERCENT",
+        "EV_SOC",
+        "ENGINE_OIL_LEVEL",
+        "BRAKE_FLUID_LEVEL",
+        "WASHER_FLUID_LOW",
+        "POWER_DOWN_WARNING",
+        "LOCATION",
+        "UX_RESTRICTION"
+      ],
+      "time_based_staleness": false,
+      "valid_while": "SERVICE_CONNECTED_AND_LAST_RECEIVED_VALUE_EXISTS",
+      "record_fields": [
+        "last_received_at",
+        "service_connection_state"
+      ],
+      "invalidate_on_service_disconnect": true,
+      "quality_on_disconnect": "UNAVAILABLE",
+      "initial_get_after_register": true,
+      "reconfirm_get_interval_ms_during_guidance": 1000,
+      "reconfirm_get_interval_ms_idle": null,
+      "note": "Vehicle SDK 값에는 측정 시각이 없다(D18). 값이 바뀔 때만 오므로 오래 밟은 브레이크·오래 닫힌 문을 시간만으로 STALE 처리하지 않는다."
+    },
+    "sdk_call": {
+      "service_connect_wait_timeout_ms": 3000,
+      "get_call_timeout_ms": 3000,
+      "timeout_quality": "UNAVAILABLE",
+      "security_exception_quality": "PERMISSION_DENIED",
+      "register_may_throw_security_exception_synchronously": true,
+      "callbacks_on_binder_thread_post_to_main": true,
+      "listener_key": "SIGNAL_AREA_LISTENER_OBJECT",
+      "note": "연결 전 호출은 SDK 큐에 쌓이고 대기 제한이 없으므로 앱이 3,000ms 제한을 둔다(D20)."
+    },
+    "removed_rules": [
+      "urgent_speed_max_age_ms",
+      "urgent_brake_max_age_ms",
+      "imu_max_gap_ms",
+      "max_interpolation_gap_ms",
+      "cross_stream_max_skew_ms",
+      "automatic_recovery_hold_ms",
+      "clock_future_tolerance_ms",
+      "minimum_valid_coverage_ratio"
+    ]
+  },
+  "driving_state": {
+    "source": "AAOS CarUxRestrictions",
+    "unknown_state_policy": "TREAT_AS_DRIVING",
+    "emergency_voice_allowed_when_unknown": true,
+    "distraction_optimized_declaration_planned": true,
+    "driving_menu_max_depth": 3,
+    "parked_only_screens": [
+      "practice",
+      "predrive_check",
+      "pattern",
+      "maintenance_note",
+      "settings_consent",
+      "phone_pairing",
+      "demo_mode"
     ],
-    "impulse_candidate_peak_g": 0.6,
-    "impulse_envelope_ms": 50,
-    "impulse_max_duration_ms": 250,
-    "impulse_return_observation_ms": 1500,
-    "exclude_impulse_intersecting_windows_from_sustained_vote": true,
-    "impulse_max_crest_factor": null,
-    "order_match_relative_tolerance": 0.15,
-    "order_match_min_fft_bins": 2,
-    "wheel_radius_m": null,
-    "cylinder_count": null,
-    "root_cause_diagnosis_allowed": false
+    "parked_only_actions": [
+      "PAIRING_QR",
+      "CONSENT_CHANGE",
+      "MAINTENANCE_SHARE_LINK",
+      "MAINTENANCE_RECHECK_QUESTION",
+      "GUARDIAN_MANAGEMENT"
+    ],
+    "data_gap_auto_screen_switch": false
   },
-  "acceleration_guidance": {
-    "minimum_moving_speed_m_s": 1.0,
-    "suspect_acceleration_m_s2": 2.5,
-    "suspect_acceleration_hold_ms": 700,
-    "no_deceleration_observation_ms": 1000,
-    "minimum_speed_drop_m_s": 0.5,
-    "brake_hold_ms": 500,
-    "no_deceleration_requires_active_emergency_or_user_request": true,
-    "panic_speech_is_required": false,
-    "first_guidance_target_ms_after_accepted_signal": 1000
+  "guidance": {
+    "start_requires_user_report": true,
+    "allowed_entries": [
+      "USER_BUTTON",
+      "USER_VOICE",
+      "PROMPT_CONFIRMED"
+    ],
+    "sensor_combination_output": "CONFIRM_PROMPT_ONLY",
+    "confirm_prompt_text": "차가 멈추지 않나요?",
+    "no_deceleration_auto_guidance_allowed": false,
+    "candidate_output_without_prompt": "NONE",
+    "confirm_prompt_conditions": {
+      "speed_quality_required": [
+        "OK",
+        "TEST_INPUT"
+      ],
+      "minimum_moving_speed_m_s": 1.0,
+      "brake_pressed_no_deceleration_observation_ms": 1000,
+      "minimum_speed_drop_m_s": 0.5,
+      "unwanted_accel_suspect_m_s2": 2.5,
+      "unwanted_accel_hold_ms": 700,
+      "note": "조건이 맞아도 확인 질문만 띄운다. 브레이크 Boolean과 감속 미관측만으로 비상 제동 안내에 들어가지 않는다(D8)."
+    },
+    "emergency_voice_text_source": "TARGET_VEHICLE_OWNERS_MANUAL_EMERGENCY_PROCEDURE_ONLY",
+    "app_creates_new_control_sequence": false,
+    "end_guidance_action": "END_GUIDANCE",
+    "end_guidance_label": "괜찮아요, 안내 끝내기",
+    "input_guard_ms_after_emergency_transition": 500,
+    "same_position_same_meaning_in_emergency_flow": true,
+    "guide_id_by_state": {
+      "UNWANTED_ACCEL_GUIDE": "G_UNWANTED_ACCEL",
+      "DECEL_FAILURE_GUIDE": "G_DECEL_FAILURE",
+      "STOPPED_REVIEW": "G_STOP_SAFE",
+      "HELP_CONFIRM": "G_HELP_REQUEST"
+    },
+    "practice": {
+      "parked_only": true,
+      "brake_check_signal": "BRAKE_PEDAL",
+      "animation_allowed": true
+    }
   },
   "severity": {
     "semantic": "ESTIMATED_RESPONSE_PRIORITY_NOT_INJURY_OR_CRASH_DAMAGE_DIAGNOSIS",
-    "new_airbag_points": 100,
-    "manual_emergency_help_points": 100,
-    "manual_collision_points": 60,
-    "manual_immobile_points": 40,
-    "dynamic_impact_candidate_g": 3.0,
-    "dynamic_impact_points": 40,
-    "deceleration_candidate_m_s2": -7.0,
-    "deceleration_min_duration_ms": 200,
-    "deceleration_points": 20,
-    "speed_drop_candidate_m_s": 8.0,
-    "speed_drop_window_ms": 1000,
-    "speed_drop_points": 20,
-    "no_response_points_with_collision_evidence_only": 20,
-    "level2_score": 40,
-    "level3_score": 80,
-    "level3_min_independent_families": 2,
-    "speed_derived_metrics_are_one_family": true,
-    "missing_evidence_level": null
+    "levels": [
+      "L1_RECORD",
+      "L2_CHECK",
+      "L3_URGENT"
+    ],
+    "l3_triggers": [
+      "AIRBAG_DEPLOYED",
+      "USER_COLLISION",
+      "USER_HELP_REQUEST"
+    ],
+    "airbag_initial_true_is_baseline": true,
+    "airbag_enabled_or_warning_selection_is_not_deployment": true,
+    "speed_only_evidence_raises_to_l3": false,
+    "missing_evidence_severity": null
   },
-  "manual_minimum_levels": {
-    "SHAKE": 2, "STEERING_PULL": 2, "METAL_NOISE": 1,
-    "BURNING_SMELL": 2, "PEDAL_ABNORMAL": null, "TIRE_DAMAGE": 2,
-    "MINOR_COLLISION": 2, "SINGLE_COLLISION": 2, "POWER_LOSS": 2,
-    "STOPPING_FAILED": 3, "UNWANTED_ACCEL": 2, "UNKNOWN_PEDAL": null,
-    "REQUEST_HELP": 3
+  "symptoms": {
+    "values": [
+      "VIBRATION",
+      "PULLING",
+      "NOISE",
+      "BURNING_SMELL",
+      "PEDAL_PROBLEM",
+      "TIRE_DAMAGE",
+      "COLLISION",
+      "POWER_LOSS",
+      "UNKNOWN"
+    ],
+    "driving_quick_cards": [
+      "VIBRATION",
+      "BURNING_SMELL",
+      "TIRE_DAMAGE",
+      "COLLISION",
+      "UNKNOWN"
+    ],
+    "parked_cards": [
+      "VIBRATION",
+      "PULLING",
+      "NOISE",
+      "BURNING_SMELL",
+      "PEDAL_PROBLEM",
+      "TIRE_DAMAGE",
+      "COLLISION",
+      "POWER_LOSS",
+      "UNKNOWN"
+    ],
+    "maximum_selected_symptoms": 3,
+    "auto_send": false,
+    "minimum_severity": {
+      "VIBRATION": "L2_CHECK",
+      "PULLING": "L2_CHECK",
+      "NOISE": "L1_RECORD",
+      "BURNING_SMELL": "L2_CHECK",
+      "PEDAL_PROBLEM": "L2_CHECK",
+      "TIRE_DAMAGE": "L2_CHECK",
+      "COLLISION": "L3_URGENT",
+      "POWER_LOSS": "L2_CHECK",
+      "UNKNOWN": "L1_RECORD"
+    },
+    "guide_id_by_symptom": {
+      "VIBRATION": "G_VIBRATION_STOP",
+      "PULLING": "G_PULLING_STOP",
+      "NOISE": "G_NOISE_CHECK",
+      "BURNING_SMELL": "G_SMELL_STOP",
+      "PEDAL_PROBLEM": "G_PEDAL_CHECK",
+      "TIRE_DAMAGE": "G_TIRE_STOP",
+      "COLLISION": "G_COLLISION",
+      "POWER_LOSS": "G_POWER_LOSS",
+      "UNKNOWN": "G_UNKNOWN_CHECK"
+    },
+    "pedal_problem_emergency_choices": {
+      "NOT_STOPPING": "DECEL_FAILURE_GUIDE",
+      "SPEEDING_UP": "UNWANTED_ACCEL_GUIDE"
+    },
+    "body_area_symptom_map": {
+      "FRONT": [
+        "NOISE",
+        "BURNING_SMELL",
+        "COLLISION",
+        "POWER_LOSS",
+        "UNKNOWN"
+      ],
+      "FRONT_LEFT_TIRE": [
+        "VIBRATION",
+        "PULLING",
+        "TIRE_DAMAGE",
+        "NOISE",
+        "UNKNOWN"
+      ],
+      "FRONT_RIGHT_TIRE": [
+        "VIBRATION",
+        "PULLING",
+        "TIRE_DAMAGE",
+        "NOISE",
+        "UNKNOWN"
+      ],
+      "REAR_LEFT_TIRE": [
+        "VIBRATION",
+        "TIRE_DAMAGE",
+        "NOISE",
+        "UNKNOWN"
+      ],
+      "REAR_RIGHT_TIRE": [
+        "VIBRATION",
+        "TIRE_DAMAGE",
+        "NOISE",
+        "UNKNOWN"
+      ],
+      "CABIN": [
+        "PEDAL_PROBLEM",
+        "BURNING_SMELL",
+        "VIBRATION",
+        "NOISE",
+        "POWER_LOSS",
+        "UNKNOWN"
+      ],
+      "REAR": [
+        "NOISE",
+        "COLLISION",
+        "UNKNOWN"
+      ],
+      "UNDERBODY": [
+        "NOISE",
+        "VIBRATION",
+        "BURNING_SMELL",
+        "UNKNOWN"
+      ],
+      "UNKNOWN": [
+        "VIBRATION",
+        "PULLING",
+        "NOISE",
+        "BURNING_SMELL",
+        "PEDAL_PROBLEM",
+        "TIRE_DAMAGE",
+        "COLLISION",
+        "POWER_LOSS",
+        "UNKNOWN"
+      ]
+    },
+    "body_area_warning_links": {
+      "FRONT": [
+        "ENGINE"
+      ],
+      "FRONT_LEFT_TIRE": [
+        "TPMS"
+      ],
+      "FRONT_RIGHT_TIRE": [
+        "TPMS"
+      ],
+      "REAR_LEFT_TIRE": [
+        "TPMS"
+      ],
+      "REAR_RIGHT_TIRE": [
+        "TPMS"
+      ],
+      "CABIN": [],
+      "REAR": [],
+      "UNDERBODY": [],
+      "UNKNOWN": []
+    },
+    "body_area_warning_links_note": "공개 열거형 TelltaleType 상수 이름 참조. 경고등 상태를 읽지 않고 경고등 찾기 후보로만 연다.",
+    "voice_keywords": {
+      "VIBRATION": [
+        "떨려",
+        "떨림"
+      ],
+      "PULLING": [
+        "쏠려",
+        "쏠림"
+      ],
+      "NOISE": [
+        "소리",
+        "소음"
+      ],
+      "BURNING_SMELL": [
+        "냄새",
+        "타는"
+      ],
+      "PEDAL_PROBLEM": [
+        "페달",
+        "브레이크",
+        "안 멈춰",
+        "빨라져"
+      ],
+      "TIRE_DAMAGE": [
+        "타이어",
+        "펑크"
+      ],
+      "COLLISION": [
+        "사고",
+        "부딪"
+      ],
+      "POWER_LOSS": [
+        "힘이 없",
+        "출력"
+      ],
+      "UNKNOWN": [
+        "모르겠"
+      ]
+    }
   },
-  "manual_menu": {"maximum_selected_symptoms": 3, "maximum_menu_depth": 2},
-  "photo_lookup": {"candidate_limit": 3, "minimum_score": 0.85, "minimum_margin": 0.15, "score_is_calibrated_probability": false},
+  "warning_lookup": {
+    "steps": [
+      "COLOR",
+      "SHAPE",
+      "BLINK"
+    ],
+    "candidate_limit": 3,
+    "text_search": true,
+    "voice_search": "STT_PUSH_TO_TALK",
+    "detail_while_driving": "MOBILITY_BAND_AND_SHORT_VOICE_ONLY",
+    "photo_lookup": {
+      "device": "PHONE_COMPANION_PARKED",
+      "recognition_engine_availability": "FUTURE",
+      "enabled": false
+    },
+    "weekly_card": {
+      "enabled": true,
+      "interval_days": 7,
+      "parked_only": true,
+      "uses_telltale_type_name_only": true
+    },
+    "telltale_state_read": {
+      "availability": "FUTURE",
+      "enabled": false,
+      "permission": "PRIVATE_CAR_SAFETY(signature|privileged)"
+    }
+  },
+  "check_items": {
+    "signals": [
+      "ENGINE_OIL_LEVEL",
+      "BRAKE_FLUID_LEVEL",
+      "WASHER_FLUID_LOW",
+      "POWER_DOWN_WARNING",
+      "SEATBELT_UNBUCKLED",
+      "DOOR_POSITION",
+      "AIRBAG_DEPLOYED"
+    ],
+    "wording": "같은 원인의 공개 신호",
+    "creates_incident_trigger": "VEHICLE_MAINTENANCE_SIGNAL",
+    "move_related_warning_guide_first": true,
+    "predrive_card_excludes": [
+      "DOOR_POSITION",
+      "SEATBELT_UNBUCKLED",
+      "BRAKE_PEDAL"
+    ],
+    "predrive_card_includes": [
+      "CHECK_ITEMS",
+      "MAINTENANCE_SCHEDULE",
+      "GUARDIAN_READINESS",
+      "PHONE_PAIRING_STATE"
+    ]
+  },
   "notification": {
+    "scope": {
+      "auto_send_after_confirmation_triggers": [
+        "AIRBAG_DEPLOYED",
+        "USER_COLLISION"
+      ],
+      "immediate_send_triggers": [
+        "USER_HELP_REQUEST"
+      ],
+      "immediate_send_requires_recipient_list_confirmation": true,
+      "manual_symptom_auto_send": false,
+      "manual_symptom_guardian_option": "OFFER_GUARDIAN_ALERT_BUTTON",
+      "no_guardian_behavior": "SHOW_119_AND_BLUELINK_SOS_GUIDANCE_ONLY",
+      "airbag_confirmation_policy": "KEEP_PRE_SEND_CONFIRMATION_PENDING_USER_DECISION",
+      "app_reports_to_119_automatically": false
+    },
+    "pre_send_confirmation_ms": 10000,
+    "pre_send_confirmation_name": "발송 전 확인 10초",
+    "send_now_bypasses_confirmation": true,
     "guardian_limit": 5,
-    "countdown_ms": 10000,
-    "manual_send_now_bypasses_countdown": true,
-    "level1_default_auto_send": false,
     "kakao_first": true,
     "fallback_owner": "BACKEND",
     "provider_native_resend": false,
-    "delivery_unknown_fallback_after_ms": 10000,
-    "delivery_deadline_origin": "FIRST_PROVIDER_SUBMISSION",
+    "kakao_delivery_confirmation_deadline_ms": 10000,
+    "kakao_delivery_confirmation_deadline_name": "알림톡 전달 확인 기한",
+    "kakao_delivery_confirmation_deadline_origin": "FIRST_PROVIDER_SUBMISSION",
+    "kakao_delivery_confirmation_deadline_previous_key": "delivery_unknown_fallback_after_ms",
     "provider_http_total_timeout_ms": 3000,
     "clock_sync_max_error_ms": 500,
     "unknown_countdown_clock_policy": "DO_NOT_RESTART_RELEASE_WITH_TIMING_UNCERTAIN_LABEL",
-    "result_poll_offsets_ms": [2000, 5000, 10000],
+    "result_poll_offsets_ms": [
+      2000,
+      5000,
+      10000
+    ],
     "fallback_enqueue_target_ms_after_failure": 1000,
     "max_channel_attempts": 3,
-    "backoff_ms": [1000, 3000],
+    "backoff_ms": [
+      1000,
+      3000
+    ],
     "notification_expiry_ms": 86400000,
+    "expired_policy_state": "EXPIRED",
     "late_delivery_label_required": true,
     "sms_max_euc_kr_bytes": 90,
     "lms_max_euc_kr_bytes": 2000,
     "lms_title_max_euc_kr_bytes": 40,
-    "share_link_expiry_ms": 86400000,
-    "guide_severity_escalation_restarts_countdown": false
+    "guardian_share_link_expiry_ms": 86400000,
+    "post_incident_location_stream_max_ms": 3600000,
+    "guide_severity_escalation_restarts_countdown": false,
+    "one_open_alert_per_vehicle": true,
+    "cross_device_merge_window_ms": 120000,
+    "require_driver_location_share_consent": true,
+    "guest_or_unknown_driver_auto_location_send": false,
+    "correction": {
+      "template_code": "CARE_UPDATE_V1",
+      "respond_safe_creates_correction": true,
+      "allowed_after_states": [
+        "RELEASED",
+        "DISPATCHING",
+        "SETTLED",
+        "EXPIRED"
+      ]
+    },
+    "guardian_first_line": "먼저 전화해 보세요. 받지 않고 사고가 의심되면 119에 이 위치를 알려 주세요.",
+    "practice_alert": {
+      "label": "[연습]",
+      "max_per_day_per_guardian": 1,
+      "contains_location": false
+    },
+    "quick_replies": [
+      "SEEN",
+      "WILL_CALL"
+    ],
+    "quick_reply_relay": {
+      "parked": "SCREEN_AND_SHORT_TTS",
+      "driving": "SCREEN_ONE_LINE"
+    }
+  },
+  "guardian_otp": {
+    "digits": 6,
+    "otp_ttl_ms": 300000,
+    "max_failed_attempts": 5,
+    "lock_ms": 900000,
+    "token_location": "URL_FRAGMENT"
+  },
+  "pairing": {
+    "qr_code_ttl_ms": 300000,
+    "parked_only": true,
+    "transport": "SERVER_RELAY",
+    "bluetooth_assumed": false,
+    "companion_apk_separate": true,
+    "companion_includes_pleos_sdk": false
+  },
+  "share_links": {
+    "maintenance_link_expiry_ms": 86400000,
+    "read_only": true,
+    "parked_only_creation": true,
+    "token_location": "URL_FRAGMENT",
+    "includes_location": false,
+    "includes_guardian_info": false
+  },
+  "privacy": {
+    "location_disclosure_record_required": true,
+    "notify_driver_each_disclosure": true,
+    "notify_content": [
+      "RECIPIENTS",
+      "TIME"
+    ],
+    "stop_sharing_control_required": true,
+    "disclosure_log_retention_days": null,
+    "consent_withdrawal_revokes_open_shares": true,
+    "lbs_business_report": "PRE_LAUNCH_REQUIREMENT_LEGAL_CHECK_NEEDED",
+    "legal_interpretation_status": "NEEDS_CONFIRMATION",
+    "driving_data_marketing_use": false,
+    "guest_mode_auto_location_send": false
+  },
+  "audio": {
+    "tts_mode": "ON_DEVICE",
+    "tts_locale": "ko-KR",
+    "preroll_silence_ms_min": 150,
+    "preroll_silence_ms_max": 200,
+    "audio_usage_candidates": [
+      "USAGE_ASSISTANCE_NAVIGATION_GUIDANCE",
+      "USAGE_ALARM"
+    ],
+    "audio_usage_decision": "EMULATOR_TEST",
+    "emergency_usage_allowed": false,
+    "stop_on_gleo_focus_loss": true,
+    "restart_step_after_gleo": true,
+    "abandon_focus_on_suspend": true,
+    "speak_during_call": false,
+    "stt_paused_while_tts_playing": true,
+    "priority": [
+      "DECEL_FAILURE_GUIDE",
+      "UNWANTED_ACCEL_GUIDE",
+      "HELP_CONFIRM",
+      "WARNING_EXPLANATION",
+      "RECORD_ACK"
+    ],
+    "siren_or_alarm_sound": false,
+    "system_fullscreen_popup": false
+  },
+  "performance": {
+    "driving_cpu_budget_pct_lt": 5,
+    "ram_budget_mb_max": 400,
+    "input_response_ms_max": 250,
+    "button_response_ms_max": 2000,
+    "launch_ms_max": 10000,
+    "content_load_ms_max": 10000,
+    "source": "Pleos 앱 심사·성능 가이드 원문 수치",
+    "always_on_speech_recognition": false,
+    "speech_recognition_mode": "PUSH_TO_TALK_OR_APP_QUESTION_ONLY",
+    "app_question_listen_window_ms": 8000,
+    "degrade_after_over_budget_ms": 10000,
+    "degrade_ladder": [
+      "FULL",
+      "REDUCE_SIGNAL_RECONFIRM",
+      "SNAPSHOT_ON_EVENT_ONLY",
+      "MANUAL_ONLY"
+    ],
+    "degrade_label": "분석 축소",
+    "server_poll_ms_active": 2000,
+    "server_poll_active_window_ms": 60000,
+    "server_poll_ms_after_window": 10000,
+    "server_poll_ms_idle": null,
+    "emulator_measurement_is_not_vehicle_performance": true
+  },
+  "symptom_patterns": {
+    "minimum_occurrences": 3,
+    "speed_bucket_kmh": 20,
+    "snapshot_fields": [
+      "speed_mps",
+      "brake_pressed",
+      "steering_angle_deg",
+      "turn_signal",
+      "doors_open",
+      "odometer_km",
+      "fuel_or_soc_pct"
+    ],
+    "diagnosis_allowed": false
+  },
+  "maintenance": {
+    "recheck_distance_km": 500,
+    "ask_only_when_parked": true,
+    "odometer_signal": "ODOMETER"
   },
   "recording": {
-    "pre_event_seconds": 30,
-    "post_event_seconds": 60,
-    "segment_seconds": 2,
+    "signal_ring_buffer_before_s": 30,
+    "signal_ring_buffer_after_s": 60,
+    "raw_audio_video_capture": {
+      "availability": "FUTURE",
+      "enabled": false
+    },
     "upload_chunk_bytes": 4194304,
     "upload_permit_ttl_ms": 900000,
     "max_asset_bytes": 536870912,
-    "local_reserved_metadata_bytes": 16777216,
-    "local_media_quota_bytes": 2147483648,
-    "audio_example_sample_rate_hz": 16000,
-    "audio_example_bits_per_sample": 16,
-    "video_example_bitrate_bits_s_per_channel": 4000000,
-    "actual_capture_support_verified": false
+    "local_reserved_metadata_bytes": 16777216
+  },
+  "demo_mode": {
+    "test_input_player": true,
+    "mock_server": true,
+    "mock_dispatcher": true,
+    "mock_dispatcher_outcomes": [
+      "DELIVERED",
+      "FAILED",
+      "SUBMISSION_UNKNOWN",
+      "DELIVERY_UNCONFIRMED"
+    ],
+    "label": "[시험 입력]",
+    "guardian_page_label": "[시험]",
+    "real_dispatch_enabled": false
+  },
+  "future_motion_analysis": {
+    "availability": "FUTURE",
+    "enabled": false,
+    "reason": "공개 SDK(Vehicle 2.3.2)에 차량 고정 가속도·자이로·휠·충격 신호가 없다. 연구용 설계로만 보존한다.",
+    "imu_quality": {
+      "imu_max_gap_ms": 50,
+      "max_interpolation_gap_ms": 10,
+      "cross_stream_max_skew_ms": 100,
+      "minimum_valid_coverage_ratio": 0.95
+    },
+    "vibration": {
+      "sample_rate_hz": 200,
+      "minimum_sample_rate_hz": 160,
+      "anti_aliasing_required": true,
+      "fft_size": 512,
+      "hop_samples": 128,
+      "window": "HANN",
+      "gravity_removal": "APPROVED_LINEAR_ACCELERATION_OR_CALIBRATED_HIGH_PASS_0_7_HZ",
+      "standard_gravity_m_s2": 9.80665,
+      "baseline_bin_speed_kmh": 10,
+      "baseline_min_valid_seconds_per_bin": 60,
+      "baseline_multiplier": 3.0,
+      "evidence_windows_required": 3,
+      "evidence_window_count": 5,
+      "reset_evidence_on_invalid_window": true,
+      "release_window_count": 10,
+      "cooldown_ms": 30000,
+      "bands": [
+        {
+          "id": "BODY_1_5",
+          "low_hz": 1.0,
+          "high_hz": 5.0,
+          "absolute_rms_g": 0.08
+        },
+        {
+          "id": "WHEEL_5_20",
+          "low_hz": 5.0,
+          "high_hz": 20.0,
+          "absolute_rms_g": 0.06
+        },
+        {
+          "id": "POWERTRAIN_20_80",
+          "low_hz": 20.0,
+          "high_hz": 80.0,
+          "absolute_rms_g": 0.04
+        }
+      ],
+      "impulse_candidate_peak_g": 0.6,
+      "impulse_envelope_ms": 50,
+      "impulse_max_duration_ms": 250,
+      "impulse_return_observation_ms": 1500,
+      "exclude_impulse_intersecting_windows_from_sustained_vote": true,
+      "root_cause_diagnosis_allowed": false
+    },
+    "impact_severity": {
+      "dynamic_impact_candidate_g": 3.0,
+      "dynamic_impact_points": 40,
+      "deceleration_candidate_m_s2": -7.0,
+      "deceleration_min_duration_ms": 200,
+      "deceleration_points": 20
+    }
   }
 }

@@ -1,10 +1,144 @@
 {
-  "version": "4.0.0",
+  "version": "5.0.0",
+  "previous_version": "4.0.0",
   "app_name": "플레오스 가드",
-  "viewport": {
-    "width_dp": 1280,
-    "height_dp": 720,
-    "official_panel_resolution": false
+  "status": "DESIGN_TOKENS_NOT_RUNTIME_VERIFIED",
+  "runtime_usability_verified": false,
+  "history": "history/2026-11-12-v2.1/ui-tokens.json(v4.0.0), ui-tokens-prd-v2.json(v1.0.0, 그대로 보존)",
+  "source_legend": {
+    "PLEOS_OFFICIAL": "Pleos 디자인 가이드 원문 수치",
+    "PLEOS_REVIEW": "Pleos 앱 심사·성능 가이드 원문 수치",
+    "SELF_DEFINED": "플레오스 가드 자체 설계값. Pleos 기준이라고 쓰지 않는다",
+    "MARKET_SCREENSHOT_SPEC": "마켓 스크린샷 규격을 시안 기준으로 빌린 값. 실제 창 크기가 아니다"
+  },
+  "official_limits": {
+    "contrast_min": {
+      "value": 4.5,
+      "unit": "ratio",
+      "source": "PLEOS_OFFICIAL",
+      "ref": "docs-design Introduction(대비율 4.5:1 이상)"
+    },
+    "min_font": {
+      "value": 12,
+      "unit": "sp",
+      "source": "PLEOS_OFFICIAL",
+      "ref": "docs-design foundations typography(최소 12sp 권장)"
+    },
+    "glyph_height_primary": {
+      "value": 5,
+      "unit": "mm",
+      "source": "PLEOS_OFFICIAL",
+      "ref": "docs-design Introduction(기본 텍스트 5mm 이상)"
+    },
+    "glyph_height_secondary": {
+      "value": 3,
+      "unit": "mm",
+      "source": "PLEOS_OFFICIAL",
+      "ref": "docs-design Introduction(보조 텍스트 3mm 이상)"
+    },
+    "input_response": {
+      "value": 0.25,
+      "unit": "s",
+      "source": "PLEOS_OFFICIAL",
+      "ref": "docs-design Introduction·심사 기능·성능(응답 0.25초 이내)"
+    },
+    "driving_text_max_lines": {
+      "value": 3,
+      "unit": "lines",
+      "source": "PLEOS_OFFICIAL",
+      "ref": "docs-design Introduction(텍스트 3줄 이하)"
+    },
+    "glance_time": {
+      "value": [
+        1,
+        2
+      ],
+      "unit": "s",
+      "source": "PLEOS_OFFICIAL",
+      "ref": "docs-design Introduction(1~2초 안에 파악)"
+    },
+    "button_response": {
+      "value": 2,
+      "unit": "s",
+      "source": "PLEOS_REVIEW",
+      "ref": "심사 기능·성능(버튼 2초 이내, 넘으면 진행 표시)"
+    },
+    "app_launch": {
+      "value": 10,
+      "unit": "s",
+      "source": "PLEOS_REVIEW",
+      "ref": "심사 기능·성능(실행 10초 이내)"
+    },
+    "content_load": {
+      "value": 10,
+      "unit": "s",
+      "source": "PLEOS_REVIEW",
+      "ref": "심사 기능·성능(콘텐츠 10초 이내)"
+    }
+  },
+  "self_defined": {
+    "primary_touch": {
+      "value": 80,
+      "unit": "dp",
+      "source": "SELF_DEFINED",
+      "note": "모든 주요 버튼 80dp 이상. Pleos 공식 최소 터치 수치는 원문에 없음(Google 76dp 권고 참고). 64dp는 쓰지 않는다."
+    },
+    "major_gap": {
+      "value": 24,
+      "unit": "dp",
+      "source": "SELF_DEFINED"
+    },
+    "body_text_min": {
+      "value": 22,
+      "unit": "sp",
+      "source": "SELF_DEFINED",
+      "note": "Pleos 최소 12sp보다 큰 앱 기준. 물리 높이 5mm·3mm는 실제 창 DPI로 확인."
+    },
+    "title_text": {
+      "value": [
+        28,
+        34
+      ],
+      "unit": "sp",
+      "source": "SELF_DEFINED"
+    },
+    "button_text": {
+      "value": [
+        28,
+        30
+      ],
+      "unit": "sp",
+      "source": "SELF_DEFINED"
+    },
+    "emergency_action_text": {
+      "value": [
+        42,
+        46
+      ],
+      "unit": "sp",
+      "source": "SELF_DEFINED"
+    },
+    "emergency_sentence_max_lines": {
+      "value": 2,
+      "unit": "lines",
+      "source": "SELF_DEFINED",
+      "note": "주행 중 긴급 행동 문장. Pleos 3줄 이하보다 엄격."
+    },
+    "input_guard_after_emergency_transition": {
+      "value": 500,
+      "unit": "ms",
+      "source": "SELF_DEFINED",
+      "note": "긴급 화면이 바뀐 직후 터치를 받지 않는 시간. 시험으로 확정."
+    },
+    "symptom_card": {
+      "value": [
+        349,
+        132
+      ],
+      "unit": "dp",
+      "source": "SELF_DEFINED",
+      "note": "가로 정차 중 9개 카드. 296×144는 폐기."
+    }
   },
   "font": {
     "family": "Pretendard",
@@ -13,43 +147,197 @@
     "heading_weight": 600,
     "emergency_weight": 700
   },
-  "interaction": {
-    "minimum_touch_dp": 80,
-    "major_gap_dp": 24,
-    "region_hit_width_dp": 80,
-    "region_hit_height_dp": 80
+  "layouts": {
+    "portrait": {
+      "role": "DEFAULT",
+      "basis": "Pleos 앱은 screenOrientation을 정하지 않으면 세로 한 창으로 실행된다. 레터박스 없이 채운다.",
+      "reference_canvas": {
+        "width_px": 840,
+        "height_px": 1212,
+        "source": "MARKET_SCREENSHOT_SPEC",
+        "note": "세로 기준 시안. 실제 dp는 에뮬레이터 FormFactorConsole로 확인."
+      },
+      "regions_px": {
+        "top_bar": [
+          0,
+          0,
+          840,
+          84
+        ],
+        "top_tabs": [
+          0,
+          84,
+          840,
+          96
+        ],
+        "status_chips": [
+          0,
+          180,
+          840,
+          72
+        ],
+        "vehicle_area": [
+          0,
+          252,
+          840,
+          360
+        ],
+        "context_panel": [
+          0,
+          612,
+          840,
+          384
+        ],
+        "primary_actions": [
+          0,
+          996,
+          840,
+          216
+        ]
+      },
+      "stack_order": [
+        "top_bar",
+        "top_tabs",
+        "status_chips",
+        "vehicle_area",
+        "context_panel",
+        "primary_actions"
+      ],
+      "tabs": [
+        "home",
+        "warning_find",
+        "record_now",
+        "guardian_status"
+      ],
+      "primary_actions_parked": [
+        "RECORD_NOW",
+        "SYMPTOM_SELECT"
+      ],
+      "primary_actions_fixed_bottom": true,
+      "driving": {
+        "vehicle_area": "SMALL_OR_HIDDEN",
+        "context_panel": "HIDDEN",
+        "top_tabs": "HIDDEN",
+        "actions": [
+          "RECORD_NOW",
+          "SYMPTOM_SELECT_5",
+          "GUARDIAN_ALERT"
+        ],
+        "action_layout": "FULL_WIDTH_STACK"
+      },
+      "emergency": {
+        "order": [
+          "situation_band",
+          "action_sentence",
+          "still_image",
+          "stopped_buttons"
+        ],
+        "drop_first_when_short": "still_image",
+        "buttons_while_driving": 0,
+        "buttons_after_stop": [
+          "CAR_STOPPED",
+          "GUARDIAN_ALERT"
+        ],
+        "end_guidance_button": "OK_END_GUIDANCE",
+        "button_stack": "VERTICAL"
+      }
+    },
+    "landscape": {
+      "role": "WIDE",
+      "example_viewport": {
+        "width_dp": 1280,
+        "height_dp": 720,
+        "source": "SELF_DEFINED",
+        "label": "가로 시안 예시. 공식 패널 해상도가 아니다."
+      },
+      "regions_dp": {
+        "top_bar": [
+          16,
+          16,
+          1248,
+          80
+        ],
+        "dock": [
+          16,
+          116,
+          120,
+          484
+        ],
+        "vehicle_canvas": [
+          160,
+          128,
+          768,
+          456
+        ],
+        "context": [
+          952,
+          128,
+          304,
+          456
+        ],
+        "actions": [
+          160,
+          610,
+          1096,
+          88
+        ]
+      },
+      "emergency_regions_dp": {
+        "emergency_header": [
+          16,
+          16,
+          1248,
+          88
+        ],
+        "emergency_body": [
+          16,
+          120,
+          1248,
+          476
+        ],
+        "emergency_actions": [
+          16,
+          612,
+          1248,
+          92
+        ]
+      },
+      "dock_items": [
+        "home",
+        "warning_find",
+        "record_now",
+        "symptom_select",
+        "guardian_status"
+      ],
+      "note": "기존 승인 시안 구조(왼쪽 도크·가운데 차·오른쪽 맥락 패널). 12열 그리드는 쓰지 않는다."
+    }
   },
-  "regions": {
-    "vehicle_canvas": [
-      160,
-      128,
-      768,
-      456
-    ],
-    "context": [
-      952,
-      128,
-      304,
-      456
-    ],
-    "dock": [
-      16,
-      116,
-      120,
-      484
-    ],
-    "actions": [
-      160,
-      610,
-      1096,
-      88
-    ],
-    "emergency_header": [
-      16,
-      16,
-      1248,
-      88
-    ]
+  "parity_rules": [
+    "세로와 가로는 같은 기능과 같은 행동 버튼을 준다(기능 패리티). 배치만 다르다.",
+    "창 크기·방향이 바뀌어도 고른 부위, 진행 중 안내 단계, 발송 확인 남은 시간을 유지한다.",
+    "레터박스 없이 창을 채운다.",
+    "긴급 흐름에서 같은 자리 버튼은 같은 뜻이다. '보내지 않기·안내 끝내기' 같은 부정 행동은 모든 긴급 화면에서 같은 자리·같은 중립색이다.",
+    "시안이 없는 화면은 설계만 있는 상태이며 기능 차이가 아니다."
+  ],
+  "driving_mode": {
+    "motion": "none",
+    "still_images_per_step": 1,
+    "max_primary_actions": 3,
+    "max_text_lines": 3,
+    "max_menu_depth": 3,
+    "vehicle_illustration": "SMALL_OR_HIDDEN",
+    "foot_or_hand_motion_images": false,
+    "system_fullscreen_popup": false,
+    "unknown_driving_state": "TREAT_AS_DRIVING"
+  },
+  "animation": {
+    "driving_motion_ms": 0,
+    "parked_motion_allowed": true,
+    "parked_animation_sync": "SAME_STEP_AS_VOICE",
+    "countdown_ring_while_driving": false,
+    "record_waveform_while_driving": false,
+    "launch_sequence_while_driving": false,
+    "repeat_while_driving": false
   },
   "colors": {
     "background": "#090E16",
@@ -60,27 +348,374 @@
     "warning": "#FFC857",
     "emergency": "#FF5B6B",
     "guardian": "#9FA4FF",
-    "emergency_background": "#1B0B12"
+    "emergency_background": "#1B0B12",
+    "emergency_band": "#702132",
+    "emergency_band_accent": "#FFB3BA",
+    "on_color": "#090E16"
+  },
+  "contrast_pairs": [
+    {
+      "fg": "text",
+      "bg": "background",
+      "fg_hex": "#F7FAFF",
+      "bg_hex": "#090E16",
+      "ratio": 18.483,
+      "min": 4.5,
+      "usage": "본문"
+    },
+    {
+      "fg": "secondary",
+      "bg": "background",
+      "fg_hex": "#B8C5D8",
+      "bg_hex": "#090E16",
+      "ratio": 11.064,
+      "min": 4.5,
+      "usage": "보조 글"
+    },
+    {
+      "fg": "text",
+      "bg": "surface",
+      "fg_hex": "#F7FAFF",
+      "bg_hex": "#121C2B",
+      "ratio": 16.363,
+      "min": 4.5,
+      "usage": "카드 본문"
+    },
+    {
+      "fg": "secondary",
+      "bg": "surface",
+      "fg_hex": "#B8C5D8",
+      "bg_hex": "#121C2B",
+      "ratio": 9.795,
+      "min": 4.5,
+      "usage": "카드 보조 글"
+    },
+    {
+      "fg": "record",
+      "bg": "surface",
+      "fg_hex": "#5EEAD4",
+      "bg_hex": "#121C2B",
+      "ratio": 11.572,
+      "min": 4.5,
+      "usage": "기록 강조"
+    },
+    {
+      "fg": "warning",
+      "bg": "surface",
+      "fg_hex": "#FFC857",
+      "bg_hex": "#121C2B",
+      "ratio": 11.128,
+      "min": 4.5,
+      "usage": "주의 강조"
+    },
+    {
+      "fg": "emergency",
+      "bg": "surface",
+      "fg_hex": "#FF5B6B",
+      "bg_hex": "#121C2B",
+      "ratio": 5.674,
+      "min": 4.5,
+      "usage": "긴급 강조(카드 위)"
+    },
+    {
+      "fg": "guardian",
+      "bg": "surface",
+      "fg_hex": "#9FA4FF",
+      "bg_hex": "#121C2B",
+      "ratio": 7.523,
+      "min": 4.5,
+      "usage": "보호자 강조"
+    },
+    {
+      "fg": "emergency",
+      "bg": "background",
+      "fg_hex": "#FF5B6B",
+      "bg_hex": "#090E16",
+      "ratio": 6.409,
+      "min": 4.5,
+      "usage": "긴급 강조(바탕 위)"
+    },
+    {
+      "fg": "text",
+      "bg": "emergency_background",
+      "fg_hex": "#F7FAFF",
+      "bg_hex": "#1B0B12",
+      "ratio": 18.195,
+      "min": 4.5,
+      "usage": "긴급 화면 본문"
+    },
+    {
+      "fg": "secondary",
+      "bg": "emergency_background",
+      "fg_hex": "#B8C5D8",
+      "bg_hex": "#1B0B12",
+      "ratio": 10.892,
+      "min": 4.5,
+      "usage": "긴급 화면 보조 글"
+    },
+    {
+      "fg": "emergency",
+      "bg": "emergency_background",
+      "fg_hex": "#FF5B6B",
+      "bg_hex": "#1B0B12",
+      "ratio": 6.31,
+      "min": 4.5,
+      "usage": "긴급 화면 강조"
+    },
+    {
+      "fg": "text",
+      "bg": "emergency_band",
+      "fg_hex": "#F7FAFF",
+      "bg_hex": "#702132",
+      "ratio": 10.28,
+      "min": 4.5,
+      "usage": "긴급 띠 글"
+    },
+    {
+      "fg": "emergency_band_accent",
+      "bg": "emergency_band",
+      "fg_hex": "#FFB3BA",
+      "bg_hex": "#702132",
+      "ratio": 6.355,
+      "min": 4.5,
+      "usage": "긴급 띠 위 아이콘·강조(#FF5B6B 대체)"
+    },
+    {
+      "fg": "on_color",
+      "bg": "emergency",
+      "fg_hex": "#090E16",
+      "bg_hex": "#FF5B6B",
+      "ratio": 6.409,
+      "min": 4.5,
+      "usage": "긴급 버튼 글"
+    },
+    {
+      "fg": "on_color",
+      "bg": "warning",
+      "fg_hex": "#090E16",
+      "bg_hex": "#FFC857",
+      "ratio": 12.57,
+      "min": 4.5,
+      "usage": "주의 버튼 글"
+    },
+    {
+      "fg": "on_color",
+      "bg": "record",
+      "fg_hex": "#090E16",
+      "bg_hex": "#5EEAD4",
+      "ratio": 13.071,
+      "min": 4.5,
+      "usage": "기록 버튼 글"
+    },
+    {
+      "fg": "on_color",
+      "bg": "guardian",
+      "fg_hex": "#090E16",
+      "bg_hex": "#9FA4FF",
+      "ratio": 8.497,
+      "min": 4.5,
+      "usage": "보호자 버튼 글"
+    }
+  ],
+  "forbidden_pairs": [
+    {
+      "fg_hex": "#FF5B6B",
+      "bg_hex": "#702132",
+      "ratio": 3.565,
+      "reason": "4.5:1 미달",
+      "replacement_fg": "emergency_band_accent"
+    }
+  ],
+  "theme_open_item": "주간(라이트) 토큰은 아직 없다. 입점 전 Pleos 주간·야간 자동 조정에 맞춰 추가한다.",
+  "screens": [
+    {
+      "id": "home",
+      "name_ko": "홈",
+      "feature": "-",
+      "portrait_file": "p-home.png",
+      "landscape_file": "ui-home.png",
+      "driving_access": "SIMPLIFIED"
+    },
+    {
+      "id": "warning_find",
+      "name_ko": "경고등 찾기",
+      "feature": "F1",
+      "portrait_file": "p-warning-find.png",
+      "landscape_file": "ui-warning.png",
+      "driving_access": "VOICE_ONLY"
+    },
+    {
+      "id": "warning_detail",
+      "name_ko": "경고등 설명",
+      "feature": "F1",
+      "portrait_file": "p-warning-result.png",
+      "landscape_file": "ui-warning.png",
+      "driving_access": "SIMPLIFIED"
+    },
+    {
+      "id": "check_items",
+      "name_ko": "점검 항목",
+      "feature": "F1",
+      "portrait_file": "p-check.png",
+      "landscape_file": null,
+      "driving_access": "SIMPLIFIED"
+    },
+    {
+      "id": "predrive_check",
+      "name_ko": "출발 전 점검",
+      "feature": "F1",
+      "portrait_file": "p-check.png",
+      "landscape_file": null,
+      "driving_access": "PARKED_ONLY"
+    },
+    {
+      "id": "record_now",
+      "name_ko": "지금 기록",
+      "feature": "F2",
+      "portrait_file": "p-record.png",
+      "landscape_file": "ui-record.png",
+      "driving_access": "SIMPLIFIED"
+    },
+    {
+      "id": "pattern",
+      "name_ko": "재현 조건",
+      "feature": "F2",
+      "portrait_file": "p-pattern.png",
+      "landscape_file": "ui-history.png",
+      "driving_access": "PARKED_ONLY"
+    },
+    {
+      "id": "maintenance_note",
+      "name_ko": "정비 노트",
+      "feature": "F2",
+      "portrait_file": null,
+      "landscape_file": "ui-history.png",
+      "driving_access": "PARKED_ONLY"
+    },
+    {
+      "id": "symptom_select",
+      "name_ko": "상황 선택",
+      "feature": "F3",
+      "portrait_file": null,
+      "landscape_file": null,
+      "driving_access": "SIMPLIFIED"
+    },
+    {
+      "id": "emergency_guidance",
+      "name_ko": "긴급 안내",
+      "feature": "F3",
+      "portrait_file": "p-emergency.png",
+      "landscape_file": "ui-guidance.png",
+      "driving_access": "FULL"
+    },
+    {
+      "id": "decel_failure",
+      "name_ko": "감속 실패 대처",
+      "feature": "F3",
+      "portrait_file": "p-emergency.png",
+      "landscape_file": "ui-guidance.png",
+      "driving_access": "FULL"
+    },
+    {
+      "id": "practice",
+      "name_ko": "비상 절차 미리 익히기",
+      "feature": "F3",
+      "portrait_file": "p-practice.png",
+      "landscape_file": null,
+      "driving_access": "PARKED_ONLY"
+    },
+    {
+      "id": "countdown",
+      "name_ko": "발송 확인(10초)",
+      "feature": "F4",
+      "portrait_file": "p-countdown.png",
+      "landscape_file": "ui-countdown.png",
+      "driving_access": "FULL"
+    },
+    {
+      "id": "guardian_status",
+      "name_ko": "보호자 알림 상태",
+      "feature": "F4",
+      "portrait_file": "p-guardian.png",
+      "landscape_file": "ui-guardian.png",
+      "driving_access": "SIMPLIFIED"
+    },
+    {
+      "id": "service_stop",
+      "name_ko": "정비소 들르기",
+      "feature": "F5",
+      "portrait_file": "p-service.png",
+      "landscape_file": null,
+      "driving_access": "SIMPLIFIED"
+    },
+    {
+      "id": "settings_consent",
+      "name_ko": "설정·동의",
+      "feature": "F4",
+      "portrait_file": null,
+      "landscape_file": null,
+      "driving_access": "PARKED_ONLY"
+    },
+    {
+      "id": "phone_pairing",
+      "name_ko": "휴대폰 연결",
+      "feature": "F6",
+      "portrait_file": null,
+      "landscape_file": null,
+      "driving_access": "PARKED_ONLY"
+    },
+    {
+      "id": "demo_mode",
+      "name_ko": "시연 모드",
+      "feature": "F0",
+      "portrait_file": null,
+      "landscape_file": null,
+      "driving_access": "PARKED_ONLY"
+    }
+  ],
+  "mockup_files": {
+    "portrait": [
+      "p-home.png",
+      "p-warning-find.png",
+      "p-warning-result.png",
+      "p-check.png",
+      "p-record.png",
+      "p-pattern.png",
+      "p-emergency.png",
+      "p-countdown.png",
+      "p-guardian.png",
+      "p-practice.png",
+      "p-service.png"
+    ],
+    "landscape": [
+      "ui-home.png",
+      "ui-warning.png",
+      "ui-record.png",
+      "ui-guidance.png",
+      "ui-countdown.png",
+      "ui-guardian.png",
+      "ui-history.png"
+    ],
+    "note": "v4 시안 파일 이름. 세로 시안 11장, 가로 시안 7장."
+  },
+  "legacy_screen_map": {
+    "home": "home",
+    "parts": "home",
+    "warning": "warning_find",
+    "record": "record_now",
+    "manual": "symptom_select",
+    "guidance": "emergency_guidance",
+    "stopping": "decel_failure",
+    "countdown": "countdown",
+    "guardian": "guardian_status",
+    "history": "maintenance_note"
   },
   "launch_asset": "output/submission/assets/pleos-guard-launch-outline.png",
-  "screen_asset_directory": "output/submission/assets/final",
-  "screens": [
-    "home",
-    "parts",
-    "warning",
-    "record",
-    "manual",
-    "guidance",
-    "stopping",
-    "countdown",
-    "guardian",
-    "history"
-  ],
+  "launch_rule": "콜드 스타트 1회만 짧게. 주행 제한 중·긴급 복귀 때는 생략.",
   "references": [
     3539,
     3587,
     8134,
     7162
-  ],
-  "runtime_usability_verified": false
+  ]
 }
