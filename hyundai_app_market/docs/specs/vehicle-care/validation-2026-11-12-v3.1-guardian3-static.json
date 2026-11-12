@@ -1,0 +1,2315 @@
+{
+  "date_kst": "2026-11-12",
+  "contract_version": "3.1.0",
+  "versions": {
+    "openapi_info": "3.1.0",
+    "openapi_format": "3.1.0",
+    "database": "v3.1",
+    "rules_lab": "2.1.0",
+    "rules_profile_id": "pleos-care-lab-20261112-r3",
+    "ui_tokens": "5.1.0",
+    "acceptance": "3.1.0"
+  },
+  "scope": "정적 계약 검사(JSON 파싱, OpenAPI $ref·경로, enum↔SQL CHECK, 스키마 예시, 파일 간 이름·수치, 인수 시나리오 참조, 대비·배치 계산, 2차 비판 결정 반영, 시안 폴더 실제 목록)와 선택적 로컬 PostgreSQL DDL·제약 시험. PRD와는 대조하지 않는다. 앱 빌드·실행, 서버 실행, 실제 발송, 실차·에뮬레이터 동작의 증거가 아니다.",
+  "validator": "validate_contracts.py (python3 표준 라이브러리만, JSON Schema는 이 계약이 쓰는 키워드만 구현)",
+  "status": "PASS",
+  "counts": {
+    "openapi_refs_total": 752,
+    "openapi_refs_unique": 200,
+    "openapi_paths": 56,
+    "openapi_operations": 59,
+    "openapi_schemas": 171,
+    "openapi_security_schemes": 3,
+    "openapi_operations_by_scheme": {
+      "deviceSession": 41,
+      "guardianSession": 6,
+      "ownerSession": 33
+    },
+    "openapi_operations_public_body_token": 4,
+    "decision_9_4_operations_added": 17,
+    "r2_operations_added": 18,
+    "openapi_operations_v3_0": 41,
+    "openapi_operations_with_x_authz": 9,
+    "openapi_future_inputs_listed": 12,
+    "schema_examples_positive": 22,
+    "schema_examples_negative": 49,
+    "sql_tables": 36,
+    "sql_views": 1,
+    "sql_foreign_key_references": 70,
+    "sql_check_clauses": 198,
+    "sql_explicit_indexes": 23,
+    "sql_partial_unique_indexes": 6,
+    "enum_pairs_checked": 62,
+    "regex_pairs_checked": 3,
+    "ui_contrast_pairs": 18,
+    "ui_contrast_min_ratio": 5.674,
+    "ui_mockup_folder_found": true,
+    "ui_screens": 20,
+    "ui_portrait_mockups": 17,
+    "ui_landscape_mockups": 16,
+    "ui_screen_copy_rows": 15,
+    "acceptance_added_r2": 30,
+    "acceptance_changed_r2": 24,
+    "acceptance_cases": 133,
+    "acceptance_by_grade": {
+      "DEMO": 69,
+      "DESIGN": 56,
+      "FUTURE": 8
+    },
+    "acceptance_by_availability": {
+      "DRAFT_DEMO": 125,
+      "FUTURE": 8
+    },
+    "acceptance_by_demo_method": {
+      "VIRTUAL_CONSOLE": 10,
+      "TEST_INPUT": 23,
+      "MOCK_SERVER": 65,
+      "ADB": 6,
+      "MANUAL": 29
+    },
+    "acceptance_by_feature": {
+      "F0": 20,
+      "F1": 6,
+      "F2": 25,
+      "F3": 19,
+      "F4": 50,
+      "F5": 5,
+      "F6": 8
+    },
+    "acceptance_v2_carried": 56,
+    "acceptance_v3_0_carried": 47,
+    "acceptance_new": 77,
+    "rules_signal_catalog": 23
+  },
+  "files": {
+    "api.openapi.json": {
+      "bytes": 320094,
+      "sha256": "fabb3933f4a529e240f6ceb7e5560c6cc92b991de460482132b39a5f9420943d",
+      "version": "3.1.0"
+    },
+    "database.sql": {
+      "bytes": 45723,
+      "sha256": "2475bbaadf6b1c1a94f5101aa7b1dfcfa8a079c6988a0436f3cc24837a8364b3"
+    },
+    "rules-lab.json": {
+      "bytes": 47882,
+      "sha256": "fe6b30a835b4a244a36d553739e0c7cba5ac1921aa8488db512a8f7a9edd39e5",
+      "version": "2.1.0"
+    },
+    "ui-tokens.json": {
+      "bytes": 28945,
+      "sha256": "2a3acb44cc670a35eaa3b7f3fcdbdc0311c47e4a377af80e1c339fe8e5f3fb32",
+      "version": "5.1.0"
+    },
+    "acceptance-scenarios.json": {
+      "bytes": 83484,
+      "sha256": "6ac380fb60b56fc9b8cb6c58e29911e3af8ae6711070e0b9a3cbe976c4068640",
+      "version": "3.1.0"
+    },
+    "README.md": {
+      "bytes": 19355,
+      "sha256": "f04c7b7525ead36ef193e78737f4b54b07f666b05eab590942136e7fde6aea53"
+    },
+    "validate_contracts.py": {
+      "bytes": 111312,
+      "sha256": "50a23652f9cd55f6eb4e215a8addf9ce107f93a1c5a6ed1d826475794c8d2e43"
+    }
+  },
+  "history": [
+    {
+      "directory": "history/2026-11-12-v3.0",
+      "version": "계약 v3(OpenAPI 3.0.0, DB v3, rules-lab 2.0.0, ui-tokens 5.0.0, acceptance 3.0.0)",
+      "files": {
+        "api.openapi.json": {
+          "bytes": 210136,
+          "sha256": "11743bf6cd492795d439cb8ed028181395041e207c6caece03047dc91b333405"
+        },
+        "database.sql": {
+          "bytes": 33183,
+          "sha256": "2b367c5c16512c8c30e0c33ae1ced4b82323f1c718db7d449fff57cccaa3435f"
+        },
+        "rules-lab.json": {
+          "bytes": 27893,
+          "sha256": "7c72185c3d0c8d2d4b9850e8b6f6dd15ee6b69315bc01f57f926047fdaa0b724"
+        },
+        "ui-tokens.json": {
+          "bytes": 18181,
+          "sha256": "e102774bc280dbefaadec84a576394a3e2d5ffe487a2cc667fd2e87fde5a3684"
+        },
+        "acceptance-scenarios.json": {
+          "bytes": 57442,
+          "sha256": "67e90bf5d4b31bc9f2394f100d9c034946b9f47d5f4f6c9b2737e16e90f0df6f"
+        },
+        "README.md": {
+          "bytes": 12189,
+          "sha256": "86aaec4496a34c6c7aa1a5912d1b401eb7d195e408fa9d0f7129b4508bb3ae37"
+        },
+        "validate_contracts.py": {
+          "bytes": 69688,
+          "sha256": "58a902cf6d594ced2a8289a2930af8b3f603cee810e2187c78cd1ef1c3a473a2"
+        },
+        "validation-2026-11-12-v3.json": {
+          "bytes": 46741,
+          "sha256": "2f6fe2e9717af8bc2493ee713bdd3dabb4c02670919021c1b61a423c28a1b22f"
+        }
+      },
+      "previous_validation": "history/2026-11-12-v3.0/validation-2026-11-12-v3.json"
+    },
+    {
+      "directory": "history/2026-11-12-v2.1",
+      "version": "계약 v2.1",
+      "files": {
+        "api.openapi.json": {
+          "bytes": 71616,
+          "sha256": "b1c2b7fd05dffbfa5675cba3e65e7e24a9b2afc126c294aadcdaa5b3e6a8df36"
+        },
+        "database.sql": {
+          "bytes": 15962,
+          "sha256": "54077280ecfb28d8dad558d0fc0676cf73ff057632d1508dc405cc28fcba3579"
+        },
+        "rules-lab.json": {
+          "bytes": 5107,
+          "sha256": "a72bfef2c5a545cf8a57c66d93be1bcd4a7b56b5daea13aaae6a29356f0b2668"
+        },
+        "ui-tokens.json": {
+          "bytes": 1578,
+          "sha256": "a5da2799c99fb484191dbbd7fe96b209cfc4cb85968a02adbd842cf35ffb882d"
+        },
+        "acceptance-scenarios.json": {
+          "bytes": 11203,
+          "sha256": "a6962730405867762573188d49f237c532b3359dfcd9144a7f875f0bf3bcd9bd"
+        },
+        "README.md": {
+          "bytes": 2517,
+          "sha256": "0e1d15774eebbb190ded3a4b40850f64eb1067eb0daacebf0bf80e5661f2156d"
+        },
+        "validation-2026-11-12.json": {
+          "bytes": 2604,
+          "sha256": "862b0b7aab723bb5ca8590efd99bfa977b763f202ece3686e45f8dda2469a618"
+        }
+      },
+      "previous_validation": "validation-2026-11-12.json(v2 시점 기록)"
+    }
+  ],
+  "postgresql": {
+    "executed": false,
+    "note": "--pg-host를 주지 않아 DDL을 실행하지 않음"
+  },
+  "checks_total": 493,
+  "checks_failed": 0,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    {
+      "name": "json_parse:api.openapi.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:rules-lab.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:ui-tokens.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:acceptance-scenarios.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:ui-tokens-prd-v2.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:validation-2026-11-12.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_exists:api.openapi.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v2.1/api.openapi.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_exists:database.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "history_exists:rules-lab.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v2.1/rules-lab.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_exists:ui-tokens.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v2.1/ui-tokens.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_exists:acceptance-scenarios.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v2.1/acceptance-scenarios.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_exists:README.md",
+      "status": "PASS"
+    },
+    {
+      "name": "history_exists:validation-2026-11-12.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v2.1/validation-2026-11-12.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_v3_0_exists:api.openapi.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v3.0/api.openapi.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_v3_0_exists:database.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "history_v3_0_exists:rules-lab.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v3.0/rules-lab.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_v3_0_exists:ui-tokens.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v3.0/ui-tokens.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_v3_0_exists:acceptance-scenarios.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v3.0/acceptance-scenarios.json",
+      "status": "PASS"
+    },
+    {
+      "name": "history_v3_0_exists:README.md",
+      "status": "PASS"
+    },
+    {
+      "name": "history_v3_0_exists:validate_contracts.py",
+      "status": "PASS"
+    },
+    {
+      "name": "history_v3_0_exists:validation-2026-11-12-v3.json",
+      "status": "PASS"
+    },
+    {
+      "name": "json_parse:history/2026-11-12-v3.0/validation-2026-11-12-v3.json",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:version_header_v3_1",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:version_3_1",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:info_version",
+      "status": "PASS",
+      "detail": "3.1.0"
+    },
+    {
+      "name": "openapi:refs_resolve",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/vehicles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/vehicles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/vehicles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/trips",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/trips",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/trips",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/pairing/qr",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/pairing/qr",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/pairing/qr",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/pairing/confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/pairing/confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/pairing/confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/incidents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/incidents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/incidents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/incidents/{incidentId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/incidents/{incidentId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/incidents/{incidentId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/actions",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/actions",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/actions",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/corrections",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/corrections",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/corrections",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/observations",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/observations",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/observations",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/incidents/{incidentId}/timeline",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/incidents/{incidentId}/timeline",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/incidents/{incidentId}/timeline",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/manual-reports",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/manual-reports",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/manual-reports",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/locations",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/locations",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/locations",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/incidents/{incidentId}/locations/latest",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/incidents/{incidentId}/locations/latest",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/incidents/{incidentId}/locations/latest",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/assets",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/assets",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/assets",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/assets/{assetId}/complete",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/assets/{assetId}/complete",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/assets/{assetId}/complete",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/incidents/{incidentId}/assets/{assetId}/download",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/incidents/{incidentId}/assets/{assetId}/download",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/incidents/{incidentId}/assets/{assetId}/download",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/incidents/{incidentId}/deliveries",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/incidents/{incidentId}/deliveries",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/incidents/{incidentId}/deliveries",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/share-links",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/share-links",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/share-links",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/share-links/{linkId}/view",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/share-links/{linkId}/view",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/share-links/{linkId}/view",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:head /v1/uploads/{uploadId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:head /v1/uploads/{uploadId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:head /v1/uploads/{uploadId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:patch /v1/uploads/{uploadId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:patch /v1/uploads/{uploadId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:patch /v1/uploads/{uploadId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/uploads/{uploadId}/renew",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/uploads/{uploadId}/renew",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/uploads/{uploadId}/renew",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/vehicles/{vehicleId}/warning-guides",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/vehicles/{vehicleId}/warning-guides",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/vehicles/{vehicleId}/warning-guides",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:put /v1/vehicles/{vehicleId}/capabilities",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:put /v1/vehicles/{vehicleId}/capabilities",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:put /v1/vehicles/{vehicleId}/capabilities",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/vehicles/{vehicleId}/guardians",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/vehicles/{vehicleId}/guardians",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/vehicles/{vehicleId}/guardians",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/guardians",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/guardians",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/guardians",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/guardians/{guardianId}/verify",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/guardians/{guardianId}/verify",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/guardians/{guardianId}/verify",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:put /v1/guardians/{guardianId}/consent",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:put /v1/guardians/{guardianId}/consent",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:put /v1/guardians/{guardianId}/consent",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/guardians/{guardianId}/practice-alert",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/guardians/{guardianId}/practice-alert",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/guardians/{guardianId}/practice-alert",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/guardian-replies",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/guardian-replies",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/guardian-replies",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/consents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/consents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/consents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/consents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/consents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/consents",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/location-disclosures",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/location-disclosures",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/location-disclosures",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/guide-bundles/{guide_id}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/guide-bundles/{guide_id}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/guide-bundles/{guide_id}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/maintenance-notes",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/maintenance-notes",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/maintenance-notes",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/maintenance-notes/{noteId}/recheck",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/maintenance-notes/{noteId}/recheck",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/maintenance-notes/{noteId}/recheck",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/symptom-patterns",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/symptom-patterns",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/symptom-patterns",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/shares/{shareId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/shares/{shareId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/shares/{shareId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/shares/{shareId}/ack",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/shares/{shareId}/ack",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/shares/{shareId}/ack",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/shares/{shareId}/assets/{assetId}/download",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/shares/{shareId}/assets/{assetId}/download",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/shares/{shareId}/assets/{assetId}/download",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/shares/{shareId}/session",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/shares/{shareId}/session",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/shares/{shareId}/session",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/shares/{shareId}/session/verify",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/shares/{shareId}/session/verify",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/shares/{shareId}/session/verify",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/driver-profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/driver-profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/driver-profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:get /v1/vehicles/{vehicleId}/driver-profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:get /v1/vehicles/{vehicleId}/driver-profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:get /v1/vehicles/{vehicleId}/driver-profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:put /v1/trips/{tripId}/driver",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:put /v1/trips/{tripId}/driver",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:put /v1/trips/{tripId}/driver",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/trips/{tripId}/end",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/trips/{tripId}/end",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/trips/{tripId}/end",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/incidents/{incidentId}/location-sharing/stop",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/incidents/{incidentId}/location-sharing/stop",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/incidents/{incidentId}/location-sharing/stop",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/share-links/{linkId}/revoke",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/share-links/{linkId}/revoke",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/share-links/{linkId}/revoke",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:delete /v1/guardians/{guardianId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:delete /v1/guardians/{guardianId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:delete /v1/guardians/{guardianId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:delete /v1/devices/{deviceId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:delete /v1/devices/{deviceId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:delete /v1/devices/{deviceId}",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:delete /v1/me",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:delete /v1/me",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:delete /v1/me",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/pairing/{pairingId}/vehicle-confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/pairing/{pairingId}/vehicle-confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/pairing/{pairingId}/vehicle-confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/vehicles/{vehicleId}/ownership-transfers",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/vehicles/{vehicleId}/ownership-transfers",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/vehicles/{vehicleId}/ownership-transfers",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/vehicles/{vehicleId}/ownership-transfers/{transferId}/cancel",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/vehicles/{vehicleId}/ownership-transfers/{transferId}/cancel",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/vehicles/{vehicleId}/ownership-transfers/{transferId}/cancel",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/time-sync",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/time-sync",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/time-sync",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:put /v1/driver-profiles/{driverProfileId}/arrival-alert",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:put /v1/driver-profiles/{driverProfileId}/arrival-alert",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:put /v1/driver-profiles/{driverProfileId}/arrival-alert",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/trips/{tripId}/arrival",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/trips/{tripId}/arrival",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/trips/{tripId}/arrival",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:default_response:post /v1/service-checkins",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:security_known:post /v1/service-checkins",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:path_params:post /v1/service-checkins",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:operation_ids_unique",
+      "status": "PASS"
+    },
+    {
+      "name": "openapi:decision_9_4_paths_present",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:decision_paths_present_D1_D3_D5_D6_H7_H8",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:v3_0_operations_all_kept",
+      "status": "PASS"
+    },
+    {
+      "name": "decision_enum:Severity",
+      "status": "PASS",
+      "detail": [
+        "L1_RECORD",
+        "L2_CHECK",
+        "L3_URGENT"
+      ]
+    },
+    {
+      "name": "decision_enum:Availability",
+      "status": "PASS",
+      "detail": [
+        "VERIFIED",
+        "DRAFT_DEMO",
+        "UNAVAILABLE",
+        "FUTURE"
+      ]
+    },
+    {
+      "name": "decision_enum:InputSource",
+      "status": "PASS",
+      "detail": [
+        "VEHICLE_SDK",
+        "AAOS_PROPERTY",
+        "FUSED_LOCATION",
+        "NAVI_HELPER",
+        "STT",
+        "USER_SELECTION",
+        "PHONE",
+        "TEST_INPUT"
+      ]
+    },
+    {
+      "name": "decision_enum:Quality",
+      "status": "PASS",
+      "detail": [
+        "OK",
+        "STALE",
+        "UNAVAILABLE",
+        "PERMISSION_DENIED",
+        "NOT_SUPPORTED",
+        "TEST_INPUT"
+      ]
+    },
+    {
+      "name": "decision_enum:PolicyState",
+      "status": "PASS",
+      "detail": [
+        "RECORD_ONLY",
+        "COUNTDOWN",
+        "RELEASED",
+        "DISPATCHING",
+        "SETTLED",
+        "CANCELLED",
+        "BLOCKED_NO_RECIPIENT",
+        "BLOCKED_NO_CONSENT",
+        "EXPIRED"
+      ]
+    },
+    {
+      "name": "decision_enum:PolicyOutcome",
+      "status": "PASS",
+      "detail": [
+        "ALL_CONFIRMED",
+        "PARTIAL",
+        "NONE_CONFIRMED"
+      ]
+    },
+    {
+      "name": "decision_enum:DeliveryState",
+      "status": "PASS",
+      "detail": [
+        "PENDING",
+        "ACCEPTED",
+        "SUBMISSION_UNKNOWN",
+        "DELIVERED",
+        "DELIVERY_UNCONFIRMED",
+        "FAILED",
+        "CANCELLED"
+      ]
+    },
+    {
+      "name": "decision_enum:TransportGroup",
+      "status": "PASS",
+      "detail": [
+        "KAKAO",
+        "TEXT"
+      ]
+    },
+    {
+      "name": "decision_enum:DriverAction",
+      "status": "PASS",
+      "detail": [
+        "SEND_NOW",
+        "CANCEL",
+        "RESPOND_SAFE",
+        "SEND_CORRECTION",
+        "REQUEST_HELP",
+        "END_GUIDANCE"
+      ]
+    },
+    {
+      "name": "decision_enum:GuidanceState",
+      "status": "PASS",
+      "detail": [
+        "OBSERVING",
+        "CONFIRM_PROMPT",
+        "UNWANTED_ACCEL_GUIDE",
+        "DECEL_FAILURE_GUIDE",
+        "MANUAL_SELECTION",
+        "HELP_CONFIRM",
+        "STOPPED_REVIEW",
+        "ENDED"
+      ]
+    },
+    {
+      "name": "decision_enum:Symptom",
+      "status": "PASS",
+      "detail": [
+        "VIBRATION",
+        "PULLING",
+        "NOISE",
+        "BURNING_SMELL",
+        "PEDAL_PROBLEM",
+        "TIRE_DAMAGE",
+        "COLLISION",
+        "POWER_LOSS",
+        "UNKNOWN"
+      ]
+    },
+    {
+      "name": "decision_enum:BodyArea",
+      "status": "PASS",
+      "detail": [
+        "FRONT",
+        "FRONT_LEFT_TIRE",
+        "FRONT_RIGHT_TIRE",
+        "REAR_LEFT_TIRE",
+        "REAR_RIGHT_TIRE",
+        "CABIN",
+        "REAR",
+        "UNDERBODY",
+        "UNKNOWN"
+      ]
+    },
+    {
+      "name": "decision_enum:LocationSource",
+      "status": "PASS",
+      "detail": [
+        "VEHICLE",
+        "PHONE"
+      ]
+    },
+    {
+      "name": "decision_enum:GuideId_pattern",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d2_incident_any_test_input_forces_test_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d2_dispatch_mode_on_ack_view_delivery",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d4_alert_incident_id_and_cancelled_ids",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d6_clock_sync_required_for_synchronized",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d6_pairing_vehicle_confirm_states",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d3_consent_scope_trip_and_parked",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d5_disclosure_anonymizable",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b5_tts_no_preroll_on_tts_line",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b9_manual_report_driving_cards",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b12_condition_keys_match_rules",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b1_navi_route_search_for_waypoints",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b4_car_speed_dangerous_noted",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:f9_gear_not_used",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:driver_self_authz_on_actions",
+      "status": "PASS"
+    },
+    {
+      "name": "decision_9_2:location_fields",
+      "status": "PASS"
+    },
+    {
+      "name": "decision_9_3:snapshot_fields",
+      "status": "PASS"
+    },
+    {
+      "name": "decision_9_3:maintenance_flags",
+      "status": "PASS"
+    },
+    {
+      "name": "decision_9_3:each_value_has_quality_received_at",
+      "status": "PASS"
+    },
+    {
+      "name": "decision_9_1:guide_bundle_fields",
+      "status": "PASS"
+    },
+    {
+      "name": "d17:no_accuracy_m_property",
+      "status": "PASS"
+    },
+    {
+      "name": "d1:no_future_signal_codes",
+      "status": "PASS"
+    },
+    {
+      "name": "d1:future_inputs_marked",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:에어백 COUNTDOWN(시험 입력, test_mode=true)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:실제 값만, test_mode=false",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:USER_SYMPTOM이 COUNTDOWN 요청",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:USER_HELP_REQUEST가 COUNTDOWN 요청",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:도움 요청 RELEASED(받는 사람 확인)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:도움 요청 RELEASED인데 recipients_shown_at 없음",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:TEST_INPUT 차속인데 test_mode=false",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:D2: 에어백만 시험 입력인데 test_mode=false",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:D2: 워셔액만 시험 입력인데 test_mode=false",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:D2: 관측만 시험 입력인데 test_mode=false",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:D2: contains_test_input=true인데 test_mode=false",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:D6: SYNCHRONIZED인데 clock_sync 없음",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:D6: clock_sync 왕복 1,500ms",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentCreate:옛 trigger 필드",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Location:accuracy_m 추가",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Location:위도 91",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Location:좌표 한쪽만",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:정차 중 PULLING",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:주행 중 카드 PULLING(5개 밖)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:주행 중 카드 VIBRATION(차체 떨림)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:B9: 주행 중 카드 PEDAL_PROBLEM(안 멈춰요)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:B9: 주행 중 카드 TIRE_DAMAGE(1차 5개였으나 제외)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:H1: 주행 중 말로 하기 PULLING",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:옛 이름 SHAKE",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:증상 4개",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ManualReport:옛 부위 FRONT_TIRE",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:GuidanceEvent:감속 실패 안내(버튼 진입)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:GuidanceEvent:감속 실패 안내인데 entry 없음",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:GuidanceEvent:guide_id 옛 형식",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentActionRequest:CANCEL",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentActionRequest:SEND_CORRECTION은 corrections 경로만",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentActionRequest:REQUEST_HELP 받는 사람 없음",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentActionRequest:옛 REPORT_STOPPED",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Delivery:문자 전달",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Delivery:SMS인데 transport_group KAKAO",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Delivery:옛 상태 QUEUED",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Delivery:D2: 발송 방식 이름 밖",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentAck:SETTLED/PARTIAL",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentAck:SETTLED인데 outcome 없음",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentAck:RELEASED인데 outcome 있음",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:IncidentAck:D4: alert_incident_id 빠짐",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:GuideStep:정지 그림 단계",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:GuideStep:주행 중 움직임 true",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:GuideStep:글 4줄",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TtsLine:TTS 문장(무음 값 없음)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TtsLine:B5: 잘림 대비 쉼표 문구",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TtsLine:B5: 앱 음원 없이 무음 180ms",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TtsLine:앱 고정 음원 무음 180ms",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TtsLine:앱 고정 음원 무음 100ms",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TtsLine:옛 preroll_silence_ms",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TtsLine:EMERGENCY 용도",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Observation:TEST_INPUT인데 quality OK",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Observation:경고등 상태 코드",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:Observation:H3: 풍량 관측",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ConsentRequest:정차 중 상시 위치 동의",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ConsentRequest:D3: 이번 trip 동의인데 trip_id 없음",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ConsentRequest:D3: 위치 동의를 주행 중 기록",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ConsentRequest:D3: 위치 동의 철회는 주행 중에도",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TripDriverChange:정차 중 게스트 지정",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TripDriverChange:D3: 주행 중 운전자 변경",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TripDriverChange:D3: OWNER인데 프로필 없음",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TripEndRequest:D3: 기기가 LONG_PARKED로 종료",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:PairingVehicleConfirm:D6: 주행 중 차 화면 확인",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:GuardianShareSessionVerify:D1: 번호 뒷자리 5자리",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:GuardianShareSessionVerify:D1: 번호 뒷자리 4자리",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ArrivalAlertSettingUpdate:H7: 받는 사람 1명 켜기",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ArrivalAlertSettingUpdate:H7: 받는 사람 없이 켜기",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:TripArrivalReport:H7: 도착 알림에 위치 포함",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:OwnershipTransferCreate:D6: 차 화면 시작(정차 중)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:OwnershipTransferCreate:D6: 차 화면 시작(주행 중)",
+      "status": "PASS"
+    },
+    {
+      "name": "schema_example:ServiceCheckinCreate:H8: 좌표를 담은 체크인",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:foreign_keys_target_tables",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:required_tables",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:symptom_patterns_view",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:vehicles_vin_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:driver_profile_id_on_incidents_trips",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:guide_bundles_columns",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:one_open_alert_per_vehicle_time_window",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:sql_new_tables",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d2_sql_test_input_forces_test_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d5_disclosures_on_delete_set_null",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d3_guest_trip_scope_consent",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d6_pairing_requires_vehicle_confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d6_owner_transfer_without_owner_update",
+      "status": "PASS"
+    },
+    {
+      "name": "d17:no_accuracy_m_column",
+      "status": "PASS"
+    },
+    {
+      "name": "sql:no_guide_versions_uuid_key",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:Severity<->incidents.severity",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:Availability<->guide_bundles.availability",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:Availability<->diagnostic_mappings.availability",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:InputSource<->observations.source",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:InputSource<->evidence_assets.source",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:ManualReport.input_source<->manual_reports.source",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:Quality<->observations.quality",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:Quality<->incident_locations.quality",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:PolicyState<->notification_policies.state",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:PolicyOutcome<->notification_policies.outcome",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DeliveryState<->deliveries.state",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:TransportGroup<->deliveries.transport_group",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DeliveryChannel<->deliveries.channel",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DriverAction<->incident_actions.action",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:CorrectionReason<->incident_actions.correction_reason",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:GuidanceState<->guidance_events.guidance_state",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:GuidanceEntry<->guidance_events.entry",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:GuidanceOutput<->guidance_events.output",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:GuidanceOutputResult<->guidance_events.result",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:Symptom<->manual_reports.symptoms",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:BodyArea<->manual_reports.body_area",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:LocationSource<->incident_locations.location_source",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:AddressStatus<->incident_locations.address_status",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:AddressSource<->incident_locations.address_source",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:IncidentTrigger<->incidents.incident_trigger",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DriverResponse<->incidents.driver_response",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DriverMode<->incidents.driver_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DriverMode<->trips.driver_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DriverMode<->driver_profiles.driver_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:Lifecycle<->incidents.lifecycle",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:SignalCode<->observations.code",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:FreshnessBasis<->observations.freshness_basis",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:GuideKind<->guide_bundles.guide_kind",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:WarningColor<->guide_bundles.warning_color",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:BlinkPattern<->guide_bundles.blink_pattern",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:MobilityAction<->guide_bundles.mobility_action",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:ConsentItem<->consents.item",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:ConsentSubjectRole<->consents.subject_role",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:GuardianState<->guardians.state",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:GuardianReplyKind<->guardian_replies.reply_kind",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:PairingState<->device_pairings.state",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DeviceRole<->devices.device_role",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:AssetChannel<->evidence_assets.channel",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:AssetState<->evidence_assets.state",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DisclosureChannel<->location_disclosures.channel",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DisclosurePurpose<->location_disclosures.purpose",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:RecheckState<->maintenance_notes.recheck_state",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:ClockConfidence<->notification_policies.clock_confidence",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:ShareLinkScope<->share_links.scope",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DispatchMode<->notification_policies.dispatch_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DispatchMode<->deliveries.dispatch_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:TripEndReason<->trips.ended_reason",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:ConsentScope<->consents.scope",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DriverMode<->consents.driver_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:DriverMode<->arrival_alert_settings.driver_mode",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:ShareSessionStage<->guardian_share_sessions.stage",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:TransferState<->ownership_transfers.state",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:TransferInitiator<->ownership_transfers.initiated_by",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:reason<->ownership_transfers.reason",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:PairingRole<->device_pairings.requested_role",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:LocationPrecision<->location_disclosures.location_precision",
+      "status": "PASS"
+    },
+    {
+      "name": "enum_pair:CheckinDetection<->service_checkins.detected_by",
+      "status": "PASS"
+    },
+    {
+      "name": "regex_pair:GuideId<->guide_bundles.guide_id",
+      "status": "PASS"
+    },
+    {
+      "name": "regex_pair:GuideId<->guidance_events.guide_id",
+      "status": "PASS"
+    },
+    {
+      "name": "regex_pair:GuideId<->diagnostic_mappings.guide_id",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b9_sql_driving_card_symptoms",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:version",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:symptoms_values",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b9_driving_choices_5",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:minimum_severity_keys",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:guide_id_by_symptom",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:guide_id_by_state",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:body_area_symptom_map",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:body_area_warning_links_keys",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:collision_is_l3",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:signal_catalog_matches_SignalCode",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:signal_sources",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:signal_availability",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:signal_demo_method",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:signal_delivery_kind",
+      "status": "PASS"
+    },
+    {
+      "name": "d18:periodic_3000_speed_only",
+      "status": "PASS"
+    },
+    {
+      "name": "d18:on_change_rule_covers_on_change_signals",
+      "status": "PASS"
+    },
+    {
+      "name": "d18:no_other_freshness_ms",
+      "status": "PASS"
+    },
+    {
+      "name": "d8:guidance_requires_user_report",
+      "status": "PASS"
+    },
+    {
+      "name": "d10:scope",
+      "status": "PASS"
+    },
+    {
+      "name": "d10:scope_triggers_known",
+      "status": "PASS"
+    },
+    {
+      "name": "rules:quick_replies",
+      "status": "PASS"
+    },
+    {
+      "name": "d24:performance_budget",
+      "status": "PASS"
+    },
+    {
+      "name": "d1:motion_block_future_disabled",
+      "status": "PASS"
+    },
+    {
+      "name": "n2:pattern_min_3",
+      "status": "PASS"
+    },
+    {
+      "name": "n6:recheck_500km",
+      "status": "PASS"
+    },
+    {
+      "name": "f5:share_link_24h",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b5_tts_preroll_not_insertable_bundled_audio_150_200",
+      "status": "PASS"
+    },
+    {
+      "name": "notification:pre_send_confirmation_10s",
+      "status": "PASS"
+    },
+    {
+      "name": "notification:kakao_deadline_value_kept_from_v2",
+      "status": "PASS",
+      "detail": {
+        "v3.1": 10000,
+        "v2": 10000
+      }
+    },
+    {
+      "name": "notification:kakao_deadline_10000_kept_from_v3_0",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:f2_confirm_prompt_suppression_5min_once",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:f2_confirm_prompt_buttons",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b8_meaning_fixed",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b6_tap_to_talk_8s",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:h1_voice_routes",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b4_car_speed_dangerous_and_denied_behavior",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b12_baseline_comparison_excludes_cumulative",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:h3_sound_suspect_signals_in_catalog",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b1_b2_b11_service_stop_sdk",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d1_share_session_rules",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d2_mixed_test_input_mock_only",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d3_trip_rules",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d4_open_alert_window_2h",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d5_retention_anonymize",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:d6_pairing_vehicle_confirm_and_time_sync",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:h7_arrival_alert_default_off",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:h8_checkin_no_coordinates",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b10_predrive_without_seatbelt_door",
+      "status": "PASS"
+    },
+    {
+      "name": "notification:guardian_limit_3",
+      "status": "PASS"
+    },
+    {
+      "name": "pairing:qr_ttl_5min",
+      "status": "PASS"
+    },
+    {
+      "name": "guardian_otp:max_5",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:version",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:pleos_official_values",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:self_defined_values",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:contrast_recomputed_ge_4_5",
+      "status": "PASS"
+    },
+    {
+      "name": "d12:forbidden_FF5B6B_on_702132_replaced",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:portrait_regions_stack",
+      "status": "PASS",
+      "detail": {
+        "sum_height": 1212
+      }
+    },
+    {
+      "name": "tokens:landscape_regions_dp_inside_no_overlap",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:landscape_emergency_regions_dp_inside_no_overlap",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:screens_match_r2_names",
+      "status": "PASS",
+      "detail": {
+        "missing": [],
+        "extra": []
+      }
+    },
+    {
+      "name": "tokens:screens_include_decision_7_names",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:mockup_file_lists_equal_asset_folder",
+      "status": "PASS"
+    },
+    {
+      "name": "tokens:screen_files_known_and_all_used",
+      "status": "PASS",
+      "detail": {
+        "unused_portrait": [],
+        "unused_landscape": [],
+        "unknown_portrait": [],
+        "unknown_landscape": []
+      }
+    },
+    {
+      "name": "r2:b9_driving_home_3_buttons_no_guardian_alert",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:g_home_tabs_and_dock",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:f1_button_side_rule",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:g_screen_copy_table",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:g_screen_copy_names_are_screens",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:b11_no_in_app_map",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:emergency_buttons_horizontal_2",
+      "status": "PASS"
+    },
+    {
+      "name": "d7:driving_motion_none",
+      "status": "PASS"
+    },
+    {
+      "name": "d13:parity_rules_present",
+      "status": "PASS"
+    },
+    {
+      "name": "acceptance:version",
+      "status": "PASS"
+    },
+    {
+      "name": "acceptance:ids_unique",
+      "status": "PASS"
+    },
+    {
+      "name": "acceptance:ids_format_sequential",
+      "status": "PASS"
+    },
+    {
+      "name": "acceptance:fields_valid",
+      "status": "PASS"
+    },
+    {
+      "name": "acceptance:refs_resolve",
+      "status": "PASS"
+    },
+    {
+      "name": "acceptance:all_v2_cases_carried",
+      "status": "PASS",
+      "detail": {
+        "v2_cases": 56,
+        "carried": 56
+      }
+    },
+    {
+      "name": "acceptance:no_old_enum_names_as_current",
+      "status": "PASS",
+      "detail": [
+        "STEERING_PULL"
+      ]
+    },
+    {
+      "name": "acceptance:required_topics",
+      "status": "PASS"
+    },
+    {
+      "name": "acceptance:new_features_N1_N12",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:acceptance_v3_0_cases_carried",
+      "status": "PASS",
+      "detail": {
+        "v3_0": 103
+      }
+    },
+    {
+      "name": "r2:acceptance_new_decision_topics",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:acceptance_covers_all_new_operations",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:t71_driving_home_no_guardian_alert",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:t97_brake_1000ms_matches_rules",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:no_tts_preroll_or_hold_to_talk_as_current",
+      "status": "PASS"
+    },
+    {
+      "name": "r2:changed_cases_keep_demo_method_availability",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy:no_local_paths",
+      "status": "PASS"
+    }
+  ],
+  "not_executed": [
+    "Android 앱 빌드·실행, Pleos 에뮬레이터·Virtual Console 시연",
+    "서버 구현·실행, 생성 클라이언트 빌드",
+    "외부 OpenAPI·JSON Schema 표준 검사기",
+    "카카오·문자 실제 발송, 주소 변환 API 호출",
+    "실차 신호 수집, 성능(CPU·RAM) 측정, 물리 글자 높이 측정",
+    "인수 시나리오 133개의 앱 실행(계획된 사례일 뿐임)",
+    "위치정보법 등 법 조문 해석"
+  ]
+}

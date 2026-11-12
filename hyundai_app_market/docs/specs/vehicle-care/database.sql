@@ -193,7 +193,7 @@ CREATE TABLE vehicle_guardians (
   driver_profile_id uuid NOT NULL,
   vehicle_id uuid NOT NULL,
   guardian_id uuid NOT NULL REFERENCES guardians(guardian_id) ON DELETE CASCADE,
-  slot smallint NOT NULL CHECK (slot BETWEEN 1 AND 5),
+  slot smallint NOT NULL CHECK (slot BETWEEN 1 AND 3),
   scopes jsonb NOT NULL DEFAULT '{"location":false,"summary":true}'::jsonb,
   active boolean NOT NULL DEFAULT true,
   PRIMARY KEY (driver_profile_id, guardian_id),

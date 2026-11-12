@@ -859,7 +859,7 @@
     "pre_send_confirmation_ms": 10000,
     "pre_send_confirmation_name": "발송 전 확인 10초",
     "send_now_bypasses_confirmation": true,
-    "guardian_limit": 5,
+    "guardian_limit": 3,
     "kakao_first": true,
     "fallback_owner": "BACKEND",
     "provider_native_resend": false,

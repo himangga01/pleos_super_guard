@@ -1060,8 +1060,8 @@ def main():
         rep.check("r2:h8_checkin_no_coordinates", ss["arrival_checkin"]["coordinates_sent_to_server"] is False and "latitude" not in tables["service_checkins"]["columns"])
         rep.check("r2:b10_predrive_without_seatbelt_door", "UNFINISHED_RECORDS" in r["check_items"]["predrive_card_includes"]
                   and {"DOOR_POSITION", "SEATBELT_UNBUCKLED"} <= set(r["check_items"]["predrive_card_excludes"]))
-        rep.check("notification:guardian_limit_5", n["guardian_limit"] == 5 and "slot BETWEEN 1 AND 5" in tables["vehicle_guardians"]["body"]
-                  and sch["NotificationIntent"]["properties"]["guardian_ids"]["maxItems"] == 5)
+        rep.check("notification:guardian_limit_3", n["guardian_limit"] == 3 and "slot BETWEEN 1 AND 3" in tables["vehicle_guardians"]["body"]
+                  and sch["NotificationIntent"]["properties"]["guardian_ids"]["maxItems"] == 3)
         rep.check("pairing:qr_ttl_5min", r["pairing"]["qr_code_ttl_ms"] == 300000 and "created_at + interval '5 minutes'" in tables["device_pairings"]["body"])
         rep.check("guardian_otp:max_5", r["guardian_otp"]["max_failed_attempts"] == 5 and "attempt_count BETWEEN 0 AND 5" in tables["guardian_verifications"]["body"])
 

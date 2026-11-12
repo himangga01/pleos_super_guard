@@ -594,6 +594,10 @@
         "landscape": [
           "ui-parts.png"
         ]
+      },
+      "file_states": {
+        "p-parts.png": "PARKED_PART_SELECTED",
+        "ui-parts.png": "PARKED_PART_SELECTED"
       }
     },
     {
@@ -685,6 +689,12 @@
         "landscape": [
           "ui-manual-parked.png"
         ]
+      },
+      "file_states": {
+        "p-manual.png": "DRIVING",
+        "ui-manual.png": "DRIVING",
+        "p-manual-parked.png": "PARKED",
+        "ui-manual-parked.png": "PARKED"
       }
     },
     {

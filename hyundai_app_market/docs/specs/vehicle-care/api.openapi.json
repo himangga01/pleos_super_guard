@@ -1780,7 +1780,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "maxItems": 5,
+                  "maxItems": 3,
                   "items": {
                     "$ref": "#/components/schemas/GuardianView"
                   }
@@ -1816,7 +1816,7 @@
             "ownerSession": []
           }
         ],
-        "description": "PENDING_VERIFICATION으로 만들고 보호자에게 초대·OTP를 보낸다. 운전자 프로필당 5명 초과는 422. 보호자 알림은 인원과 관계없이 무료(최대 5명, C4).",
+        "description": "PENDING_VERIFICATION으로 만들고 보호자에게 초대·OTP를 보낸다. 운전자 프로필당 3명 초과는 422. 보호자 알림은 무료(최대 3명, C4).",
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -6046,7 +6046,7 @@
         "properties": {
           "guardian_ids": {
             "type": "array",
-            "maxItems": 5,
+            "maxItems": 3,
             "uniqueItems": true,
             "items": {
               "type": "string",
@@ -7403,7 +7403,7 @@
           },
           "recipients_shown_guardian_ids": {
             "type": "array",
-            "maxItems": 5,
+            "maxItems": 3,
             "uniqueItems": true,
             "items": {
               "type": "string",
@@ -8392,7 +8392,7 @@
             "description": "운전자 프로필(차량별). 공유 차량에서는 그 운전자의 보호자만 받는다."
           }
         },
-        "description": "보호자 등록. 운전자 프로필당 최대 5명. 등록만으로 ACTIVE가 되지 않는다."
+        "description": "보호자 등록. 운전자 프로필당 최대 3명. 등록만으로 ACTIVE가 되지 않는다."
       },
       "GuardianView": {
         "type": "object",
@@ -10962,7 +10962,7 @@
           },
           "guardian_ids": {
             "type": "array",
-            "maxItems": 5,
+            "maxItems": 3,
             "uniqueItems": true,
             "items": {
               "type": "string",
