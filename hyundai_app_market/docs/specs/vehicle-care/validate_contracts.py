@@ -582,31 +582,82 @@ INSERT INTO app_users(user_id) VALUES ('00000000-0000-0000-0000-0000000000a1');
 INSERT INTO vehicle_profiles(profile_id, model_code, model_year, powertrain) VALUES ('AVANTE_TEST','TEST',2026,'ICE');
 INSERT INTO vehicles(vehicle_id, client_vehicle_id, owner_id, profile_id, model_display) VALUES ('00000000-0000-0000-0000-0000000000b1','00000000-0000-0000-0000-0000000000b2','00000000-0000-0000-0000-0000000000a1','AVANTE_TEST','아반떼');
 INSERT INTO driver_profiles(driver_profile_id, owner_id, vehicle_id, user_id, driver_mode, display_name) VALUES ('00000000-0000-0000-0000-0000000000c1','00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1','00000000-0000-0000-0000-0000000000a1','OWNER','운전자');
+INSERT INTO driver_profiles(driver_profile_id, owner_id, vehicle_id, user_id, driver_mode, display_name) VALUES ('00000000-0000-0000-0000-0000000000c2','00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1',NULL,'GUEST','게스트');
 INSERT INTO devices(device_id, owner_id, vehicle_id, device_role) VALUES ('00000000-0000-0000-0000-0000000000d1','00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1','IVI');
-INSERT INTO rule_profiles(rule_profile_id, config, sha256) VALUES ('pleos-care-lab-20261112-r2','{}', repeat('a',64));
+INSERT INTO trips(trip_id, client_trip_id, vehicle_id, driver_profile_id, driver_mode, auto_location_send_enabled, started_at) VALUES ('00000000-0000-0000-0000-0000000000a7','00000000-0000-0000-0000-0000000000a8','00000000-0000-0000-0000-0000000000b1','00000000-0000-0000-0000-0000000000c2','GUEST',false,now());
+INSERT INTO rule_profiles(rule_profile_id, config, sha256) VALUES ('pleos-care-lab-20261112-r3','{}', repeat('a',64));
 INSERT INTO incidents(incident_id, client_incident_id, owner_id, vehicle_id, first_device_id, driver_mode, rule_profile_id, request_sha256, incident_trigger, driver_response, vehicle_snapshot, occurred_at, severity) VALUES
- ('00000000-0000-0000-0000-0000000000e1','00000000-0000-0000-0000-0000000000e2','00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1','00000000-0000-0000-0000-0000000000d1','OWNER','pleos-care-lab-20261112-r2',repeat('b',64),'AIRBAG_DEPLOYED','NOT_REQUESTED','{"speed_mps":{"value":19.4,"quality":"TEST_INPUT"}}','2026-11-12T12:00:00Z','L3_URGENT'),
- ('00000000-0000-0000-0000-0000000000e3','00000000-0000-0000-0000-0000000000e4','00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1','00000000-0000-0000-0000-0000000000d1','OWNER','pleos-care-lab-20261112-r2',repeat('c',64),'USER_COLLISION','NOT_REQUESTED','{"speed_mps":{"value":16.7,"quality":"TEST_INPUT"}}','2026-11-12T12:05:00Z','L3_URGENT');
+ ('00000000-0000-0000-0000-0000000000e1','00000000-0000-0000-0000-0000000000e2','00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1','00000000-0000-0000-0000-0000000000d1','OWNER','pleos-care-lab-20261112-r3',repeat('b',64),'AIRBAG_DEPLOYED','NOT_REQUESTED','{"speed_mps":{"value":19.4,"quality":"TEST_INPUT"}}','2026-11-12T12:00:00Z','L3_URGENT'),
+ ('00000000-0000-0000-0000-0000000000e3','00000000-0000-0000-0000-0000000000e4','00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1','00000000-0000-0000-0000-0000000000d1','OWNER','pleos-care-lab-20261112-r3',repeat('c',64),'USER_COLLISION','NOT_REQUESTED','{"speed_mps":{"value":16.7,"quality":"TEST_INPUT"}}','2026-11-12T12:05:00Z','L3_URGENT');
+INSERT INTO incidents(incident_id, client_incident_id, owner_id, vehicle_id, first_device_id, driver_mode, rule_profile_id, request_sha256, incident_trigger, driver_response, vehicle_snapshot, occurred_at, severity, test_mode) VALUES
+ ('00000000-0000-0000-0000-0000000000e5','00000000-0000-0000-0000-0000000000e6','00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1','00000000-0000-0000-0000-0000000000d1','OWNER','pleos-care-lab-20261112-r3',repeat('9',64),'USER_RECORD','NOT_REQUESTED','{"speed_mps":{"value":5.0,"quality":"OK","source":"AAOS_PROPERTY"}}','2026-11-12T12:10:00Z','L1_RECORD',false);
 INSERT INTO guardians(guardian_id, user_id, display_name, phone_ciphertext, phone_lookup_hmac, state) VALUES ('00000000-0000-0000-0000-0000000000f1','00000000-0000-0000-0000-0000000000a1','보호자','\\x00','h1','PENDING_VERIFICATION');
-INSERT INTO notification_policies(incident_id, vehicle_id, state, clock_confidence, countdown_clock, release_at, expires_at) VALUES ('00000000-0000-0000-0000-0000000000e1','00000000-0000-0000-0000-0000000000b1','COUNTDOWN','SYNCHRONIZED','{}', now()+interval '10 seconds', now()+interval '1 day');
+INSERT INTO notification_policies(incident_id, test_mode, vehicle_id, state, clock_confidence, countdown_clock, release_at, expires_at, alert_window_ends_at) VALUES ('00000000-0000-0000-0000-0000000000e1', true, '00000000-0000-0000-0000-0000000000b1','COUNTDOWN','SYNCHRONIZED','{}', now()+interval '10 seconds', now()+interval '1 day', now()+interval '2 hours');
+INSERT INTO share_grants(share_id, incident_id, guardian_id, token_hash, scopes, expires_at) VALUES ('00000000-0000-0000-0000-0000000000a9','00000000-0000-0000-0000-0000000000e1','00000000-0000-0000-0000-0000000000f1','sg1','{}', now()+interval '1 day');
 """
 I1, I2, V1, D1, DEV1, G1 = ("00000000-0000-0000-0000-0000000000e1", "00000000-0000-0000-0000-0000000000e3", "00000000-0000-0000-0000-0000000000b1",
                             "00000000-0000-0000-0000-0000000000c1", "00000000-0000-0000-0000-0000000000d1", "00000000-0000-0000-0000-0000000000f1")
+I_REAL, D_GUEST, TRIP_GUEST, SHARE1 = ("00000000-0000-0000-0000-0000000000e5", "00000000-0000-0000-0000-0000000000c2",
+                                       "00000000-0000-0000-0000-0000000000a7", "00000000-0000-0000-0000-0000000000a9")
 
 
-def mr_sql(sym, driving, cid):
-    return (f"INSERT INTO manual_reports(report_id, incident_id, client_report_id, symptoms, body_area, selected_while_driving, selected_at) "
-            f"VALUES (gen_random_uuid(), '{I1}', '{cid}', ARRAY[{','.join(repr(s) for s in sym)}]::text[], 'FRONT_LEFT_TIRE', {str(driving).lower()}, now())")
+def mr_sql(sym, driving, cid, source="USER_SELECTION"):
+    return (f"INSERT INTO manual_reports(report_id, incident_id, client_report_id, symptoms, body_area, source, selected_while_driving, selected_at) "
+            f"VALUES (gen_random_uuid(), '{I1}', '{cid}', ARRAY[{','.join(repr(s) for s in sym)}]::text[], 'FRONT_LEFT_TIRE', '{source}', {str(driving).lower()}, now())")
+
+
+def np_sql(incident, state, test_mode="true", dispatch="MOCK", window="now()+interval '2 hours'", extra_cols="", extra_vals=""):
+    return (f"INSERT INTO notification_policies(incident_id, test_mode, dispatch_mode, vehicle_id, state, clock_confidence, countdown_clock, release_at, expires_at, alert_window_ends_at{extra_cols}) "
+            f"VALUES ('{incident}', {test_mode}, '{dispatch}', '{V1}', '{state}', 'UNKNOWN', '{{}}', now(), now()+interval '1 day', {window}{extra_vals})")
+
+
+def consent_sql(profile, mode, scope, trip, parked, role="DRIVER", item="LOCATION_SHARE_GUARDIAN"):
+    trip_v = f"'{trip}'" if trip else "NULL"
+    return (f"INSERT INTO consents(consent_id, client_consent_id, driver_profile_id, driver_mode, subject_role, scope, trip_id, recorded_while_parked, item, policy_version, granted_at) "
+            f"VALUES (gen_random_uuid(), gen_random_uuid(), '{profile}', '{mode}', '{role}', '{scope}', {trip_v}, {str(parked).lower()}, '{item}', '2026-11', now())")
+
+
+def obs_sql(incident, test_mode, source, quality, seq):
+    return (f"INSERT INTO observations(observation_id, incident_id, incident_test_mode, source_device_id, sequence, code, source, quality, received_at, freshness_basis, value, payload_sha256) "
+            f"VALUES (gen_random_uuid(), '{incident}', {test_mode}, '{DEV1}', {seq}, 'VEHICLE_SPEED', '{source}', '{quality}', now(), 'ARRIVAL_ONLY', '19.4', repeat('e',64))")
+
+
+def incident_sql(test_mode, snapshot, contains="false"):
+    return ("INSERT INTO incidents(incident_id, client_incident_id, owner_id, vehicle_id, first_device_id, driver_mode, rule_profile_id, request_sha256, incident_trigger, "
+            "driver_response, vehicle_snapshot, occurred_at, severity, test_mode, contains_test_input) VALUES (gen_random_uuid(), gen_random_uuid(), "
+            f"'00000000-0000-0000-0000-0000000000a1', '{V1}', '{DEV1}', 'OWNER', 'pleos-care-lab-20261112-r3', repeat('7',64), 'AIRBAG_DEPLOYED', 'NOT_REQUESTED', "
+            f"'{snapshot}', now(), 'L3_URGENT', {test_mode}, {contains})")
+
+
+def pairing_sql(state, vehicle_confirmed):
+    vc = "now()" if vehicle_confirmed else "NULL"
+    return ("INSERT INTO device_pairings(pairing_id, vehicle_id, ivi_device_id, code_hash, state, requested_role, phone_device_id, expires_at, phone_confirmed_at, vehicle_confirmed_at, confirmed_at) "
+            f"VALUES (gen_random_uuid(), '{V1}', '{DEV1}', md5(random()::text), '{state}', 'OWNER', '{DEV1}', now()+interval '5 minutes', now(), {vc}, now())")
 
 
 PG_SMOKE = [
-    ("같은 차량 두 번째 열린 알림(RELEASED) 거부", f"INSERT INTO notification_policies(incident_id, vehicle_id, state, clock_confidence, countdown_clock, release_at, expires_at) VALUES ('{I2}','{V1}','RELEASED','UNKNOWN','{{}}', now(), now()+interval '1 day')", False),
-    ("같은 차량 두 번째 RECORD_ONLY 허용", f"INSERT INTO notification_policies(incident_id, vehicle_id, state, clock_confidence, countdown_clock, expires_at) VALUES ('{I2}','{V1}','RECORD_ONLY','UNKNOWN','{{}}', now()+interval '1 day')", True),
-    ("SETTLED인데 outcome 없음 거부", f"INSERT INTO notification_policies(incident_id, vehicle_id, state, clock_confidence, countdown_clock, settled_at, expires_at) VALUES ('{I2}','{V1}','SETTLED','UNKNOWN','{{}}', now(), now()+interval '1 day')", False),
-    ("SETTLED/PARTIAL 허용", f"INSERT INTO notification_policies(incident_id, vehicle_id, state, outcome, clock_confidence, countdown_clock, settled_at, expires_at) VALUES ('{I2}','{V1}','SETTLED','PARTIAL','UNKNOWN','{{}}', now(), now()+interval '1 day')", True),
-    ("옛 정책 상태 이름 거부", f"INSERT INTO notification_policies(incident_id, vehicle_id, state, clock_confidence, countdown_clock, expires_at) VALUES ('{I2}','{V1}','DELIVERED','UNKNOWN','{{}}', now()+interval '1 day')", False),
-    ("주행 중 PULLING 거부", mr_sql(["PULLING"], True, "00000000-0000-0000-0000-000000000101"), False),
+    ("같은 차량 두 번째 열린 알림(창 안, RELEASED) 거부", np_sql(I2, "RELEASED"), False),
+    ("D4: 앞 알림의 2시간 창이 닫힌 뒤 새 열린 알림 허용", f"UPDATE notification_policies SET alert_window_closed_at = now() WHERE incident_id = '{I1}'; " + np_sql(I2, "RELEASED"), True),
+    ("D4: 열린 알림 창 3시간 거부", np_sql(I2, "RELEASED", window="now()+interval '3 hours'"), False),
+    ("D4: 열린 알림인데 창 없음 거부", np_sql(I2, "COUNTDOWN", window="NULL"), False),
+    ("같은 차량 두 번째 RECORD_ONLY 허용", np_sql(I2, "RECORD_ONLY", window="NULL"), True),
+    ("SETTLED인데 outcome 없음 거부", np_sql(I2, "SETTLED", window="NULL", extra_cols=", settled_at", extra_vals=", now()"), False),
+    ("SETTLED/PARTIAL 허용", np_sql(I2, "SETTLED", window="NULL", extra_cols=", settled_at, outcome", extra_vals=", now(), 'PARTIAL'"), True),
+    ("옛 정책 상태 이름 거부", np_sql(I2, "DELIVERED", window="NULL"), False),
+    ("D2: 시험 사건의 실제 발송(REAL) 거부", np_sql(I2, "RECORD_ONLY", dispatch="REAL", window="NULL"), False),
+    ("D2: 정책 test_mode가 사건과 다르면 거부", np_sql(I2, "RECORD_ONLY", test_mode="false", window="NULL"), False),
+    ("D2: 실제 사건 정책 REAL 허용", np_sql(I_REAL, "RECORD_ONLY", test_mode="false", dispatch="REAL", window="NULL"), True),
+    ("D2: 스냅샷 에어백만 시험 입력인데 test_mode=false 거부", incident_sql("false", '{"airbag_deployed":[{"area":"ROW_1_LEFT","value":true,"source":"TEST_INPUT","quality":"TEST_INPUT"}]}'), False),
+    ("D2: contains_test_input인데 test_mode=false 거부", incident_sql("false", '{}', contains="true"), False),
+    ("D2: 시험 입력 없는 실제 사건 허용", incident_sql("false", '{"speed_mps":{"value":5,"quality":"OK","source":"AAOS_PROPERTY"}}'), True),
+    ("D2: 실제 사건에 TEST_INPUT 관측 거부", obs_sql(I_REAL, "false", "TEST_INPUT", "TEST_INPUT", 1), False),
+    ("D2: 관측의 test_mode가 사건과 다르면 거부", obs_sql(I_REAL, "true", "TEST_INPUT", "TEST_INPUT", 2), False),
+    ("D2: 시험 사건에 TEST_INPUT 관측 허용", obs_sql(I1, "true", "TEST_INPUT", "TEST_INPUT", 3), True),
+    ("주행 중 카드 PULLING 거부", mr_sql(["PULLING"], True, "00000000-0000-0000-0000-000000000101"), False),
     ("정차 중 PULLING 허용", mr_sql(["PULLING"], False, "00000000-0000-0000-0000-000000000102"), True),
+    ("B9: 주행 중 카드 TIRE_DAMAGE 거부", mr_sql(["TIRE_DAMAGE"], True, "00000000-0000-0000-0000-000000000104"), False),
+    ("B9: 주행 중 카드 PEDAL_PROBLEM(안 멈춰요) 허용", mr_sql(["PEDAL_PROBLEM"], True, "00000000-0000-0000-0000-000000000105"), True),
+    ("H1: 주행 중 말로 하기 PULLING 허용", mr_sql(["PULLING"], True, "00000000-0000-0000-0000-000000000106", "STT"), True),
     ("옛 증상 SHAKE 거부", mr_sql(["SHAKE"], False, "00000000-0000-0000-0000-000000000103"), False),
     ("보호자 6번째 자리 거부", f"INSERT INTO vehicle_guardians(driver_profile_id, vehicle_id, guardian_id, slot) VALUES ('{D1}','{V1}','{G1}',6)", False),
     ("보호자 1번 자리 허용", f"INSERT INTO vehicle_guardians(driver_profile_id, vehicle_id, guardian_id, slot) VALUES ('{D1}','{V1}','{G1}',1)", True),
@@ -615,16 +666,37 @@ PG_SMOKE = [
     ("검토자 없는 VERIFIED 거부", "INSERT INTO guide_bundles(guide_id, version, vehicle_profile_id, guide_kind, availability, source_manual_ref, title, steps_json, content_sha256) VALUES ('G_STOP_SAFE',1,'AVANTE_TEST','EMERGENCY','VERIFIED','예시','정차','[{}]',repeat('d',64))", False),
     ("정비사 링크 25시간 거부", f"INSERT INTO share_links(link_id, client_link_id, incident_id, token_hash, scope, expires_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{I1}', 't1', ARRAY['SUMMARY'], now()+interval '25 hours')", False),
     ("정비사 링크 24시간 허용", f"INSERT INTO share_links(link_id, client_link_id, incident_id, token_hash, scope, expires_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{I1}', 't2', ARRAY['SUMMARY'], now()+interval '24 hours')", True),
-    ("GUEST 자동 위치 발송 거부", f"INSERT INTO trips(trip_id, client_trip_id, vehicle_id, driver_mode, auto_location_send_enabled, started_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', 'GUEST', true, now())", False),
-    ("감속 실패 안내 진입 없음 거부", f"INSERT INTO guidance_events(guidance_event_id, incident_id, source_device_id, client_event_id, guide_id, guide_version, step_id, guidance_state, output, result, occurred_at) VALUES (gen_random_uuid(), '{I1}', '{DEV1}', gen_random_uuid(), 'G_DECEL_FAILURE', 1, 'S1', 'DECEL_FAILURE_GUIDE', 'AUDIO', 'STARTED', now())", False),
-    ("감속 실패 안내 버튼 진입 허용", f"INSERT INTO guidance_events(guidance_event_id, incident_id, source_device_id, client_event_id, guide_id, guide_version, step_id, guidance_state, entry, output, result, occurred_at) VALUES (gen_random_uuid(), '{I1}', '{DEV1}', gen_random_uuid(), 'G_DECEL_FAILURE', 1, 'S1', 'DECEL_FAILURE_GUIDE', 'USER_BUTTON', 'AUDIO', 'STARTED', now())", True),
-    ("재발 확인 거리 500km 아님 거부", f"INSERT INTO maintenance_notes(note_id, client_note_id, vehicle_id, service_date, odometer_km_at_service, recheck_until_km, summary) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', '2026-11-12', 32000, 32400, '앞 타이어 교체')", False),
-    ("재발 확인 32,500km 허용", f"INSERT INTO maintenance_notes(note_id, client_note_id, vehicle_id, service_date, odometer_km_at_service, recheck_until_km, summary) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', '2026-11-12', 32000, 32500, '앞 타이어 교체')", True),
+    ("GUEST 자동 위치 발송 거부", f"UPDATE trips SET ended_at = now(), ended_reason = 'DRIVER_CHANGED' WHERE trip_id = '{TRIP_GUEST}'; INSERT INTO trips(trip_id, client_trip_id, vehicle_id, driver_mode, auto_location_send_enabled, started_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', 'GUEST', true, now())", False),
+    ("D3: 운전자 변경(이전 trip DRIVER_CHANGED 종료 뒤 새 trip) 허용", f"UPDATE trips SET ended_at = now(), ended_reason = 'DRIVER_CHANGED' WHERE trip_id = '{TRIP_GUEST}'; INSERT INTO trips(trip_id, client_trip_id, vehicle_id, driver_profile_id, driver_mode, auto_location_send_enabled, started_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', '{D1}', 'OWNER', true, now())", True),
+    ("D3: 열린 trip이 있는데 새 trip 거부", f"INSERT INTO trips(trip_id, client_trip_id, vehicle_id, driver_profile_id, driver_mode, started_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', '{D1}', 'OWNER', now())", False),
+    ("D3: 종료 이유 없이 trip 종료 거부", f"UPDATE trips SET ended_at = now() WHERE trip_id = '{TRIP_GUEST}'", False),
+    ("D3: 게스트 상시(STANDING) 위치 동의 거부", consent_sql(D_GUEST, "GUEST", "STANDING", None, True), False),
+    ("D3: 게스트 이번 trip 위치 동의(정차 중) 허용", consent_sql(D_GUEST, "GUEST", "TRIP", TRIP_GUEST, True), True),
+    ("D3: 위치 동의를 주행 중 기록 거부", consent_sql(D1, "OWNER", "STANDING", None, False), False),
+    ("D3: 프로필과 다른 driver_mode 동의 거부", consent_sql(D_GUEST, "OWNER", "STANDING", None, True, role="OWNER"), False),
+    ("D3: 게스트 프로필에 subject_role OWNER 거부", consent_sql(D_GUEST, "GUEST", "TRIP", TRIP_GUEST, True, role="OWNER"), False),
+    ("D5: 위치 제공 기록이 있어도 보호자 삭제 가능(익명화)", f"INSERT INTO location_disclosures(disclosure_id, incident_id, driver_profile_id, recipient_guardian_id, recipient_label_masked, channel, purpose, location_precision, disclosed_at) VALUES (gen_random_uuid(), '{I1}', '{D1}', '{G1}', '보호자 · 010-****-0000', 'KAKAO', 'GUARDIAN_ALERT', 'ADDRESS', now()); DELETE FROM guardians WHERE guardian_id = '{G1}'", True),
+    ("D5: 익명화 표시인데 받는 사람 ID 남음 거부", f"INSERT INTO location_disclosures(disclosure_id, recipient_guardian_id, recipient_label_masked, channel, purpose, location_precision, disclosed_at, anonymized_at) VALUES (gen_random_uuid(), '{G1}', '보호자', 'KAKAO', 'GUARDIAN_ALERT', 'ADDRESS', now(), now())", False),
+    ("H7: 도착 알림 기록에 위치 정밀도 주소 거부", f"INSERT INTO location_disclosures(disclosure_id, recipient_label_masked, channel, purpose, location_precision, disclosed_at) VALUES (gen_random_uuid(), '보호자', 'KAKAO', 'ARRIVAL_ALERT', 'ADDRESS', now())", False),
+    ("D5: 번호를 지웠는데 상태가 ACTIVE면 거부", f"UPDATE guardians SET phone_ciphertext = NULL, erased_at = now(), state = 'PENDING_CONSENT' WHERE guardian_id = '{G1}'", False),
+    ("D5: 보호자 탈퇴(REVOKED·번호 삭제) 허용", f"UPDATE guardians SET phone_ciphertext = NULL, erased_at = now(), revoked_at = now(), state = 'REVOKED' WHERE guardian_id = '{G1}'", True),
+    ("D6: 차 화면 확인 없이 CONFIRMED 거부", pairing_sql("CONFIRMED", False), False),
+    ("D6: 차 화면 확인 뒤 CONFIRMED 허용", pairing_sql("CONFIRMED", True), True),
+    ("D6: 같은 차량 진행 중 소유자 이전 두 건 거부", f"INSERT INTO ownership_transfers(transfer_id, client_transfer_id, from_vehicle_id, initiated_by, state, reason, expires_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', 'CURRENT_OWNER', 'PENDING_NEW_OWNER', 'SALE', now()+interval '1 day'), (gen_random_uuid(), gen_random_uuid(), '{V1}', 'CURRENT_OWNER', 'PENDING_NEW_OWNER', 'SALE', now()+interval '1 day')", False),
+    ("D6: 차 화면 시작 이전인데 이의 기간 없음 거부", f"INSERT INTO ownership_transfers(transfer_id, client_transfer_id, from_vehicle_id, initiated_by, state, reason, expires_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', 'VEHICLE_SCREEN', 'OBJECTION_WINDOW', 'SALE', now()+interval '7 days')", False),
+    ("D1: 2단계 열람 6회 시도 거부", f"INSERT INTO guardian_share_sessions(share_session_id, share_id, attempt_count, expires_at) VALUES (gen_random_uuid(), '{SHARE1}', 6, now()+interval '1 hour')", False),
+    ("D1: 2단계 확인 없이 VERIFIED 거부", f"INSERT INTO guardian_share_sessions(share_session_id, share_id, stage, expires_at) VALUES (gen_random_uuid(), '{SHARE1}', 'VERIFIED', now()+interval '1 hour')", False),
+    ("H7: 게스트 도착 알림 켜기 거부", f"INSERT INTO arrival_alert_settings(driver_profile_id, driver_mode, enabled, guardian_ids, updated_while_parked) VALUES ('{D_GUEST}', 'GUEST', true, ARRAY['{G1}']::uuid[], true)", False),
+    ("H7: 도착 알림 기본 꺼짐 허용", f"INSERT INTO arrival_alert_settings(driver_profile_id, driver_mode, updated_while_parked) VALUES ('{D1}', 'OWNER', false)", True),
+    ("H8: 정비소 체크인에 좌표 열 없음", f"INSERT INTO service_checkins(checkin_id, client_checkin_id, vehicle_id, shop_ref, detected_by, detected_while_parked, arrived_at, latitude) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', 'poi-1', 'FUSED_PROXIMITY_ENTER', true, now(), 37.5)", False),
+    ("H8: 정비소 체크인 허용", f"INSERT INTO service_checkins(checkin_id, client_checkin_id, vehicle_id, shop_ref, detected_by, detected_while_parked, arrived_at) VALUES (gen_random_uuid(), gen_random_uuid(), '{V1}', 'poi-1', 'FUSED_PROXIMITY_ENTER', true, now())", True),
+    ("H7: 도착 알림 전달(사건 없음) 허용", f"INSERT INTO deliveries(delivery_id, arrival_trip_id, is_arrival, guardian_id, channel, transport_group, revision, state) VALUES (gen_random_uuid(), '{TRIP_GUEST}', true, '{G1}', 'KAKAO', 'KAKAO', 1, 'PENDING')", True),
     ("SMS인데 KAKAO 묶음 거부", f"INSERT INTO deliveries(delivery_id, incident_id, guardian_id, channel, transport_group, revision, state) VALUES (gen_random_uuid(), '{I1}', '{G1}', 'SMS', 'KAKAO', 1, 'PENDING')", False),
     ("accuracy_m 열 없음", f"INSERT INTO incident_locations(location_id, incident_id, client_location_id, received_at, location_source, quality, accuracy_m) VALUES (gen_random_uuid(), '{I1}', gen_random_uuid(), now(), 'VEHICLE', 'UNAVAILABLE', 25)", False),
     ("위치 원값 confidence 허용", f"INSERT INTO incident_locations(location_id, incident_id, client_location_id, latitude, longitude, measured_at, received_at, location_confidence, location_source, quality) VALUES (gen_random_uuid(), '{I1}', gen_random_uuid(), 37.5665, 126.978, now(), now(), 0.8, 'VEHICLE', 'OK')", True),
-    ("TEST_INPUT인데 quality OK 거부", f"INSERT INTO observations(observation_id, incident_id, source_device_id, sequence, code, source, quality, received_at, freshness_basis, value, payload_sha256) VALUES (gen_random_uuid(), '{I1}', '{DEV1}', 1, 'VEHICLE_SPEED', 'TEST_INPUT', 'OK', now(), 'ARRIVAL_ONLY', '19.4', repeat('e',64))", False),
-    ("경고등 상태 코드 거부", f"INSERT INTO observations(observation_id, incident_id, source_device_id, sequence, code, source, quality, received_at, freshness_basis, value, payload_sha256) VALUES (gen_random_uuid(), '{I1}', '{DEV1}', 2, 'TELLTALE_STATE', 'VEHICLE_SDK', 'OK', now(), 'ARRIVAL_ONLY', 'true', repeat('e',64))", False),
+    ("TEST_INPUT인데 quality OK 거부", obs_sql(I1, "true", "TEST_INPUT", "OK", 4), False),
+    ("경고등 상태 코드 거부", f"INSERT INTO observations(observation_id, incident_id, incident_test_mode, source_device_id, sequence, code, source, quality, received_at, freshness_basis, value, payload_sha256) VALUES (gen_random_uuid(), '{I1}', true, '{DEV1}', 5, 'TELLTALE_STATE', 'VEHICLE_SDK', 'OK', now(), 'ARRIVAL_ONLY', 'true', repeat('e',64))", False),
+    ("H3: 풍량 관측 허용", f"INSERT INTO observations(observation_id, incident_id, incident_test_mode, source_device_id, sequence, code, source, quality, received_at, freshness_basis, value, payload_sha256) VALUES (gen_random_uuid(), '{I1}', true, '{DEV1}', 6, 'CLIMATE_FAN_SPEED', 'VEHICLE_SDK', 'OK', now(), 'ARRIVAL_ONLY', '3', repeat('e',64))", True),
     ("받는 사람 없는 REQUEST_HELP 거부", f"INSERT INTO incident_actions(action_id, incident_id, client_action_id, action, expected_version, result_version, request_sha256, occurred_at, result) VALUES (gen_random_uuid(), '{I1}', gen_random_uuid(), 'REQUEST_HELP', 1, 1, repeat('f',64), now(), '{{}}')", False),
     ("휴대폰 연결 QR 10분 거부", f"INSERT INTO device_pairings(pairing_id, vehicle_id, ivi_device_id, code_hash, expires_at) VALUES (gen_random_uuid(), '{V1}', '{DEV1}', 'h', now()+interval '10 minutes')", False),
     ("OTP 6회 시도 거부", f"INSERT INTO guardian_verifications(verification_id, guardian_id, invite_token_hash, otp_hash, attempt_count, expires_at) VALUES (gen_random_uuid(), '{G1}', 'i1', 'o1', 6, now()+interval '5 minutes')", False),
@@ -633,7 +705,7 @@ PG_VIEW_TEST = ("재현 조건 뷰: 같은 증상 3회면 1행", ";".join([
     mr_sql(["VIBRATION"], True, "00000000-0000-0000-0000-000000000201"),
     mr_sql(["VIBRATION"], True, "00000000-0000-0000-0000-000000000202"),
     mr_sql(["VIBRATION"], False, "00000000-0000-0000-0000-000000000203"),
-]), "SELECT occurrences || '|' || round(speed_kmh_min) FROM symptom_patterns WHERE symptom = 'VIBRATION'", "3|70")
+]), "SELECT occurrences || '|' || round(speed_kmh_min) || '|' || test_mode FROM symptom_patterns WHERE symptom = 'VIBRATION'", "3|70|true")
 
 
 def run_pg(rep, host, port, sql_path):
@@ -706,14 +778,32 @@ def main():
         rep.check("history_exists:" + f, os.path.exists(p))
         if f.endswith(".json") and os.path.exists(p):
             hist[f] = load_json(rep, os.path.join(HISTORY, f))
+    hist30 = {}
+    for f in HISTORY_V30_FILES:
+        p = path(HISTORY_V30, f)
+        rep.check("history_v3_0_exists:" + f, os.path.exists(p))
+        if f.endswith(".json") and os.path.exists(p):
+            hist30[f] = load_json(rep, os.path.join(HISTORY_V30, f))
     with open(path("database.sql"), encoding="utf-8") as fh:
         sql_text = fh.read()
     sql = parse_sql(sql_text)
+    rep.check("sql:version_header_v3_1", sql_text.startswith("-- 플레오스 가드 PostgreSQL 스키마 제안 v3.1"))
+    # 시안 폴더 실제 목록(2차 결정 D7). 폴더가 없으면(계약 폴더만 따로 옮긴 경우) ui-tokens 목록을 쓰고 경고한다.
+    adir = path(ASSETS_V4)
+    if os.path.isdir(os.path.join(adir, "portrait")) and os.path.isdir(os.path.join(adir, "landscape")):
+        portrait_files = sorted(f for f in os.listdir(os.path.join(adir, "portrait")) if f.endswith(".png"))
+        landscape_files = sorted(f for f in os.listdir(os.path.join(adir, "landscape")) if f.endswith(".png"))
+        assets_found = True
+    else:
+        portrait_files = (tokens or {}).get("mockup_files", {}).get("portrait", [])
+        landscape_files = (tokens or {}).get("mockup_files", {}).get("landscape", [])
+        assets_found = False
+        rep.warn("시안 폴더(output/submission/assets/v4)를 찾지 못해 ui-tokens 목록으로 대신 검사함")
 
     # ---------------- OpenAPI
     if api:
         rep.check("openapi:version_3_1", str(api.get("openapi", "")).startswith("3.1"))
-        rep.check("openapi:info_version", api["info"]["version"] == "3.0.0", api["info"]["version"])
+        rep.check("openapi:info_version", api["info"]["version"] == VERSIONS["openapi"], api["info"]["version"])
         refs = []
         walk_refs(api, refs)
         bad = []
@@ -761,10 +851,40 @@ def main():
         missing = [f"{m.upper()} {p}" for m, p in DECISION_PATHS if p not in api["paths"] or m not in api["paths"][p]]
         rep.check("openapi:decision_9_4_paths_present", not missing, missing or None)
         counts["decision_9_4_operations_added"] = len(DECISION_PATHS) - len(missing)
+        missing2 = [f"{m.upper()} {p}" for m, p in R2_PATHS if p not in api["paths"] or m not in api["paths"][p]]
+        rep.check("r2:decision_paths_present_D1_D3_D5_D6_H7_H8", not missing2, missing2 or None)
+        counts["r2_operations_added"] = len(R2_PATHS) - len(missing2)
+        old_ops = set()
+        if hist30.get("api.openapi.json"):
+            old_ops = {(m, p) for p, item in hist30["api.openapi.json"]["paths"].items() for m in item if m in methods}
+            rep.check("r2:v3_0_operations_all_kept", old_ops <= set(ops), sorted(f"{m} {p}" for m, p in old_ops - set(ops)) or None)
+            counts["openapi_operations_v3_0"] = len(old_ops)
         sch = api["components"]["schemas"]
         for name, values in DECISION_ENUMS.items():
             rep.check(f"decision_enum:{name}", sch.get(name, {}).get("enum") == values, sch.get(name, {}).get("enum"))
         rep.check("decision_enum:GuideId_pattern", sch.get("GuideId", {}).get("pattern") == DECISION_GUIDE_PATTERN)
+        # 2차 결정 내용 확인(OpenAPI)
+        inc_rules = json.dumps(sch["IncidentCreate"]["allOf"], ensure_ascii=False)
+        rep.check("r2:d2_incident_any_test_input_forces_test_mode", "contains_test_input" in sch["IncidentCreate"]["required"] and '"contains"' in inc_rules
+                  and all(k in inc_rules for k in ("airbag_deployed", "seatbelt_unbuckled", "washer_fluid_low", "observations")))
+        rep.check("r2:d2_dispatch_mode_on_ack_view_delivery", all("dispatch_mode" in sch[n]["required"] for n in ("IncidentAck", "IncidentView", "Delivery")))
+        rep.check("r2:d4_alert_incident_id_and_cancelled_ids", all("alert_incident_id" in sch[n]["required"] for n in ("IncidentAck", "IncidentView", "ActionResult"))
+                  and "cancelled_incident_ids" in sch["ActionResult"]["required"])
+        rep.check("r2:d6_clock_sync_required_for_synchronized", "clock_sync" in json.dumps(sch["NotificationIntent"]["allOf"]) and sch["ClockSyncSample"]["properties"]["rtt_ms"]["maximum"] == (rules or {}).get("time_sync", {}).get("max_rtt_ms"))
+        rep.check("r2:d6_pairing_vehicle_confirm_states", {"AWAITING_VEHICLE_CONFIRM", "REJECTED"} <= set(sch["PairingState"]["enum"]))
+        rep.check("r2:d3_consent_scope_trip_and_parked", {"scope", "trip_id", "recorded_while_parked"} <= set(sch["ConsentRequest"]["required"]))
+        rep.check("r2:d5_disclosure_anonymizable", sch["LocationDisclosure"]["properties"]["recipient_guardian_id"]["type"] == ["string", "null"]
+                  and "recipient_label_masked" in sch["LocationDisclosure"]["required"] and "location_precision" in sch["LocationDisclosure"]["required"])
+        rep.check("r2:b5_tts_no_preroll_on_tts_line", "preroll_silence_ms" not in sch["TtsLine"]["properties"] and "leading_pause_text" in sch["TtsLine"]["properties"])
+        rep.check("r2:b9_manual_report_driving_cards", sch["ManualReport"]["allOf"][0]["then"]["properties"]["symptoms"]["items"]["enum"] == R2_DRIVING_SELECTABLE)
+        rep.check("r2:b12_condition_keys_match_rules", sch["ConditionKey"]["enum"] == (rules or {}).get("symptom_patterns", {}).get("baseline_comparison", {}).get("candidate_conditions"))
+        notes = json.dumps(api.get("x-sdk-notes", []), ensure_ascii=False)
+        rep.check("r2:b1_navi_route_search_for_waypoints", "NAVI_ROUTE_SEARCH" in notes and "addWaypoint" in notes and "requestNavigationScreen" in notes)
+        rep.check("r2:b4_car_speed_dangerous_noted", "CAR_SPEED(dangerous" in notes)
+        rep.check("r2:f9_gear_not_used", any(x["input"] == "기어" and "숨김" in x["api"] for x in api.get("x-future-inputs", [])))
+        authz_ops = {op.get("operationId") for item in api["paths"].values() for m, op in item.items() if m in methods and op.get("x-authz")}
+        rep.check("r2:driver_self_authz_on_actions", {"applyIncidentAction", "sendCorrection", "stopIncidentLocationSharing"} <= authz_ops)
+        counts["openapi_operations_with_x_authz"] = len(authz_ops)
         loc = sch["Location"]["properties"]
         rep.check("decision_9_2:location_fields", all(f in loc for f in DECISION_LOCATION_FIELDS) and "accuracy_m" not in loc)
         snap = sch["VehicleSnapshot"]["properties"]
@@ -809,7 +929,19 @@ def main():
     rep.check("sql:vehicles_vin_hash", "vin_hash" in tables["vehicles"]["columns"])
     rep.check("sql:driver_profile_id_on_incidents_trips", all("driver_profile_id" in tables[t]["columns"] for t in ("incidents", "trips", "consents", "vehicle_guardians")))
     rep.check("sql:guide_bundles_columns", all(c in tables["guide_bundles"]["columns"] for c in ("guide_id", "version", "vehicle_profile_id", "availability", "source_manual_ref", "steps_json", "tts_lines_json")))
-    rep.check("sql:one_open_alert_per_vehicle", re.search(r"CREATE UNIQUE INDEX one_open_alert_per_vehicle ON notification_policies\(vehicle_id\) WHERE state IN \('COUNTDOWN','RELEASED','DISPATCHING'\)", sql["clean"]) is not None)
+    rep.check("sql:one_open_alert_per_vehicle_time_window", re.search(r"CREATE UNIQUE INDEX one_open_alert_per_vehicle ON notification_policies\(vehicle_id\) WHERE state IN \('COUNTDOWN','RELEASED','DISPATCHING'\) AND alert_window_closed_at IS NULL", sql["clean"]) is not None
+              and "alert_window_ends_at <= created_at + interval '2 hours'" in tables["notification_policies"]["body"])
+    new_tables = ["ownership_transfers", "guardian_share_sessions", "arrival_alert_settings", "service_checkins"]
+    rep.check("r2:sql_new_tables", all(t in tables for t in new_tables), [t for t in new_tables if t not in tables] or None)
+    rep.check("r2:d2_sql_test_input_forces_test_mode", "jsonb_path_exists(vehicle_snapshot" in tables["incidents"]["body"] and "CHECK (NOT contains_test_input OR test_mode)" in tables["incidents"]["body"]
+              and "CHECK (source <> 'TEST_INPUT' OR incident_test_mode)" in tables["observations"]["body"] and "CHECK (NOT test_mode OR dispatch_mode = 'MOCK')" in tables["notification_policies"]["body"])
+    ld = tables["location_disclosures"]["body"]
+    rep.check("r2:d5_disclosures_on_delete_set_null", "REFERENCES guardians(guardian_id) ON DELETE SET NULL" in ld and "REFERENCES driver_profiles(driver_profile_id) ON DELETE SET NULL" in ld
+              and "incident_id uuid," in ld and "recipient_label_masked text NOT NULL" in ld)
+    rep.check("r2:d3_guest_trip_scope_consent", "CHECK (driver_mode NOT IN ('GUEST','UNKNOWN') OR scope = 'TRIP')" in tables["consents"]["body"]
+              and "FOREIGN KEY (driver_profile_id, driver_mode) REFERENCES driver_profiles(driver_profile_id, driver_mode)" in tables["consents"]["body"])
+    rep.check("r2:d6_pairing_requires_vehicle_confirm", "vehicle_confirmed_at IS NOT NULL" in tables["device_pairings"]["body"])
+    rep.check("r2:d6_owner_transfer_without_owner_update", "one_open_transfer_per_vehicle" in sql["indexes"] and "owner_id를 바꾸지 않습니다" in sql_text)
     rep.check("d17:no_accuracy_m_column", all("accuracy_m" not in t["columns"] for t in tables.values()))
     rep.check("sql:no_guide_versions_uuid_key", "guide_versions" not in tables)
     if api:
@@ -833,16 +965,17 @@ def main():
             rep.check(f"regex_pair:GuideId<->{t}.{col}", a == s, None if a == s else {"openapi": a, "sql": s})
         counts["regex_pairs_checked"] = len(REGEX_PAIRS)
         drive_sets = tables["manual_reports"]["arrays"].get("symptoms", [])
-        rep.check("sql:driving_five_symptoms", any(x == DECISION_DRIVING5 for x in drive_sets))
+        rep.check("r2:b9_sql_driving_card_symptoms", any(x == R2_DRIVING_SELECTABLE for x in drive_sets) and not any(x == DECISION_DRIVING5 for x in drive_sets))
 
     # ---------------- rules-lab
     if rules and api:
         sch = api["components"]["schemas"]
         sym, areas = sch["Symptom"]["enum"], sch["BodyArea"]["enum"]
         r = rules
-        rep.check("rules:version", r["schema_version"] == "2.0.0")
+        rep.check("rules:version", r["schema_version"] == VERSIONS["rules"] and r["contract_version"] == VERSIONS["contract"])
         rep.check("rules:symptoms_values", r["symptoms"]["values"] == sym)
-        rep.check("rules:driving_quick_cards", r["symptoms"]["driving_quick_cards"] == DECISION_DRIVING5)
+        rep.check("r2:b9_driving_choices_5", r["symptoms"]["driving_choice_order"] == R2_DRIVING_CHOICES and r["symptoms"]["driving_selectable_symptoms"] == R2_DRIVING_SELECTABLE
+                  and set(r["symptoms"]["emergency_choice_records"].values()) <= set(R2_DRIVING_SELECTABLE) and r["symptoms"]["parked_total_choices"] == 12)
         rep.check("rules:minimum_severity_keys", list(r["symptoms"]["minimum_severity"]) == sym and set(r["symptoms"]["minimum_severity"].values()) <= set(sch["Severity"]["enum"]))
         rep.check("rules:guide_id_by_symptom", list(r["symptoms"]["guide_id_by_symptom"]) == sym and all(re.match(DECISION_GUIDE_PATTERN, v) for v in r["symptoms"]["guide_id_by_symptom"].values()))
         rep.check("rules:guide_id_by_state", set(r["guidance"]["guide_id_by_state"]) <= set(sch["GuidanceState"]["enum"]) and all(re.match(DECISION_GUIDE_PATTERN, v) for v in r["guidance"]["guide_id_by_state"].values()))
@@ -859,7 +992,8 @@ def main():
         sv_ = r["signal_validity"]
         rep.check("d18:periodic_3000_speed_only", sv_["periodic"]["applies_to"] == ["VEHICLE_SPEED"] and sv_["periodic"]["freshness_ms"] == 3000)
         onch = [s["code"] for s in r["signal_catalog"] if s["delivery_kind"] == "ON_CHANGE"]
-        rep.check("d18:on_change_rule_covers_on_change_signals", sv_["on_change"]["applies_to"] == onch and sv_["on_change"]["time_based_staleness"] is False)
+        rep.check("d18:on_change_rule_covers_on_change_signals", sv_["on_change"]["applies_to"] + sv_["location_fix"]["applies_to"] == [c for c in onch if c != "LOCATION"] + ["LOCATION"]
+                  and sv_["on_change"]["time_based_staleness"] is False and sv_["location_fix"]["stale_quality"] == "STALE")
         rep.check("d18:no_other_freshness_ms", "urgent_brake_max_age_ms" not in json.dumps({k: v for k, v in r.items() if k != "signal_validity"}))
         rep.check("d8:guidance_requires_user_report", r["guidance"]["start_requires_user_report"] is True and r["guidance"]["no_deceleration_auto_guidance_allowed"] is False and r["guidance"]["sensor_combination_output"] == "CONFIRM_PROMPT_ONLY")
         sc = r["notification"]["scope"]
@@ -876,14 +1010,56 @@ def main():
         day_ms = 86400000
         rep.check("f5:share_link_24h", r["share_links"]["maintenance_link_expiry_ms"] == day_ms == sch["ShareLinkCreate"]["properties"]["expires_in_ms"]["maximum"]
                   and "created_at + interval '24 hours'" in tables["share_links"]["body"])
-        tts = sch["TtsLine"]["properties"]["preroll_silence_ms"]
-        rep.check("d11:tts_preroll_150_200", r["audio"]["preroll_silence_ms_min"] == 150 == tts["minimum"] and r["audio"]["preroll_silence_ms_max"] == 200 == tts["maximum"])
+        tts = sch["TtsLine"]["properties"]["bundled_audio_preroll_silence_ms"]
+        rep.check("r2:b5_tts_preroll_not_insertable_bundled_audio_150_200", r["audio"]["tts_preroll_silence_insertable_by_app"] is False
+                  and r["audio"]["bundled_audio_preroll_silence_ms_min"] == 150 == tts["minimum"] and r["audio"]["bundled_audio_preroll_silence_ms_max"] == 200 == tts["maximum"]
+                  and r["audio"]["audio_focus_owner"] == "APP_ANDROID_AUDIOMANAGER" and "preroll_silence_ms_min" not in r["audio"])
         n = r["notification"]
         rep.check("notification:pre_send_confirmation_10s", n["pre_send_confirmation_ms"] == 10000 == sch["NotificationIntent"]["properties"]["countdown_remaining_ms"]["maximum"]
                   and "pre_send_confirmation_ms integer NOT NULL DEFAULT 10000" in sql["clean"])
         old_n = (hist.get("rules-lab.json") or {}).get("notification", {})
         rep.check("notification:kakao_deadline_value_kept_from_v2", n["kakao_delivery_confirmation_deadline_ms"] == old_n.get("delivery_unknown_fallback_after_ms"),
-                  {"v3": n["kakao_delivery_confirmation_deadline_ms"], "v2": old_n.get("delivery_unknown_fallback_after_ms")})
+                  {"v3.1": n["kakao_delivery_confirmation_deadline_ms"], "v2": old_n.get("delivery_unknown_fallback_after_ms")})
+        n30 = (hist30.get("rules-lab.json") or {}).get("notification", {})
+        rep.check("notification:kakao_deadline_10000_kept_from_v3_0", n["kakao_delivery_confirmation_deadline_ms"] == 10000 == n30.get("kakao_delivery_confirmation_deadline_ms"))
+        # 2차 결정 내용 확인(rules-lab)
+        g = r["guidance"]
+        rep.check("r2:f2_confirm_prompt_suppression_5min_once", g["confirm_prompt_suppression"]["window_ms"] == 300000 and g["confirm_prompt_suppression"]["max_prompts_per_window"] == 1
+                  and "trip_id" in g["confirm_prompt_suppression"]["key"])
+        rep.check("r2:f2_confirm_prompt_buttons", g["confirm_prompt_answers"]["left"]["label"] == "괜찮아요" and g["confirm_prompt_answers"]["right"]["label"] == "안 멈춰요"
+                  and g["confirm_prompt_answers"]["right"]["result"] == "DECEL_FAILURE_GUIDE" and g["confirm_prompt_conditions"]["brake_pressed_no_deceleration_observation_ms"] == 1000)
+        rep.check("r2:b8_meaning_fixed", g["meaning_fixed"]["저절로 빨라져요"] == "UNWANTED_ACCEL_GUIDE" and g["meaning_fixed"]["안 멈춰요"] == "DECEL_FAILURE_GUIDE")
+        rep.check("r2:b6_tap_to_talk_8s", r["voice"]["listen_window_ms"] == 8000 == perf["app_question_listen_window_ms"] and r["voice"]["hold_to_talk"] is False
+                  and perf["speech_recognition_mode"] == "TAP_TO_TALK_OR_APP_QUESTION_ONLY" and r["warning_lookup"]["voice_search"] == "STT_TAP_TO_TALK"
+                  and "PUSH_TO_TALK" not in json.dumps(r))
+        rep.check("r2:h1_voice_routes", [x["route"] for x in r["voice"]["routes"]] == r["voice"]["route_priority"] and r["voice"]["always_listening"] is False
+                  and any(x["target"] == "HELP_CONFIRM" for x in r["voice"]["routes"]))
+        spd = next(x for x in r["signal_catalog"] if x["code"] == "VEHICLE_SPEED")
+        rep.check("r2:b4_car_speed_dangerous_and_denied_behavior", spd["protection_level"].startswith("dangerous(AOSP") and spd["runtime_permission_required"] is True
+                  and spd["on_permission_denied"]["confirm_prompt"] == "DISABLED" and spd["on_permission_denied"]["direct_driver_reports"] == "UNCHANGED")
+        bc = r["symptom_patterns"]["baseline_comparison"]
+        rep.check("r2:b12_baseline_comparison_excludes_cumulative", {"ODOMETER", "FUEL_PERCENT", "EV_SOC"} <= set(bc["excluded_cumulative"]) and "odometer_km" not in r["symptom_patterns"]["snapshot_fields"]
+                  and bc["mix_test_and_real"] is False and bc["mix_drivers"] is False and "TRIP_ELAPSED" in bc["candidate_conditions"])
+        sus = r["symptom_patterns"]["sound_suspects"]["signals"]
+        rep.check("r2:h3_sound_suspect_signals_in_catalog", set(sus) <= set(codes) and all(next(x for x in r["signal_catalog"] if x["code"] == c)["protection_level"] == "normal" for c in sus)
+                  and all("virtual_console_card" in next(x for x in r["signal_catalog"] if x["code"] == c) for c in sus))
+        ss = r["service_stop"]
+        rep.check("r2:b1_b2_b11_service_stop_sdk", "NAVI_ROUTE_SEARCH" in ss["add_while_guiding"] and "addWaypoint" in ss["add_while_guiding"] and ss["in_app_map"] is False
+                  and ss["detour_label_allowed"] is False and "NAVI_CUSTOM_MAP" in ss["show_in_navi"])
+        rep.check("r2:d1_share_session_rules", r["guardian_share_session"]["step2_check"] == "PHONE_LAST4" and r["guardian_share_session"]["max_failed_attempts"] == 5
+                  and "LOCATION" in r["guardian_share_session"]["step1_hides"] and "attempt_count BETWEEN 0 AND 5" in tables["guardian_share_sessions"]["body"])
+        rep.check("r2:d2_mixed_test_input_mock_only", r["deployment"]["mixed_test_input_incident_dispatch"] == "MOCK_ONLY" and r["demo_mode"]["test_input_overrides_live"] == "PER_SIGNAL")
+        rep.check("r2:d3_trip_rules", r["trip"]["guest_auto_location_send_default"] is False and r["trip"]["consent_only_when_parked"] is True and r["trip"]["guest_consent_scope"] == "TRIP"
+                  and "DRIVER_CHANGE" in r["driving_state"]["parked_only_actions"])
+        rep.check("r2:d4_open_alert_window_2h", n["open_alert_window_ms"] == 7200000 and n["correction_exempt_from_open_alert"] is True and n["merged_incident_cancel_scope"] == "ALL_OPEN_ALERTS_IN_WINDOW")
+        rep.check("r2:d5_retention_anonymize", r["retention"]["account_delete_purge_hours"] == 72 and r["privacy"]["disclosure_records_on_delete"] == "ANONYMIZE_NOT_DELETE")
+        rep.check("r2:d6_pairing_vehicle_confirm_and_time_sync", r["pairing"]["vehicle_screen_confirm_required"] is True and r["pairing"]["first_scanner_becomes_owner"] is False
+                  and r["time_sync"]["max_error_ms"] == n["clock_sync_max_error_ms"] == 500 and r["ownership_transfer"]["records_move_to_new_owner"] is False)
+        rep.check("r2:h7_arrival_alert_default_off", n["arrival_alert"]["default_enabled"] is False and n["arrival_alert"]["includes_location"] is False
+                  and "enabled boolean NOT NULL DEFAULT false" in tables["arrival_alert_settings"]["body"])
+        rep.check("r2:h8_checkin_no_coordinates", ss["arrival_checkin"]["coordinates_sent_to_server"] is False and "latitude" not in tables["service_checkins"]["columns"])
+        rep.check("r2:b10_predrive_without_seatbelt_door", "UNFINISHED_RECORDS" in r["check_items"]["predrive_card_includes"]
+                  and {"DOOR_POSITION", "SEATBELT_UNBUCKLED"} <= set(r["check_items"]["predrive_card_excludes"]))
         rep.check("notification:guardian_limit_5", n["guardian_limit"] == 5 and "slot BETWEEN 1 AND 5" in tables["vehicle_guardians"]["body"]
                   and sch["NotificationIntent"]["properties"]["guardian_ids"]["maxItems"] == 5)
         rep.check("pairing:qr_ttl_5min", r["pairing"]["qr_code_ttl_ms"] == 300000 and "created_at + interval '5 minutes'" in tables["device_pairings"]["body"])
@@ -892,7 +1068,7 @@ def main():
     # ---------------- ui-tokens
     if tokens:
         t = tokens
-        rep.check("tokens:version", t["version"] == "5.0.0")
+        rep.check("tokens:version", t["version"] == VERSIONS["tokens"])
         ol = t["official_limits"]
         exp = {"contrast_min": 4.5, "min_font": 12, "glyph_height_primary": 5, "glyph_height_secondary": 3, "input_response": 0.25,
                "driving_text_max_lines": 3, "button_response": 2, "app_launch": 10, "content_load": 10}
@@ -934,23 +1110,44 @@ def main():
             overlap = any(rects_overlap(a, b) for i, a in enumerate(rects) for b in rects[i + 1:])
             rep.check(f"tokens:landscape_{key}_inside_no_overlap", inside and not overlap and (vw, vh) == (1280, 720))
         names = [s["name_ko"] for s in t["screens"]]
-        rep.check("tokens:screens_match_decision_names", names == DECISION_SCREENS, [n for n in DECISION_SCREENS if n not in names] or None)
-        rep.check("tokens:mockup_file_lists", t["mockup_files"]["portrait"] == PORTRAIT_FILES and t["mockup_files"]["landscape"] == LANDSCAPE_FILES)
-        used_p = {s["portrait_file"] for s in t["screens"] if s["portrait_file"]}
-        used_l = {s["landscape_file"] for s in t["screens"] if s["landscape_file"]}
-        rep.check("tokens:screen_files_known_and_all_used", used_p == set(PORTRAIT_FILES) and used_l == set(LANDSCAPE_FILES),
-                  {"unused_portrait": sorted(set(PORTRAIT_FILES) - used_p), "unused_landscape": sorted(set(LANDSCAPE_FILES) - used_l)})
+        rep.check("tokens:screens_match_r2_names", names == R2_SCREENS, {"missing": [n for n in R2_SCREENS if n not in names], "extra": [n for n in names if n not in R2_SCREENS]})
+        rep.check("tokens:screens_include_decision_7_names", all(n in names or {"홈": "홈(정차)", "긴급 안내": "원치 않는 가속 안내"}.get(n) in names for n in DECISION_SCREENS))
+        rep.check("tokens:mockup_file_lists_equal_asset_folder", t["mockup_files"]["portrait"] == portrait_files and t["mockup_files"]["landscape"] == landscape_files,
+                  {"folder_portrait": portrait_files, "folder_landscape": landscape_files} if not (t["mockup_files"]["portrait"] == portrait_files and t["mockup_files"]["landscape"] == landscape_files) else None)
+        used_p = {s["portrait_file"] for s in t["screens"] if s["portrait_file"]} | {v for s in t["screens"] for v in s.get("variant_files", {}).get("portrait", [])}
+        used_l = {s["landscape_file"] for s in t["screens"] if s["landscape_file"]} | {v for s in t["screens"] for v in s.get("variant_files", {}).get("landscape", [])}
+        rep.check("tokens:screen_files_known_and_all_used", used_p == set(portrait_files) and used_l == set(landscape_files),
+                  {"unused_portrait": sorted(set(portrait_files) - used_p), "unused_landscape": sorted(set(landscape_files) - used_l),
+                   "unknown_portrait": sorted(used_p - set(portrait_files)), "unknown_landscape": sorted(used_l - set(landscape_files))})
+        # 2차 결정 내용 확인(ui-tokens)
+        drv = t["layouts"]["portrait"]["driving"]
+        rep.check("r2:b9_driving_home_3_buttons_no_guardian_alert", drv["actions"] == ["RECORD_NOW", "TALK", "HELP_MENU"] and drv["guardian_alert_button"] is False
+                  and "GUARDIAN_ALERT" not in json.dumps(t["layouts"]) and t["driving_mode"]["max_primary_actions"] == 3)
+        rep.check("r2:g_home_tabs_and_dock", t["layouts"]["portrait"]["tabs"] == ["warning_find", "record_now", "guardian_status", "service_stop"]
+                  and t["layouts"]["landscape"]["dock_items"] == ["home", "warning_find", "record_now", "guardian_status", "service_stop"]
+                  and t["layouts"]["portrait"]["primary_actions_parked_sides"] == {"left": "RECORD_NOW", "right": "HELP_MENU"})
+        bsr = t["button_side_rule"]
+        rep.check("r2:f1_button_side_rule", bsr["left"]["color"] == "NEUTRAL" and bsr["right"]["color"] == "emergency" and set(bsr["red_only_for"]) == {"HELP", "SEND", "DECEL_FAILURE"})
+        copy = {c["name_ko"]: (c["left"]["label"], c["right"]["label"], c["right"]["color"], c["left"]["color"]) for c in t["screen_copy"]}
+        bad_copy = [n for n, le, ri in R2_SCREEN_COPY if copy.get(n, (None, None))[:2] != (le, ri)]
+        bad_color = [n for n in copy if (n in R2_RED_RIGHT) != (copy[n][2] == "emergency") or copy[n][3] != "NEUTRAL"]
+        rep.check("r2:g_screen_copy_table", not bad_copy and not bad_color and len(t["screen_copy"]) == len(R2_SCREEN_COPY), {"copy": bad_copy, "color": bad_color} if bad_copy or bad_color else None)
+        rep.check("r2:g_screen_copy_names_are_screens", all(n in names for n in copy))
+        rep.check("r2:b11_no_in_app_map", t["in_app_map"] is False and all(s.get("map") is False for s in t["screens"] if s["id"] in ("service_stop", "guardian_status")))
+        rep.check("r2:emergency_buttons_horizontal_2", t["layouts"]["portrait"]["emergency"]["buttons_while_driving"] == 2 and t["layouts"]["portrait"]["emergency"]["button_stack"] == "HORIZONTAL")
+        counts["ui_mockup_folder_found"] = assets_found
         rep.check("d7:driving_motion_none", t["driving_mode"]["motion"] == "none" and t["animation"]["driving_motion_ms"] == 0 and t["driving_mode"]["foot_or_hand_motion_images"] is False)
         rep.check("d13:parity_rules_present", len(t["parity_rules"]) >= 3)
         counts["ui_screens"] = len(t["screens"])
-        counts["ui_portrait_mockups"] = len(PORTRAIT_FILES)
-        counts["ui_landscape_mockups"] = len(LANDSCAPE_FILES)
+        counts["ui_portrait_mockups"] = len(portrait_files)
+        counts["ui_landscape_mockups"] = len(landscape_files)
+        counts["ui_screen_copy_rows"] = len(t["screen_copy"])
 
     # ---------------- acceptance
     if acc and api and rules and tokens:
         cases = acc["cases"]
         ids = [c["id"] for c in cases]
-        rep.check("acceptance:version", acc["version"] == "3.0.0")
+        rep.check("acceptance:version", acc["version"] == VERSIONS["acceptance"] and acc["rule_profile_id"] == rules["profile_id"])
         dup = sorted({i for i in ids if ids.count(i) > 1})
         rep.check("acceptance:ids_unique", not dup, dup or None)
         rep.check("acceptance:ids_format_sequential", ids == [f"T{i:02d}" if i < 100 else f"T{i}" for i in range(1, len(ids) + 1)])
@@ -991,12 +1188,32 @@ def main():
         rep.check("acceptance:required_topics", not missing_topics, missing_topics or None)
         new_feature_areas = ["check_items", "predrive", "pattern", "voice_record", "voice_search", "snapshot", "service_stop", "maintenance", "practice", "demo_mode", "disclosure", "practice_alert", "quick_reply", "weekly_card"]
         rep.check("acceptance:new_features_N1_N12", all(any(c["area"] == a for c in cases) for a in new_feature_areas))
+        # 2차 결정 내용 확인(인수 사례)
+        old30 = [c["id"] for c in (hist30.get("acceptance-scenarios.json") or {}).get("cases", [])]
+        rep.check("r2:acceptance_v3_0_cases_carried", len(old30) == 103 and old30 == ids[:len(old30)], {"v3_0": len(old30)})
+        added = [c for c in cases if c.get("added_in") == "3.1.0"]
+        missing_r2 = sorted({a for a in R2_ACCEPTANCE_AREAS if not any(c["area"] == a for c in added)} - {"predrive", "pattern"})
+        rep.check("r2:acceptance_new_decision_topics", not missing_r2, missing_r2 or None)
+        r2_refs = {ref.split(":", 1)[1] for c in cases for ref in c["refs"] if ref.startswith("api:")}
+        r2_ops = {api["paths"][p][m]["operationId"] for m, p in R2_PATHS}
+        rep.check("r2:acceptance_covers_all_new_operations", r2_ops <= r2_refs, sorted(r2_ops - r2_refs) or None)
+        t71, t97 = C_ = {c["id"]: c for c in cases}["T71"], {c["id"]: c for c in cases}["T97"]
+        rep.check("r2:t71_driving_home_no_guardian_alert", "말로 하기" in t71["expect"] and "보호자에게 알리기' 버튼 없음" in t71["expect"]
+                  and "tokens:layouts.portrait.driving.actions" in t71["refs"])
+        rep.check("r2:t97_brake_1000ms_matches_rules", "1,000ms" in t97["given"] and "600ms" not in t97["given"]
+                  and rules["guidance"]["confirm_prompt_conditions"]["brake_pressed_no_deceleration_observation_ms"] == 1000)
+        rep.check("r2:no_tts_preroll_or_hold_to_talk_as_current", not re.search(r"음성 앞 무음 150~200ms|누르고 말하기|누른 동안", text))
+        rep.check("r2:changed_cases_keep_demo_method_availability",
+                  all(c["demo_method"] == o["demo_method"] and c["availability"] == o["availability"] for c in cases for o in (hist30.get("acceptance-scenarios.json") or {}).get("cases", []) if c["id"] == o["id"]))
+        counts["acceptance_added_r2"] = len(added)
+        counts["acceptance_changed_r2"] = sum(1 for c in cases if c.get("changed_in") == "3.1.0")
         counts["acceptance_cases"] = len(cases)
         counts["acceptance_by_grade"] = {g: sum(1 for c in cases if c["grade"] == g) for g in ("DEMO", "DESIGN", "FUTURE")}
         counts["acceptance_by_availability"] = {a: sum(1 for c in cases if c["availability"] == a) for a in avail if any(c["availability"] == a for c in cases)}
         counts["acceptance_by_demo_method"] = {d: sum(1 for c in cases if c["demo_method"] == d) for d in DEMO_METHODS}
         counts["acceptance_by_feature"] = {f"F{i}": sum(1 for c in cases if c["feature"] == f"F{i}") for i in range(7)}
         counts["acceptance_v2_carried"] = len(v2)
+        counts["acceptance_v3_0_carried"] = len([c for c in cases if c.get("added_in") != "3.1.0"]) - len(v2)
         counts["acceptance_new"] = len(cases) - len(v2)
         if rules:
             counts["rules_signal_catalog"] = len(rules["signal_catalog"])
@@ -1023,6 +1240,7 @@ def main():
     files["ui-tokens.json"]["version"] = tokens["version"] if tokens else None
     files["acceptance-scenarios.json"]["version"] = acc["version"] if acc else None
     hist_files = {f: {"bytes": os.path.getsize(path(HISTORY, f)), "sha256": sha256_file(path(HISTORY, f))} for f in HISTORY_FILES if os.path.exists(path(HISTORY, f))}
+    hist30_files = {f: {"bytes": os.path.getsize(path(HISTORY_V30, f)), "sha256": sha256_file(path(HISTORY_V30, f))} for f in HISTORY_V30_FILES if os.path.exists(path(HISTORY_V30, f))}
 
     pg = {"executed": False, "note": "--pg-host를 주지 않아 DDL을 실행하지 않음"}
     if args.pg_host:
@@ -1031,13 +1249,17 @@ def main():
 
     result = {
         "date_kst": "2026-11-12",
-        "contract_version": "3.0.0",
-        "scope": "정적 계약 검사(JSON 파싱, OpenAPI $ref·경로, enum↔SQL CHECK, 스키마 예시, 파일 간 이름·수치, 인수 시나리오 참조, 대비·배치 계산)와 선택적 로컬 PostgreSQL DDL·제약 시험. 앱 빌드·실행, 서버 실행, 실제 발송, 실차·에뮬레이터 동작의 증거가 아니다.",
+        "contract_version": VERSIONS["contract"],
+        "versions": {"openapi_info": VERSIONS["openapi"], "openapi_format": api.get("openapi") if api else None, "database": VERSIONS["db"],
+                     "rules_lab": VERSIONS["rules"], "rules_profile_id": rules.get("profile_id") if rules else None, "ui_tokens": VERSIONS["tokens"], "acceptance": VERSIONS["acceptance"]},
+        "scope": "정적 계약 검사(JSON 파싱, OpenAPI $ref·경로, enum↔SQL CHECK, 스키마 예시, 파일 간 이름·수치, 인수 시나리오 참조, 대비·배치 계산, 2차 비판 결정 반영, 시안 폴더 실제 목록)와 선택적 로컬 PostgreSQL DDL·제약 시험. PRD와는 대조하지 않는다. 앱 빌드·실행, 서버 실행, 실제 발송, 실차·에뮬레이터 동작의 증거가 아니다.",
         "validator": "validate_contracts.py (python3 표준 라이브러리만, JSON Schema는 이 계약이 쓰는 키워드만 구현)",
         "status": "PASS" if not rep.errors else "FAIL",
         "counts": counts,
         "files": files,
-        "history": {"directory": HISTORY.replace(os.sep, "/"), "files": hist_files, "previous_validation": "validation-2026-11-12.json(v2 시점 기록)"},
+        "history": [{"directory": HISTORY_V30.replace(os.sep, "/"), "version": "계약 v3(OpenAPI 3.0.0, DB v3, rules-lab 2.0.0, ui-tokens 5.0.0, acceptance 3.0.0)", "files": hist30_files,
+                     "previous_validation": "history/2026-11-12-v3.0/validation-2026-11-12-v3.json"},
+                    {"directory": HISTORY.replace(os.sep, "/"), "version": "계약 v2.1", "files": hist_files, "previous_validation": "validation-2026-11-12.json(v2 시점 기록)"}],
         "postgresql": pg,
         "checks_total": len(rep.checks),
         "checks_failed": sum(1 for c in rep.checks if c["status"] == "FAIL"),

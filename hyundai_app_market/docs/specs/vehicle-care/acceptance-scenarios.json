@@ -1815,6 +1815,7 @@
       "when": "운전자가 칩에 답하지 않고 출발한다",
       "expect": "driver_mode UNKNOWN, 자동 위치 발송 꺼짐, 홈 상태 칩 '위치 자동 발송 꺼짐'. 운전자가 한 명뿐인 차량은 칩을 띄우지 않고 그 운전자로 둔다",
       "refs": [
+        "api:createDriverProfile",
         "api:listVehicleDriverProfiles",
         "api:setTripDriver",
         "rules:trip.driver_chip"
