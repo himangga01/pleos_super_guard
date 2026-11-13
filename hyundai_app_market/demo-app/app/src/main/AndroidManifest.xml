@@ -24,8 +24,16 @@
   <application
       android:label="@string/app_name"
       android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
-    <!-- 주행 중 사용(Distraction Optimization) 선언 방법은 Pleos 문서(가이드 G4·G5) 확인 뒤 추가합니다. -->
-    <activity android:name=".MainActivity" android:exported="true">
+    <!--
+      창 크기가 바뀌어도(세로 한 창 ↔ 가로) 진행 중인 안내 단계와 발송 확인 남은 시간을 유지하려고 다시 만들지 않습니다(UX 4.6).
+      주행 중 사용(Distraction Optimization) 선언: AAOS 표준 meta-data. Pleos 가이드(G4·G5)는 DO 선언 앱만 주행 중에 쓸 수 있고,
+      선언한 앱도 CarUxRestrictions에 따라 기능을 줄여야 한다고 안내합니다. 에뮬레이터에서 실제로 받아들여지는지는 로컬 확인 기록을 봅니다.
+    -->
+    <activity
+        android:name=".MainActivity"
+        android:exported="true"
+        android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|density|uiMode|keyboard|keyboardHidden|navigation">
+      <meta-data android:name="distractionOptimized" android:value="true" />
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

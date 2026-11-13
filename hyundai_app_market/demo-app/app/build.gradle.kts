@@ -13,13 +13,24 @@ android {
     applicationId = "app.pleosguard.demo"
     minSdk = 28
     targetSdk = 34
-    versionCode = 1
-    versionName = "0.1.0-skeleton"
+    versionCode = 2
+    versionName = "0.2.0-demo"
   }
   compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
   kotlinOptions { jvmTarget = "17" }
-  buildFeatures { compose = true }
-  testOptions { unitTests { isIncludeAndroidResources = true } }
+  buildFeatures { compose = true; buildConfig = true }
+  testOptions {
+    unitTests {
+      isIncludeAndroidResources = true
+      // Robolectric은 그래픽 원시 라이브러리를 임시 폴더에 풀어 불러옵니다. Windows 사용자 폴더 이름에 한글이 있으면
+      // 이 경로가 깨져 UnsatisfiedLinkError가 납니다. 영문 경로인 빌드 폴더를 임시 폴더로 씁니다.
+      val testTmp = layout.buildDirectory.dir("tmp/unit-test-tmp").get().asFile
+      all {
+        it.doFirst { testTmp.mkdirs() }
+        it.systemProperty("java.io.tmpdir", testTmp.absolutePath)
+      }
+    }
+  }
 }
 
 dependencies {

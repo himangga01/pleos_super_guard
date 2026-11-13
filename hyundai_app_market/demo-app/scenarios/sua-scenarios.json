@@ -1,0 +1,447 @@
+{
+  "version": "1.0",
+  "date": "2026-11-13",
+  "report": "docs/analysis/sudden-acceleration-2026-11-13.md",
+  "note": "급발진(원치 않는 가속) 조사에서 정한 조건을 Virtual Console 시간표로 옮긴 것입니다. 속도점은 공개된 사례 기록(EDR 요약값, 재연·감정 수치)을 바탕으로 만든 근사이며 실제 EDR 원자료가 아닙니다. physics 모드는 Virtual Console 페이지와 같은 단순 물리식입니다. 기대 결과(expect)는 앱 판정 규칙(demo-app logic/Rules.kt)의 결과이며 ScenarioReplayTest가 확인합니다.",
+  "scenarios": [
+    {
+      "id": "sua-parking-misapplication",
+      "title": "① 주차장 출발 페달 오조작(가장 흔한 유형)",
+      "mode": "physics",
+      "basis": "NHTSA 2011: 정지·저속 시작이 사고의 84%, 주차 진입·이탈이 사고의 64%. 도요타 EDR 오조작 39건 중 74% 무제동, 90%가 가속페달 유지·증가. 국과수 2024 감정 120건 모두 가속페달 오조작. PMSA 작동 조건은 정차 후 출발 시 0.25초 안 가속페달 100%. 콘솔은 장애물·충돌을 만들 수 없어 3초 뒤 정지로 끝냅니다.",
+      "duration_s": 9,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Park",
+          "accelerator": 0,
+          "brake": 100,
+          "note": "주차된 상태"
+        },
+        {
+          "t": 1,
+          "gear": "Drive",
+          "note": "P → D 변속 직후"
+        },
+        {
+          "t": 2,
+          "brake": 0
+        },
+        {
+          "t": 2.5,
+          "accelerator": 100,
+          "note": "가속페달을 끝까지(브레이크로 착각). 브레이크 신호 없음"
+        },
+        {
+          "t": 5.5,
+          "accelerator": 0,
+          "brake": 100,
+          "note": "사건 끝(실제 사례는 수 초 안에 충돌)"
+        },
+        {
+          "t": 8,
+          "gear": "Park"
+        }
+      ],
+      "expect": {
+        "prompt": false,
+        "accel_candidate": true
+      },
+      "app_note": "브레이크 신호가 없어 확인 질문은 뜨지 않습니다. 급가속 후보로 기록만 합니다. 이 구간은 차량 PMSA가 맡습니다."
+    },
+    {
+      "id": "sua-road-misapplication",
+      "title": "② 도로 주행 중 페달 오조작(시청역 사고 EDR 요약값)",
+      "mode": "replay",
+      "basis": "시청역 사고(2024-07-01) 경찰·2심 발표: 5초 중 약 4초 가속페달, 최대 약 99%, 0.5초쯤 두 번 뗌, 브레이크는 충돌까지 작동하지 않음, 70→105.3km/h. 충돌 간격 약 2.4초. 속도점은 이 요약값으로 만든 근사입니다.",
+      "duration_s": 11,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Drive",
+          "accelerator": 15,
+          "brake": 0,
+          "speed_kph": 70
+        },
+        {
+          "t": 3,
+          "accelerator": 99,
+          "speed_kph": 70,
+          "note": "가속페달 최대 약 99%"
+        },
+        {
+          "t": 4.2,
+          "accelerator": 0,
+          "speed_kph": 79,
+          "note": "0.5초 뗌"
+        },
+        {
+          "t": 4.7,
+          "accelerator": 99,
+          "speed_kph": 79
+        },
+        {
+          "t": 5.9,
+          "accelerator": 0,
+          "speed_kph": 90,
+          "note": "0.5초 뗌"
+        },
+        {
+          "t": 6.4,
+          "accelerator": 99,
+          "speed_kph": 90
+        },
+        {
+          "t": 7.5,
+          "accelerator": 0,
+          "speed_kph": 105,
+          "note": "충돌(최고 105km/h)"
+        },
+        {
+          "t": 8.0,
+          "speed_kph": 0
+        },
+        {
+          "t": 10,
+          "gear": "Park",
+          "brake": 100,
+          "speed_kph": 0
+        }
+      ],
+      "expect": {
+        "prompt": false,
+        "accel_candidate": true
+      },
+      "app_note": "브레이크 신호가 없고 가속페달 값은 공개 SDK로 읽을 수 없어 정상 가속과 구별할 수 없습니다. 확인 질문은 뜨지 않습니다. 운전자가 \"저절로 빨라져요\"(버튼·말)로 직접 알려야 안내가 시작됩니다."
+    },
+    {
+      "id": "sua-mat-entrapment",
+      "title": "③ 매트 끼임·페달 복귀 불량(공식 확인된 차량 원인), 약한 제동",
+      "mode": "replay",
+      "basis": "NHTSA·NASA 2011: 공식 확인된 차량 원인은 매트 끼임과 페달 복귀 불량뿐이며, 매트 끼임은 고속·장시간(1분 안팎) 사건의 유력 원인. 브레이크를 반복해 밟으면 진공 배력이 고갈되어 제동력이 떨어짐. NHTSA 권장: 브레이크를 펌핑하지 말고 꾸준히 세게, 중립(N). 가속 기울기는 강릉 사고 장구간 평균(약 0.88m/s²)을 참고했습니다.",
+      "duration_s": 23,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Drive",
+          "accelerator": 30,
+          "brake": 0,
+          "speed_kph": 100
+        },
+        {
+          "t": 2,
+          "accelerator": 100,
+          "speed_kph": 100,
+          "note": "가속페달이 매트에 걸려 돌아오지 않음"
+        },
+        {
+          "t": 5,
+          "brake": 30,
+          "speed_kph": 108,
+          "note": "브레이크를 밟지만(배력 저하) 감속되지 않음"
+        },
+        {
+          "t": 15,
+          "gear": "Neutral",
+          "brake": 100,
+          "speed_kph": 112,
+          "note": "중립 + 브레이크를 세게 꾸준히"
+        },
+        {
+          "t": 21,
+          "speed_kph": 0
+        },
+        {
+          "t": 22,
+          "gear": "Park",
+          "accelerator": 0,
+          "speed_kph": 0
+        }
+      ],
+      "expect": {
+        "prompt": true,
+        "accel_candidate": false,
+        "prompt_reason": "flat",
+        "prompt_by_s": 6.5
+      },
+      "app_note": "브레이크 밟음이 1초 이어졌는데 속도가 줄지 않아 \"차가 멈추지 않나요?\"를 화면과 음성으로 묻습니다. \"안 멈춰요\"로 답하면 감속 실패 대처를 시작합니다."
+    },
+    {
+      "id": "sua-low-speed-brake-overpowered",
+      "title": "④ 정차·저속에서 시작, 브레이크를 밟는데도 빨라짐(NHTSA 정의형)",
+      "mode": "replay",
+      "basis": "NHTSA 1989 정의: 정지나 매우 낮은 속도에서 시작하는 의도하지 않은 고출력 가속과 제동력 상실처럼 보이는 현상. 차량 결함(페달 걸림)으로 브레이크 신호가 실제로 켜진 경우를 가정합니다. 페달 오조작이면 EDR에 브레이크가 꺼져 있어 ①과 같습니다.",
+      "duration_s": 13,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Drive",
+          "accelerator": 0,
+          "brake": 100,
+          "speed_kph": 0
+        },
+        {
+          "t": 1,
+          "accelerator": 100,
+          "brake": 40,
+          "speed_kph": 0,
+          "note": "출발 직후 가속페달이 돌아오지 않음, 브레이크 40%"
+        },
+        {
+          "t": 4,
+          "speed_kph": 10
+        },
+        {
+          "t": 7.5,
+          "speed_kph": 26,
+          "note": "브레이크를 밟은 채 15km/h를 넘어 계속 빨라짐"
+        },
+        {
+          "t": 9,
+          "gear": "Neutral",
+          "brake": 100,
+          "speed_kph": 28,
+          "note": "중립 + 브레이크"
+        },
+        {
+          "t": 11,
+          "speed_kph": 0
+        },
+        {
+          "t": 12,
+          "gear": "Park",
+          "accelerator": 0,
+          "speed_kph": 0
+        }
+      ],
+      "expect": {
+        "prompt": true,
+        "accel_candidate": false,
+        "low_speed_skip": true,
+        "prompt_reason": "rose",
+        "prompt_by_s": 7.5
+      },
+      "app_note": "15km/h 아래(PMSA 구간)에서는 묻지 않다가, 브레이크를 밟은 채 15km/h를 넘으면 그때부터 1초 관측하고 \"속도가 오히려 빨라졌습니다\"로 묻습니다."
+    },
+    {
+      "id": "sua-late-brake",
+      "title": "⑤ 충돌 직전에만 제동(늦은 제동)",
+      "mode": "replay",
+      "basis": "도요타 EDR 오조작 39건 중 15%는 충돌 1초 전 이내에만 제동. 저속 사건은 수 초 안에 짧은 거리에서 끝남(NHTSA 2011).",
+      "duration_s": 10,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Drive",
+          "accelerator": 20,
+          "brake": 0,
+          "speed_kph": 30
+        },
+        {
+          "t": 2,
+          "accelerator": 100,
+          "speed_kph": 30
+        },
+        {
+          "t": 5,
+          "speed_kph": 52
+        },
+        {
+          "t": 6.2,
+          "accelerator": 0,
+          "brake": 100,
+          "speed_kph": 58,
+          "note": "충돌 0.6초 전 제동"
+        },
+        {
+          "t": 6.8,
+          "speed_kph": 54,
+          "note": "충돌"
+        },
+        {
+          "t": 7.0,
+          "speed_kph": 0
+        },
+        {
+          "t": 9,
+          "gear": "Park",
+          "speed_kph": 0
+        }
+      ],
+      "expect": {
+        "prompt": false,
+        "accel_candidate": false
+      },
+      "app_note": "브레이크 관측이 1초를 채우기 전에 사건이 끝나 질문은 뜨지 않습니다. 사고 뒤에는 에어백 신호(시험 입력)로 보호자 발송 확인 10초를 보여 줄 수 있습니다."
+    },
+    {
+      "id": "normal-merge",
+      "title": "정상: 고속도로 합류 가속(오탐 방지)",
+      "mode": "physics",
+      "basis": "PRD 3.3.2: 고속도로 합류 같은 정상 가속도 급가속 후보 값(2.5m/s², 700ms)을 넘을 수 있어 후보는 기록만 합니다.",
+      "duration_s": 10,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Drive",
+          "accelerator": 17,
+          "brake": 0,
+          "speed_kph": 60
+        },
+        {
+          "t": 2,
+          "accelerator": 80
+        },
+        {
+          "t": 6,
+          "accelerator": 25
+        }
+      ],
+      "expect": {
+        "prompt": false,
+        "accel_candidate": true
+      },
+      "app_note": "급가속 후보로 기록만 하고 화면·음성은 내지 않습니다."
+    },
+    {
+      "id": "normal-braking",
+      "title": "정상: 60km/h에서 브레이크로 감속",
+      "mode": "physics",
+      "basis": "브레이크를 밟고 1초 안에 0.5m/s 이상 줄면 정상 감속입니다(rules-lab confirm_prompt_conditions).",
+      "duration_s": 9,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Drive",
+          "accelerator": 17,
+          "brake": 0,
+          "speed_kph": 60
+        },
+        {
+          "t": 2,
+          "accelerator": 0,
+          "brake": 25
+        },
+        {
+          "t": 7,
+          "brake": 100
+        },
+        {
+          "t": 8,
+          "gear": "Park"
+        }
+      ],
+      "expect": {
+        "prompt": false,
+        "accel_candidate": false
+      }
+    },
+    {
+      "id": "creep-light-brake",
+      "title": "정상: 정체 구간 10km/h에서 가볍게 브레이크(저속 구간)",
+      "mode": "replay",
+      "basis": "15km/h 아래 저속 구간(PMSA·크리프 구간)에서는 질문하지 않습니다. 브레이크를 가볍게 대고 같은 속도로 가는 정체 구간 운전은 흔합니다.",
+      "duration_s": 11,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Drive",
+          "accelerator": 0,
+          "brake": 100,
+          "speed_kph": 0
+        },
+        {
+          "t": 1,
+          "brake": 0,
+          "accelerator": 10,
+          "speed_kph": 0
+        },
+        {
+          "t": 3,
+          "speed_kph": 10
+        },
+        {
+          "t": 3.5,
+          "brake": 5,
+          "speed_kph": 10
+        },
+        {
+          "t": 8,
+          "brake": 100,
+          "accelerator": 0,
+          "speed_kph": 10
+        },
+        {
+          "t": 9,
+          "speed_kph": 0
+        },
+        {
+          "t": 10,
+          "gear": "Park",
+          "speed_kph": 0
+        }
+      ],
+      "expect": {
+        "prompt": false,
+        "accel_candidate": false,
+        "low_speed_skip": true
+      }
+    },
+    {
+      "id": "case-record",
+      "title": "대표 사례: 앞 타이어 끼익 소리 기록(08:42:15, 시속 14km, 브레이크 밟음)",
+      "mode": "replay",
+      "basis": "문서 대표 사례(소리 장면). 출근길 감속 중 소리를 듣고 '지금 기록'을 누르는 장면입니다. 급발진 시나리오가 아니며, 화면 캡처(문서 그림)용입니다. 20초 시점에 '지금 기록'을 누릅니다.",
+      "duration_s": 35,
+      "steps": [
+        {
+          "t": 0,
+          "gear": "Drive",
+          "accelerator": 15,
+          "brake": 0,
+          "speed_kph": 32
+        },
+        {
+          "t": 8,
+          "accelerator": 0,
+          "speed_kph": 27
+        },
+        {
+          "t": 15,
+          "brake": 20,
+          "speed_kph": 25
+        },
+        {
+          "t": 20,
+          "speed_kph": 14,
+          "note": "여기서 '지금 기록'"
+        },
+        {
+          "t": 23,
+          "brake": 0,
+          "accelerator": 10,
+          "speed_kph": 14
+        },
+        {
+          "t": 30,
+          "accelerator": 0,
+          "brake": 100,
+          "speed_kph": 14
+        },
+        {
+          "t": 33,
+          "speed_kph": 0
+        },
+        {
+          "t": 34,
+          "gear": "Park",
+          "speed_kph": 0
+        }
+      ],
+      "expect": {
+        "prompt": false,
+        "accel_candidate": false
+      }
+    }
+  ]
+}

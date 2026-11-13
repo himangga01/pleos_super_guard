@@ -99,22 +99,35 @@ class SdkCheck(private val context: Context) {
         }
     }
 
+    private val ttsEvents = object : EventListener {
+        override fun onStart() = set("tts", CheckItem.State.WAITING, "재생 시작")
+        override fun onReady() {}
+        override fun onDone() = set("tts", CheckItem.State.OK, "재생 끝")
+        override fun onError(type: ErrorType) = set("tts", CheckItem.State.FAIL, "재생 오류: $type")
+        override fun onStop() {}
+        override fun onUpdatedRms(rms: Double) {}
+    }
+    private var ttsReady = false
+
+    /**
+     * SDK 문서 순서: initialize 성공 → EventListener 등록 → 언어 설정 → speak.
+     * 2026-11-13 로컬 에뮬레이터에서 initialize 전에 addEventListener를 부르면
+     * "lateinit property tts has not been initialized"로 실패하는 것을 확인했습니다.
+     */
     fun runTts(text: String = "플레오스 가드 음성 안내 시험입니다.") {
         try {
-            val t = tts ?: TextToSpeech(context, Mode.ON_DEVICE).also { tts = it }
-            t.addEventListener(object : EventListener {
-                override fun onStart() = set("tts", CheckItem.State.WAITING, "재생 시작")
-                override fun onReady() {}
-                override fun onDone() = set("tts", CheckItem.State.OK, "재생 끝")
-                override fun onError(type: ErrorType) = set("tts", CheckItem.State.FAIL, "재생 오류: $type")
-                override fun onStop() {}
-                override fun onUpdatedRms(rms: Double) {}
-            })
+            val existing = tts
             timeout("tts", 10_000)
+            if (existing != null && ttsReady) { existing.speak(text, true); return }
+            val t = TextToSpeech(context, Mode.ON_DEVICE).also { tts = it }
             t.initialize(object : OnInitializeListener {
                 override fun onSuccess() {
-                    t.setLocale(Locale.KOREAN)
-                    t.speak(text, true)
+                    try {
+                        t.addEventListener(ttsEvents)
+                        t.setLocale(Locale.KOREA)
+                        ttsReady = true
+                        t.speak(text, true)
+                    } catch (e: Exception) { set("tts", CheckItem.State.FAIL, "${e.javaClass.simpleName}: ${e.message}") }
                 }
                 override fun onFailure(type: ErrorType) = set("tts", CheckItem.State.FAIL, "초기화 실패: $type")
             })
@@ -126,7 +139,7 @@ class SdkCheck(private val context: Context) {
     fun release() {
         runCatching { vehicle?.getBrake()?.unregisterBrakePedalStatus(brakeListener) }
         runCatching { vehicle?.release() }
-        runCatching { tts?.release() }
+        runCatching { tts?.removeEventListener(ttsEvents); tts?.release() }
         runCatching {
             val cb = speedCallback
             val cpm = car?.getCarManager(Car.PROPERTY_SERVICE) as? CarPropertyManager

@@ -10,6 +10,17 @@
 
 이 저장소에는 큰 파일(에뮬레이터 이미지, 빌드 결과)이 없습니다. 에뮬레이터 이미지는 아래 2장대로 Android Studio가 내려받습니다.
 
+## 0.1 사용자 로컬 PC 환경 (2026-11-13 조사)
+
+| 항목 | 확인 결과 |
+| --- | --- |
+| OS·CPU·메모리 | Windows 11 Pro 26200 x64, AMD Ryzen 5 7500F, 32GB. 가상화 켜짐, WHPX 사용 가능 |
+| Android | SDK `C:\Android`(Platform 34·36, build-tools 36, Emulator 37.2.12, Pleos Connect v2.1.0 이미지), AVD `C:\Android\avd\Pleos_Connect_2_1_0`, JDK `C:\Android\tools\jdk-21.0.12.1+1`. Android Studio는 없음(명령줄로 작업) |
+| 문서 | Microsoft Office ProPlus 2024 Word 16.0.17932. LibreOffice·python-docx 없음. 제출 문서는 Word로 직접 편집·측정·PDF 제작([HANDOFF 10장](../HANDOFF.md)) |
+| 글꼴 | 페이퍼로지 9종, Pretendard 9종, 맑은 고딕, Noto Sans KR |
+| Python | 3.12.10(Pillow, lxml, PyMuPDF) |
+| 주의 | Windows PowerShell 5.1은 BOM 없는 UTF-8 `.ps1`을 CP949로 읽음(스크립트는 영문으로). Git Bash에서 adb에 `/sdcard` 경로를 넘길 때는 `MSYS_NO_PATHCONV=1`. 휴대폰이 무선 adb로 붙어 있을 수 있어 `-s emulator-5554` 지정 |
+
 ## 1. 준비물
 
 | 항목 | 내용 |
@@ -44,11 +55,19 @@ adb shell cmd hmg_car_service --service drivingstate driving_regulation on
 - 차속, 에어백 전개, 안전벨트처럼 카드가 없거나 확인되지 않은 값은 데모 앱의 시연 모드 시험 입력으로 넣고 화면에 [시험 입력]을 붙입니다(설계 기준).
 - 주행 제한을 끄는 명령은 공식 문서에서 확인하지 못했습니다. `demo-app/scripts`의 `drive-off`는 `on`을 `off`로 바꾼 추정 명령입니다. 안 되면 에뮬레이터를 다시 시작하세요.
 
+**2026-11-13 로컬 확인으로 고친 점**(자세한 결과는 [데모 검토 기록 5절](../analysis/demo-feasibility-2026-11-13.md)):
+
+- 위 `cmd hmg_car_service ...` 명령은 Pleos Connect v2.1.0 이미지에서 "Can't find service: hmg_car_service"로 실패했습니다. **Virtual Console에서 기어를 D로 바꾸면** CarUxRestrictions가 주행 제한(DO 필요)으로 바뀝니다. P로 바꾸면 풀립니다.
+- 차속 카드는 없지만 Virtual Console의 Emulation Controls(ACCEL·BRAKE 페달)나 HTTP API(`PUT /vehicle/controls`, `PUT /vehicle/gear`)로 실제 차속 신호(AAOS `PERF_VEHICLE_SPEED`)를 만들 수 있습니다. 급발진 시나리오 재생기 `demo-app/scripts/vc_scenario.py`가 이 방법을 씁니다. 재생 중에는 Virtual Console 웹 페이지를 닫습니다.
+- Windows 사용자 폴더 이름에 한글이 있으면 AVD를 영문 경로에 두는 것이 안전합니다(예: 환경 변수 `ANDROID_AVD_HOME=C:\Android\avd`).
+- 휴대폰이 무선 adb로 함께 붙어 있으면 `adb -s emulator-5554`로 대상을 지정합니다. Gradle `installDebug`는 붙은 모든 기기에 설치하므로 쓰지 않습니다.
+
 ## 4. 데모 앱 빌드·설치·점검
 
 ```text
 cd demo-app
-.\gradlew.bat :app:installDebug          # Windows (macOS·Linux는 ./gradlew)
+.\gradlew.bat :app:assembleDebug         # Windows (macOS·Linux는 ./gradlew)
+adb -s emulator-5554 install -r -g app\build\outputs\apk\debug\app-debug.apk
 ```
 
 - 앱 "플레오스 가드 데모"를 열면 SDK 점검 화면이 나옵니다. 순서와 기대 결과는 [demo-app/README.md](../../demo-app/README.md)의 "로컬 에뮬레이터에서 처음 할 일"에 있습니다.

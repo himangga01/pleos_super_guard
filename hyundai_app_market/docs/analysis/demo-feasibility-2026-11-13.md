@@ -57,17 +57,27 @@
 
 설계 문서의 [시연] 기능 가운데 한 흐름만 만듭니다. 홈 → 경고등 찾기(색·모양) → 지금 기록(차량 상태 시간표) → 확인 질문(화면·말로 답하기) → 긴급 안내(페달 그림 1fps 이하 단계형 애니메이션, 음성) → 보호자 발송 확인 10초 → 모의 발송입니다. SDK 값이 없으면 시연 모드의 시험 입력을 쓰고 화면에 [시험 입력]을 붙입니다. 서버·카카오톡·문자 발송은 모의로 둡니다.
 
-## 5. 로컬 확인 (로컬 PC에서 채울 칸)
+## 5. 로컬 확인 (2026-11-13 저녁, 사용자 로컬 PC)
 
-[로컬 실행 안내](../local-setup/README.md)대로 `demo-app`을 설치한 뒤 아래 표를 채우고 커밋합니다. 실제로 본 결과만 적고, 보지 못한 항목은 "미확인"으로 둡니다.
+[로컬 실행 안내](../local-setup/README.md)대로 `demo-app`을 설치해 확인한 결과입니다. 실제로 본 결과만 적고, 보지 못한 항목은 "미확인"으로 둡니다.
 
-| 확인 항목 | 결과(성공·실패·미확인) | 화면에 나온 메시지 | 날짜·PC·에뮬레이터 판 |
+- 환경: Windows 11 Pro(26200), AMD Ryzen 5 7500F, 메모리 32GB, 가속 WHPX. Android Emulator 37.2.12, Pleos Connect v2.1.0 시스템 이미지(패키지 `system-images;android-34;pleos_car_emulator;x86_64` 판 2), AVD RAM 8GB·Cold boot. 사용자가 42dot SDK 사용권 계약에 동의한 뒤 sdkmanager로 설치했습니다.
+- 앱: `demo-app` 0.2.0-demo(디버그). 같은 PC에 휴대폰이 무선 adb로 함께 붙어 있어 모든 명령은 `emulator-5554`를 지정했습니다(`ANDROID_SERIAL=emulator-5554`). Gradle `installDebug`는 연결된 모든 기기에 설치하므로 쓰지 않았습니다.
+
+| 확인 항목 | 결과 | 본 것 | 비고 |
 | --- | --- | --- | --- |
-| 에뮬레이터 부팅과 adb 연결 |  |  |  |
-| Vehicle SDK 연결 · 브레이크 값 읽기 |  |  |  |
-| 브레이크 변화 구독(Virtual Console) |  |  |  |
-| 차속 PERF_VEHICLE_SPEED(CAR_SPEED 허락) |  |  |  |
-| TTS 기기 안 모드 한국어 합성 |  |  |  |
-| Virtual Console 열기(8088) |  |  |  |
-| 주행 제한 켜기 명령 |  |  |  |
-| 화면 녹화(webm 또는 OBS) |  |  |  |
+| 에뮬레이터 부팅과 adb 연결 | 성공 | Cold boot 33초, adb `device`(인증 창 없이 바로) | 클라우드에서는 85분 동안 화면 없음 |
+| Vehicle SDK 연결 · 브레이크 값 읽기 | 성공 | "브레이크: false" | |
+| 브레이크 변화 구독(Virtual Console) | 성공 | VC Brake Pedal 1% 이상이면 `true`, 0%면 `false` | VC가 위치(%)에서 밟음 여부를 만듦 |
+| 차속 PERF_VEHICLE_SPEED(CAR_SPEED 허락) | 성공 | 앱 차속이 Pleos 계기판과 같음(17km/h 등) | 설치 때 `-g`로 허락. 앱 화면 갱신 버그를 고친 뒤 확인(아래) |
+| TTS 기기 안 모드 한국어 합성 | 처음 실패 → 고친 뒤 성공 | 처음: `UninitializedPropertyAccessException: lateinit property tts has not been initialized`. 고친 뒤: "차가 멈추지 않나요?" 재생, onStart→onDone 약 3.3초, 화자 seoyoon | `initialize` 성공 뒤 `addEventListener`를 불러야 함(SDK 문서 순서) |
+| STT 기기 안 모드 듣기 시작 | 성공(인식 글은 미확인) | TTS가 끝난 뒤 음성 인식이 마이크 녹음을 시작함(16kHz) | 실제로 말해서 인식 글이 오는지는 아직 보지 않음 |
+| Virtual Console 열기(8088) | 성공 | `adb forward tcp:8088 tcp:8088` 뒤 브라우저로 열림 | 차속 카드는 없지만 Emulation Controls·HTTP API로 차속·페달·기어를 넣을 수 있음 |
+| 주행 제한 켜기 명령 | 실패 → 다른 방법으로 성공 | `cmd hmg_car_service ...` → "Can't find service: hmg_car_service" | VC 기어 D로 바꾸면 CarUxRestrictions가 DO 필요(0x50, idling)로 바뀜. 차속이 있으면 moving |
+| 주행 중 사용 선언(DO) | 성공 | Pleos 홈 로그 `distractionOptimized: true`, 기어 D에서도 앱이 막히지 않고 주행 중 홈으로 바뀜 | `distractionOptimized` meta-data 추가 |
+| 세로 한 창 | 성공 | 앱 창 오른쪽 "⋮" 손잡이를 끌면 앱 841×1210dp + 내비 두 칸 | 기본은 1682×1210dp 넓은 창 |
+| 화면 녹화(webm 또는 OBS) | 미확인 | | |
+
+- **앱 화면 갱신 버그(고침).** 처음 설치본은 Pleos 계기판이 66km/h인데 앱은 0km/h로 남았습니다. 값은 받고 있었으나, Compose strong skipping이 같은 controller 객체를 받는 화면을 건너뛰어 일반 변수의 변화가 화면에 닿지 않았습니다. 신호 값을 100ms마다 Compose 상태로 옮기도록 고쳤습니다.
+- **Windows 한글 사용자 폴더 문제(고침).** 사용자 폴더 이름에 한글이 있으면 Gradle 테스트 작업자(`GradleWorkerMain`을 찾지 못함)와 Robolectric 원시 라이브러리(`UnsatisfiedLinkError`)가 실패했습니다. `gradle.properties`에 `-Dfile.encoding=COMPAT`, 테스트 임시 폴더를 빌드 폴더로 두어 해결했습니다.
+- 급발진 조건과 Virtual Console 시나리오 재생은 [급발진 조사](sudden-acceleration-2026-11-13.md)에 따로 적습니다.
