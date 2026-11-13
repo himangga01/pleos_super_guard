@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <!-- Pleos 차량 전용. FusedLocation AAR도 같은 선언을 요구합니다. -->
+  <uses-feature android:name="android.hardware.type.automotive" android:required="true" />
+
+  <!-- Vehicle SDK 2.3.2 실행 검사 권한(normal). 설계 문서 docs/sdk/vehicle-api-catalog.md 기준 -->
+  <uses-permission android:name="pleos.car.permission.CAR_DRIVE" />
+  <uses-permission android:name="pleos.car.permission.CAR_SAFETY" />
+  <uses-permission android:name="pleos.car.permission.CAR_DOORS" />
+  <uses-permission android:name="pleos.car.permission.CAR_SEATS" />
+  <uses-permission android:name="pleos.car.permission.CAR_LIGHTS" />
+  <uses-permission android:name="pleos.car.permission.CAR_CLIMATE" />
+  <uses-permission android:name="pleos.car.permission.CAR_WINDOWS" />
+  <uses-permission android:name="pleos.car.permission.CAR_INFO" />
+  <!-- 음성·위치·내비 SDK -->
+  <uses-permission android:name="pleos.car.permission.TTS_SERVICE" />
+  <uses-permission android:name="pleos.car.permission.STT_SERVICE" />
+  <uses-permission android:name="pleos.car.permission.FUSED_LOCATION" />
+  <uses-permission android:name="pleos.car.permission.NAVI_ROUTE_SEARCH" />
+  <!-- AAOS 차속(PERF_VEHICLE_SPEED). dangerous 권한이라 실행 중에 허락을 받습니다. -->
+  <uses-permission android:name="android.car.permission.CAR_SPEED" />
+
+  <application
+      android:label="@string/app_name"
+      android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+    <!-- 주행 중 사용(Distraction Optimization) 선언 방법은 Pleos 문서(가이드 G4·G5) 확인 뒤 추가합니다. -->
+    <activity android:name=".MainActivity" android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+  </application>
+</manifest>
