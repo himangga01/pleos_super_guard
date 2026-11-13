@@ -12,9 +12,9 @@
 | [database.sql](database.sql) | v3.1 | 테이블 36개, 뷰 1개, 외래키 70개, CHECK 198개, 명시 인덱스 23개(부분 고유 6개) | PostgreSQL 스키마 제안 |
 | [rules-lab.json](rules-lab.json) | 2.2.0 (`pleos-care-lab-20261112-r3`, 판정 값이 같아 그대로) | 공개 신호 목록 23개 | 신호 유효성·발송 범위·성능 예산·수치의 개발용 시작값 |
 | [ui-tokens.json](ui-tokens.json) | 5.2.0 | 화면 20개, 시안 세로 17장·가로 16장(폴더 실제 목록), 화면 문구 15행, 대비 조합 18개(최소 5.674:1) | 세로·가로 배치, 버튼 자리(F1), G 화면 문구표, 긴급 안전 예외, Pleos 공식 수치와 자체 수치 |
-| [acceptance-scenarios.json](acceptance-scenarios.json) | 3.2.0 | 135개(v2 승계 56 + v3 47 + 2차 30 + 2026-11-13 2). 시연 71·설계 56·향후 8 | 구현 뒤 실행할 인수 사례. **통과한 앱 시험이 아님** |
-| [validate_contracts.py](validate_contracts.py) | - | 정적 검사 518개(2026-11-13). v3.1 판은 560개(PostgreSQL 포함, 정적만 493개) | 계약 검사기(python3 표준 라이브러리만) |
-| [validation-2026-11-12-v3.1-final.json](validation-2026-11-12-v3.1-final.json) | - | PASS, 실패 0 | **v3.1 판** 최종 검사 결과. v3.1.1의 결과 파일은 아직 만들지 않았습니다(정적 검사 518개 PASS만 확인) |
+| [acceptance-scenarios.json](acceptance-scenarios.json) | 3.2.0 | 136개(v2 승계 56 + v3 47 + 2차 30 + 2026-11-13 3). 시연 72·설계 56·향후 8 | 구현 뒤 실행할 인수 사례. **통과한 앱 시험이 아님** |
+| [validate_contracts.py](validate_contracts.py) | - | 정적 검사 521개(2026-11-13). v3.1 판은 560개(PostgreSQL 포함, 정적만 493개) | 계약 검사기(python3 표준 라이브러리만) |
+| [validation-2026-11-12-v3.1-final.json](validation-2026-11-12-v3.1-final.json) | - | PASS, 실패 0 | **v3.1 판** 최종 검사 결과. v3.1.1의 결과 파일은 아직 만들지 않았습니다(정적 검사 521개 PASS만 확인) |
 | [validation-2026-11-12-v3.1.json](validation-2026-11-12-v3.1.json) | - | PASS, 실패 0 | v3.1 판 중간 기록(보호자 3명 정정 전) |
 | [validation-2026-11-12-v3.json](validation-2026-11-12-v3.json) | - | - | **v3 시점 기록**(353개 PASS). 이번 판 검사가 아님 |
 | [validation-2026-11-12.json](validation-2026-11-12.json) | - | - | **v2 시점 기록**. 이번 판 검사가 아님 |
@@ -29,10 +29,20 @@
 사용자가 2026-11-13에 내린 두 결정을 반영했습니다. 이 결정은 이전 결정보다 우선합니다. 질문 조건·억제 값, 버튼 자리, DB(v3.1)는 바꾸지 않았습니다. v3.1 원본은 Git 이력에 있습니다.
 
 - **확인 질문은 화면이나 말로 답합니다.** 센서 조합(브레이크 밟음 + 1,000ms 동안 감속 미관측 등)이 맞으면 앱이 화면과 음성으로 "차가 멈추지 않나요?"를 묻고, 운전자는 버튼을 누르거나 버튼 없이 바로 말로 답합니다. 마이크는 "말로 하기"를 누른 뒤나 확인 질문 직후에만 최대 8초 열립니다(상시 듣기 없음). rules-lab `guidance.confirm_prompt_answers`(`answer_modes`, `voice_listen_window_ms = 8000`, `voice_listen_starts`, `no_answer_result`), `guidance.voice_entry.confirm_prompt_voice_answer_without_button`, `voice.mic_open_only_after`, ui-tokens `screens[confirm_prompt].answer_modes`, OpenAPI `GuidanceEntry` 설명(옛 '예' 버튼 문구 정리)과 `x-sdk-notes`에 적었습니다.
-- **긴급 안전 예외(사용자 결정 2026-11-13).** 원치 않는 가속 안내(`UNWANTED_ACCEL_GUIDE`)와 감속 실패 대처(`DECEL_FAILURE_GUIDE`)는 주행 중에도 음성 단계와 같은 페달 그림·설명 애니메이션을 보여 주고, 시각 영역 왼쪽에 아반떼 실사 뒷모습 사진을 둡니다. Pleos 디자인 가이드(G7·G8)와 의도적으로 다른 결정입니다. ui-tokens `emergency_safety_exception`(원문 인용, 이유, 위험, 완화, 대체 조건), `driving_mode.motion_exceptions`, `animation.driving_motion_exception`, rules-lab `guidance.emergency_visual`, OpenAPI `GuideStep.motion_while_driving`(boolean, `GuideBundle.allOf`로 `G_UNWANTED_ACCEL`·`G_DECEL_FAILURE`만 true)에 같은 이름과 값을 씁니다. Pleos가 허용하지 않거나 `NO_VIDEO` 같은 주행 제한이 걸리면 정지 페달 그림(`still_image_asset_id`)으로 자동으로 바꿉니다. 그 밖의 주행 중 화면은 움직임이 없습니다.
+- **긴급 안전 예외(사용자 결정 2026-11-13).** 원치 않는 가속 안내(`UNWANTED_ACCEL_GUIDE`)와 감속 실패 대처(`DECEL_FAILURE_GUIDE`)는 주행 중에도 음성 단계와 같은 페달 그림·설명 애니메이션을 보여 주고, 시각 영역 왼쪽에 아반떼 실사 뒷모습 사진을 둡니다. Pleos 디자인 가이드(G7·G8)와 의도적으로 다른 결정입니다. ui-tokens `emergency_safety_exception`(원문 인용, 이유, 위험, 완화, 대체 조건), `driving_mode.motion_exceptions`, `animation.driving_motion_exception`, rules-lab `guidance.emergency_visual`, OpenAPI `GuideStep.motion_while_driving`(boolean, `GuideBundle.allOf`로 `G_UNWANTED_ACCEL`·`G_DECEL_FAILURE`만 true)에 같은 이름과 값을 씁니다. 애니메이션은 1초에 한 장 이하로 바뀌는 단계형입니다(아래 추가 정정). Pleos가 허용하지 않거나(설정 값으로 끔) 화면 자체가 막히는 완전 제한일 때만 정지 페달 그림(`still_image_asset_id`)으로 자동으로 바꿉니다. 그 밖의 주행 중 화면은 움직임이 없습니다.
 - **비상 절차 미리 익히기**는 긴급 안내와 같은 그림을 천천히 따라 해 보는 연습으로 설명을 맞췄습니다(`animation.parked_practice_reuses_emergency_animation`, `guidance.practice.purpose`).
-- **acceptance 3.2.0**: T60·T65·T97·T103·T126의 기대값을 고쳤고(`changed_in` 3.2.0), T134(확인 질문에 버튼 없이 말로 답하기, 8초 뒤 닫힘)와 T135(애니메이션 제한 때 정지 페달 그림 대체)를 더했습니다(`added_in` 3.2.0). T103은 `motion_while_driving=true`를 기대합니다.
-- **검사기**: 판 번호, `d7:driving_motion_none_except_u13_exception`(움직임 없음 규칙의 예외는 긴급 안전 예외 하나뿐), 새 검사 `u13:*` 17개(말 답 8초, 마이크가 열리는 두 경우, 예외 범위 두 화면, 묶음 이름과 상태 대응, 정지 그림 대체, 완화 항목, G7·G8 원문 유지, 시각 영역 배치, 차 사진 파일, OpenAPI 조건, 미리 익히기, 새 인수 사례, 옛 규칙 문장 없음), 스키마 예시 8개(정상 4·위반 4)를 더했습니다. 정적 검사 518개 PASS(2026-11-13)입니다. PostgreSQL 포함 검사와 결과 파일 작성은 이번에 하지 않았습니다.
+- **acceptance 3.2.0**: T60·T65·T97·T103·T126의 기대값을 고쳤고(`changed_in` 3.2.0), T134(확인 질문에 버튼 없이 말로 답하기, 8초 뒤 닫힘), T135(Pleos 불허·완전 제한 때 정지 페달 그림 대체), T136(`NO_VIDEO`가 켜져도 1fps 이하 단계형 애니메이션 유지)을 더했습니다(`added_in` 3.2.0). T103은 `motion_while_driving=true`를 기대합니다.
+- **검사기**: 판 번호, `d7:driving_motion_none_except_u13_exception`(움직임 없음 규칙의 예외는 긴급 안전 예외 하나뿐), 새 검사 `u13:*` 17개(말 답 8초, 마이크가 열리는 두 경우, 예외 범위 두 화면, 묶음 이름과 상태 대응, 정지 그림 대체, 완화 항목, G7·G8 원문 유지, 시각 영역 배치, 차 사진 파일, OpenAPI 조건, 미리 익히기, 새 인수 사례, 옛 규칙 문장 없음), 스키마 예시 8개(정상 4·위반 4)를 더했습니다. 아래 추가 정정 뒤 `u13:*`는 20개, 정적 검사는 521개 PASS(2026-11-13)입니다. PostgreSQL 포함 검사와 결과 파일 작성은 이번에 하지 않았습니다.
+
+### 2026-11-13 추가 정정: NO_VIDEO 정의에 맞춘 단계형 애니메이션
+
+메인 세션이 Android 공식 문서([CarUxRestrictions](https://developer.android.com/reference/android/car/drivingstate/CarUxRestrictions))에서 `UX_RESTRICTIONS_NO_VIDEO`의 정의가 "No video - no animated frames > 1fps"임을 확인했습니다(2026-11-13). 그래서 판 번호는 그대로 두고 다음을 고쳤습니다.
+
+- 긴급 안전 예외의 설명 애니메이션은 1초에 한 장 이하로 바뀌는 **단계형**입니다. ui-tokens `emergency_safety_exception`과 rules-lab `guidance.emergency_visual`에 `animation_style = STEPPED_KEY_SCENES`, `max_frame_changes_per_s = 1`, `min_scene_hold_ms = 1000`, `smooth_transition = false`, `loop = false`, 핵심 장면 예 3장을 같은 값으로 적었습니다. ui-tokens에는 정의 원문(`no_video_definition`)도 남겼습니다.
+- `NO_VIDEO`가 켜져도 단계형 애니메이션을 유지합니다(`fallback.not_when`, `no_video_keeps_animation`). 정지 페달 그림으로 바꾸는 경우는 `PLEOS_NOT_ALLOWED`(Pleos가 사전 문의에서 허용하지 않아 설정 값 `emergency_animation_allowed`로 끔)와 `FULL_RESTRICTION_SCREEN_BLOCKED`(1fps 이하로도 그릴 수 없는 완전 제한) 둘뿐입니다.
+- OpenAPI `GuideStep` 설명과 `x-sdk-notes`, 인수 사례 T103(단계형 기대)·T135(Pleos 불허·완전 제한 때 대체)를 고치고 T136(`NO_VIDEO` 켜짐에서 단계형 유지)을 더했습니다.
+- 검사기: 대체 조건 상수, `u13:stepped_animation_within_no_video_1fps`, `u13:acceptance_no_video_keeps_stepped_animation`, `u13:no_video_alone_does_not_switch_to_still`(NO_VIDEO만으로 정지 그림으로 바꾼다는 문장 금지)을 더했습니다. 정적 검사 521개 PASS입니다.
+- 이 해석(1fps 이하 단계형은 `NO_VIDEO` 정의 안)을 Pleos 심사도 받아들이는지는 사전 문의로 확인합니다.
 
 ## v3.1에서 바뀐 점
 
@@ -141,7 +151,7 @@ python3 -I validate_contracts.py --pg-host <소켓 폴더 또는 호스트> --pg
 - 시험 입력은 신호마다 `source`·`quality`가 `TEST_INPUT`이고 화면에 [시험 입력], 보호자 화면에 [시험]을 붙입니다. 시험 입력이 섞인 사건은 모의 발송만 합니다.
 - 버튼 자리는 앱 전체에서 같습니다: 왼쪽 = 끝내기·취소·기록(중립색), 오른쪽 = 도움·보내기·감속 실패(빨강). 화면 문구는 ui-tokens `screen_copy`를 씁니다. 앱 안에는 지도를 그리지 않습니다.
 - 마이크는 "말로 하기"를 누른 뒤나 앱이 확인 질문을 한 직후에만 최대 8초 열립니다. 확인 질문에는 화면이나 말로 답합니다.
-- 주행 중 움직임은 긴급 안전 예외(긴급 안내 두 화면의 페달 그림·설명 애니메이션) 하나뿐입니다. 제한이 걸리면 정지 페달 그림으로 바꿉니다.
+- 주행 중 움직임은 긴급 안전 예외(긴급 안내 두 화면의 페달 그림·1fps 이하 단계형 설명 애니메이션) 하나뿐입니다. Pleos 불허·완전 제한 때 정지 페달 그림으로 바꿉니다.
 - 위치 제공 기록은 삭제 대신 익명화합니다. '공유 중지'는 이번 사건 위치만 멈추고 동의는 그대로 둡니다.
 - 수치는 제조사 검증값이 아닌 개발용 시작값입니다. 앱은 차를 제어하지 않고 119에 자동 신고하지 않습니다.
 - 예시의 `example.invalid`, 0으로 채운 UUID는 가상 값입니다. 비밀키 값은 없으며 발송사 키를 차량·휴대폰에 두지 않습니다.
@@ -151,3 +161,5 @@ python3 -I validate_contracts.py --pg-host <소켓 폴더 또는 호스트> --pg
 ## 2026-11-12 추가 정정: 보호자 최대 3명
 
 결정 C4에 맞춰 보호자 수를 최대 5명에서 **3명(모두 무료)**으로 바꿨습니다(`rules-lab.json` `guardian_limit`, OpenAPI `guardian_ids`·`recipients_shown_guardian_ids`·보호자 목록 `maxItems`, `database.sql` `vehicle_guardians.slot`). 바꾼 뒤 정적 검사만 다시 실행했고 결과는 `validation-2026-11-12-v3.1-guardian3-static.json`(PASS)입니다. PostgreSQL 제약 시험이 들어 있는 `validation-2026-11-12-v3.1.json`은 이 정정 전 실행 기록입니다. 이어서 남은 DB CHECK 4곳(보호자 목록 길이)도 3명으로 고치고, PostgreSQL 시험의 보호자 자리 사례를 4번째 자리 거부로 바꾼 뒤 PostgreSQL 16 임시 DB까지 포함해 다시 검사했습니다. **현재 판의 최종 결과는 `validation-2026-11-12-v3.1-final.json`(560개 PASS)입니다.**
+
+**2026-11-13 최종 검사(계약 묶음 3.1.1).** 위 결정과 NO_VIDEO 정정을 모두 반영한 뒤 PostgreSQL 16 임시 DB의 제약 시험까지 포함해 다시 검사했습니다. 결과는 `validation-2026-11-13-v3.1.1-final.json`(588개 PASS)입니다. 앱·서버 실행 증거가 아닙니다.

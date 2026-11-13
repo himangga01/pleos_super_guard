@@ -3,7 +3,7 @@
   "info": {
     "title": "플레오스 가드 앱 서버 API(Pleos Guard application backend)",
     "version": "3.1.1",
-    "description": "이 앱이 직접 만들 서버 API 계약(제안)이다. Pleos·카카오 공식 API가 아니며 실행 중인 서버를 뜻하지 않는다. 예시는 모두 가상 값이다. 상태·열거형·위치·스냅샷 이름은 1차 비판 반영 결정 9장(계약 고정 사항)을 그대로 쓰고(x-contract-source=DECISIONS-9), 2차 비판 결정(B·D·F·H)으로 더한 이름은 x-contract-source=DECISIONS-R2로 표시한다. 공개 SDK 밖 입력은 스키마에서 빼고 x-future-inputs에 availability FUTURE로 적었다. 실제 발송은 서버 등록·인증된 수신자·승인 템플릿·환경 조건을 갖춘 뒤에만 켠다. 공통 규칙: (1) 시험 입력(source=TEST_INPUT)이 신호 하나라도 섞인 사건은 test_mode=true이고 모의 발송(dispatch_mode=MOCK)만 한다. (2) Idempotency-Key는 본문의 client_*_id와 같아야 하며 다르면 400이다. 범위는 (세션 주체, operationId), 보관은 7일(오프라인 재전송 고려). (3) 사건 행동·정정·위치 공유 멈추기는 x-authz의 '운전자 본인' 규칙을 따른다. 다른 계정은 403 DRIVER_MISMATCH. (4) 서버 시각은 POST /v1/time-sync와 응답의 server_time(밀리초)으로 준다. 클라이언트가 보낸 SYNCHRONIZED 주장은 서버가 시각 표본으로 다시 확인한다. (5) 앱 화면에는 지도를 그리지 않는다(공개 SDK에 지도 없음). 보호자 웹(휴대폰 브라우저)의 지도는 서버·웹 기능이다. (6) 3.1.1(2026-11-13 사용자 결정): 확인 질문에는 운전자가 버튼이나 말로 답한다(질문 직후 최대 8초 듣기, entry PROMPT_CONFIRMED). 긴급 안전 예외로 GuideStep.motion_while_driving=true는 G_UNWANTED_ACCEL·G_DECEL_FAILURE 단계에서만 허용하고, 앱은 Pleos 불허·주행 제한(NO_VIDEO) 때 still_image_asset_id(정지 페달 그림)로 바꾼다. 작업·경로·스키마 개수는 3.1.0과 같다."
+    "description": "이 앱이 직접 만들 서버 API 계약(제안)이다. Pleos·카카오 공식 API가 아니며 실행 중인 서버를 뜻하지 않는다. 예시는 모두 가상 값이다. 상태·열거형·위치·스냅샷 이름은 1차 비판 반영 결정 9장(계약 고정 사항)을 그대로 쓰고(x-contract-source=DECISIONS-9), 2차 비판 결정(B·D·F·H)으로 더한 이름은 x-contract-source=DECISIONS-R2로 표시한다. 공개 SDK 밖 입력은 스키마에서 빼고 x-future-inputs에 availability FUTURE로 적었다. 실제 발송은 서버 등록·인증된 수신자·승인 템플릿·환경 조건을 갖춘 뒤에만 켠다. 공통 규칙: (1) 시험 입력(source=TEST_INPUT)이 신호 하나라도 섞인 사건은 test_mode=true이고 모의 발송(dispatch_mode=MOCK)만 한다. (2) Idempotency-Key는 본문의 client_*_id와 같아야 하며 다르면 400이다. 범위는 (세션 주체, operationId), 보관은 7일(오프라인 재전송 고려). (3) 사건 행동·정정·위치 공유 멈추기는 x-authz의 '운전자 본인' 규칙을 따른다. 다른 계정은 403 DRIVER_MISMATCH. (4) 서버 시각은 POST /v1/time-sync와 응답의 server_time(밀리초)으로 준다. 클라이언트가 보낸 SYNCHRONIZED 주장은 서버가 시각 표본으로 다시 확인한다. (5) 앱 화면에는 지도를 그리지 않는다(공개 SDK에 지도 없음). 보호자 웹(휴대폰 브라우저)의 지도는 서버·웹 기능이다. (6) 3.1.1(2026-11-13 사용자 결정): 확인 질문에는 운전자가 버튼이나 말로 답한다(질문 직후 최대 8초 듣기, entry PROMPT_CONFIRMED). 긴급 안전 예외로 GuideStep.motion_while_driving=true는 G_UNWANTED_ACCEL·G_DECEL_FAILURE 단계에서만 허용하고, 주행 중 애니메이션은 1초에 한 장 이하로 바뀌는 단계형이라 NO_VIDEO 정의('no animated frames > 1fps') 안이고, 앱은 Pleos 불허·완전 제한 때만 still_image_asset_id(정지 페달 그림)로 바꾼다. 작업·경로·스키마 개수는 3.1.0과 같다."
   },
   "servers": [
     {
@@ -4501,7 +4501,7 @@
           "AUDIO",
           "VISUAL"
         ],
-        "description": "안내 출력 경로. VISUAL은 행동 문장과 시각 영역(긴급 안전 예외 두 화면은 페달 그림·설명 애니메이션, 제한 때 정지 페달 그림)이다.",
+        "description": "안내 출력 경로. VISUAL은 행동 문장과 시각 영역(긴급 안전 예외 두 화면은 페달 그림·1초에 한 장 이하 단계형 설명 애니메이션, Pleos 불허·완전 제한 때 정지 페달 그림)이다.",
         "x-contract-source": "CONTRACT-V3"
       },
       "GuidanceOutputResult": {
@@ -9169,7 +9169,7 @@
           "still_image_asset_id": {
             "type": "string",
             "maxLength": 80,
-            "description": "정지 페달 그림. 설명 애니메이션을 쓸 수 없을 때(Pleos 불허, 주행 제한 NO_VIDEO, 자산 없음) 같은 단계에서 자동으로 대신 보여 준다."
+            "description": "정지 페달 그림. 설명 애니메이션을 쓸 수 없을 때(Pleos 불허로 설정에서 끔, 1초에 한 장 이하로도 그릴 수 없는 완전 제한) 같은 단계에서 자동으로 대신 보여 준다. NO_VIDEO만으로는 바꾸지 않는다."
           },
           "parked_animation_asset_id": {
             "type": [
@@ -9177,11 +9177,11 @@
               "null"
             ],
             "maxLength": 80,
-            "description": "페달 설명 애니메이션. 정차 중 '비상 절차 미리 익히기'에서 천천히 따라 해 보는 연습에 쓰고, motion_while_driving=true인 긴급 안내 단계에서는 주행 중에도 같은 자산을 쓴다. 필드 이름은 v3 계약과 맞추려고 유지한다."
+            "description": "페달 설명 애니메이션. 정차 중 '비상 절차 미리 익히기'에서 천천히 따라 해 보는 연습에 쓰고, motion_while_driving=true인 긴급 안내 단계에서는 주행 중에도 같은 자산을 쓴다. 주행 중에는 1초에 한 장 이하로 바뀌는 단계형(장면마다 최소 1,000ms, 부드러운 전환·루프 없음)으로 재생한다. 필드 이름은 v3 계약과 맞추려고 유지한다."
           },
           "motion_while_driving": {
             "type": "boolean",
-            "description": "주행 중 설명 애니메이션을 쓰는지. true는 긴급 안전 예외(사용자 결정 2026-11-13)로 GuideBundle이 G_UNWANTED_ACCEL·G_DECEL_FAILURE일 때만 허용한다(GuideBundle.allOf). 그 밖의 단계는 false(D7)."
+            "description": "주행 중 설명 애니메이션을 쓰는지. true는 긴급 안전 예외(사용자 결정 2026-11-13)로 GuideBundle이 G_UNWANTED_ACCEL·G_DECEL_FAILURE일 때만 허용한다(GuideBundle.allOf). 주행 중 재생은 1초에 한 장 이하 단계형이다. 그 밖의 단계는 false(D7)."
           },
           "tts_line_ids": {
             "type": "array",
@@ -9190,7 +9190,7 @@
             }
           }
         },
-        "description": "단계. 긴급 안전 예외(사용자 결정 2026-11-13): 원치 않는 가속 안내(G_UNWANTED_ACCEL)와 감속 실패 대처(G_DECEL_FAILURE)는 주행 중에도 음성 단계와 같은 내용의 페달 그림·설명 애니메이션을 쓰고, 제한 때 정지 페달 그림으로 바꾼다. 그 밖의 단계는 주행 중 정지 그림과 짧은 음성만(D7). 그림의 동작은 검토된 취급설명서 문장만 따른다.",
+        "description": "단계. 긴급 안전 예외(사용자 결정 2026-11-13): 원치 않는 가속 안내(G_UNWANTED_ACCEL)와 감속 실패 대처(G_DECEL_FAILURE)는 주행 중에도 음성 단계와 같은 내용의 페달 그림·설명 애니메이션을 1초에 한 장 이하 단계형으로 쓰고, Pleos 불허·완전 제한 때 정지 페달 그림으로 바꾼다. 그 밖의 단계는 주행 중 정지 그림과 짧은 음성만(D7). 그림의 동작은 검토된 취급설명서 문장만 따른다.",
         "allOf": [
           {
             "if": {
@@ -11335,7 +11335,7 @@
       "topic": "긴급 안전 예외와 주행 제한(2026-11-13 사용자 결정)",
       "api": "AAOS CarUxRestrictionsManager(UX_RESTRICTIONS_NO_VIDEO)",
       "permission": "-",
-      "note": "원치 않는 가속 안내·감속 실패 대처의 페달 설명 애니메이션은 Pleos 디자인 가이드(G7·G8)와 의도적으로 다른 예외다. NO_VIDEO가 켜지거나 Pleos가 허용하지 않으면 정지 페달 그림으로 바꾸고 음성·버튼은 그대로 둔다. Pleos에 미리 문의한다."
+      "note": "원치 않는 가속 안내·감속 실패 대처의 페달 설명 애니메이션은 Pleos 디자인 가이드(G7·G8)와 의도적으로 다른 예외다. Android 문서의 UX_RESTRICTIONS_NO_VIDEO 정의는 'No video - no animated frames > 1fps'이므로 1초에 한 장 이하 단계형(장면마다 최소 1,000ms, 루프 없음)으로 그리고, NO_VIDEO가 켜져도 유지한다. Pleos가 허용하지 않거나(설정 값으로 끔) 화면 자체가 막히는 완전 제한일 때만 정지 페달 그림으로 바꾸고 음성·버튼은 그대로 둔다. Pleos에 미리 문의한다."
     }
   ]
 }

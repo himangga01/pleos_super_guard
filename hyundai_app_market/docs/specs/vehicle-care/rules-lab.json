@@ -561,19 +561,29 @@
       "pedal_visual": "RIGHT",
       "pedal_animation_while_driving": true,
       "pedal_animation_sync": "SAME_STEP_AS_VOICE",
+      "animation_style": "STEPPED_KEY_SCENES",
+      "max_frame_changes_per_s": 1,
+      "min_scene_hold_ms": 1000,
+      "smooth_transition": false,
+      "loop": false,
+      "key_scenes_example_count": 3,
+      "no_video_keeps_animation": true,
       "action_content_source": "REVIEWED_OWNERS_MANUAL_SENTENCES_ONLY",
       "decorative_motion": false,
       "repeated_screen_transition": false,
       "fallback": "PEDAL_STILL_IMAGE",
       "fallback_when": [
         "PLEOS_NOT_ALLOWED",
-        "UX_RESTRICTIONS_NO_VIDEO",
-        "ANIMATION_ASSET_UNAVAILABLE"
+        "FULL_RESTRICTION_SCREEN_BLOCKED"
       ],
+      "fallback_not_when": [
+        "UX_RESTRICTIONS_NO_VIDEO"
+      ],
+      "disable_setting": "emergency_animation_allowed",
       "other_driving_screens_motion": "none",
       "pleos_inquiry_required": true,
       "tokens_ref": "emergency_safety_exception",
-      "note": "Pleos 디자인 가이드(G7·G8)의 운전 중 애니메이션·손발 동작 유도 금지와 의도적으로 다른 결정이다. 원문 인용과 이유·위험·완화는 PRD 3.3.5절에 있다."
+      "note": "Pleos 디자인 가이드(G7·G8)의 운전 중 애니메이션·손발 동작 유도 금지와 의도적으로 다른 결정이다. Android 정의상 UX_RESTRICTIONS_NO_VIDEO는 'no animated frames > 1fps'이므로 1fps 이하 단계형으로 그리고 NO_VIDEO만으로는 정지 그림으로 바꾸지 않는다. 원문 인용과 이유·위험·완화는 PRD 3.3.5절에 있다."
     },
     "voice_entry": {
       "requires_talk_button": true,

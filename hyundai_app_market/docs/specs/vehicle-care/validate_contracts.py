@@ -43,7 +43,9 @@ U13_EXCEPTION_ID = "EMERGENCY_SAFETY_EXCEPTION_20261113"
 U13_SCREENS = ["emergency_guidance", "decel_failure"]
 U13_STATES = ["UNWANTED_ACCEL_GUIDE", "DECEL_FAILURE_GUIDE"]
 U13_GUIDE_IDS = ["G_UNWANTED_ACCEL", "G_DECEL_FAILURE"]
-U13_FALLBACK_WHEN = ["PLEOS_NOT_ALLOWED", "UX_RESTRICTIONS_NO_VIDEO", "ANIMATION_ASSET_UNAVAILABLE"]
+# 정지 페달 그림으로 바꾸는 경우는 둘뿐(Pleos 불허 설정, 1fps 이하로도 못 그리는 완전 제한). NO_VIDEO는 Android 정의상 "no animated frames > 1fps"이라 단계형(1fps 이하)은 유지
+U13_FALLBACK_WHEN = ["PLEOS_NOT_ALLOWED", "FULL_RESTRICTION_SCREEN_BLOCKED"]
+U13_NO_VIDEO_FALLBACK_TEXT = r"NO_VIDEO[^.\"]{0,40}정지 (페달 )?그림으로 (자동으로 )?(바꿉|바꾼|바뀐|바뀝|대체)"
 U13_MIC_OPEN = ["TALK_BUTTON_TAP", "CONFIRM_PROMPT_ASKED"]
 U13_OLD_RULE_TEXT = r"정지 그림 최대 1장|정지 그림 1장과 짧은 음성만|미리 익히기에만|음성으로 긴급 안내를 시작할 때도 먼저|움직이지 않는 그림"
 CONTRACT_FILES = ["api.openapi.json", "database.sql", "rules-lab.json", "ui-tokens.json", "acceptance-scenarios.json"]
@@ -1269,7 +1271,13 @@ def main():
                   and t["layouts"]["portrait"]["emergency"]["emergency_visual"]["applies_to_screens"] == U13_SCREENS)
         rep.check("u13:exception_guide_ids_match_rules_states", exc["guide_ids"] == ev["guide_ids"] == U13_GUIDE_IDS == [g["guide_id_by_state"][s] for s in U13_STATES])
         rep.check("u13:exception_fallback_still_pedal_image", exc["fallback"]["show"] == "PEDAL_STILL_IMAGE" == ev["fallback"] and exc["fallback"]["automatic"] is True
-                  and exc["fallback"]["when"] == ev["fallback_when"] == U13_FALLBACK_WHEN and {"voice", "action_sentence", "bottom_buttons"} <= set(exc["fallback"]["keeps"]))
+                  and exc["fallback"]["when"] == ev["fallback_when"] == U13_FALLBACK_WHEN and {"voice", "action_sentence", "bottom_buttons"} <= set(exc["fallback"]["keeps"])
+                  and exc["fallback"]["not_when"] == ev["fallback_not_when"] == ["UX_RESTRICTIONS_NO_VIDEO"] and exc["fallback"]["disable_setting"] == ev["disable_setting"])
+        rep.check("u13:stepped_animation_within_no_video_1fps", exc["animation_style"] == "STEPPED_KEY_SCENES" == ev["animation_style"]
+                  and exc["max_frame_changes_per_s"] == 1 == ev["max_frame_changes_per_s"] == t["animation"]["driving_exception_max_frame_changes_per_s"]
+                  and exc["min_scene_hold_ms"] == 1000 == ev["min_scene_hold_ms"] and exc["min_scene_hold_ms"] >= 1000 / exc["max_frame_changes_per_s"]
+                  and exc["smooth_transition"] is False is ev["smooth_transition"] and exc["loop"] is False is ev["loop"]
+                  and "no animated frames > 1fps" in exc["no_video_definition"]["text"] and exc["no_video_compatible"] is True and ev["no_video_keeps_animation"] is True)
         rep.check("u13:exception_mitigations", exc["content_rule"] == "SAME_STEP_AS_VOICE" == ev["pedal_animation_sync"] and exc["decorative_motion"] is False is ev["decorative_motion"]
                   and exc["repeated_screen_transition"] is False is ev["repeated_screen_transition"] and exc["other_driving_screens_motion"] == "none" == ev["other_driving_screens_motion"]
                   and exc["action_content_source"] == "REVIEWED_OWNERS_MANUAL_SENTENCES_ONLY" == ev["action_content_source"] and exc["pleos_inquiry_required"] is True is ev["pleos_inquiry_required"]
@@ -1299,12 +1307,20 @@ def main():
         t134, t135, t103 = C.get("T134", {}), C.get("T135", {}), C["T103"]
         rep.check("u13:acceptance_voice_answer_case", t134.get("area") == "confirm_prompt" and t134.get("added_in") == "3.2.0" and "버튼을 누르지 않는다" in t134.get("given", "")
                   and "PROMPT_CONFIRMED" in t134.get("expect", "") and "8초" in t134.get("when", "") + t134.get("expect", "") and "rules:voice.mic_open_only_after" in t134.get("refs", []))
-        rep.check("u13:acceptance_still_fallback_case", t135.get("area") == "emergency_visual" and t135.get("added_in") == "3.2.0" and t135.get("demo_method") == "ADB"
-                  and "NO_VIDEO" in t135.get("when", "") and "정지 페달 그림" in t135.get("expect", "") and "tokens:emergency_safety_exception.fallback" in t135.get("refs", []))
-        rep.check("u13:acceptance_t103_motion_true_for_exception", "motion_while_driving=true" in t103["expect"] and "motion_while_driving=false" not in t103["expect"] and t103.get("changed_in") == "3.2.0")
+        rep.check("u13:acceptance_still_fallback_case", t135.get("area") == "emergency_visual" and t135.get("added_in") == "3.2.0"
+                  and "Pleos 불허" in t135.get("when", "") and "완전 제한" in t135.get("when", "") and "NO_VIDEO" not in t135.get("when", "")
+                  and "정지 페달 그림" in t135.get("expect", "") and "tokens:emergency_safety_exception.fallback" in t135.get("refs", []))
+        t136 = C.get("T136", {})
+        rep.check("u13:acceptance_no_video_keeps_stepped_animation", t136.get("area") == "emergency_visual" and t136.get("added_in") == "3.2.0" and t136.get("demo_method") == "ADB"
+                  and "NO_VIDEO" in t136.get("when", "") and "유지" in t136.get("expect", "") and "정지 페달 그림으로 바꾸지 않는다" in t136.get("expect", "")
+                  and "1,000ms" in t136.get("expect", "") and "tokens:emergency_safety_exception.fallback.not_when" in t136.get("refs", []))
+        rep.check("u13:acceptance_t103_motion_true_for_exception", "motion_while_driving=true" in t103["expect"] and "motion_while_driving=false" not in t103["expect"] and t103.get("changed_in") == "3.2.0"
+                  and "1초에 한 장 이하" in t103["expect"])
         cur_text = json.dumps([rules, tokens, acc["cases"], {k: v for k, v in sch.items() if k in ("GuideStep", "GuideBundle", "GuidanceEntry", "GuidanceOutput")}], ensure_ascii=False)
         old_hits = sorted(set(re.findall(U13_OLD_RULE_TEXT, cur_text)))
         rep.check("u13:no_old_driving_still_only_rule_text", not old_hits, old_hits or None)
+        nv_hits = sorted(set(m.group(0) for m in re.finditer(U13_NO_VIDEO_FALLBACK_TEXT, cur_text + json.dumps(api.get("x-sdk-notes", []), ensure_ascii=False) + api["info"]["description"])))
+        rep.check("u13:no_video_alone_does_not_switch_to_still", not nv_hits, nv_hits or None)
         counts["u13_exception_screens"] = len(exc["screens"])
 
     # ---------------- 개인 로컬 경로
