@@ -1,0 +1,102 @@
+{
+  "record": "submission-documents-verification",
+  "version": "v4.3",
+  "date": "2026-11-13",
+  "timezone": "Asia/Seoul",
+  "summary": "v4.2 DOCX를 Windows에서 직접 편집해 앱 화면 그림 10개를 데모 앱 실제 화면(Pleos 에뮬레이터 2.1.0 캡처)으로 바꾸고, 구현 상태 문장을 사실에 맞게 고쳤다. PDF는 Microsoft Word로 만들었다. build_v4.py(리눅스·LibreOffice)는 쓰지 않았다.",
+  "environment": {
+    "os": "Windows 11 Pro 10.0.26200 x64",
+    "word": "Microsoft Office ProPlus 2024 (Click-to-Run) Word 16.0.17932",
+    "fonts": "Paperlogy 1Thin~9Black, Pretendard Thin~Black, Malgun Gothic, Noto Sans KR (시스템 글꼴 폴더)",
+    "python": "3.12.10 (Pillow, lxml, PyMuPDF; python-docx·LibreOffice 없음)",
+    "notes": [
+      "Windows PowerShell 5.1은 BOM 없는 UTF-8 .ps1을 ANSI(CP949)로 읽어 한글이 깨진다. Word 자동화 스크립트는 영문으로만 썼다.",
+      "Git Bash에서 adb에 /sdcard 경로를 넘기면 MSYS가 경로를 바꾼다(MSYS_NO_PATHCONV=1 필요)."
+    ]
+  },
+  "method": [
+    "output/submission/apply_app_screens_v4.py: v4.2 DOCX의 word/media 그림 파일만 같은 픽셀 크기의 새 그림으로 바꾸고, 정해진 문장만 lxml로 바꿔 qa/v4-r4-app/에 저장. 2~6번 내용 컨트롤 글자 수가 바뀌면 멈춤.",
+    "output/submission/export_pdf_word.ps1: Word COM으로 열어 쪽수와 내용 컨트롤 글자 수(wdStatisticCharactersWithSpaces)를 재고 ExportAsFixedFormat으로 PDF 생성.",
+    "PyMuPDF로 PDF 쪽을 그림으로 그려 그림·표·글을 눈으로 확인. 이전 판도 같은 Word로 PDF를 만들어 6~8쪽 마지막 줄을 비교.",
+    "확인 뒤 v4.2 산출물 5개를 qa/history/2026-11-13-v4.2/에 보존하고 정식 파일과 ZIP을 바꿈. 원고(05-development.txt, official-form-v4.json, annex.md)도 같은 내용으로 고침(apply_app_screens_v4.py --sources)."
+  ],
+  "screens": {
+    "source": "Pleos Connect v2.1.0 에뮬레이터(로컬 WHPX)에서 데모 앱 0.2.0-demo의 세로 한 창(841x1210dp)을 캡처해 840x1212로 맞춤. 저장: output/submission/assets/app-demo/",
+    "captures": {
+      "p-home": "실제 정차 신호(VC 기어 P)",
+      "p-warning-find": "주황·타이어 공기압·계속 켜짐 선택",
+      "p-warning-result": "후보 2개, 운행 판단 '가까운 정비소에 들르세요'",
+      "p-home-driving": "VC 시나리오 case-record 주행 중 실제 차속 25km/h",
+      "p-record": "VC 시나리오 case-record: 08:42:15 기록, 시속 14km, 브레이크 밟음(실제 신호). 표시 시각은 시연 모드 대표 사례 시각, 말로 메모는 [시험 입력]",
+      "p-confirm": "VC 시나리오 sua-mat-entrapment: 시험 입력 없이 실제 차속·브레이크로 질문",
+      "p-emergency": "VC 시나리오 normal-merge 주행 중 '저절로 빨라져요' 선택, 장면 1/3",
+      "p-countdown": "에어백 전개 신호 [시험 입력], 대표 사례 시각 21:00:03, 남은 10초",
+      "p-guardian": "모의 발송 21:00:13, 보호자 1 열람 21:01 · 전화할게요, 보호자 2 문자 21:00:23, 위치 21:00:01"
+    },
+    "case_clock": "시연 모드 '대표 사례 시각'으로 표시 시계를 문서 대표 사례(21:00:03, 08:42:15)에 맞췄다. 실제 시각이 아님을 이 기록과 문서 그림 설명에 남긴다."
+  },
+  "replaced_images": {
+    "01_공식양식_플레오스가드.docx": {
+      "그림 3 (care_image3)": "app p-home + app p-warning-find",
+      "그림 4 (care_image4)": "app p-emergency + app p-countdown",
+      "그림 5 (care_image5)": "mock p-check(설계 시안) + app p-guardian",
+      "그림 6 (care_image6)": "바꾸지 않음(가로 재현 조건, 앱에 없음)"
+    },
+    "02_상세기획_기술명세.docx": {
+      "그림 3 (image3)": "app p-home-driving",
+      "그림 4 (image4)": "app p-home + app p-warning-find",
+      "그림 5 (image5)": "app p-warning-result + mock p-check",
+      "그림 6 (image6)": "app p-record + mock p-pattern",
+      "그림 7 (image7)": "app p-emergency + mock p-practice",
+      "그림 8 (image8)": "app p-confirm",
+      "그림 9 (image9)": "app p-countdown + app p-guardian",
+      "그림 10~12": "바꾸지 않음(정비소, 가로 홈, 가로 확인 질문)"
+    }
+  },
+  "text_changes": {
+    "official_form": [
+      "5번(3,000자): '주행 제한은 adb 명령으로 켜서' → '주행 제한은 콘솔 기어 D로 켜서'(같은 18자)",
+      "5번(3,000자): '지금 끝낸 일은 … 앱 코드와 실제 발송은 아직 하지 않았습니다.' → '지금 끝낸 일은 기획, 계약 설계, 에뮬레이터에서 실행한 데모 앱이고 서버와 실제 발송은 아직 하지 않았습니다.'(같은 62자)",
+      "7번 참고자료: 포함 자료에 데모 앱 실행 화면 추가, '화면은 기획 시안…' → 실제 화면·시안 구분 문장",
+      "그림 3~6 설명: 실제 화면·설계 시안 표시"
+    ],
+    "annex": [
+      "첫머리 화면 안내 문장, 1장 요약의 11장 현황 문장",
+      "그림 3~9 설명: 실제 화면·설계 시안 표시",
+      "6장 표의 '주행 제한에 따른 화면 축소 · adb driving_regulation on/off' → 'Virtual Console 기어 D/P'",
+      "10장: hmg_car_service 명령(이 이미지에 없음) → Virtual Console 기어 D/P",
+      "표 38: 화면 시안·공개 SDK 범위 설명, 앱 코드 '일부 끝냄', 에뮬레이터 SDK 실제 호출 '끝냄(2026-11-13 확인)'",
+      "출처·라이선스 줄의 화면 안내 문장"
+    ]
+  },
+  "word_measurements": {
+    "01_공식양식_플레오스가드.docx": {
+      "pages": 14,
+      "app_summary": 100,
+      "planning_background": 3000,
+      "vehicle_scenario": 3000,
+      "key_features": 3000,
+      "pleos_plan": 3000,
+      "reference_files": 3000,
+      "reference_link": 278,
+      "shortform_link": 3,
+      "note": "v4.2도 같은 Word로 재어 2~6번 각 3,000자, 14쪽을 확인했다(v4.2 기록에 남아 있던 'Word 실측 안 함'을 이번에 해소). v4.2와 v4.3을 Word PDF로 비교하면 6~8쪽 마지막 줄이 같고, 9쪽은 7번 문장이 길어져 한 줄 늘었다."
+    },
+    "02_상세기획_기술명세.docx": {"pages": 45, "inline_images": 16}
+  },
+  "outputs": {
+    "01_공식양식_플레오스가드.docx": {"bytes": 4669479, "sha256": "001204c5341cc7468e71ead84f3f6cab15c9b1c6b8f2c4d8ee5e1b5f2fb3079e"},
+    "01_공식양식_플레오스가드.pdf": {"bytes": 1722925, "sha256": "52c21f3ee1db5245e19bde73cad31d6e0b593c17932161178f69601fa847e291", "maker": "Microsoft Word 16.0 ExportAsFixedFormat"},
+    "02_상세기획_기술명세.docx": {"bytes": 7034244, "sha256": "c766f45db6d0675ae002e4c7b383a25f64d110eedeca30bf0f86030b1e6b4c5a"},
+    "02_상세기획_기술명세.pdf": {"bytes": 3014569, "sha256": "0250eaed813e9254040a6c2960f76ad62b9351141400dbf0fd83c1b195c0f694", "maker": "Microsoft Word 16.0 ExportAsFixedFormat"},
+    "플레오스가드_제출문서_Word_PDF.zip": {"bytes": 15062518, "sha256": "17e8ea5d3b2232accc79254d7a6d7c8a573e5a3fbbe523009b28b8ea5059dc6d", "contents": "위 4개"}
+  },
+  "previous": "v4.2 산출물 5개는 output/submission/qa/history/2026-11-13-v4.2/에 바이트 그대로 보존(공식 양식 DOCX sha256 85acb433…, 별첨 DOCX aba37b51…).",
+  "limits": [
+    "PDF 제작 도구가 LibreOffice에서 Word로 바뀌어 글자 모양·줄바꿈이 v4.2 PDF와 조금 다를 수 있다. 쪽수는 같다.",
+    "03·04 동의서·서명 쪽은 문서 내용을 바꾸지 않았고 Word가 그대로 렌더링했다. 원본 양식과 픽셀 비교는 하지 않았다.",
+    "출발 전 점검, 재현 조건, 비상 절차 미리 익히기, 정비소, 가로 화면은 앱에 없어 설계 시안 그대로다.",
+    "실제 화면의 시각은 시연 모드 대표 사례 시각이며, 말로 메모·에어백 신호·점검 항목·공조 상태는 [시험 입력]이다.",
+    "공모전 접수, 메일 발송, 서명은 하지 않았다."
+  ]
+}
