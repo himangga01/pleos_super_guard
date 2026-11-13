@@ -469,7 +469,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 6.41,
-   "text_items": 13,
+   "text_items": 14,
    "icon_items": 7,
    "buttons": [
     {
@@ -509,7 +509,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 6.41,
-   "text_items": 13,
+   "text_items": 14,
    "icon_items": 7,
    "buttons": [
     {
@@ -1042,7 +1042,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 5.81,
-   "text_items": 15,
+   "text_items": 16,
    "icon_items": 7,
    "buttons": [
     {
@@ -1082,7 +1082,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 6.41,
-   "text_items": 12,
+   "text_items": 13,
    "icon_items": 7,
    "buttons": [
     {
@@ -1122,7 +1122,7 @@
    ],
    "min_text_px": 22,
    "min_ratio": 6.41,
-   "text_items": 12,
+   "text_items": 13,
    "icon_items": 7,
    "buttons": [
     {
@@ -2051,7 +2051,7 @@
    "fg": "#F7FAFF",
    "bg": "#121C2B",
    "ratio": 16.36,
-   "count": 164,
+   "count": 165,
    "screens": [
     "p-check",
     "p-confirm",
@@ -2149,6 +2149,18 @@
     "ui-record",
     "ui-service",
     "ui-warning"
+   ]
+  },
+  {
+   "fg": "#F7FAFF",
+   "bg": "#14090E",
+   "ratio": 18.67,
+   "count": 4,
+   "screens": [
+    "p-emergency",
+    "p-stopping",
+    "ui-guidance",
+    "ui-stopping"
    ]
   }
  ],
@@ -5544,7 +5556,7 @@
    },
    {
     "kind": "text",
-    "label": "8초 동안 말로 하는 답도 듣습니다",
+    "label": "버튼 없이 말로 답해도 됩니다 / \"안 멈춰요\" · \"괜찮아요\" (8초 듣기)",
     "size": 26,
     "fg": "#F7FAFF",
     "bg": "#2A1219",
@@ -5552,7 +5564,7 @@
    },
    {
     "kind": "text",
-    "label": "앱은 운전자의 답을 들은 뒤에만 긴급 안내를 시작합니다",
+    "label": "\"안 멈춰요\"라고 답하면 감속 실패 대처를 바로 시작합니다. / 답이 없으면 8초 뒤 질문을 닫고 기록만 남깁니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#090E16",
@@ -5721,6 +5733,14 @@
     "ratio": 16.74
    },
    {
+    "kind": "text",
+    "label": "설명 애니메이션 1/3",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#14090E",
+    "ratio": 18.67
+   },
+   {
     "kind": "icon",
     "label": "circle-check",
     "size": null,
@@ -5881,6 +5901,14 @@
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "설명 애니메이션 1/3",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#14090E",
+    "ratio": 18.67
    },
    {
     "kind": "icon",
@@ -9830,7 +9858,7 @@
    },
    {
     "kind": "text",
-    "label": "말로 하는 답도 / 8초 동안 듣습니다",
+    "label": "버튼 없이 / 말로 답해도 됩니다",
     "size": 24,
     "fg": "#F7FAFF",
     "bg": "#121C2B",
@@ -9838,7 +9866,15 @@
    },
    {
     "kind": "text",
-    "label": "앱은 운전자의 답을 / 들은 뒤에만 긴급 안내를 / 시작합니다",
+    "label": "\"안 멈춰요\" · \"괜찮아요\" / 8초 동안 듣습니다",
+    "size": 24,
+    "fg": "#F7FAFF",
+    "bg": "#121C2B",
+    "ratio": 16.36
+   },
+   {
+    "kind": "text",
+    "label": "\"안 멈춰요\"면 감속 실패 / 대처를 바로 시작합니다. / 답이 없으면 기록만 남깁니다",
     "size": 22,
     "fg": "#B8C5D8",
     "bg": "#121C2B",
@@ -9999,6 +10035,14 @@
     "ratio": 16.74
    },
    {
+    "kind": "text",
+    "label": "애니메이션 1/3",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#14090E",
+    "ratio": 18.67
+   },
+   {
     "kind": "icon",
     "label": "circle-check",
     "size": null,
@@ -10151,6 +10195,14 @@
     "fg": "#F7FAFF",
     "bg": "#2A1219",
     "ratio": 16.74
+   },
+   {
+    "kind": "text",
+    "label": "애니메이션 1/3",
+    "size": 22,
+    "fg": "#F7FAFF",
+    "bg": "#14090E",
+    "ratio": 18.67
    },
    {
     "kind": "icon",

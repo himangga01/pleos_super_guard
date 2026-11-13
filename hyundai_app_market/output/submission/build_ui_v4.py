@@ -663,14 +663,44 @@ def road_scene(w, h, hazard=False):
     if _rear is None:
         _rear = Image.open(A / 'avante-rear.jpg').convert('RGB')
     src = _rear; cx, cy = 1107, 690                      # 원본 1920×1080에서 차 중심
-    cw = 1150 if w / h > 1.5 else 1050; ch = cw * h / w
-    x0 = cx - cw / 2; y0 = max(0, min(src.height - ch, cy - ch / 2))
+    if w / h >= 1:
+        cw = 1150 if w / h > 1.5 else 1050; ch = cw * h / w
+    else:                                                # 세로로 긴 칸: 차 뒷부분 중심으로 자름
+        ch = 930; cw = ch * w / h; cx = 1250
+    x0 = max(0, min(src.width - cw, cx - cw / 2)); y0 = max(0, min(src.height - ch, cy - ch / 2))
     im = src.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((w * 2, h * 2), LZ)
     im = ImageEnhance.Brightness(im).enhance(0.74)       # 어두운 긴급 화면에서 눈부시지 않게
     W, H = im.size; m = Image.new('L', im.size, 0)
     ImageDraw.Draw(m).ellipse((-W * .15, -H * .25, W * 1.15, H * 1.25), fill=255)
     im = Image.composite(im, Image.new('RGB', im.size, '#1A0F15'), m.filter(ImageFilter.GaussianBlur(W * .08)))
     return im.resize((w, h), LZ)
+
+
+_pedal_img = None
+
+
+def pedal_panel(s, rect, step='1/3', short=False):
+    """주행 중 긴급 안내의 페달 그림·설명 애니메이션 칸(2026-11-13 사용자 결정, 긴급 안전 예외).
+
+    시안에는 애니메이션의 한 장면을 그립니다. 그림은 AI 설명 그림이며 동작 내용은 검토된 취급설명서 문장을 따릅니다.
+    """
+    global _pedal_img
+    if _pedal_img is None:
+        _pedal_img = Image.open(A / 'pedal-detail.png').convert('RGBA')
+    x0, y0, x1, y1 = [int(v) for v in rect]; w, h = x1 - x0, y1 - y0
+    src = _pedal_img; ch = src.height; cw = min(src.width, ch * w / h); cx = 965
+    l = max(0, min(src.width - cw, cx - cw / 2))
+    crop = src.crop((int(l), 0, int(l + cw), ch))
+    bg = Image.new('RGBA', crop.size, (20, 12, 18, 255)); bg.alpha_composite(crop)
+    s.paste_round(bg.convert('RGB'), rect, 24)
+    by0 = y1 - 70; s.box((x0 + 12, by0, x1 - 12, y1 - 12), '#14090E', 16, EPINK, 2)
+    tri = [(x0 + 30, by0 + 17), (x0 + 30, by0 + 41), (x0 + 50, by0 + 29)]
+    s.d.polygon(tri, fill=EPINK)
+    s.txt_vc(x0 + 62, by0 + 29, ('애니메이션 ' if short else '설명 애니메이션 ') + step, 22, FG, True, maxw=w - 90)
+    if not short:
+        for j in range(3):
+            cxd = x1 - 86 + j * 22
+            s.d.ellipse((cxd - 6, by0 + 23, cxd + 6, by0 + 35), fill=EPINK if j == 0 else '#5A3A44')
 
 
 def seat_diagram(s, rect):
@@ -920,7 +950,7 @@ def slot_card(s, rect, slot, n=30):
 
 
 def emergency_portrait(name, line2, slot, left, right, hazard=False):
-    """주행 중 긴급 화면: 띠 · 행동 한 문장 · 안내 문장 자리 · 정지 그림 최대 1장 · 버튼 2개. 출처 줄은 숨김(F5)."""
+    """주행 중 긴급 화면: 띠 · 행동 한 문장 · 안내 문장 자리 · 아반떼 실사 뒷모습 + 페달 그림·설명 애니메이션(2026-11-13 사용자 결정) · 버튼 2개. 출처 줄은 숨김(F5)."""
     s = Scr(name, (PW, PH), EBG)
     s.box((16, 16, 824, 128), EBAND, 22); s.icon('octagon-alert', 40, 44, 56, FG)
     s.txt(116, 30, '긴급 안내', 34, FG, True); s.txt(116, 80, line2, 26, FG, True); s.draft(800, 52, EDRAFT, EDRAFT)
@@ -929,14 +959,15 @@ def emergency_portrait(name, line2, slot, left, right, hazard=False):
         x += s.chip(x, 148, t, ic, EPINK, FG, ECARD, None) + 12
     s.txt(24, 222, '앞을 보세요\n음성 안내를 따라 주세요', 46, FG, True, maxw=792)
     slot_card(s, (24, 362, 816, 552), slot)
-    s.paste_round(road_scene(792, 456, hazard), (24, 568, 816, 1024), 24)
+    s.paste_round(road_scene(372, 456), (24, 568, 396, 1024), 24)
+    pedal_panel(s, (412, 568, 816, 1024))
     nbtn(s, PE_L, left[0], left[1], left[2], n=30, emergency=True)
     rbtn(s, PE_R, right[0], right[1], right[2], n=30, kind='alert')
     s.save(PO)
 
 
 def p_confirm():
-    """확인 질문(F2·D8): 센서 조합은 이 질문만 띄웁니다. 답을 들은 뒤에만 안내를 시작합니다."""
+    """확인 질문(F2·D8): 센서 조합은 이 질문을 화면과 음성으로 띄우고, 운전자는 화면을 누르거나 버튼 없이 말로 답합니다(질문 직후 8초 듣기)."""
     s = p_drive_head('p-confirm')
     x = 24
     for ic, t, col in (('car-front', '주행 중', MINT), ('volume-2', '음성으로도 묻습니다', FG)):
@@ -948,8 +979,8 @@ def p_confirm():
     s.icon('pedal', 56, 590, 40, AMBER)
     bb = s.txt(112, 584, '브레이크를 밟은 1초 동안\n속도가 줄지 않았습니다', 28, FG, True)
     s.badge(112, bb[3] + 14, '차속 · 시험 입력')
-    s.icon('mic', 56, 772, 40, EPINK); s.txt_vc(112, 792, '8초 동안 말로 하는 답도 듣습니다', 26, FG)
-    s.txt(24, 904, '앱은 운전자의 답을 들은 뒤에만 긴급 안내를 시작합니다', 22, MUT, maxw=792)
+    s.icon('mic', 56, 748, 40, EPINK); s.txt(112, 740, '버튼 없이 말로 답해도 됩니다\n"안 멈춰요" · "괜찮아요" (8초 듣기)', 26, FG, True, maxw=680)
+    s.txt(24, 904, '"안 멈춰요"라고 답하면 감속 실패 대처를 바로 시작합니다.\n답이 없으면 8초 뒤 질문을 닫고 기록만 남깁니다', 22, MUT, maxw=792)
     nbtn(s, PE_L, '괜찮아요', 'circle-check', '질문 닫기', n=30)
     rbtn(s, PE_R, '안 멈춰요', 'octagon-alert', '감속 실패 대처', n=30, kind='alert')
     s.save(PO)
@@ -1228,7 +1259,8 @@ def emergency_landscape(name, title, slot, left, right, hazard=False):
     s.chip(40, 124, '주행 중', 'car-front', EPINK, FG, ECARD, None, h=48)
     s.txt(40, 190, '앞을 보세요\n음성 안내를 따라 주세요', 44, FG, True, maxw=600)
     slot_card(s, (40, 340, 628, 584), slot, n=28)
-    s.paste_round(road_scene(588, 456, hazard), (652, 128, 1240, 584), 24)
+    s.paste_round(road_scene(280, 456), (652, 128, 932, 584), 24)
+    pedal_panel(s, (948, 128, 1240, 584), short=True)
     nbtn(s, LE_L, left[0], left[1], left[2], emergency=True)
     rbtn(s, LE_R, right[0], right[1], right[2], kind='alert')
     s.save(LA)
@@ -1244,8 +1276,9 @@ def l_confirm():
     bb = s.txt(104, 364, '브레이크를 밟은 1초 동안\n속도가 줄지 않았습니다', 26, FG, True)
     s.badge(104, bb[3] + 14, '차속 · 시험 입력')
     s.box((844, 120, 1256, 584), SURF, 26)
-    s.icon('mic', 868, 148, 36, EPINK); s.txt(916, 144, '말로 하는 답도\n8초 동안 듣습니다', 24, FG, True)
-    s.txt(868, 270, '앱은 운전자의 답을\n들은 뒤에만 긴급 안내를\n시작합니다', 22, MUT, maxw=364)
+    s.icon('mic', 868, 148, 36, EPINK); s.txt(916, 144, '버튼 없이\n말로 답해도 됩니다', 24, FG, True)
+    s.txt(868, 244, '"안 멈춰요" · "괜찮아요"\n8초 동안 듣습니다', 24, FG, True, maxw=364)
+    s.txt(868, 352, '"안 멈춰요"면 감속 실패\n대처를 바로 시작합니다.\n답이 없으면 기록만 남깁니다', 22, MUT, maxw=364)
     nbtn(s, LD_L, '괜찮아요', 'circle-check', '질문 닫기')
     rbtn(s, LD_R, '안 멈춰요', 'octagon-alert', '감속 실패 대처', kind='alert')
     s.save(LA)
