@@ -161,7 +161,7 @@ Android 전경 서비스 조건을 맞춰도 앱 종료·전원 차단 이후의
 
 - 현대 빌트인 캠의 한 공식 설명서에서 마이현대의 영상 재생·다운로드·공유와 Wi-Fi 연결 중 모바일 네트워크 중단 안내를 확인했습니다. Pleos 제3자 앱의 직접·실시간 API는 확인하지 못했습니다. 해당 설명서의 차량을 지원 Pleos 모델로 채택한 것은 아닙니다. [공식 연결 안내](https://ownersmanual.hyundai.com/full_webhelp/ME/2025/ko_KR/id23C63000W3M.html)
 - FLEETA의 공식 제품 페이지와 개발자 문서 연결을 확인했습니다. 지원되는 외부 블랙박스를 Pleos 차량에 설치한 경우의 별도 연동 후보입니다. 클라우드 영상·이벤트 API의 존재와 실제 대상 기기·구독·권한·지연 검증은 구분합니다. 로컬 Wi-Fi 문서는 개요를 제공하지만 상세 명세·가이드는 준비 중으로 안내합니다. [제품의 개발자 연결](https://fleeta.io/pages/developers), [현재 API](https://developers.fleeta.io/), [Wi-Fi 개요](https://developers.fleeta.io/docs/wifi)
-- Pleos 주행 정책은 움직이는 안내를 제한할 수 있습니다. 음성과 설명 애니메이션을 제품 목표로 두되 `CarUxRestrictions`, 앱 분류와 지역에 맞는 표시 형식을 확인해야 합니다. (2026-11-12 정정: Pleos 디자인 원칙은 운전 중 동영상·애니메이션 이미지로 시선을 끌거나 손·발 동작을 유도하지 말라고 합니다. 그래서 주행 중에는 단계별 정지 그림 1장과 짧은 음성만 쓰고, 설명 애니메이션은 정차 중 연습 화면으로 옮깁니다. 원문은 [Pleos 앱 가이드 기준](../analysis/pleos-app-guidelines-2026-11-12.md) 5절에 있습니다.) 차량의 Driving view를 앱이 임의로 가리거나 종료할 수도 없습니다. [주행 안전](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/driver-distraction-guideline), [화면·실행 구조](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/app-structure-screen-model)
+- Pleos 주행 정책은 움직이는 안내를 제한할 수 있습니다. 음성과 설명 애니메이션을 제품 목표로 두되 `CarUxRestrictions`, 앱 분류와 지역에 맞는 표시 형식을 확인해야 합니다. (2026-11-12 정정, 2026-11-13 사용자 결정으로 다시 바뀜: Pleos 디자인 원칙은 운전 중 동영상·애니메이션 이미지로 시선을 끌거나 손·발 동작을 유도하지 말라고 합니다. 11-12 정정에서는 주행 중 움직이는 그림을 빼고 설명 애니메이션을 정차 중 연습 화면으로 옮겼습니다. 11-13 사용자 결정으로 원치 않는 가속 안내와 감속 실패 대처 두 화면은 주행 중에도 음성 단계와 같은 페달 그림·설명 애니메이션을 씁니다. 원문과 의도적으로 다른 "긴급 안전 예외"이며, Pleos에 미리 묻고 허용되지 않거나 `NO_VIDEO` 같은 주행 제한이 걸리면 정지 페달 그림으로 바꿉니다. 그 밖의 주행 중 화면은 움직임을 쓰지 않습니다. 원문은 [Pleos 앱 가이드 기준](../analysis/pleos-app-guidelines-2026-11-12.md) 5절에, 이유·위험·완화는 [통합 PRD](../analysis/integrated-vehicle-care-2026-11-12.md) 3.3.5절에 있습니다.) 차량의 Driving view를 앱이 임의로 가리거나 종료할 수도 없습니다. [주행 안전](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/driver-distraction-guideline), [화면·실행 구조](https://document.pleos.ai/docs/pleos-only/vehicle-app-planning-guide/app-structure-screen-model)
 - Android의 마이크·카메라·위치 전경 서비스 조건 때문에 사고 뒤 휴대폰을 무조건 깨워 녹음을 시작하는 구조로 보장할 수 없습니다. 출발 전에 백업을 준비하고 실제 실행 상태를 확인하는 설계가 필요합니다. [Android 공식 조건](https://developer.android.com/develop/background-work/services/fgs/service-types)
 
 이번에는 공식 원문을 추가 확인했으며 새 앱·폰·블랙박스 연결·녹음·녹화·사고 판단·긴급 안내를 실행하지 않았습니다. SDK 버전은 [현재 릴리즈](https://document.pleos.ai/docs/pleos-only/release-note/sdk-release-note)와 다시 대조했으나 AAR 재다운로드·바이너리 재검사는 하지 않았습니다. 추가 근거는 [통합 앱 확인 기록](../analysis/integrated-vehicle-care-2026-11-12-evidence.json)에 남깁니다.
@@ -187,7 +187,7 @@ Vehicle 2.3.2의 소스 파일 181개와 바이트코드를 모두 대조했습�
 | 2.1절 표, 6절 | `getTelltalesInfo`는 `CAR_SAFETY`로 단발 조회 가능 | 경고등 API 4개 모두 실행 검사에서 `PRIVATE_CAR_SAFETY`(signature\|privileged). 일반 앱은 읽을 수 없고 [향후]로 둡니다 |
 | 2.1절 표 | 핸들 각도 = 핸들이 돌아간 각도 | 조향각(SteeringWheel) = 앞바퀴 조향각(도, 왼쪽 음수). 핸들 회전각이 아닙니다 |
 | 6절 | 위치에 정확도 보관 | 정확도 필드가 없고 `confidence`만 있습니다 |
-| 9절 | 음성과 설명 애니메이션을 주행 중 목표로 둠 | 주행 중에는 정지 그림 1장과 짧은 음성만, 애니메이션은 정차 중 연습 화면으로 |
+| 9절 | 음성과 설명 애니메이션을 주행 중 목표로 둠 | 2026-11-12: 주행 중 움직이는 그림을 빼고 애니메이션은 정차 중 연습 화면으로. 2026-11-13 사용자 결정(긴급 안전 예외): 긴급 안내 두 화면만 주행 중에도 음성 단계와 같은 페달 그림·설명 애니메이션, 허용되지 않거나 주행 제한이 걸리면 정지 페달 그림 |
 | 10절 | 통합 PRD v2, 64dp 터치 | 현재 통합 PRD(v3, v4 예정), 주요 버튼 80dp(자체 설계값, Pleos 공식 수치 아님) |
 
 ### 11.2 일반 앱이 쓸 수 있는 공개 안전 신호
@@ -221,6 +221,7 @@ Vehicle 2.3.2의 소스 파일 181개와 바이트코드를 모두 대조했습�
 
 - **권한 실패**: 읽기·확인은 `onFailed(SecurityException)`로, 일반 구독·해제는 호출 즉시 `SecurityException`으로 옵니다. 구독 코드에 `try/catch`를 둡니다.
 - **연결 대기**: 서비스 연결 중 호출은 시간 제한 없이 기다리므로 앱이 시간 제한을 둡니다.
+- **음성 인식 범위(2026-11-13 사용자 결정)**: SpeechToText `request()`는 "말로 하기"를 누른 뒤나 앱이 확인 질문("차가 멈추지 않나요?") 음성을 끝낸 직후에만 부르고, 최대 8초 뒤 `stop()`합니다. 확인 질문에는 운전자가 버튼 없이 바로 말로 답할 수 있습니다. 상시 듣기는 없습니다. 앱이 뒤에 있을 때도 듣기가 되는지는 에뮬레이터에서 확인합니다.
 - **콜백 스레드**: Binder 스레드에서 불리므로 화면 갱신 전에 메인 스레드로 넘깁니다.
 - **신선도**: 값에 측정 시각이 없습니다(예: `onBrakePedalStatusUpdated(status: Boolean?)`). 브레이크·도어처럼 바뀔 때만 오는 신호는 "마지막 수신 시각"과 "서비스 연결 상태"로 유효성을 판단합니다. 3,000ms 신선도 규칙은 주기적으로 오는 차속에만 적용합니다.
 - **시연**: Virtual Console은 에뮬레이터 2.1.0 이상, cold boot로 만든 AVD에서 씁니다. 주행 제한은 `adb shell cmd hmg_car_service --service drivingstate driving_regulation on`으로 켭니다. 원문 인용은 [Pleos 앱 가이드 기준](../analysis/pleos-app-guidelines-2026-11-12.md) 10절에 있습니다.

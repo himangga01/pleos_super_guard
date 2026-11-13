@@ -1,6 +1,6 @@
-# 플레오스 가드 개발 계약 파일 (계약 v3.1)
+# 플레오스 가드 개발 계약 파일 (계약 v3.1.1)
 
-기준: **2026-11-12 / 2차 비판 반영 결정(B·C·D·F·G·H)**. 1차 비판 결정 9장(계약 고정 사항)의 이름 규칙은 그대로 쓰고, 2차 결정으로 더한 이름은 OpenAPI `x-contract-source: DECISIONS-R2`로 구분합니다.
+기준: **2026-11-13 사용자 결정(확인 질문의 말 답, 긴급 안전 예외)** 위에 **2026-11-12 2차 비판 반영 결정(B·C·D·F·G·H)**. 1차 비판 결정 9장(계약 고정 사항)의 이름 규칙은 그대로 쓰고, 2차 결정으로 더한 이름은 OpenAPI `x-contract-source: DECISIONS-R2`로 구분합니다.
 
 이 폴더는 앞으로 만들 앱과 서버의 **설계 계약**입니다. 구현된 서비스나 설치된 데이터베이스가 아닙니다. 아래 검사는 **정적 검사**(와 검사용 임시 PostgreSQL에서 DDL·제약을 시험해 본 것)이며, **앱·서버를 실행한 증거가 아닙니다**. 에뮬레이터 시연, 실제 발송, 실차 동작도 확인하지 않았습니다.
 
@@ -8,13 +8,14 @@
 
 | 파일 | 판 | 개수 | 역할 |
 | --- | --- | --- | --- |
-| [api.openapi.json](api.openapi.json) | 3.1.0 (형식 OpenAPI 3.1.0) | 경로 56개, 작업 59개, 스키마 171개, 보안 방식 3개 | 이 앱이 만들 서버 API. Pleos·카카오 공식 API가 아님 |
+| [api.openapi.json](api.openapi.json) | 3.1.1 (형식 OpenAPI 3.1.0) | 경로 56개, 작업 59개, 스키마 171개, 보안 방식 3개 | 이 앱이 만들 서버 API. Pleos·카카오 공식 API가 아님 |
 | [database.sql](database.sql) | v3.1 | 테이블 36개, 뷰 1개, 외래키 70개, CHECK 198개, 명시 인덱스 23개(부분 고유 6개) | PostgreSQL 스키마 제안 |
-| [rules-lab.json](rules-lab.json) | 2.1.0 (`pleos-care-lab-20261112-r3`) | 공개 신호 목록 23개 | 신호 유효성·발송 범위·성능 예산·수치의 개발용 시작값 |
-| [ui-tokens.json](ui-tokens.json) | 5.1.0 | 화면 20개, 시안 세로 17장·가로 16장(폴더 실제 목록), 화면 문구 15행, 대비 조합 18개(최소 5.674:1) | 세로·가로 배치, 버튼 자리(F1), G 화면 문구표, Pleos 공식 수치와 자체 수치 |
-| [acceptance-scenarios.json](acceptance-scenarios.json) | 3.1.0 | 133개(v2 승계 56 + v3 47 + 2차 30). 시연 69·설계 56·향후 8 | 구현 뒤 실행할 인수 사례. **통과한 앱 시험이 아님** |
-| [validate_contracts.py](validate_contracts.py) | - | 검사 560개(PostgreSQL 포함, 정적만 493개) | 계약 검사기(python3 표준 라이브러리만) |
-| [validation-2026-11-12-v3.1.json](validation-2026-11-12-v3.1.json) | - | PASS, 실패 0 | 이번 판 검사 결과 |
+| [rules-lab.json](rules-lab.json) | 2.2.0 (`pleos-care-lab-20261112-r3`, 판정 값이 같아 그대로) | 공개 신호 목록 23개 | 신호 유효성·발송 범위·성능 예산·수치의 개발용 시작값 |
+| [ui-tokens.json](ui-tokens.json) | 5.2.0 | 화면 20개, 시안 세로 17장·가로 16장(폴더 실제 목록), 화면 문구 15행, 대비 조합 18개(최소 5.674:1) | 세로·가로 배치, 버튼 자리(F1), G 화면 문구표, 긴급 안전 예외, Pleos 공식 수치와 자체 수치 |
+| [acceptance-scenarios.json](acceptance-scenarios.json) | 3.2.0 | 135개(v2 승계 56 + v3 47 + 2차 30 + 2026-11-13 2). 시연 71·설계 56·향후 8 | 구현 뒤 실행할 인수 사례. **통과한 앱 시험이 아님** |
+| [validate_contracts.py](validate_contracts.py) | - | 정적 검사 518개(2026-11-13). v3.1 판은 560개(PostgreSQL 포함, 정적만 493개) | 계약 검사기(python3 표준 라이브러리만) |
+| [validation-2026-11-12-v3.1-final.json](validation-2026-11-12-v3.1-final.json) | - | PASS, 실패 0 | **v3.1 판** 최종 검사 결과. v3.1.1의 결과 파일은 아직 만들지 않았습니다(정적 검사 518개 PASS만 확인) |
+| [validation-2026-11-12-v3.1.json](validation-2026-11-12-v3.1.json) | - | PASS, 실패 0 | v3.1 판 중간 기록(보호자 3명 정정 전) |
 | [validation-2026-11-12-v3.json](validation-2026-11-12-v3.json) | - | - | **v3 시점 기록**(353개 PASS). 이번 판 검사가 아님 |
 | [validation-2026-11-12.json](validation-2026-11-12.json) | - | - | **v2 시점 기록**. 이번 판 검사가 아님 |
 | [ui-tokens-prd-v2.json](ui-tokens-prd-v2.json) | 1.0.0 | - | 이력. 그대로 둠 |
@@ -23,7 +24,17 @@
 
 이전 판 수치는 이력입니다. v3: OpenAPI 3.0.0 작업 41개·경로 38개·스키마 132개, DB v3 테이블 32개, rules-lab 2.0.0 신호 19개, ui-tokens 5.0.0 시안 세로 11·가로 7(실제 폴더와 달랐음), 인수 사례 103개, 검사 353개. v2.1: 작업 23개, 테이블 23개, 인수 사례 56개.
 
-## 이번 판(v3.1)에서 바뀐 점
+## 2026-11-13 판(v3.1.1)에서 바뀐 점
+
+사용자가 2026-11-13에 내린 두 결정을 반영했습니다. 이 결정은 이전 결정보다 우선합니다. 질문 조건·억제 값, 버튼 자리, DB(v3.1)는 바꾸지 않았습니다. v3.1 원본은 Git 이력에 있습니다.
+
+- **확인 질문은 화면이나 말로 답합니다.** 센서 조합(브레이크 밟음 + 1,000ms 동안 감속 미관측 등)이 맞으면 앱이 화면과 음성으로 "차가 멈추지 않나요?"를 묻고, 운전자는 버튼을 누르거나 버튼 없이 바로 말로 답합니다. 마이크는 "말로 하기"를 누른 뒤나 확인 질문 직후에만 최대 8초 열립니다(상시 듣기 없음). rules-lab `guidance.confirm_prompt_answers`(`answer_modes`, `voice_listen_window_ms = 8000`, `voice_listen_starts`, `no_answer_result`), `guidance.voice_entry.confirm_prompt_voice_answer_without_button`, `voice.mic_open_only_after`, ui-tokens `screens[confirm_prompt].answer_modes`, OpenAPI `GuidanceEntry` 설명(옛 '예' 버튼 문구 정리)과 `x-sdk-notes`에 적었습니다.
+- **긴급 안전 예외(사용자 결정 2026-11-13).** 원치 않는 가속 안내(`UNWANTED_ACCEL_GUIDE`)와 감속 실패 대처(`DECEL_FAILURE_GUIDE`)는 주행 중에도 음성 단계와 같은 페달 그림·설명 애니메이션을 보여 주고, 시각 영역 왼쪽에 아반떼 실사 뒷모습 사진을 둡니다. Pleos 디자인 가이드(G7·G8)와 의도적으로 다른 결정입니다. ui-tokens `emergency_safety_exception`(원문 인용, 이유, 위험, 완화, 대체 조건), `driving_mode.motion_exceptions`, `animation.driving_motion_exception`, rules-lab `guidance.emergency_visual`, OpenAPI `GuideStep.motion_while_driving`(boolean, `GuideBundle.allOf`로 `G_UNWANTED_ACCEL`·`G_DECEL_FAILURE`만 true)에 같은 이름과 값을 씁니다. Pleos가 허용하지 않거나 `NO_VIDEO` 같은 주행 제한이 걸리면 정지 페달 그림(`still_image_asset_id`)으로 자동으로 바꿉니다. 그 밖의 주행 중 화면은 움직임이 없습니다.
+- **비상 절차 미리 익히기**는 긴급 안내와 같은 그림을 천천히 따라 해 보는 연습으로 설명을 맞췄습니다(`animation.parked_practice_reuses_emergency_animation`, `guidance.practice.purpose`).
+- **acceptance 3.2.0**: T60·T65·T97·T103·T126의 기대값을 고쳤고(`changed_in` 3.2.0), T134(확인 질문에 버튼 없이 말로 답하기, 8초 뒤 닫힘)와 T135(애니메이션 제한 때 정지 페달 그림 대체)를 더했습니다(`added_in` 3.2.0). T103은 `motion_while_driving=true`를 기대합니다.
+- **검사기**: 판 번호, `d7:driving_motion_none_except_u13_exception`(움직임 없음 규칙의 예외는 긴급 안전 예외 하나뿐), 새 검사 `u13:*` 17개(말 답 8초, 마이크가 열리는 두 경우, 예외 범위 두 화면, 묶음 이름과 상태 대응, 정지 그림 대체, 완화 항목, G7·G8 원문 유지, 시각 영역 배치, 차 사진 파일, OpenAPI 조건, 미리 익히기, 새 인수 사례, 옛 규칙 문장 없음), 스키마 예시 8개(정상 4·위반 4)를 더했습니다. 정적 검사 518개 PASS(2026-11-13)입니다. PostgreSQL 포함 검사와 결과 파일 작성은 이번에 하지 않았습니다.
+
+## v3.1에서 바뀐 점
 
 - **보호자 링크 2단계 열람(D1·H5)**: 알림 링크의 조각 토큰을 본문으로 보내는 `openGuardianShareSession`(1단계: 무슨 일·시각·먼저 할 일만, 위치 없음, 이때 `opened_at` 기록)과 `verifyGuardianShareSession`(2단계: 휴대폰 번호 끝 4자리, 5회 틀리면 15분 잠금)을 더했습니다. 테이블 `guardian_share_sessions`.
 - **시험 입력은 신호 단위(D2)**: 관측·스냅샷 값 중 하나라도 `source=TEST_INPUT`이면 `test_mode=true`·`contains_test_input=true`이고 모의 발송(`dispatch_mode=MOCK`)만 합니다. OpenAPI `IncidentCreate.allOf`(`contains` 포함), SQL `jsonb_path_exists` CHECK, 관측·정책의 `(incident_id, test_mode)` 복합 외래키가 같은 규칙을 지킵니다.
@@ -109,12 +120,14 @@
 
 ```bash
 cd docs/specs/vehicle-care
-python3 -I validate_contracts.py --write validation-2026-11-12-v3.1.json
+python3 -I validate_contracts.py --write validation-2026-11-13-v3.1.1.json
 # 선택: 로컬 PostgreSQL이 있으면 검사용 DB를 만들어 DDL과 제약 시험 65개를 돌리고 지웁니다(postgres 계정으로 실행).
-python3 -I validate_contracts.py --pg-host <소켓 폴더 또는 호스트> --pg-port <포트> --write validation-2026-11-12-v3.1.json
+python3 -I validate_contracts.py --pg-host <소켓 폴더 또는 호스트> --pg-port <포트> --write validation-2026-11-13-v3.1.1.json
 ```
 
-검사 내용은 JSON 파싱(현재 판·이력 v3.0·v2.1), OpenAPI `$ref` 752개 해석, operationId·경로 매개변수·보안 이름, 결정 9장 enum, v3 작업 41개 유지와 2차 작업 18개 존재, OpenAPI enum ↔ SQL CHECK 62쌍과 정규식 3쌍, 스키마 예시 71개(정상 22·위반 49), 2차 결정 반영(시험 입력 규칙, 열린 알림 2시간 창, 익명화 외래키, QR 차 화면 확인, 게스트 이번 trip 동의, 확인 질문 반복 억제, 말로 하기 8초, CAR_SPEED dangerous, 재현 조건 누적 값 제외, 공조·창문·와이퍼 신호), ui-tokens 시안 목록 = `output/submission/assets/v4` 실제 폴더, G 화면 문구표·버튼 자리, rules-lab·ui-tokens·인수 사례 사이 이름과 수치(10초, 알림톡 전달 확인 기한 10,000ms, 3,000ms, 1,000ms, 5분 1회, 8초, 3회, 500km, 24시간, 2시간, 72시간, 고정 음원 150~200ms, CPU 5%·정차 25%·RAM 400MB, 보호자 3명), 인수 사례 ID·참조·승계, 대비 재계산, 배치 계산, 로컬 경로 문자열입니다. PRD와는 대조하지 않습니다(계약 파일끼리만). 이번 결과는 `validation-2026-11-12-v3.1.json`에 있습니다(PostgreSQL 16 임시 DB에서 DDL 실행과 제약 시험 65개 포함, 실행 뒤 DB를 지우고 클러스터를 껐습니다).
+결과 파일 이름은 판마다 새로 정합니다. 이전 판의 결과 파일(`validation-2026-11-12-v3.1*.json`)을 덮어쓰지 않습니다.
+
+검사 내용은 JSON 파싱(현재 판·이력 v3.0·v2.1), OpenAPI `$ref` 752개 해석, operationId·경로 매개변수·보안 이름, 결정 9장 enum, v3 작업 41개 유지와 2차 작업 18개 존재, OpenAPI enum ↔ SQL CHECK 62쌍과 정규식 3쌍, 스키마 예시 71개(정상 22·위반 49), 2차 결정 반영(시험 입력 규칙, 열린 알림 2시간 창, 익명화 외래키, QR 차 화면 확인, 게스트 이번 trip 동의, 확인 질문 반복 억제, 말로 하기 8초, CAR_SPEED dangerous, 재현 조건 누적 값 제외, 공조·창문·와이퍼 신호), 2026-11-13 사용자 결정 반영(확인 질문의 말 답 8초와 마이크가 열리는 두 경우, 긴급 안전 예외의 범위·대체·완화와 파일 사이 일치), ui-tokens 시안 목록 = `output/submission/assets/v4` 실제 폴더, G 화면 문구표·버튼 자리, rules-lab·ui-tokens·인수 사례 사이 이름과 수치(10초, 알림톡 전달 확인 기한 10,000ms, 3,000ms, 1,000ms, 5분 1회, 8초, 3회, 500km, 24시간, 2시간, 72시간, 고정 음원 150~200ms, CPU 5%·정차 25%·RAM 400MB, 보호자 3명), 인수 사례 ID·참조·승계, 대비 재계산, 배치 계산, 로컬 경로 문자열입니다. PRD와는 대조하지 않습니다(계약 파일끼리만). 이번 결과는 `validation-2026-11-12-v3.1.json`에 있습니다(PostgreSQL 16 임시 DB에서 DDL 실행과 제약 시험 65개 포함, 실행 뒤 DB를 지우고 클러스터를 껐습니다).
 
 검사기 밖에서 한 번 더 확인한 것: 로컬 가상환경의 `openapi-spec-validator`로 `api.openapi.json`이 OpenAPI 3.1 문법상 유효함을, `jsonschema`(2020-12)로 스키마 171개의 형식과 위 스키마 예시 71개의 판정이 검사기와 같음을 확인했습니다. 이 두 도구는 검사기에 들어 있지 않습니다.
 
@@ -127,11 +140,13 @@ python3 -I validate_contracts.py --pg-host <소켓 폴더 또는 호스트> --pg
 - 토큰(보호자 초대·알림 링크·정비사 링크)은 URL 경로·쿼리에 넣지 않고 URL 조각(#)과 요청 본문으로만 다룹니다.
 - 시험 입력은 신호마다 `source`·`quality`가 `TEST_INPUT`이고 화면에 [시험 입력], 보호자 화면에 [시험]을 붙입니다. 시험 입력이 섞인 사건은 모의 발송만 합니다.
 - 버튼 자리는 앱 전체에서 같습니다: 왼쪽 = 끝내기·취소·기록(중립색), 오른쪽 = 도움·보내기·감속 실패(빨강). 화면 문구는 ui-tokens `screen_copy`를 씁니다. 앱 안에는 지도를 그리지 않습니다.
+- 마이크는 "말로 하기"를 누른 뒤나 앱이 확인 질문을 한 직후에만 최대 8초 열립니다. 확인 질문에는 화면이나 말로 답합니다.
+- 주행 중 움직임은 긴급 안전 예외(긴급 안내 두 화면의 페달 그림·설명 애니메이션) 하나뿐입니다. 제한이 걸리면 정지 페달 그림으로 바꿉니다.
 - 위치 제공 기록은 삭제 대신 익명화합니다. '공유 중지'는 이번 사건 위치만 멈추고 동의는 그대로 둡니다.
 - 수치는 제조사 검증값이 아닌 개발용 시작값입니다. 앱은 차를 제어하지 않고 119에 자동 신고하지 않습니다.
 - 예시의 `example.invalid`, 0으로 채운 UUID는 가상 값입니다. 비밀키 값은 없으며 발송사 키를 차량·휴대폰에 두지 않습니다.
 
-관련 문서: [통합 PRD](../../analysis/integrated-vehicle-care-2026-11-12.md). 후속 작업 전에 [AGENTS.md](../../../AGENTS.md)를 먼저 읽고 PRD와 계약을 함께 갱신합니다. PRD는 이 판(계약 v3.1)에 아직 맞춰지지 않았을 수 있습니다.
+관련 문서: [통합 PRD](../../analysis/integrated-vehicle-care-2026-11-12.md). 후속 작업 전에 [AGENTS.md](../../../AGENTS.md)를 먼저 읽고 PRD와 계약을 함께 갱신합니다. PRD v4.2(2026-11-13)는 이 판(계약 v3.1.1)과 이름을 맞췄습니다.
 
 ## 2026-11-12 추가 정정: 보호자 최대 3명
 

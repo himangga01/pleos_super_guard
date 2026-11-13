@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""플레오스 가드 개발 계약 v3.1 정적 검사기 (python3 표준 라이브러리만).
+"""플레오스 가드 개발 계약 v3.1.1 정적 검사기 (python3 표준 라이브러리만).
 
 검사 항목
   1. JSON 파싱(현재 판·이력 판)
@@ -12,12 +12,14 @@
   8. 개인 로컬 경로 문자열 검사
   9. (선택) --pg-host/--pg-port: 로컬 PostgreSQL에 새 DB를 만들어 DDL 실행과 제약 시험
  10. 2차 비판 결정(D1~D6·B·F·G·H) 반영 확인: 새 작업 18개, 새 enum ↔ SQL CHECK, 시안 폴더 실제 목록, G 화면 문구표, 새 인수 사례 주제
+ 11. 2026-11-13 사용자 결정(U13) 반영 확인: 확인 질문의 말 답(질문 직후 8초, 상시 듣기 없음), 긴급 안전 예외
+     (긴급 안내 두 화면만 주행 중 페달 애니메이션, 제한 때 정지 페달 그림), 파일 사이 이름·값 일치, 새 인수 사례
  PRD와의 대조는 하지 않는다(계약 파일끼리만).
 
 사용
   python3 validate_contracts.py                 # 정적 검사, 결과를 표준 출력에 요약
-  python3 validate_contracts.py --write validation-2026-11-12-v3.1.json
-  python3 validate_contracts.py --pg-host /path/to/socketdir --pg-port 5432 --write validation-2026-11-12-v3.1.json
+  python3 validate_contracts.py --write validation-2026-11-13-v3.1.1.json
+  python3 validate_contracts.py --pg-host /path/to/socketdir --pg-port 5432 --write validation-2026-11-13-v3.1.1.json
 
 이 검사는 정적 검사입니다. 앱 빌드·실행, 서버 실행, 실제 발송, 실차 동작의 증거가 아닙니다.
 """
@@ -34,7 +36,16 @@ HISTORY = os.path.join("history", "2026-11-12-v2.1")
 HISTORY_V30 = os.path.join("history", "2026-11-12-v3.0")
 HISTORY_V30_FILES = ["api.openapi.json", "database.sql", "rules-lab.json", "ui-tokens.json", "acceptance-scenarios.json", "README.md", "validate_contracts.py", "validation-2026-11-12-v3.json"]
 ASSETS_V4 = os.path.join("..", "..", "..", "output", "submission", "assets", "v4")
-VERSIONS = {"openapi": "3.1.0", "rules": "2.1.0", "tokens": "5.1.0", "acceptance": "3.1.0", "contract": "3.1.0", "db": "v3.1"}
+VEHICLE_PHOTO = os.path.join("..", "..", "..", "output", "submission", "assets", "avante-rear.jpg")
+VERSIONS = {"openapi": "3.1.1", "rules": "2.2.0", "tokens": "5.2.0", "acceptance": "3.2.0", "contract": "3.1.1", "db": "v3.1"}
+# 2026-11-13 사용자 결정(U13): 긴급 안전 예외가 걸리는 화면·상태·묶음, 정지 페달 그림으로 바꾸는 조건, 마이크가 열리는 두 경우
+U13_EXCEPTION_ID = "EMERGENCY_SAFETY_EXCEPTION_20261113"
+U13_SCREENS = ["emergency_guidance", "decel_failure"]
+U13_STATES = ["UNWANTED_ACCEL_GUIDE", "DECEL_FAILURE_GUIDE"]
+U13_GUIDE_IDS = ["G_UNWANTED_ACCEL", "G_DECEL_FAILURE"]
+U13_FALLBACK_WHEN = ["PLEOS_NOT_ALLOWED", "UX_RESTRICTIONS_NO_VIDEO", "ANIMATION_ASSET_UNAVAILABLE"]
+U13_MIC_OPEN = ["TALK_BUTTON_TAP", "CONFIRM_PROMPT_ASKED"]
+U13_OLD_RULE_TEXT = r"정지 그림 최대 1장|정지 그림 1장과 짧은 음성만|미리 익히기에만|음성으로 긴급 안내를 시작할 때도 먼저|움직이지 않는 그림"
 CONTRACT_FILES = ["api.openapi.json", "database.sql", "rules-lab.json", "ui-tokens.json", "acceptance-scenarios.json"]
 HISTORY_FILES = ["api.openapi.json", "database.sql", "rules-lab.json", "ui-tokens.json", "acceptance-scenarios.json", "README.md", "validation-2026-11-12.json"]
 
@@ -418,6 +429,9 @@ def schema_examples():
            "alert_incident_id": U[1], "dispatch_mode": "MOCK", "server_time": T}
     step = {"step_id": "S1", "ordinal": 1, "text_lines": ["전자식 파킹 브레이크 스위치를 계속 당기세요"], "still_image_asset_id": "img-epb",
             "parked_animation_asset_id": None, "motion_while_driving": False, "tts_line_ids": ["L1"]}
+    moving_step = mutate(step, lambda o: o.update({"parked_animation_asset_id": "anim-epb", "motion_while_driving": True}))
+    bundle = {"guide_id": "G_DECEL_FAILURE", "version": 1, "vehicle_profile_id": "avante-target-pending", "guide_kind": "EMERGENCY", "availability": "DRAFT_DEMO",
+              "source_manual_ref": "예시 설명서 비상 제동 절", "title": "감속 실패 대처", "telltale_type": None, "steps": [moving_step], "tts_lines": [], "content_sha256": "0" * 64}
     tts = {"line_id": "L1", "text": "예시 문장", "leading_pause_text": None, "bundled_audio_asset_id": None, "bundled_audio_preroll_silence_ms": None,
            "audio_usage_candidates": ["USAGE_ASSISTANCE_NAVIGATION_GUIDANCE"]}
     obs = inc["observations"][0]
@@ -471,7 +485,15 @@ def schema_examples():
         ("IncidentAck", "RELEASED인데 outcome 있음", mutate(ack, lambda o: o.update({"notification_state": "RELEASED"})), False),
         ("IncidentAck", "D4: alert_incident_id 빠짐", mutate(ack, lambda o: o.pop("alert_incident_id")), False),
         ("GuideStep", "정지 그림 단계", step, True),
-        ("GuideStep", "주행 중 움직임 true", mutate(step, lambda o: o.update({"motion_while_driving": True})), False),
+        ("GuideStep", "U13: 주행 중 움직임 true인데 설명 애니메이션 없음", mutate(step, lambda o: o.update({"motion_while_driving": True})), False),
+        ("GuideStep", "U13: 긴급 안전 예외 단계(애니메이션과 대체 정지 그림)", moving_step, True),
+        ("GuideStep", "U13: 대체 정지 페달 그림 빠짐", mutate(moving_step, lambda o: o.pop("still_image_asset_id")), False),
+        ("GuideBundle", "U13: G_DECEL_FAILURE 단계 주행 중 움직임", bundle, True),
+        ("GuideBundle", "U13: G_UNWANTED_ACCEL 단계 주행 중 움직임", mutate(bundle, lambda o: o.update({"guide_id": "G_UNWANTED_ACCEL", "title": "원치 않는 가속 안내"})), True),
+        ("GuideBundle", "U13: 정지 그림 단계만 있는 G_STOP_SAFE", mutate(bundle, lambda o: o.update({"guide_id": "G_STOP_SAFE", "steps": [step]})), True),
+        ("GuideBundle", "U13: G_STOP_SAFE 단계에 주행 중 움직임", mutate(bundle, lambda o: o.update({"guide_id": "G_STOP_SAFE"})), False),
+        ("GuideBundle", "U13: 경고등 설명 묶음에 주행 중 움직임", mutate(bundle, lambda o: o.update({"guide_id": "G_WARN_TIRE", "guide_kind": "WARNING"})), False),
+        ("GuideBundle", "U13: 예외 묶음인데 guide_kind SYMPTOM", mutate(bundle, lambda o: o.update({"guide_kind": "SYMPTOM"})), False),
         ("GuideStep", "글 4줄", mutate(step, lambda o: o.update({"text_lines": ["가", "나", "다", "라"]})), False),
         ("TtsLine", "TTS 문장(무음 값 없음)", tts, True),
         ("TtsLine", "B5: 잘림 대비 쉼표 문구", mutate(tts, lambda o: o.update({"leading_pause_text": "자,"})), True),
@@ -1136,7 +1158,9 @@ def main():
         rep.check("r2:b11_no_in_app_map", t["in_app_map"] is False and all(s.get("map") is False for s in t["screens"] if s["id"] in ("service_stop", "guardian_status")))
         rep.check("r2:emergency_buttons_horizontal_2", t["layouts"]["portrait"]["emergency"]["buttons_while_driving"] == 2 and t["layouts"]["portrait"]["emergency"]["button_stack"] == "HORIZONTAL")
         counts["ui_mockup_folder_found"] = assets_found
-        rep.check("d7:driving_motion_none", t["driving_mode"]["motion"] == "none" and t["animation"]["driving_motion_ms"] == 0 and t["driving_mode"]["foot_or_hand_motion_images"] is False)
+        rep.check("d7:driving_motion_none_except_u13_exception", t["driving_mode"]["motion"] == "none" and t["animation"]["driving_motion_ms"] == 0
+                  and t["driving_mode"]["motion_exceptions"] == ["emergency_safety_exception"] and t["animation"]["driving_motion_exception"] == "emergency_safety_exception"
+                  and t["driving_mode"]["foot_or_hand_motion_images"] == "EMERGENCY_SAFETY_EXCEPTION_ONLY" and t["animation"]["repeat_while_driving"] is False)
         rep.check("d13:parity_rules_present", len(t["parity_rules"]) >= 3)
         counts["ui_screens"] = len(t["screens"])
         counts["ui_portrait_mockups"] = len(portrait_files)
@@ -1213,10 +1237,75 @@ def main():
         counts["acceptance_by_demo_method"] = {d: sum(1 for c in cases if c["demo_method"] == d) for d in DEMO_METHODS}
         counts["acceptance_by_feature"] = {f"F{i}": sum(1 for c in cases if c["feature"] == f"F{i}") for i in range(7)}
         counts["acceptance_v2_carried"] = len(v2)
-        counts["acceptance_v3_0_carried"] = len([c for c in cases if c.get("added_in") != "3.1.0"]) - len(v2)
+        counts["acceptance_v3_0_carried"] = len([c for c in cases if c.get("added_in") not in ("3.1.0", "3.2.0")]) - len(v2)
+        counts["acceptance_added_u13"] = sum(1 for c in cases if c.get("added_in") == "3.2.0")
+        counts["acceptance_changed_u13"] = sum(1 for c in cases if c.get("changed_in") == "3.2.0")
         counts["acceptance_new"] = len(cases) - len(v2)
         if rules:
             counts["rules_signal_catalog"] = len(rules["signal_catalog"])
+
+    # ---------------- 2026-11-13 사용자 결정(U13): 확인 질문의 말 답, 긴급 안전 예외
+    if api and rules and tokens and acc:
+        sch = api["components"]["schemas"]
+        g, t, r = rules["guidance"], tokens, rules
+        ca = g["confirm_prompt_answers"]
+        cp = next(s for s in t["screens"] if s["id"] == "confirm_prompt")
+        rep.check("u13:confirm_prompt_voice_answer_8s", ca["answer_modes"] == ["BUTTON", "VOICE_WITHOUT_BUTTON"] == cp["answer_modes"]
+                  and ca["voice_listen_window_ms"] == 8000 == cp["voice_answer_window_ms"] == r["voice"]["listen_window_ms"] == r["performance"]["app_question_listen_window_ms"]
+                  and ca["voice_answers"] == {"안 멈춰": "DECEL_FAILURE_GUIDE", "괜찮아": "ENDED"} and ca["voice_answer_entry"] == "PROMPT_CONFIRMED"
+                  and "PROMPT_CONFIRMED" in sch["GuidanceEntry"]["enum"] and "PROMPT_CONFIRMED" in g["allowed_entries"]
+                  and ca["voice_listen_starts"] == "AFTER_PROMPT_TTS_ENDS" and ca["no_answer_result"] == "ENDED_RECORD_ONLY")
+        rep.check("u13:mic_opens_only_after_talk_or_prompt", r["voice"]["mic_open_only_after"] == U13_MIC_OPEN and r["voice"]["always_listening"] is False
+                  and g["voice_entry"]["always_listening"] is False and g["voice_entry"]["confirm_prompt_voice_answer_without_button"] is True
+                  and g["voice_entry"]["requires_talk_button_scope"] == "VOICE_START_OUTSIDE_CONFIRM_PROMPT"
+                  and r["performance"]["speech_recognition_mode"] == "TAP_TO_TALK_OR_APP_QUESTION_ONLY" and r["performance"]["always_on_speech_recognition"] is False)
+        rep.check("u13:guidance_entry_description_not_yes_no", "'예'" not in sch["GuidanceEntry"]["description"] and "말로" in sch["GuidanceEntry"]["description"])
+        exc = t["emergency_safety_exception"]
+        ev = g["emergency_visual"]
+        state_by_screen = {s["id"]: s.get("guidance_state") for s in t["screens"]}
+        rep.check("u13:exception_scope_two_screens", exc["id"] == U13_EXCEPTION_ID == ev["exception_id"] and exc["screens"] == U13_SCREENS
+                  and [state_by_screen[s] for s in exc["screens"]] == exc["guidance_states"] == U13_STATES == ev["states"]
+                  and sorted(s["id"] for s in t["screens"] if s.get("motion_exception") == "emergency_safety_exception") == sorted(U13_SCREENS)
+                  and t["layouts"]["portrait"]["emergency"]["emergency_visual"]["applies_to_screens"] == U13_SCREENS)
+        rep.check("u13:exception_guide_ids_match_rules_states", exc["guide_ids"] == ev["guide_ids"] == U13_GUIDE_IDS == [g["guide_id_by_state"][s] for s in U13_STATES])
+        rep.check("u13:exception_fallback_still_pedal_image", exc["fallback"]["show"] == "PEDAL_STILL_IMAGE" == ev["fallback"] and exc["fallback"]["automatic"] is True
+                  and exc["fallback"]["when"] == ev["fallback_when"] == U13_FALLBACK_WHEN and {"voice", "action_sentence", "bottom_buttons"} <= set(exc["fallback"]["keeps"]))
+        rep.check("u13:exception_mitigations", exc["content_rule"] == "SAME_STEP_AS_VOICE" == ev["pedal_animation_sync"] and exc["decorative_motion"] is False is ev["decorative_motion"]
+                  and exc["repeated_screen_transition"] is False is ev["repeated_screen_transition"] and exc["other_driving_screens_motion"] == "none" == ev["other_driving_screens_motion"]
+                  and exc["action_content_source"] == "REVIEWED_OWNERS_MANUAL_SENTENCES_ONLY" == ev["action_content_source"] and exc["pleos_inquiry_required"] is True is ev["pleos_inquiry_required"]
+                  and exc["visual_area"]["right"]["art_status"] == "AI_ILLUSTRATION_DRAFT" and len(exc["risks_ko"]) >= 2 and len(exc["mitigations_ko"]) >= 6)
+        rep.check("u13:exception_quotes_g7_g8_kept", sum(1 for q in exc["deviates_from"] if q.startswith("G7 「")) == 2 and any(q.startswith("G8 「") for q in exc["deviates_from"])
+                  and "운전자의 손이나 발을 움직이는 동작을 유도해서는 안 됩니다." in json.dumps(exc["deviates_from"], ensure_ascii=False))
+        rep.check("u13:emergency_visual_layout_photo_left_pedal_right", exc["visual_area"]["left"]["kind"] == "VEHICLE_PHOTO" and exc["visual_area"]["left"]["asset"] == "avante-rear.jpg"
+                  and exc["visual_area"]["right"]["kind"] == "PEDAL_ANIMATION" and ev["vehicle_photo"] == "LEFT" and ev["pedal_visual"] == "RIGHT"
+                  and t["layouts"]["portrait"]["emergency"]["order"] == ["situation_band", "action_sentence", "emergency_visual", "bottom_buttons"]
+                  and t["layouts"]["portrait"]["emergency"]["drop_order_when_short"] == ["vehicle_photo", "pedal_visual"] and g["decel_failure_screen"]["visual_ref"] == "guidance.emergency_visual")
+        photo = path(VEHICLE_PHOTO)
+        if os.path.isdir(os.path.dirname(photo)):
+            rep.check("u13:vehicle_photo_asset_exists", os.path.isfile(photo))
+        else:
+            rep.warn("u13:vehicle_photo_asset_folder_missing")
+        st, gb = sch["GuideStep"], sch["GuideBundle"]
+        cond = gb.get("allOf", [{}])[0]
+        rep.check("u13:openapi_motion_only_for_exception_bundles", st["properties"]["motion_while_driving"].get("type") == "boolean" and "const" not in st["properties"]["motion_while_driving"]
+                  and cond.get("if", {}).get("properties", {}).get("guide_id", {}).get("enum") == U13_GUIDE_IDS
+                  and cond.get("else", {}).get("properties", {}).get("steps", {}).get("items", {}).get("properties", {}).get("motion_while_driving") == {"const": False}
+                  and "still_image_asset_id" in st["required"] and "parked_animation_asset_id" in st["required"])
+        notes = json.dumps(api.get("x-sdk-notes", []), ensure_ascii=False)
+        rep.check("u13:openapi_notes_voice_answer_and_no_video", "UX_RESTRICTIONS_NO_VIDEO" in notes and "확인 질문을 한 직후에만 최대 8초" in notes and api["info"]["version"] == VERSIONS["openapi"])
+        rep.check("u13:practice_reuses_emergency_animation", t["animation"]["parked_practice_reuses_emergency_animation"] is True and t["animation"]["parked_motion_allowed"] is True
+                  and g["practice"]["purpose"] == "SAME_PEDAL_ANIMATION_AS_EMERGENCY_GUIDE_SLOW_PRACTICE" and g["practice"]["parked_only"] is True)
+        C = {c["id"]: c for c in acc["cases"]}
+        t134, t135, t103 = C.get("T134", {}), C.get("T135", {}), C["T103"]
+        rep.check("u13:acceptance_voice_answer_case", t134.get("area") == "confirm_prompt" and t134.get("added_in") == "3.2.0" and "버튼을 누르지 않는다" in t134.get("given", "")
+                  and "PROMPT_CONFIRMED" in t134.get("expect", "") and "8초" in t134.get("when", "") + t134.get("expect", "") and "rules:voice.mic_open_only_after" in t134.get("refs", []))
+        rep.check("u13:acceptance_still_fallback_case", t135.get("area") == "emergency_visual" and t135.get("added_in") == "3.2.0" and t135.get("demo_method") == "ADB"
+                  and "NO_VIDEO" in t135.get("when", "") and "정지 페달 그림" in t135.get("expect", "") and "tokens:emergency_safety_exception.fallback" in t135.get("refs", []))
+        rep.check("u13:acceptance_t103_motion_true_for_exception", "motion_while_driving=true" in t103["expect"] and "motion_while_driving=false" not in t103["expect"] and t103.get("changed_in") == "3.2.0")
+        cur_text = json.dumps([rules, tokens, acc["cases"], {k: v for k, v in sch.items() if k in ("GuideStep", "GuideBundle", "GuidanceEntry", "GuidanceOutput")}], ensure_ascii=False)
+        old_hits = sorted(set(re.findall(U13_OLD_RULE_TEXT, cur_text)))
+        rep.check("u13:no_old_driving_still_only_rule_text", not old_hits, old_hits or None)
+        counts["u13_exception_screens"] = len(exc["screens"])
 
     # ---------------- 개인 로컬 경로
     leaks = []
@@ -1248,11 +1337,11 @@ def main():
         pg["note"] = "검사용 임시 DB를 만들어 DDL·제약을 시험하고 지웠다. 운영 DB·서버 실행 증거가 아님"
 
     result = {
-        "date_kst": "2026-11-12",
+        "date_kst": "2026-11-13",
         "contract_version": VERSIONS["contract"],
         "versions": {"openapi_info": VERSIONS["openapi"], "openapi_format": api.get("openapi") if api else None, "database": VERSIONS["db"],
                      "rules_lab": VERSIONS["rules"], "rules_profile_id": rules.get("profile_id") if rules else None, "ui_tokens": VERSIONS["tokens"], "acceptance": VERSIONS["acceptance"]},
-        "scope": "정적 계약 검사(JSON 파싱, OpenAPI $ref·경로, enum↔SQL CHECK, 스키마 예시, 파일 간 이름·수치, 인수 시나리오 참조, 대비·배치 계산, 2차 비판 결정 반영, 시안 폴더 실제 목록)와 선택적 로컬 PostgreSQL DDL·제약 시험. PRD와는 대조하지 않는다. 앱 빌드·실행, 서버 실행, 실제 발송, 실차·에뮬레이터 동작의 증거가 아니다.",
+        "scope": "정적 계약 검사(JSON 파싱, OpenAPI $ref·경로, enum↔SQL CHECK, 스키마 예시, 파일 간 이름·수치, 인수 시나리오 참조, 대비·배치 계산, 2차 비판 결정 반영, 2026-11-13 사용자 결정 반영(확인 질문의 말 답, 긴급 안전 예외), 시안 폴더 실제 목록)와 선택적 로컬 PostgreSQL DDL·제약 시험. PRD와는 대조하지 않는다. 앱 빌드·실행, 서버 실행, 실제 발송, 실차·에뮬레이터 동작의 증거가 아니다.",
         "validator": "validate_contracts.py (python3 표준 라이브러리만, JSON Schema는 이 계약이 쓰는 키워드만 구현)",
         "status": "PASS" if not rep.errors else "FAIL",
         "counts": counts,

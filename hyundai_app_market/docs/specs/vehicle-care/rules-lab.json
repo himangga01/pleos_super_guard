@@ -1,10 +1,11 @@
 {
-  "schema_version": "2.1.0",
+  "schema_version": "2.2.0",
   "profile_id": "pleos-care-lab-20261112-r3",
   "previous_profile_id": "pleos-care-lab-20261112-r2",
-  "contract_version": "3.1.0",
+  "contract_version": "3.1.1",
+  "profile_id_note": "판정 임계값·등급·발송 범위는 2.1.0과 같아 profile_id를 그대로 둔다. 2.2.0에서 바뀐 것은 확인 질문의 말 답과 긴급 안전 예외의 화면 규칙이다.",
   "classification": "ENGINEERING_STARTING_VALUES_NOT_VALIDATED_SAFETY_THRESHOLDS",
-  "note": "개발용 시작값입니다. 제조사·실차 검증값이 아니며 앱이 차를 제어하지 않습니다. 이전 판은 history/2026-11-12-v3.0/rules-lab.json(2.0.0), history/2026-11-12-v2.1/rules-lab.json에 그대로 있습니다. 2.1.0은 2차 비판 결정(B·D·F·H)을 반영했습니다.",
+  "note": "개발용 시작값입니다. 제조사·실차 검증값이 아니며 앱이 차를 제어하지 않습니다. 이전 판은 Git 이력(2.1.0), history/2026-11-12-v3.0/rules-lab.json(2.0.0), history/2026-11-12-v2.1/rules-lab.json에 있습니다. 2.1.0은 2차 비판 결정(B·D·F·H)을, 2.2.0은 2026-11-13 사용자 결정(확인 질문에 화면이나 말로 답하기, 긴급 안전 예외)을 반영했습니다.",
   "deployment": {
     "mode": "LAB",
     "production_motion_model_approved": false,
@@ -436,7 +437,7 @@
       "minimum_speed_drop_m_s": 0.5,
       "unwanted_accel_suspect_m_s2": 2.5,
       "unwanted_accel_hold_ms": 700,
-      "note": "조건이 맞아도 확인 질문만 띄운다. 브레이크 Boolean과 감속 미관측만으로 비상 제동 안내에 들어가지 않는다(D8). 브레이크 눌림이 1,000ms 이어지는 동안 감속이 0.5m/s 미만이면 질문 후보. 인수 시나리오도 같은 값(T97). 차속 권한이 없으면 꺼짐."
+      "note": "조건이 맞아도 확인 질문(화면·음성)만 띄우고 운전자의 버튼이나 말 답을 기다린다(confirm_prompt_answers). 브레이크 Boolean과 감속 미관측만으로 비상 제동 안내에 들어가지 않는다(D8). 브레이크 눌림이 1,000ms 이어지는 동안 감속이 0.5m/s 미만이면 질문 후보. 인수 시나리오도 같은 값(T97). 차속 권한이 없으면 꺼짐."
     },
     "emergency_voice_text_source": "TARGET_VEHICLE_OWNERS_MANUAL_EMERGENCY_PROCEDURE_ONLY",
     "app_creates_new_control_sequence": false,
@@ -457,7 +458,9 @@
       "entry_requires": "UX_RESTRICTION_OFF",
       "exit_on_driving_restriction": "CLOSE_AND_STOP_TTS",
       "tts_stop_deadline_ms": 250,
-      "practice_prefix_line": "연습입니다"
+      "practice_prefix_line": "연습입니다",
+      "purpose": "SAME_PEDAL_ANIMATION_AS_EMERGENCY_GUIDE_SLOW_PRACTICE",
+      "purpose_ko": "긴급 안내와 같은 페달 그림·설명 애니메이션을 천천히 따라 해 보는 연습"
     },
     "confirm_prompt_answers": {
       "left": {
@@ -471,10 +474,19 @@
         "entry": "PROMPT_CONFIRMED",
         "color": "EMERGENCY"
       },
+      "answer_modes": [
+        "BUTTON",
+        "VOICE_WITHOUT_BUTTON"
+      ],
       "voice_answers": {
         "안 멈춰": "DECEL_FAILURE_GUIDE",
         "괜찮아": "ENDED"
       },
+      "voice_answer_entry": "PROMPT_CONFIRMED",
+      "voice_listen_starts": "AFTER_PROMPT_TTS_ENDS",
+      "voice_listen_window_ms": 8000,
+      "no_answer_result": "ENDED_RECORD_ONLY",
+      "note": "확인 질문에는 화면 버튼을 눌러도 되고, 버튼을 누르지 않고 바로 말로 답해도 된다. 질문 음성이 끝난 직후부터 최대 8초 듣고, 답이 없으면 마이크와 질문을 닫고 기록만 남긴다(2026-11-13 사용자 결정).",
       "yes_no_buttons": false
     },
     "confirm_prompt_suppression": {
@@ -487,6 +499,7 @@
       "note": "같은 주행에서 확인 질문은 5분에 최대 1회(F2). 막힌 조건 충족은 화면·음성 없이 관측만 기록한다."
     },
     "confirm_prompt_background_output": "VOICE_ONCE_NO_NOTIFICATION_BUTTONS",
+    "confirm_prompt_background_voice_answer": "NEEDS_EMULATOR_CHECK",
     "meaning_fixed": {
       "저절로 빨라져요": "UNWANTED_ACCEL_GUIDE",
       "안 멈춰요": "DECEL_FAILURE_GUIDE",
@@ -531,13 +544,44 @@
       "source_line_while_driving": false,
       "caption_placeholder": "취급설명서 비상 제동 절차(검토 후 확정 문장)",
       "invented_control_sentence": false,
-      "still_images_max": 1
+      "visual_ref": "guidance.emergency_visual"
+    },
+    "emergency_visual": {
+      "exception_id": "EMERGENCY_SAFETY_EXCEPTION_20261113",
+      "name_ko": "긴급 안전 예외(사용자 결정 2026-11-13)",
+      "states": [
+        "UNWANTED_ACCEL_GUIDE",
+        "DECEL_FAILURE_GUIDE"
+      ],
+      "guide_ids": [
+        "G_UNWANTED_ACCEL",
+        "G_DECEL_FAILURE"
+      ],
+      "vehicle_photo": "LEFT",
+      "pedal_visual": "RIGHT",
+      "pedal_animation_while_driving": true,
+      "pedal_animation_sync": "SAME_STEP_AS_VOICE",
+      "action_content_source": "REVIEWED_OWNERS_MANUAL_SENTENCES_ONLY",
+      "decorative_motion": false,
+      "repeated_screen_transition": false,
+      "fallback": "PEDAL_STILL_IMAGE",
+      "fallback_when": [
+        "PLEOS_NOT_ALLOWED",
+        "UX_RESTRICTIONS_NO_VIDEO",
+        "ANIMATION_ASSET_UNAVAILABLE"
+      ],
+      "other_driving_screens_motion": "none",
+      "pleos_inquiry_required": true,
+      "tokens_ref": "emergency_safety_exception",
+      "note": "Pleos 디자인 가이드(G7·G8)의 운전 중 애니메이션·손발 동작 유도 금지와 의도적으로 다른 결정이다. 원문 인용과 이유·위험·완화는 PRD 3.3.5절에 있다."
     },
     "voice_entry": {
       "requires_talk_button": true,
+      "requires_talk_button_scope": "VOICE_START_OUTSIDE_CONFIRM_PROMPT",
+      "confirm_prompt_voice_answer_without_button": true,
       "always_listening": false,
       "example_phrase_car_is_strange": false,
-      "note": "음성으로 긴급 안내를 시작할 때도 먼저 '말로 하기'를 누른다(F3)."
+      "note": "말로 긴급 안내를 시작할 때는 '말로 하기'를 먼저 누른다(F3). 확인 질문에는 버튼 없이 바로 말로 답할 수 있다(2026-11-13 사용자 결정). 마이크는 이 두 경우에만 최대 8초 열린다(상시 듣기 없음)."
     }
   },
   "severity": {
@@ -1257,6 +1301,10 @@
     "listen_window_ms": 8000,
     "hold_to_talk": false,
     "always_listening": false,
+    "mic_open_only_after": [
+      "TALK_BUTTON_TAP",
+      "CONFIRM_PROMPT_ASKED"
+    ],
     "routes": [
       {
         "route": "EMERGENCY_DECEL_FAILURE",
@@ -1313,7 +1361,7 @@
       "RECORD_MEMO"
     ],
     "stt_paused_while_tts_playing": true,
-    "note": "버튼을 한 번 누르면 최대 8초 듣고 STT 결과 문자열로 나눈다(H1). 누르고 있기 방식 없음(B6)."
+    "note": "버튼을 한 번 누르면 최대 8초 듣고 STT 결과 문자열로 나눈다(H1). 누르고 있기 방식 없음(B6). 확인 질문 직후의 8초 듣기는 guidance.confirm_prompt_answers가 정한다. 마이크는 이 두 경우에만 열린다."
   },
   "time_sync": {
     "method": "SERVER_TIME_RESPONSE",
