@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+
+# 2026-11-15: not for the repository
+# official reference photo copies (hyundai.com "all rights reserved", HMG Journal CCL + personal use): reference only
+# Codex run logs contain local paths; font copies duplicate the project fonts
+# phone-emulator virtual-camera scene (living room) must not be shown as evidence
+# scratch builds that duplicate installed deliverables
+
+# from demo-app/.gitignore
+.gradle/
+build/
+local.properties
+.idea/
+*.iml
+captures/
+app/build/
+.kotlin/
+tools/car3d/ref/

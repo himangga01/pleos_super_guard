@@ -1,0 +1,16 @@
+<resources>
+  <!-- 차 앱과 같은 어두운 바탕(C.Bg #090E16). 화면은 모두 Compose로 그립니다. -->
+  <style name="Theme.PleosCarePhone" parent="android:Theme.Material.NoActionBar">
+    <item name="android:windowBackground">@color/bg</item>
+    <item name="android:colorBackground">@color/bg</item>
+    <item name="android:statusBarColor">@color/bg</item>
+    <item name="android:navigationBarColor">@color/bg</item>
+    <item name="android:colorAccent">@color/mint</item>
+    <item name="android:windowLightStatusBar">false</item>
+  </style>
+
+  <!-- 앱을 여는 동안만 쓰는 테마: 창 바탕이 진입 화면입니다. MainActivity가 onCreate에서 위 테마로 바꿉니다. -->
+  <style name="Theme.PleosCarePhone.Launch">
+    <item name="android:windowBackground">@drawable/launch_screen</item>
+  </style>
+</resources>

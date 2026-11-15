@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 진입 화면(앱을 여는 동안의 창 바탕): 어두운 바탕 가운데 로고와 "플레오스 슈퍼 케어 모바일". 그림은 tools/brand/make_brand.py가 만듭니다. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:drawable="@color/bg" />
+  <item>
+    <bitmap android:src="@drawable/launch_mobile" android:gravity="center" />
+  </item>
+</layer-list>
